@@ -24,6 +24,8 @@ export const ALL_PAGES = [
   { path: '/finance', label: 'Budget & Finance', category: 'Governance & Institutional' },
   { path: '/alumni', label: 'Alumni Network', category: 'Community & Support' },
   { path: '/grievances', label: 'Grievance Desk', category: 'Community & Support' },
+  { path: '/lms', label: 'Learning Management System (LMS)', category: 'LMS & Academics' },
+  { path: '/resume-analyzer', label: 'Resume Analyzer (Mistral 7B)', category: 'Placement Preparation' },
   { path: '/ai-assistant', label: 'AI Career Assistant', category: 'Intelligence & Tools' },
   { path: '/admin', label: 'Admin & DB Registry', category: 'System Administration' },
   { path: '/settings', label: 'Settings & Themes', category: 'System Administration' },
@@ -62,6 +64,8 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/finance',
     '/alumni',
     '/grievances',
+    '/lms',
+    '/resume-analyzer',
     '/ai-assistant',
     '/settings',
   ],
@@ -81,6 +85,8 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/internships',
     '/offers',
     '/policies',
+    '/lms',
+    '/resume-analyzer',
     '/alumni',
     '/grievances',
     '/ai-assistant',
@@ -104,6 +110,7 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/offers',
     '/policies',
     '/reports',
+    '/lms',
     '/alumni',
     '/grievances',
     '/ai-assistant',
@@ -136,6 +143,7 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/reports',
     '/finance',
     '/grievances',
+    '/lms',
     '/settings',
   ],
   ALUMNI: [
@@ -196,11 +204,24 @@ export function PermissionProvider({ children }) {
     fetchBackendPermissions();
   }, [fetchBackendPermissions]);
 
+  // Check if current logged-in user is an administrator
+  const isAdminUser = () => {
+    try {
+      const raw = localStorage.getItem('placement_user');
+      if (!raw) return false;
+      const u = JSON.parse(raw);
+      const r = u.roleName || u.role_name;
+      return r === 'SUPER_ADMIN' || r === 'ADMIN';
+    } catch (e) {
+      return false;
+    }
+  };
+
   // Check if a role has access to a specific path
   const canAccessPage = useCallback((roleName, pagePath) => {
     if (!roleName) return false;
-    // Super admin ALWAYS has unrestricted access to all pages!
-    if (roleName === 'SUPER_ADMIN') return true;
+    // Super admin & Admin ALWAYS have master unrestricted access to all pages!
+    if (roleName === 'SUPER_ADMIN' || roleName === 'ADMIN') return true;
 
     const allowed = rolePermissions[roleName] || [];
     if (allowed.includes(pagePath)) return true;
@@ -223,12 +244,19 @@ export function PermissionProvider({ children }) {
     if (pagePath.startsWith('/exam')) {
       return allowed.includes('/assessment');
     }
+    if (pagePath.startsWith('/lms')) {
+      return allowed.includes('/lms');
+    }
 
     return false;
   }, [rolePermissions]);
 
   // Toggle page permission for a given role (persists to MySQL backend)
   const togglePermission = async (roleId, pagePath) => {
+    if (!isAdminUser()) {
+      console.warn('Unauthorized: Only administrators have the authority to modify role permissions.');
+      return;
+    }
     if (roleId === 'SUPER_ADMIN') {
       return; // Super admin is locked to all pages
     }
@@ -265,6 +293,10 @@ export function PermissionProvider({ children }) {
 
   // Set all permissions for a role (persists to MySQL backend)
   const setAllPermissionsForRole = async (roleId, enableAll) => {
+    if (!isAdminUser()) {
+      console.warn('Unauthorized: Only administrators have the authority to modify role permissions.');
+      return;
+    }
     if (roleId === 'SUPER_ADMIN') return;
 
     const newList = enableAll ? ALL_PAGES.map((p) => p.path) : [];
@@ -294,6 +326,10 @@ export function PermissionProvider({ children }) {
 
   // Reset to system defaults in MySQL backend
   const resetToDefaults = async () => {
+    if (!isAdminUser()) {
+      console.warn('Unauthorized: Only administrators have the authority to reset role permissions.');
+      return;
+    }
     try {
       const res = await apiClient.post('/permissions/reset');
       if (res.data?.success && res.data?.permissions) {

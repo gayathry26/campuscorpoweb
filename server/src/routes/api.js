@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, optionalAuthenticateToken } = require('../middleware/auth');
 const { authorize } = require('../middleware/rbac');
 const { enforceDepartmentIsolation } = require('../middleware/deptIsolation');
 
@@ -29,7 +29,13 @@ const reportCtrl = require('../controllers/reportController');
 const adminCtrl = require('../controllers/adminController');
 const aiCtrl = require('../controllers/aiController');
 const rolePermCtrl = require('../controllers/rolePermissionController');
+const userPrefCtrl = require('../controllers/userPreferencesController');
 const skillAnalyzerCtrl = require('../controllers/skillAnalyzerController');
+const careerExplorerCtrl = require('../controllers/careerExplorerController');
+const lmsCtrl = require('../controllers/lmsController');
+const { handleMaterialUpload, handleAssignmentUpload } = require('../middleware/lmsUpload.middleware');
+const { handlePolicyUpload } = require('../middleware/policyUpload.middleware');
+const resumeAnalyzerRoutes = require('./resumeAnalyzer.routes');
 
 // 1. Authentication & Role Switcher
 router.post('/auth/login', authCtrl.login);
@@ -39,8 +45,12 @@ router.post('/auth/switch-role', authCtrl.quickSwitchDemoRole);
 // 1b. Role Permissions & Dynamic Page Governance (Backend Persistence)
 router.get('/permissions', rolePermCtrl.getRolePermissions);
 router.get('/permissions/me', authenticateToken, rolePermCtrl.getCurrentUserPermissions);
-router.put('/permissions', authenticateToken, authorize(['SUPER_ADMIN']), rolePermCtrl.updateRolePermissions);
-router.post('/permissions/reset', authenticateToken, authorize(['SUPER_ADMIN']), rolePermCtrl.resetRolePermissions);
+router.put('/permissions', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), rolePermCtrl.updateRolePermissions);
+router.post('/permissions/reset', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), rolePermCtrl.resetRolePermissions);
+
+// 1c. User Settings & Preferences (Appearance & Notifications)
+router.get('/users/preferences', authenticateToken, userPrefCtrl.getUserPreferences);
+router.put('/users/preferences', authenticateToken, userPrefCtrl.updateUserPreferences);
 
 // 2. Dashboards (Live Metrics)
 router.get('/dashboard/metrics', authenticateToken, dashCtrl.getDashboardMetrics);
@@ -117,6 +127,9 @@ router.get('/assessment/list', authenticateToken, assessCtrl.getAllAssessments);
 router.get('/assessment/:id', authenticateToken, assessCtrl.getAssessmentById);
 router.post('/assessment/submit', authenticateToken, assessCtrl.submitCodeSolution);
 router.get('/assessment/:id/leaderboard', authenticateToken, assessCtrl.getAssessmentLeaderboard);
+router.post('/assessment/create', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'TPO_OFFICER']), assessCtrl.createCodingAssessment);
+router.get('/assessment/:id/submissions', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'TPO_OFFICER']), assessCtrl.getAssessmentSubmissions);
+router.get('/assessment/student/my-submissions', authenticateToken, assessCtrl.getStudentAssessmentsSummary);
 
 // 9b. Online Quiz & CodeSprint Examination Routes
 router.get('/student/quiz/subjects', assessCtrl.getQuizSubjects);
@@ -140,9 +153,16 @@ router.get('/offers', authenticateToken, offerCtrl.getAllOffers);
 router.post('/offers/issue', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'RECRUITER']), offerCtrl.issueOffer);
 router.post('/offers/:id/respond', authenticateToken, offerCtrl.respondToOffer);
 
-// 13. Policy Engine & Department Overrides
+// 13. Policy Engine & Document Management System
 router.get('/policies', authenticateToken, policyCtrl.getPolicies);
-router.put('/policies/:id', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'MANAGEMENT']), policyCtrl.updatePolicy);
+router.get('/policies/:id', authenticateToken, policyCtrl.getPolicyById);
+router.post('/policies', authenticateToken, authorize(['FACULTY_COORDINATOR', 'TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), handlePolicyUpload, policyCtrl.createPolicy);
+router.put('/policies/:id', authenticateToken, authorize(['FACULTY_COORDINATOR', 'TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), policyCtrl.updatePolicy);
+router.post('/policies/:id/replace-file', authenticateToken, authorize(['FACULTY_COORDINATOR', 'TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), handlePolicyUpload, policyCtrl.replacePolicyFile);
+router.patch('/policies/:id/status', authenticateToken, authorize(['FACULTY_COORDINATOR', 'TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), policyCtrl.changePolicyStatus);
+router.delete('/policies/:id', authenticateToken, authorize(['FACULTY_COORDINATOR', 'TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN']), policyCtrl.deletePolicy);
+router.get('/policies/:id/preview', authenticateToken, policyCtrl.previewPolicyFile);
+router.get('/policies/:id/download', authenticateToken, policyCtrl.downloadPolicyFile);
 router.get('/policies/overrides/:departmentCode', authenticateToken, enforceDepartmentIsolation, policyCtrl.getDeptOverrides);
 router.post('/policies/grant-override', authenticateToken, authorize(['FACULTY_COORDINATOR', 'ADMIN', 'TPO_OFFICER']), policyCtrl.grantCoordinatorOverride);
 
@@ -199,5 +219,99 @@ router.put('/admin/skill-catalogue/:id', authenticateToken, authorize(['SUPER_AD
 router.post('/admin/skill-catalogue', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), skillAnalyzerCtrl.createAdminSkill);
 router.put('/admin/role-requirements', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), skillAnalyzerCtrl.updateRoleRequirement);
 router.post('/admin/verify-skill', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER', 'FACULTY_COORDINATOR']), skillAnalyzerCtrl.verifyStudentSkill);
+
+// 21c. Career Explorer & Role Domain Catalog (Powered by MySQL career_roles & career_domains)
+router.get('/career/domains', careerExplorerCtrl.getDomains);
+router.get('/career/domains/:slug', careerExplorerCtrl.getDomainBySlug);
+router.get('/career/domains/:domainSlug/roles/:roleSlug', careerExplorerCtrl.getRoleByDomainAndRole);
+router.get('/career/stats', careerExplorerCtrl.getCareerStats);
+router.get('/career/roles', careerExplorerCtrl.getRoles);
+router.get('/career/roles/:id', careerExplorerCtrl.getRoleById);
+router.get('/career/roles/:id/fit', optionalAuthenticateToken, careerExplorerCtrl.getRoleFit);
+router.get('/career/compare', careerExplorerCtrl.compareRoles);
+router.get('/career/tags', careerExplorerCtrl.getRoleTags);
+
+// 22. Role-Based LMS (Learning Management System)
+// Dashboard & Metrics
+router.get('/lms/dashboard', authenticateToken, lmsCtrl.getDashboard);
+
+// Courses & Enrollment
+router.get('/lms/courses', authenticateToken, lmsCtrl.getCourses);
+router.get('/lms/courses/:id', authenticateToken, lmsCtrl.getCourseById);
+router.post('/lms/courses', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createCourse);
+router.put('/lms/courses/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.updateCourse);
+router.get('/lms/courses/:id/students', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.getCourseStudents);
+router.post('/lms/courses/:id/enroll', authenticateToken, lmsCtrl.enrollCourse);
+
+// Modules & Lessons
+router.post('/lms/courses/:courseId/modules', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createModule);
+router.post('/lms/modules/:moduleId/lessons', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createLesson);
+router.post('/lms/lessons/:id/complete', authenticateToken, lmsCtrl.completeLesson);
+
+// Materials & Resources
+router.get('/lms/resources', authenticateToken, lmsCtrl.getResources);
+router.post('/lms/resources', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), handleMaterialUpload, lmsCtrl.uploadResource);
+router.delete('/lms/resources/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.deleteResource);
+
+// Quizzes & Assessments
+router.get('/lms/quizzes', authenticateToken, lmsCtrl.getQuizzes);
+router.get('/lms/quizzes/:id', authenticateToken, lmsCtrl.getQuizById);
+router.post('/lms/quizzes', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createQuiz);
+router.put('/lms/quizzes/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.updateQuiz);
+router.delete('/lms/quizzes/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.deleteQuiz);
+router.get('/lms/quizzes/:id/attempts', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.getQuizAttempts);
+router.post('/lms/quizzes/:id/submit', authenticateToken, lmsCtrl.submitQuizAttempt);
+
+// Assignments & Projects
+router.get('/lms/assignments', authenticateToken, lmsCtrl.getAssignments);
+router.post('/lms/assignments', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createAssignment);
+router.put('/lms/assignments/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.updateAssignment);
+router.post('/lms/assignments/:id/submit', authenticateToken, handleAssignmentUpload, lmsCtrl.submitAssignment);
+
+// Grading Queue & Evaluation
+router.get('/lms/grading/queue', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'TPO_OFFICER']), lmsCtrl.getGradingQueue);
+router.post('/lms/submissions/:id/grade', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'TPO_OFFICER']), lmsCtrl.gradeAssignment);
+router.post('/lms/submissions/:id/release', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'TPO_OFFICER']), lmsCtrl.releaseAssignmentResult);
+
+// Student Progress Matrix
+router.get('/lms/progress', authenticateToken, lmsCtrl.getStudentProgress);
+
+// Learning Paths
+router.get('/lms/learning-paths', authenticateToken, lmsCtrl.getLearningPaths);
+router.post('/lms/learning-paths', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createLearningPath);
+router.post('/lms/learning-paths/:id/assign', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.assignLearningPath);
+
+// Live Classes & Attendance
+router.get('/lms/live-classes', authenticateToken, lmsCtrl.getLiveClasses);
+router.post('/lms/live-classes', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.scheduleLiveClass);
+router.get('/lms/live-classes/:id/attendance', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.getLiveClassAttendance);
+router.post('/lms/live-classes/:id/attendance', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.recordLiveClassAttendance);
+
+// Discussions & Doubts
+router.get('/lms/discussions', authenticateToken, lmsCtrl.getDiscussions);
+router.post('/lms/discussions', authenticateToken, lmsCtrl.createDiscussion);
+router.post('/lms/discussions/:id/reply', authenticateToken, lmsCtrl.replyDiscussion);
+router.put('/lms/discussions/:id/resolve', authenticateToken, lmsCtrl.resolveDiscussion);
+
+// Notes & Bookmarks
+router.get('/lms/notes', authenticateToken, lmsCtrl.getNotes);
+router.post('/lms/notes', authenticateToken, lmsCtrl.saveNote);
+router.delete('/lms/notes/:id', authenticateToken, lmsCtrl.deleteNote);
+
+// Certificates & Reports
+router.get('/lms/certificates', authenticateToken, lmsCtrl.getCertificates);
+router.post('/lms/certificates/issue', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.issueCertificate);
+router.get('/lms/reports', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'MANAGEMENT', 'TPO_OFFICER']), lmsCtrl.getReports);
+
+// Notifications, Portfolio & Support
+router.get('/lms/notifications', authenticateToken, lmsCtrl.getNotifications);
+router.get('/lms/portfolio', authenticateToken, lmsCtrl.getPortfolio);
+router.get('/lms/support', authenticateToken, lmsCtrl.getSupportTickets);
+router.post('/lms/support', authenticateToken, lmsCtrl.createSupportTicket);
+router.get('/lms/announcements', authenticateToken, lmsCtrl.getAnnouncements);
+router.post('/lms/announcements', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createAnnouncement);
+
+// Resume Analyzer (Local Mistral 7B Inference)
+router.use('/resume-analyzer', resumeAnalyzerRoutes);
 
 module.exports = router;

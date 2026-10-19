@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { PieChart, Download, FileSpreadsheet, Building2, Award } from 'lucide-react';
 
 export function Reports() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +22,7 @@ export function Reports() {
       setReportData(res.data);
     } catch (err) {
       console.error('Failed to load NIRF report:', err);
+      showToast('Failed to load accreditation report metrics.', 'error');
     } finally {
       setLoading(false);
     }
@@ -27,6 +30,7 @@ export function Reports() {
 
   const handleDownloadCsv = () => {
     window.open('/api/v1/reports/export-csv', '_blank');
+    showToast('Exporting verified placement CSV dataset...', 'info');
   };
 
   if (loading) return <LoadingSpinner text="Compiling NIRF and NAAC accreditation placement matrices..." />;
@@ -45,7 +49,7 @@ export function Reports() {
 
         <button
           onClick={handleDownloadCsv}
-          className="inline-flex items-center gap-2 px-3.5 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-3.5 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-xs font-semibold shadow-xs transition-opacity cursor-pointer"
         >
           <Download className="w-4 h-4" /> Export Verified CSV Dataset
         </button>
@@ -53,34 +57,34 @@ export function Reports() {
 
       {/* Statutory NIRF Metrics Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-border shadow-xs">
+        <div className="bg-card text-card-foreground p-4 rounded-2xl border border-border shadow-xs">
           <span className="text-[11px] font-semibold text-muted-foreground uppercase">Graduating Cohort</span>
-          <div className="text-2xl font-bold text-foreground mt-1">{metrics.totalGraduatingCohort}</div>
+          <div className="text-2xl font-bold text-foreground mt-1">{metrics.totalGraduatingCohort || 0}</div>
           <span className="text-[11px] text-muted-foreground">Class of 2027</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-border shadow-xs">
+        <div className="bg-card text-card-foreground p-4 rounded-2xl border border-border shadow-xs">
           <span className="text-[11px] font-semibold text-muted-foreground uppercase">Unique Placed</span>
-          <div className="text-2xl font-bold text-foreground mt-1">{metrics.uniquePlacedStudents}</div>
-          <span className="text-[11px] text-foreground font-semibold">{metrics.uniquePlacementPercentage}% Placement Rate</span>
+          <div className="text-2xl font-bold text-foreground mt-1">{metrics.uniquePlacedStudents || 0}</div>
+          <span className="text-[11px] text-foreground font-semibold">{metrics.uniquePlacementPercentage || 0}% Placement Rate</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-border shadow-xs">
+        <div className="bg-card text-card-foreground p-4 rounded-2xl border border-border shadow-xs">
           <span className="text-[11px] font-semibold text-muted-foreground uppercase">Median Package</span>
-          <div className="text-2xl font-bold text-foreground mt-1">₹{metrics.medianSalaryLpa} LPA</div>
+          <div className="text-2xl font-bold text-foreground mt-1">₹{metrics.medianSalaryLpa || 0} LPA</div>
           <span className="text-[11px] text-muted-foreground">NIRF Metric</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-border shadow-xs">
+        <div className="bg-card text-card-foreground p-4 rounded-2xl border border-border shadow-xs">
           <span className="text-[11px] font-semibold text-muted-foreground uppercase">Highest Package</span>
-          <div className="text-2xl font-bold text-foreground mt-1">₹{metrics.maximumSalaryLpa} LPA</div>
+          <div className="text-2xl font-bold text-foreground mt-1">₹{metrics.maximumSalaryLpa || 0} LPA</div>
           <span className="text-[11px] text-muted-foreground">Super Dream Tier</span>
         </div>
       </div>
 
       {/* Department Breakdown Matrix */}
-      <div className="bg-white rounded-xl border border-border p-5 shadow-xs">
+      <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs">
         <h3 className="text-sm font-bold text-foreground mb-3">Department-wise Statutory Placement Matrix</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-muted-foreground">
-            <thead className="bg-secondary font-semibold border-b border-border">
+            <thead className="bg-secondary text-foreground font-semibold border-b border-border">
               <tr>
                 <th className="py-2.5 px-3">Programme / Branch</th>
                 <th className="py-2.5 px-3">Enrolled Cohort</th>
@@ -89,9 +93,9 @@ export function Reports() {
                 <th className="py-2.5 px-3 text-right">Average Package</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-border">
               {matrix.map((row, i) => (
-                <tr key={i} className="hover:bg-secondary">
+                <tr key={i} className="hover:bg-secondary/50 transition-colors">
                   <td className="py-3 px-3 font-semibold text-foreground">{row.department_code}</td>
                   <td className="py-3 px-3">{row.enrolled_students}</td>
                   <td className="py-3 px-3 font-bold text-foreground">{row.placed_students}</td>
@@ -107,11 +111,11 @@ export function Reports() {
       </div>
 
       {/* Top Recruiters Table */}
-      <div className="bg-white rounded-xl border border-border p-5 shadow-xs">
+      <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs">
         <h3 className="text-sm font-bold text-foreground mb-3">Key Hiring Partners & Offer Volume</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           {recruiters.map((rec, idx) => (
-            <div key={idx} className="p-3 bg-secondary rounded-lg border border-border">
+            <div key={idx} className="p-3.5 bg-secondary/60 rounded-xl border border-border">
               <span className="font-bold text-foreground block">{rec.company_name}</span>
               <span className="text-[11px] text-muted-foreground">{rec.tier}</span>
               <div className="text-sm font-extrabold text-foreground mt-1">{rec.hires_count} Offers</div>
@@ -122,3 +126,4 @@ export function Reports() {
     </div>
   );
 }
+export default Reports;

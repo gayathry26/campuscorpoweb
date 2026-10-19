@@ -21,6 +21,7 @@ import { ProficiencyModal } from '../components/skill-analyzer/ProficiencyModal'
 import { SkillAssessmentModal } from '../components/skill-analyzer/SkillAssessmentModal';
 import { AnalysisResults } from '../components/skill-analyzer/AnalysisResults';
 import { AdminSkillManagement } from '../components/skill-analyzer/AdminSkillManagement';
+import { SKILL_CATALOGUE, SKILL_CATEGORIES } from '../data/skillsCatalogueData';
 
 export function SkillAnalyzer() {
   const { user } = useAuth();
@@ -29,10 +30,10 @@ export function SkillAnalyzer() {
     user?.roleName === 'ADMIN' ||
     user?.roleName === 'TPO_OFFICER';
 
-  // 1. Skill Catalogue & Categories State
-  const [catalogue, setCatalogue] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loadingCatalogue, setLoadingCatalogue] = useState(true);
+  // 1. Skill Catalogue & Categories State (pre-populated with master catalogue for instant zero-lag rendering)
+  const [catalogue, setCatalogue] = useState(SKILL_CATALOGUE);
+  const [categories, setCategories] = useState(SKILL_CATEGORIES);
+  const [loadingCatalogue, setLoadingCatalogue] = useState(false);
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -59,7 +60,7 @@ export function SkillAnalyzer() {
     return new Set(selectedSkills.map((s) => s.skillId));
   }, [selectedSkills]);
 
-  // Load Skills Catalogue & Categories from backend
+  // Load Skills Catalogue & Categories from backend DB
   const fetchCatalogue = useCallback(async () => {
     try {
       const [skillsRes, catsRes] = await Promise.all([
@@ -67,14 +68,14 @@ export function SkillAnalyzer() {
         apiClient.get('/skills/categories'),
       ]);
 
-      if (skillsRes.data?.success) {
-        setCatalogue(skillsRes.data.data || []);
+      if (skillsRes.data?.success && Array.isArray(skillsRes.data.data) && skillsRes.data.data.length > 0) {
+        setCatalogue(skillsRes.data.data);
       }
-      if (catsRes.data?.success) {
-        setCategories(catsRes.data.data?.categories || []);
+      if (catsRes.data?.success && Array.isArray(catsRes.data.data?.categories) && catsRes.data.data.categories.length > 0) {
+        setCategories(catsRes.data.data.categories);
       }
     } catch (err) {
-      console.warn('Error fetching skill catalogue:', err.message);
+      console.warn('Backend skill catalogue fetch skipped or offline, using robust client master catalogue:', err.message);
     } finally {
       setLoadingCatalogue(false);
     }

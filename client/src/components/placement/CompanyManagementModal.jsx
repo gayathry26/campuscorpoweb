@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
+import { useToast } from '../../context/ToastContext';
 import { Modal } from '../Modal';
 import { StatusBadge } from '../Badge';
 import { LoadingSpinner } from '../LoadingSpinner';
@@ -36,6 +37,7 @@ export function CompanyManagementModal({
   companyId,
   onCompanyUpdated,
 }) {
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'registered' | 'eligibility' | 'rounds' | 'results' | 'announcements'
   const [loading, setLoading] = useState(true);
   const [company, setCompany] = useState(null);
@@ -148,7 +150,7 @@ export function CompanyManagementModal({
   // CSV Export
   const handleExportCSV = () => {
     if (applicants.length === 0) {
-      alert('No applicant records available to export.');
+      showToast('No applicant records available to export.', 'warning');
       return;
     }
 
@@ -202,6 +204,7 @@ export function CompanyManagementModal({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    showToast('Applicant roster exported to CSV.', 'success');
   };
 
   // Toggle selection
@@ -220,7 +223,7 @@ export function CompanyManagementModal({
   // Bulk action handler
   const handleBulkAction = async (action, targetRound = null) => {
     if (selectedAppIds.length === 0) {
-      alert('Please select at least one applicant.');
+      showToast('Please select at least one applicant.', 'warning');
       return;
     }
 
@@ -239,13 +242,14 @@ export function CompanyManagementModal({
         type: 'success',
         text: `Bulk action '${action}' applied to ${selectedAppIds.length} candidate(s) successfully!`,
       });
+      showToast(`Bulk action '${action}' applied successfully!`, 'success');
       setSelectedAppIds([]);
       loadApplicants();
       loadCompanyDetails();
       if (onCompanyUpdated) onCompanyUpdated();
       setTimeout(() => setBannerNotice(null), 4000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to execute bulk action.');
+      showToast(err.response?.data?.message || 'Failed to execute bulk action.', 'error');
     } finally {
       setBulkActionLoading(false);
     }
@@ -261,13 +265,14 @@ export function CompanyManagementModal({
         type: 'success',
         text: `Applicant ${reviewingApplicant.first_name} (${reviewingApplicant.register_number}) updated!`,
       });
+      showToast(`Applicant ${reviewingApplicant.first_name} updated!`, 'success');
       setReviewingApplicant(null);
       loadApplicants();
       loadCompanyDetails();
       if (onCompanyUpdated) onCompanyUpdated();
       setTimeout(() => setBannerNotice(null), 4000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update applicant.');
+      showToast(err.response?.data?.message || 'Failed to update applicant.', 'error');
     } finally {
       setSavingReview(false);
     }
@@ -286,10 +291,11 @@ export function CompanyManagementModal({
       setAnnTitle('');
       setAnnContent('');
       setBannerNotice({ type: 'success', text: 'Announcement published & notifications dispatched to applicants!' });
+      showToast('Announcement broadcast to applicants successfully!', 'success');
       loadAnnouncements();
       setTimeout(() => setBannerNotice(null), 4000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to post announcement.');
+      showToast(err.response?.data?.message || 'Failed to post announcement.', 'error');
     } finally {
       setPostingAnn(false);
     }
@@ -302,10 +308,11 @@ export function CompanyManagementModal({
       await apiClient.put(`/companies/${companyId}/rounds/${roundId}`, roundForm);
       setEditingRound(null);
       setBannerNotice({ type: 'success', text: 'Round schedule & status updated!' });
+      showToast('Round schedule & status updated!', 'success');
       loadCompanyDetails();
       setTimeout(() => setBannerNotice(null), 4000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update round.');
+      showToast(err.response?.data?.message || 'Failed to update round.', 'error');
     } finally {
       setSavingRound(false);
     }

@@ -1075,15 +1075,31 @@ async function createCompany(req, res, next) {
     }
 
     const companyUuid = uuidv4();
-    const deptsJson = JSON.stringify(
-      Array.isArray(eligible_departments) && eligible_departments.length > 0
-        ? eligible_departments
-        : ['CSE', 'ECE', 'MECH', 'EEE', 'CIVIL', 'IT']
-    );
-    const roundsList = Array.isArray(selection_rounds) && selection_rounds.length > 0
-      ? selection_rounds
-      : ['Resume Screening & Eligibility Shortlist', 'Online Coding & Aptitude Assessment', 'Technical System Design Interview', 'Leadership & HR Discussion'];
-    const roundsJson = JSON.stringify(roundsList);
+    let parsedDepts = eligible_departments;
+    if (typeof parsedDepts === 'string') {
+      try {
+        parsedDepts = JSON.parse(parsedDepts);
+      } catch (e) {
+        parsedDepts = parsedDepts.split(',').map((d) => d.trim()).filter(Boolean);
+      }
+    }
+    if (!Array.isArray(parsedDepts) || parsedDepts.length === 0) {
+      parsedDepts = ['CSE', 'ECE', 'MECH', 'EEE', 'CIVIL', 'IT'];
+    }
+    const deptsJson = JSON.stringify(parsedDepts);
+
+    let parsedRounds = selection_rounds;
+    if (typeof parsedRounds === 'string') {
+      try {
+        parsedRounds = JSON.parse(parsedRounds);
+      } catch (e) {
+        parsedRounds = parsedRounds.split(',').map((r) => r.trim()).filter(Boolean);
+      }
+    }
+    if (!Array.isArray(parsedRounds) || parsedRounds.length === 0) {
+      parsedRounds = ['Resume Screening & Eligibility Shortlist', 'Online Coding & Aptitude Assessment', 'Technical System Design Interview', 'Leadership & HR Discussion'];
+    }
+    const roundsJson = JSON.stringify(parsedRounds);
 
     await queryCommon(
       `INSERT INTO companies (
@@ -1102,12 +1118,12 @@ async function createCompany(req, res, next) {
         contact_phone || null,
         tier || 'REGULAR',
         status || 'ACTIVE',
-        rating || 4.5,
+        parseFloat(rating) || 4.5,
         logo_url || null,
         description || null,
         deptsJson,
         academic_year || '2026-2027',
-        parseInt(eligible_student_count) || 60,
+        parseInt(eligible_student_count, 10) || 60,
         parseFloat(min_cgpa) || 6.5,
         parseFloat(package_ctc) || 12.0,
         drive_date || '2026-11-25',
@@ -1116,7 +1132,7 @@ async function createCompany(req, res, next) {
         selection_stage || 'Registration Stage',
         roundsJson,
         formattedDeadline,
-        req.user.id,
+        req.user?.id || req.user?.userId || null,
       ]
     );
 
@@ -1128,7 +1144,7 @@ async function createCompany(req, res, next) {
     const jobUuid = uuidv4();
     const jobTitle = `${trimmedName} - Campus Recruitment Drive (${academic_year || '2026-2027'})`;
     const criteriaObj = {
-      allowed_departments: Array.isArray(eligible_departments) ? eligible_departments : ['CSE', 'ECE', 'IT'],
+      allowed_departments: parsedDepts,
       min_cgpa: parseFloat(min_cgpa) || 6.5,
     };
 
@@ -1163,24 +1179,24 @@ async function createCompany(req, res, next) {
           drive_date || '2026-11-25',
           drive_venue || 'Main Campus Placement Block',
           selection_stage || 'Registration Stage',
-          roundsList.length,
+          parsedRounds.length,
         ]
       );
 
       const [driveRow] = await queryCommon(`SELECT id FROM placement_drives WHERE uuid = ?`, [driveUuid]);
       if (driveRow) {
-        for (let i = 0; i < roundsList.length; i++) {
+        for (let i = 0; i < parsedRounds.length; i++) {
           await queryCommon(
             `INSERT INTO drive_rounds (drive_id, round_number, round_name, round_type, status)
              VALUES (?, ?, ?, 'TECH_INTERVIEW', 'PENDING')`,
-            [driveRow.id, i + 1, roundsList[i]]
+            [driveRow.id, i + 1, parsedRounds[i]]
           );
         }
       }
     }
 
     await logAuditEvent({
-      userId: req.user.id,
+      userId: req.user?.id || req.user?.userId || null,
       action: 'CREATE_COMPANY',
       module: 'COMPANY_MANAGEMENT',
       details: {
@@ -1256,13 +1272,21 @@ async function updateCompany(req, res, next) {
     if (logo_url !== undefined) { updates.push('logo_url = ?'); params.push(logo_url || null); }
     if (description !== undefined) { updates.push('description = ?'); params.push(description || null); }
     if (eligible_departments !== undefined) {
+      let parsedDepts = eligible_departments;
+      if (typeof parsedDepts === 'string') {
+        try {
+          parsedDepts = JSON.parse(parsedDepts);
+        } catch (e) {
+          parsedDepts = parsedDepts.split(',').map((d) => d.trim()).filter(Boolean);
+        }
+      }
       updates.push('eligible_departments = ?');
-      params.push(JSON.stringify(eligible_departments));
+      params.push(JSON.stringify(Array.isArray(parsedDepts) ? parsedDepts : []));
     }
     if (academic_year !== undefined) { updates.push('academic_year = ?'); params.push(academic_year); }
-    if (eligible_student_count !== undefined) { updates.push('eligible_student_count = ?'); params.push(parseInt(eligible_student_count)); }
-    if (min_cgpa !== undefined) { updates.push('min_cgpa = ?'); params.push(parseFloat(min_cgpa)); }
-    if (package_ctc !== undefined) { updates.push('package_ctc = ?'); params.push(parseFloat(package_ctc)); }
+    if (eligible_student_count !== undefined) { updates.push('eligible_student_count = ?'); params.push(parseInt(eligible_student_count, 10) || 60); }
+    if (min_cgpa !== undefined) { updates.push('min_cgpa = ?'); params.push(parseFloat(min_cgpa) || 6.5); }
+    if (package_ctc !== undefined) { updates.push('package_ctc = ?'); params.push(parseFloat(package_ctc) || 10.0); }
     if (drive_date !== undefined) { updates.push('drive_date = ?'); params.push(drive_date); }
     if (drive_venue !== undefined) { updates.push('drive_venue = ?'); params.push(drive_venue); }
 
@@ -1278,8 +1302,16 @@ async function updateCompany(req, res, next) {
 
     if (selection_stage !== undefined) { updates.push('selection_stage = ?'); params.push(selection_stage); }
     if (selection_rounds !== undefined) {
+      let parsedRounds = selection_rounds;
+      if (typeof parsedRounds === 'string') {
+        try {
+          parsedRounds = JSON.parse(parsedRounds);
+        } catch (e) {
+          parsedRounds = parsedRounds.split(',').map((r) => r.trim()).filter(Boolean);
+        }
+      }
       updates.push('selection_rounds = ?');
-      params.push(JSON.stringify(selection_rounds));
+      params.push(JSON.stringify(Array.isArray(parsedRounds) ? parsedRounds : []));
     }
     if (application_deadline !== undefined) {
       let formattedDeadline = application_deadline && String(application_deadline).trim() ? String(application_deadline).replace('T', ' ') : null;
@@ -1297,6 +1329,10 @@ async function updateCompany(req, res, next) {
 
     // Sync corresponding jobs & drives if updated
     if (package_ctc !== undefined || min_cgpa !== undefined || eligible_departments !== undefined) {
+      let syncDepts = eligible_departments;
+      if (typeof syncDepts === 'string') {
+        try { syncDepts = JSON.parse(syncDepts); } catch (e) { syncDepts = syncDepts.split(',').map((d) => d.trim()).filter(Boolean); }
+      }
       await queryCommon(
         `UPDATE jobs 
          SET ctc_lpa = COALESCE(?, ctc_lpa), 
@@ -1306,7 +1342,7 @@ async function updateCompany(req, res, next) {
         [
           package_ctc !== undefined ? parseFloat(package_ctc) : null,
           min_cgpa !== undefined ? parseFloat(min_cgpa) : null,
-          eligible_departments !== undefined ? JSON.stringify({ allowed_departments: eligible_departments }) : null,
+          syncDepts !== undefined ? JSON.stringify({ allowed_departments: syncDepts }) : null,
           companyId,
         ]
       );
@@ -1326,7 +1362,7 @@ async function updateCompany(req, res, next) {
     }
 
     await logAuditEvent({
-      userId: req.user.id,
+      userId: req.user?.id || req.user?.userId || null,
       action: 'UPDATE_COMPANY',
       module: 'COMPANY_MANAGEMENT',
       details: { companyId, name, tier, academic_year, eligible_departments, eligible_student_count },
@@ -1352,7 +1388,7 @@ async function deleteCompany(req, res, next) {
     await queryCommon('DELETE FROM companies WHERE id = ?', [companyId]);
 
     await logAuditEvent({
-      userId: req.user.id,
+      userId: req.user?.id || req.user?.userId || null,
       action: 'DELETE_COMPANY',
       module: 'COMPANY_MANAGEMENT',
       details: { companyId, name: comp.name },

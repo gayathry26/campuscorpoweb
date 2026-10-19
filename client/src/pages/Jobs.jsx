@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -8,6 +9,7 @@ import { Briefcase, Building2, MapPin, IndianRupee, Clock, CheckCircle2, AlertTr
 
 export function Jobs() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [roleTypeFilter, setRoleTypeFilter] = useState('ALL');
@@ -75,8 +77,9 @@ export function Jobs() {
       await apiClient.post('/jobs', newJob);
       setIsModalOpen(false);
       fetchJobs();
+      showToast('Opportunity posted and published successfully!', 'success');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to create job.');
+      showToast(err.response?.data?.message || 'Failed to create job.', 'error');
     }
   };
 
@@ -94,7 +97,7 @@ export function Jobs() {
         {['TPO_OFFICER', 'ADMIN', 'RECRUITER'].includes(user?.roleName) && (
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-3.5 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-3.5 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-xs font-semibold shadow-xs transition-opacity cursor-pointer"
           >
             <Plus className="w-4 h-4" /> Post New Job Opening
           </button>
@@ -120,13 +123,13 @@ export function Jobs() {
       )}
 
       {/* Filter Row */}
-      <div className="flex flex-wrap gap-3 items-center justify-between bg-white p-4 rounded-xl border border-border shadow-xs">
+      <div className="flex flex-wrap gap-3 items-center justify-between bg-card text-card-foreground p-4 rounded-2xl border border-border shadow-xs">
         <input
           type="text"
           placeholder="Search by job title, company name, or city..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-3 py-1.5 text-xs rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-neutral-400 max-w-sm w-full"
+          className="px-3 py-1.5 text-xs rounded-xl border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 max-w-sm w-full"
         />
 
         <div className="flex items-center gap-2">
@@ -146,7 +149,7 @@ export function Jobs() {
       {loading ? (
         <LoadingSpinner text="Evaluating live eligibility rules and retrieving job postings..." />
       ) : jobs.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-xl border border-border text-xs text-muted-foreground">
+        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-xs text-muted-foreground">
           No job openings found matching the criteria.
         </div>
       ) : (
@@ -160,7 +163,7 @@ export function Jobs() {
             return (
               <div
                 key={job.id}
-                className="bg-white rounded-xl border border-border p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs hover:border-foreground/30 transition-all flex flex-col justify-between"
               >
                 <div>
                   {/* Top: Company & CTC */}

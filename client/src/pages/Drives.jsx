@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -23,6 +24,7 @@ import {
 export function Drives() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const isStudent = user?.roleName === 'STUDENT';
   const isAdminOrTpo = ['SUPER_ADMIN', 'TPO_OFFICER', 'ADMIN', 'RECRUITER'].includes(user?.roleName);
 
@@ -50,8 +52,9 @@ export function Drives() {
     try {
       await apiClient.put(`/drives/${driveId}/stage`, { current_stage: newStage });
       fetchDrives();
+      showToast(`Drive selection stage updated to ${newStage}.`, 'success');
     } catch (err) {
-      alert('Failed to update stage');
+      showToast(err.response?.data?.message || 'Failed to update stage.', 'error');
     }
   };
 
@@ -78,7 +81,7 @@ export function Drives() {
       {loading ? (
         <LoadingSpinner text="Retrieving campus drive schedules..." />
       ) : drives.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-xl border border-border text-xs text-muted-foreground">
+        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-xs text-muted-foreground">
           No placement drives scheduled.
         </div>
       ) : (
@@ -88,7 +91,7 @@ export function Drives() {
             const studentApp = d.student_application;
 
             return (
-              <div key={d.id} className="bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4 hover:border-border transition-colors">
+              <div key={d.id} className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4 hover:border-foreground/30 transition-colors">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                   <div>
                     <div className="flex items-center gap-2">

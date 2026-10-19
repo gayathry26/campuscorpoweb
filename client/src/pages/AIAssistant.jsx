@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useToast } from '../context/ToastContext';
 import {
   Sparkles,
   FileText,
@@ -22,11 +24,15 @@ import {
   Calendar,
   Layers,
   HelpCircle,
+  ExternalLink,
+  ShieldCheck,
+  Zap
 } from 'lucide-react';
 
 export function AIAssistant() {
   const { user } = useAuth();
   const { currentTheme } = useTheme();
+  const { showToast } = useToast();
 
   // Active Tab: 'chat' (DB Q&A) | 'resume' | 'match' | 'interview'
   const [activeTab, setActiveTab] = useState('chat');
@@ -111,29 +117,7 @@ export function AIAssistant() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // ── 2. RESUME STATE ──
-  const [resumeText, setResumeText] = useState(
-    `B.Tech Computer Science student experienced in full-stack development.
-Proficient in Python, React, Node.js, Express, Docker, and MySQL.
-Built scalable microservices architecture for university event portal reducing response latency by 40%.
-Completed 3-month summer internship designing automated CI/CD pipelines and REST APIs.`
-  );
-  const [resumeResult, setResumeResult] = useState(null);
-  const [analyzingResume, setAnalyzingResume] = useState(false);
-
-  const handleAnalyzeResume = async () => {
-    setAnalyzingResume(true);
-    try {
-      const res = await apiClient.post('/ai/parse-resume', { resumeText });
-      setResumeResult(res.data);
-    } catch (err) {
-      alert('Failed to analyze resume');
-    } finally {
-      setAnalyzingResume(false);
-    }
-  };
-
-  // ── 3. JOB MATCHING STATE ──
+  // ── 2. JOB MATCHING STATE ──
   const [matchingJob, setMatchingJob] = useState(false);
   const [matchResult, setMatchResult] = useState(null);
 
@@ -142,14 +126,15 @@ Completed 3-month summer internship designing automated CI/CD pipelines and REST
     try {
       const res = await apiClient.post('/ai/match-job', { jobId: 1 });
       setMatchResult(res.data);
+      showToast('Job fit evaluation completed!', 'success');
     } catch (err) {
-      alert('Failed to evaluate job match');
+      showToast('Failed to evaluate job match: ' + (err.response?.data?.message || err.message), 'error');
     } finally {
       setMatchingJob(false);
     }
   };
 
-  // ── 4. MOCK INTERVIEW STATE ──
+  // ── 3. MOCK INTERVIEW STATE ──
   const [interviewQuestion, setInterviewQuestion] = useState('Explain how you diagnosed and resolved a high-latency query in MySQL.');
   const [interviewAnswer, setInterviewAnswer] = useState(
     `When working on our university event registration portal, we observed database queries spiking to 1200ms under 500 concurrent users.
@@ -168,8 +153,9 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
         answer: interviewAnswer,
       });
       setInterviewResult(res.data);
+      showToast('Interview answer evaluated successfully!', 'success');
     } catch (err) {
-      alert('Failed to evaluate interview answer');
+      showToast('Failed to evaluate interview answer: ' + (err.response?.data?.message || err.message), 'error');
     } finally {
       setEvaluatingInterview(false);
     }
@@ -178,7 +164,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
   return (
     <div className="space-y-6 font-sans">
       {/* Top Banner / Header */}
-      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-border shadow-xs relative overflow-hidden">
+      <div className="bg-card text-card-foreground rounded-2xl p-6 sm:p-7 border border-border shadow-xs relative overflow-hidden">
         <div
           className="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl opacity-20 pointer-events-none"
           style={{ background: currentTheme.glow }}
@@ -219,7 +205,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
               onClick={() => setActiveTab('chat')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'chat'
-                  ? 'bg-white text-foreground shadow-xs'
+                  ? 'bg-card text-foreground shadow-xs border border-border'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -230,7 +216,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
               onClick={() => setActiveTab('resume')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'resume'
-                  ? 'bg-white text-foreground shadow-xs'
+                  ? 'bg-card text-foreground shadow-xs border border-border'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -241,7 +227,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
               onClick={() => setActiveTab('match')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'match'
-                  ? 'bg-white text-foreground shadow-xs'
+                  ? 'bg-card text-foreground shadow-xs border border-border'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -252,7 +238,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
               onClick={() => setActiveTab('interview')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'interview'
-                  ? 'bg-white text-foreground shadow-xs'
+                  ? 'bg-card text-foreground shadow-xs border border-border'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -276,10 +262,10 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
       {/* TAB 1: DB-BASED AI CAREER CHAT & ANSWERING SYSTEM                          */}
       {/* ========================================================================= */}
       {activeTab === 'chat' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column: Ask Input & Suggestions */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto pr-1">
+            <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-secondary text-foreground flex items-center justify-center font-bold">
@@ -310,7 +296,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                     }
                   }}
                   placeholder="e.g., What are the highest paying companies active right now? What are the placement policies for Dream offers?"
-                  className="w-full p-3 rounded-xl border border-border text-xs font-medium text-foreground placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 bg-secondary hover:bg-white transition-all leading-relaxed"
+                  className="w-full p-3 rounded-xl border border-border text-xs font-medium text-foreground placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 bg-secondary hover:bg-card transition-all leading-relaxed"
                 ></textarea>
               </div>
 
@@ -335,7 +321,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
             </div>
 
             {/* Quick Sample Questions Card */}
-            <div className="bg-white rounded-2xl border border-border p-5 shadow-xs space-y-3">
+            <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-3">
               <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
                 <Lightbulb className="w-4 h-4 text-foreground" />
                 <span>Instant Database Prompts</span>
@@ -360,9 +346,9 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
             </div>
           </div>
 
-          {/* Right Column: AI Response Feed */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="bg-white rounded-2xl border border-border p-5 sm:p-6 shadow-xs space-y-4 min-h-[420px]">
+          {/* Right Column: AI Response Feed (Independent Scroll) */}
+          <div className="lg:col-span-7 space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto pr-1">
+            <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 sm:p-6 shadow-xs space-y-4 min-h-[420px]">
               <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]"></div>
@@ -451,71 +437,77 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 2: ATS RESUME ANALYZER                                                */}
+      {/* TAB 2: ATS RESUME INTELLIGENCE STUDIO                                     */}
       {/* ========================================================================= */}
       {activeTab === 'resume' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-6 bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold text-foreground">Resume Plain Text & Keyword Parser</h3>
-            <textarea
-              rows="12"
-              value={resumeText}
-              onChange={(e) => setResumeText(e.target.value)}
-              className="w-full p-3 border border-border rounded-xl text-xs font-mono leading-relaxed focus:ring-2 focus:ring-neutral-400 bg-secondary"
-              placeholder="Paste student resume text here..."
-            ></textarea>
-            <button
-              onClick={handleAnalyzeResume}
-              disabled={analyzingResume}
-              className="w-full py-2.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-xl text-xs transition-colors cursor-pointer"
-            >
-              {analyzingResume ? 'Analyzing via Mistral 7B GGUF Core...' : 'Run ATS Evaluation & Skill Extraction'}
-            </button>
-          </div>
+        <div className="bg-card text-card-foreground rounded-2xl border border-border p-8 shadow-xs">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="w-16 h-16 rounded-2xl bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 flex items-center justify-center mx-auto shadow-xs">
+              <FileText className="w-8 h-8" />
+            </div>
 
-          <div className="lg:col-span-6 bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold text-foreground">ATS Score & Extracted Keywords</h3>
-            {resumeResult ? (
-              <div className="space-y-4 text-xs">
-                <div className="p-4 bg-secondary rounded-xl border border-border flex items-center justify-between">
-                  <div>
-                    <span className="text-[11px] text-foreground font-semibold uppercase">Overall ATS Score</span>
-                    <div className="text-3xl font-extrabold text-foreground mt-0.5">{resumeResult.overallScore}/100</div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[11px] text-foreground font-semibold uppercase">Compatibility</span>
-                    <div className="text-base font-bold text-foreground mt-0.5">{resumeResult.atsCompatibility}</div>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-foreground mb-2">Identified Core Competencies</h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {resumeResult.extractedSkills?.map((s, idx) => (
-                      <span key={idx} className="bg-secondary text-foreground px-2.5 py-1 rounded-md text-[11px] font-bold border border-border">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-3.5 bg-secondary rounded-xl border border-border space-y-2">
-                  <h4 className="font-semibold text-foreground">Actionable ATS Polish Recommendations</h4>
-                  <ul className="space-y-1.5 text-muted-foreground text-xs">
-                    {resumeResult.suggestions?.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-foreground shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-foreground text-xs font-bold border border-border">
+                <Sparkles className="w-3.5 h-3.5 text-foreground" />
+                <span>Unified Standalone Intelligence Interface</span>
               </div>
-            ) : (
-              <div className="py-20 text-center text-xs text-muted-foreground">
-                Paste student resume text and click analyze to view real-time ATS keyword matching.
+              <h2 className="text-2xl font-extrabold text-foreground tracking-tight">
+                AI ATS Resume Analyzer & Scorecard
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+                Resume analysis has been consolidated into the dedicated ATS Resume Intelligence Studio for enhanced multi-role benchmarks, Mistral 7B neural keyword parsing, and historical scan records.
+              </p>
+            </div>
+
+            {/* Feature Highlights Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left pt-2">
+              <div className="p-4 rounded-xl bg-secondary border border-border space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-foreground">
+                  <ShieldCheck className="w-4 h-4 text-foreground" />
+                  <span>10 IT Archetypes</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Tailored benchmarks for Frontend, Backend, Fullstack, AI/ML, DevOps, Cloud, Data, and Cybersecurity roles.
+                </p>
               </div>
-            )}
+
+              <div className="p-4 rounded-xl bg-secondary border border-border space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-foreground">
+                  <Cpu className="w-4 h-4 text-foreground" />
+                  <span>Mistral 7B & Fallback</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Local neural model inference with automatic deterministic fallback guarantees instant ATS score feedback.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-secondary border border-border space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-foreground">
+                  <Layers className="w-4 h-4 text-foreground" />
+                  <span>Audit History & PDF</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Save scan revisions, track score improvements across campus drives, and generate printable reports.
+                </p>
+              </div>
+            </div>
+
+            {/* Navigation CTA Button */}
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                to="/resume-analyzer"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Launch ATS Resume Analyzer</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <button
+                onClick={() => setActiveTab('chat')}
+                className="w-full sm:w-auto px-5 py-3 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground text-xs font-bold border border-border transition-colors cursor-pointer"
+              >
+                Return to DB Career Chat
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -524,8 +516,8 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
       {/* TAB 3: JOB SEMANTIC FIT                                                   */}
       {/* ========================================================================= */}
       {activeTab === 'match' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-6 bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="lg:col-span-6 bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
             <h3 className="text-sm font-bold text-foreground">Target Campus Opening</h3>
             <div className="p-4 border border-border rounded-xl space-y-2 bg-secondary text-xs">
               <div className="flex justify-between items-center">
@@ -546,7 +538,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
             </button>
           </div>
 
-          <div className="lg:col-span-6 bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="lg:col-span-6 bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
             <h3 className="text-sm font-bold text-foreground">Readiness & Skill Gap Synthesis</h3>
             {matchResult ? (
               <div className="space-y-4 text-xs">
@@ -555,7 +547,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                     <span className="text-[11px] text-foreground font-semibold uppercase">Profile Match Fitness</span>
                     <div className="text-3xl font-extrabold text-foreground mt-0.5">{matchResult.matchPercentage}%</div>
                   </div>
-                  <span className="font-bold text-xs bg-white text-foreground px-3 py-1.5 rounded-lg border border-border">
+                  <span className="font-bold text-xs bg-secondary text-foreground px-3 py-1.5 rounded-lg border border-border">
                     {matchResult.placementReadiness}
                   </span>
                 </div>
@@ -596,8 +588,8 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
       {/* TAB 4: MOCK INTERVIEW COACH                                               */}
       {/* ========================================================================= */}
       {activeTab === 'interview' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-6 bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="lg:col-span-6 bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
             <h3 className="text-sm font-bold text-foreground">STAR Methodology Behavioral Simulator</h3>
             <div>
               <label className="block font-semibold text-foreground mb-1 text-xs">Interview Question</label>
@@ -626,7 +618,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
             </button>
           </div>
 
-          <div className="lg:col-span-6 bg-white rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="lg:col-span-6 bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
             <h3 className="text-sm font-bold text-foreground">AI Scoring & Communication Feedback</h3>
             {interviewResult ? (
               <div className="space-y-4 text-xs">
@@ -635,7 +627,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                     <span className="text-[11px] text-foreground font-semibold uppercase">Response Score</span>
                     <div className="text-3xl font-extrabold text-foreground mt-0.5">{interviewResult.score}/10.0</div>
                   </div>
-                  <span className="font-bold text-xs bg-white text-foreground px-3 py-1.5 rounded-lg border border-border">
+                  <span className="font-bold text-xs bg-secondary text-foreground px-3 py-1.5 rounded-lg border border-border">
                     High Confidence
                   </span>
                 </div>

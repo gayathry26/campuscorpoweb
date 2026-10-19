@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { AlertCircle, CheckCircle2, MessageSquare, Plus } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MessageSquare, Plus, ShieldCheck } from 'lucide-react';
 
 export function Grievances() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [grievances, setGrievances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // In-app Resolve Modal state
+  const [resolveModalOpen, setResolveModalOpen] = useState(false);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
+  const [resolutionNotes, setResolutionNotes] = useState('');
+  const [resolving, setResolving] = useState(false);
 
   const [ticketForm, setTicketForm] = useState({
     category: 'ELIGIBILITY',
@@ -29,6 +37,7 @@ export function Grievances() {
       setGrievances(res.data.data || []);
     } catch (err) {
       console.error('Failed to load grievances:', err);
+      showToast('Failed to load grievances.', 'error');
     } finally {
       setLoading(false);
     }
@@ -39,25 +48,41 @@ export function Grievances() {
     try {
       await apiClient.post('/grievances/file', ticketForm);
       setIsModalOpen(false);
+      setTicketForm({ category: 'ELIGIBILITY', subject: '', description: '' });
       fetchGrievances();
-      alert('Grievance ticket submitted to placement committee.');
+      showToast('Grievance ticket submitted to placement committee.', 'success');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to file ticket.');
+      showToast(err.response?.data?.message || 'Failed to file ticket.', 'error');
     }
   };
 
-  const handleResolveTicket = async (ticketId) => {
-    const notes = prompt('Enter resolution notes / committee action taken:');
-    if (!notes) return;
+  const openResolveDialog = (ticketId) => {
+    setSelectedTicketId(ticketId);
+    setResolutionNotes('');
+    setResolveModalOpen(true);
+  };
+
+  const handleConfirmResolve = async (e) => {
+    e.preventDefault();
+    if (!resolutionNotes.trim()) {
+      showToast('Please provide committee resolution notes before resolving.', 'warning');
+      return;
+    }
+    setResolving(true);
     try {
-      await apiClient.put(`/grievances/${ticketId}/resolve`, {
+      await apiClient.put(`/grievances/${selectedTicketId}/resolve`, {
         status: 'RESOLVED',
-        resolution_notes: notes,
+        resolution_notes: resolutionNotes.trim(),
       });
+      setResolveModalOpen(false);
+      setSelectedTicketId(null);
+      setResolutionNotes('');
       fetchGrievances();
-      alert('Grievance ticket marked resolved.');
+      showToast('Grievance ticket marked resolved successfully.', 'success');
     } catch (err) {
-      alert('Failed to resolve ticket');
+      showToast(err.response?.data?.message || 'Failed to resolve ticket.', 'error');
+    } finally {
+      setResolving(false);
     }
   };
 
@@ -72,7 +97,7 @@ export function Grievances() {
         {user?.roleName === 'STUDENT' && (
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-3.5 py-2 bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black hover:bg-primary text-primary-foreground rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-3.5 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4" /> File Placement Grievance Ticket
           </button>
@@ -82,43 +107,48 @@ export function Grievances() {
       {loading ? (
         <LoadingSpinner text="Retrieving placement grievances..." />
       ) : grievances.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-xl border border-border text-xs text-muted-foreground">
+        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-xs text-muted-foreground">
           No grievance tickets recorded. All operations nominal.
         </div>
       ) : (
         <div className="space-y-4">
           {grievances.map((g) => (
-            <div key={g.id} className="bg-white rounded-xl border border-border p-5 shadow-xs space-y-3">
-              <div className="flex justify-between items-start">
+            <div key={g.id} className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-3">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-xs font-bold text-foreground">{g.ticket_number}</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-secondary text-foreground">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary text-foreground border border-border">
                       {g.category}
                     </span>
                     <StatusBadge status={g.status} />
                   </div>
                   <h3 className="text-base font-bold text-foreground mt-1">{g.subject}</h3>
-                  <p className="text-xs text-muted-foreground">Filed by: {g.first_name} {g.last_name} ({g.register_number}) • {g.created_at?.split('T')[0]}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Filed by: <strong className="text-foreground">{g.first_name} {g.last_name}</strong> ({g.register_number}) • {g.created_at?.split('T')[0]}
+                  </p>
                 </div>
 
-                {['TPO_OFFICER', 'ADMIN'].includes(user?.roleName) && g.status === 'OPEN' && (
+                {['TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN'].includes(user?.roleName) && g.status === 'OPEN' && (
                   <button
-                    onClick={() => handleResolveTicket(g.id)}
-                    className="px-3 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                    onClick={() => openResolveDialog(g.id)}
+                    className="px-3.5 py-1.5 bg-primary text-primary-foreground hover:opacity-90 text-xs font-semibold rounded-xl transition-colors cursor-pointer shrink-0 shadow-xs"
                   >
                     Resolve Ticket
                   </button>
                 )}
               </div>
 
-              <p className="text-xs text-muted-foreground bg-secondary p-3 rounded-lg border border-border leading-relaxed">
+              <p className="text-xs text-muted-foreground bg-secondary/50 p-3.5 rounded-xl border border-border leading-relaxed">
                 {g.description}
               </p>
 
               {g.resolution_notes && (
-                <div className="p-3 bg-secondary rounded-lg border border-border text-xs">
-                  <span className="font-bold text-foreground block mb-0.5">Placement Committee Resolution:</span>
+                <div className="p-3.5 bg-secondary/80 rounded-xl border border-border text-xs space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-foreground">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>Placement Committee Resolution:</span>
+                  </div>
                   <p className="text-foreground italic">{g.resolution_notes}</p>
                 </div>
               )}
@@ -135,7 +165,7 @@ export function Grievances() {
             <select
               value={ticketForm.category}
               onChange={(e) => setTicketForm({ ...ticketForm, category: e.target.value })}
-              className="w-full p-2 border border-border rounded bg-white"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
             >
               <option value="ELIGIBILITY">Eligibility Calculation Discrepancy</option>
               <option value="INTERVIEW_DISPUTE">Interview Slot Conflict / Technical Glitch</option>
@@ -153,7 +183,7 @@ export function Grievances() {
               placeholder="e.g. Backlog cleared but drive status marked ineligible"
               value={ticketForm.subject}
               onChange={(e) => setTicketForm({ ...ticketForm, subject: e.target.value })}
-              className="w-full p-2 border border-border rounded"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
@@ -165,16 +195,65 @@ export function Grievances() {
               placeholder="Provide complete context, job posting title, and reference dates..."
               value={ticketForm.description}
               onChange={(e) => setTicketForm({ ...ticketForm, description: e.target.value })}
-              className="w-full p-2 border border-border rounded"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
             ></textarea>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-border">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 border rounded">Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded hover:bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black">Submit Ticket</button>
+          <div className="flex justify-end gap-2 pt-3 border-t border-border">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="px-4 py-2 border border-border rounded-xl hover:bg-secondary text-foreground font-semibold cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-xl hover:opacity-90 cursor-pointer shadow-xs"
+            >
+              Submit Ticket
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* In-App Resolve Ticket Dialog (Replaces window.prompt) */}
+      <Modal isOpen={resolveModalOpen} onClose={() => setResolveModalOpen(false)} title="Record Placement Committee Resolution">
+        <form onSubmit={handleConfirmResolve} className="space-y-4 text-xs">
+          <div>
+            <p className="text-muted-foreground mb-3 leading-relaxed">
+              Document the formal resolution or corrective action taken by the placement office. This note will be recorded in the institutional grievance registry and visible to the student.
+            </p>
+            <label className="block font-bold text-foreground mb-1">Resolution & Committee Action Notes *</label>
+            <textarea
+              rows="5"
+              required
+              placeholder="e.g. Re-verified semester 5 grade sheet with registrar. Student cleared for drive with updated 8.1 CGPA."
+              value={resolutionNotes}
+              onChange={(e) => setResolutionNotes(e.target.value)}
+              className="w-full p-3 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+            ></textarea>
+          </div>
+
+          <div className="flex justify-end gap-2 pt-3 border-t border-border">
+            <button
+              type="button"
+              onClick={() => setResolveModalOpen(false)}
+              className="px-4 py-2 border border-border rounded-xl hover:bg-secondary text-foreground font-semibold cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={resolving || !resolutionNotes.trim()}
+              className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-xl hover:opacity-90 cursor-pointer shadow-xs disabled:opacity-50"
+            >
+              {resolving ? 'Recording Resolution...' : 'Mark as Resolved'}
+            </button>
           </div>
         </form>
       </Modal>
     </div>
   );
 }
+export default Grievances;

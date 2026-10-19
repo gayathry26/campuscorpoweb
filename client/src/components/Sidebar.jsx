@@ -29,6 +29,7 @@ import {
   Settings,
   FileText,
   ShieldAlert,
+  FileSearch,
 } from 'lucide-react';
 
 export function Sidebar() {
@@ -36,7 +37,7 @@ export function Sidebar() {
   const { canAccessPage } = usePermissions();
   const location = useLocation();
   const role = user?.roleName;
-  const isSuperAdmin = role === 'SUPER_ADMIN';
+  const isSuperAdmin = role === 'SUPER_ADMIN' || role === 'ADMIN';
 
   // Career Explorer sub-routes
   const isCareerExplorerActive =
@@ -46,13 +47,52 @@ export function Sidebar() {
     location.pathname.startsWith('/role-analyzer') ||
     location.pathname.startsWith('/career-explorer');
 
-  const [careerExplorerOpen, setCareerExplorerOpen] = useState(true);
+  const [careerExplorerOpen, setCareerExplorerOpen] = useState(false);
 
   const careerExplorerItems = [
     { to: '/domains', label: 'Explore Domains', icon: Layers },
     { to: '/compare', label: 'Compare Roles', icon: GitCompare },
     { to: '/skill-analyzer', label: 'Skill Analyzer', icon: Cpu },
   ];
+
+  // LMS Section
+  const isLmsActive = location.pathname.startsWith('/lms');
+  const [lmsOpen, setLmsOpen] = useState(true);
+
+  const canAccessLms = canAccessPage(role, '/lms');
+
+  const studentLmsItems = [
+    { to: '/lms/my-learning', label: 'My Learning', icon: GraduationCap },
+    { to: '/lms/materials', label: 'Course Materials', icon: BookOpen },
+    { to: '/lms/quizzes', label: 'Quizzes & Assessments', icon: Award },
+    { to: '/lms/assignments', label: 'Assignments & Projects', icon: FileCheck2 },
+    { to: '/lms/learning-paths', label: 'Learning Paths', icon: Layers },
+    { to: '/lms/progress', label: 'My Progress', icon: PieChart },
+    { to: '/lms/live-classes', label: 'Live Classes & Calendar', icon: CalendarDays },
+    { to: '/lms/discussions', label: 'Discussions & Doubts', icon: HeartHandshake },
+    { to: '/lms/notes', label: 'My Notes & Bookmarks', icon: FileText },
+    { to: '/lms/certificates', label: 'Certificates & Achievements', icon: Award },
+    { to: '/lms/notifications', label: 'LMS Notifications', icon: AlertCircle },
+    { to: '/lms/portfolio', label: 'My Projects & Portfolio', icon: Code2 },
+    { to: '/lms/support', label: 'Help & Support', icon: AlertCircle },
+  ];
+
+  const facultyLmsItems = [
+    { to: '/lms/faculty-dashboard', label: 'LMS Dashboard', icon: LayoutDashboard },
+    { to: '/lms/manage-courses', label: 'My Courses', icon: BookOpen },
+    { to: '/lms/manage-materials', label: 'Course Material Management', icon: FileText },
+    { to: '/lms/manage-quizzes', label: 'Quiz Builder', icon: Award },
+    { to: '/lms/manage-assignments', label: 'Assignment Management', icon: FileCheck2 },
+    { to: '/lms/student-progress', label: 'Student Progress', icon: Users },
+    { to: '/lms/manage-learning-paths', label: 'Learning Paths', icon: Layers },
+    { to: '/lms/manage-live-classes', label: 'Live Classes & Calendar', icon: CalendarDays },
+    { to: '/lms/manage-discussions', label: 'Discussions & Doubts', icon: HeartHandshake },
+    { to: '/lms/manage-certificates', label: 'Certificates', icon: Award },
+    { to: '/lms/manage-announcements', label: 'Announcements', icon: Sparkles },
+    { to: '/lms/reports', label: 'Reports', icon: PieChart },
+  ];
+
+  const lmsItems = role === 'STUDENT' ? studentLmsItems : facultyLmsItems;
 
   const navItems = [
     { to: '/', label: 'Placement Dashboard', icon: LayoutDashboard },
@@ -65,6 +105,7 @@ export function Sidebar() {
     { to: '/assessment', label: 'Programming Assessment', icon: Code2 },
     { to: '/interviews', label: 'Interview Slots', icon: CalendarCheck },
     { to: '/videocall/interview', label: 'Mock Video Interview', icon: Video },
+    { to: '/resume-analyzer', label: 'Resume Analyzer', icon: FileSearch },
     { to: '/training', label: 'Training & Attendance', icon: BookOpen },
     { to: '/internships', label: 'Internships & PPO', icon: GraduationCap },
     { to: '/offers', label: 'Offers & Joining', icon: Award },
@@ -75,7 +116,7 @@ export function Sidebar() {
     { to: '/grievances', label: 'Grievance Desk', icon: AlertCircle },
     { to: '/ai-assistant', label: 'AI Career Assistant', icon: Sparkles },
     { to: '/admin', label: 'Admin & DB Registry', icon: Database },
-    { to: '/settings', label: 'Settings & Themes', icon: Settings },
+    { to: '/settings', label: isSuperAdmin ? 'Settings & Access Control' : 'Settings & Preferences', icon: Settings },
   ];
 
   // Dynamic permission filter: only show pages that are ticked in settings!
@@ -87,8 +128,8 @@ export function Sidebar() {
     canAccessPage(role, '/domains') || canAccessPage(role, '/compare') || canAccessPage(role, '/skill-analyzer');
 
   return (
-    <aside className="w-64 bg-sidebar text-sidebar-foreground min-h-[calc(100vh-4rem)] flex flex-col justify-between border-r border-sidebar-border transition-colors">
-      <div className="p-4 space-y-1">
+    <aside className="w-64 shrink-0 bg-sidebar text-sidebar-foreground sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-between border-r border-sidebar-border transition-colors z-30">
+      <div className="p-4 space-y-1 overflow-y-auto flex-1">
         {isSuperAdmin && (
           <div className="mb-3 p-2.5 rounded-xl bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 flex items-center gap-2 text-foreground text-xs font-bold">
             <ShieldAlert className="w-4 h-4 text-foreground shrink-0" />
@@ -100,7 +141,7 @@ export function Sidebar() {
         <div className="px-3 py-2 text-[11px] font-semibold tracking-wider uppercase text-muted-foreground flex items-center justify-between">
           <span>CampusCorp Modules</span>
           <span className="text-[10px] font-bold text-muted-foreground">
-            {filteredNav.length + (canAccessCareerExplorer ? 2 : 0)} visible
+            {filteredNav.length + (canAccessCareerExplorer ? 2 : 0) + (canAccessLms ? 1 : 0)} visible
           </span>
         </div>
 
@@ -138,7 +179,78 @@ export function Sidebar() {
             );
           })}
 
-          {/* New Section: Career Explorer Accordion / Section */}
+          {/* New Top-Level LMS Section */}
+          {canAccessLms && (
+            <div className="pt-1.5 pb-1 space-y-0.5">
+              <button
+                type="button"
+                onClick={() => setLmsOpen(!lmsOpen)}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-semibold transition-all cursor-pointer ${
+                  isLmsActive
+                    ? 'bg-neutral-200 dark:bg-neutral-800 text-foreground'
+                    : 'text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
+                }`}
+              >
+                <div className="flex items-center gap-3 truncate">
+                  <GraduationCap
+                    className={`w-4 h-4 shrink-0 transition-colors ${
+                      isLmsActive ? 'text-foreground' : 'text-muted-foreground'
+                    }`}
+                  />
+                  <span className="truncate">LMS</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase tracking-wider bg-secondary text-muted-foreground">
+                    Portal
+                  </span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ${
+                      lmsOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </div>
+              </button>
+
+              {lmsOpen && (
+                <div className="pl-6 space-y-0.5 pt-0.5 border-l-2 border-border/80 ml-4 my-1">
+                  {lmsItems.map((sub) => {
+                    const SubIcon = sub.icon;
+                    return (
+                      <NavLink
+                        key={sub.to}
+                        to={sub.to}
+                        className={({ isActive }) =>
+                          `flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs transition-all ${
+                            isActive
+                              ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] font-semibold shadow-xs'
+                              : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 font-medium'
+                          }`
+                        }
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <SubIcon
+                              className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+                                isActive
+                                  ? 'text-[#fafafa] dark:text-[#0a0a0a]'
+                                  : 'text-muted-foreground'
+                              }`}
+                            />
+                            <span className="flex-1 truncate">{sub.label}</span>
+                            {isActive && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#fafafa] dark:bg-[#0a0a0a]" />
+                            )}
+                          </>
+                        )}
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Career Explorer Accordion / Section */}
           {canAccessCareerExplorer && (
             <div className="pt-1.5 pb-1 space-y-0.5">
               <button
@@ -244,7 +356,7 @@ export function Sidebar() {
       </div>
 
       {/* Footer Info Pill */}
-      <div className="p-3.5 m-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 border border-sidebar-border text-xs">
+      <div className="p-3.5 m-3 shrink-0 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 border border-sidebar-border text-xs">
         <div className="flex items-center gap-2 text-sidebar-foreground font-semibold mb-1">
           <span className="w-2 h-2 rounded-full bg-foreground" />
           <span>CampusCorp Multi-DB Active</span>

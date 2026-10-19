@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Award, CheckCircle2, XCircle, FileText, Calendar, Building2 } from 'lucide-react';
 
 export function Offers() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +23,7 @@ export function Offers() {
       setOffers(res.data.data || []);
     } catch (err) {
       console.error('Failed to load offers:', err);
+      showToast('Failed to load offers.', 'error');
     } finally {
       setLoading(false);
     }
@@ -30,9 +33,9 @@ export function Offers() {
     try {
       await apiClient.post(`/offers/${offerId}/respond`, { decision });
       fetchOffers();
-      alert(`Offer ${decision.toLowerCase()} successfully!`);
+      showToast(`Offer ${decision.toLowerCase()} successfully!`, 'success');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update offer response.');
+      showToast(err.response?.data?.message || 'Failed to update offer response.', 'error');
     }
   };
 
@@ -48,7 +51,7 @@ export function Offers() {
       {loading ? (
         <LoadingSpinner text="Retrieving verified offer letters..." />
       ) : offers.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-xl border border-border text-xs text-muted-foreground">
+        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-xs text-muted-foreground">
           No placement offers on record yet.
         </div>
       ) : (
@@ -58,28 +61,36 @@ export function Offers() {
             const isPending = offer.status === 'OFFERED';
 
             return (
-              <div key={offer.id} className="bg-white rounded-xl border border-border p-5 shadow-xs flex flex-col justify-between space-y-4">
+              <div key={offer.id} className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs flex flex-col justify-between space-y-4">
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
                       <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{offer.company_name}</span>
                       <h3 className="text-base font-bold text-foreground mt-0.5">{offer.job_title}</h3>
-                      <p className="text-xs text-muted-foreground">Candidate: {offer.first_name} {offer.last_name} ({offer.register_number})</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Candidate: <strong className="text-foreground">{offer.first_name} {offer.last_name}</strong> ({offer.register_number})
+                      </p>
                     </div>
                     <StatusBadge status={offer.status} />
                   </div>
 
-                  <div className="mt-4 p-3 rounded-lg bg-secondary border border-border flex items-center justify-between">
+                  <div className="mt-4 p-3.5 rounded-xl bg-secondary/60 border border-border flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] text-foreground font-medium uppercase">Offered Annual CTC</span>
-                      <div className="text-xl font-extrabold text-foreground">₹{offer.offered_ctc_lpa} LPA</div>
+                      <span className="text-[10px] text-muted-foreground font-semibold uppercase">Offered Annual CTC</span>
+                      <div className="text-xl font-black text-foreground mt-0.5">₹{offer.offered_ctc_lpa} LPA</div>
                     </div>
                     <Award className="w-8 h-8 text-foreground opacity-80" />
                   </div>
 
-                  <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-                    <div>Issue Date: <strong className="text-foreground">{offer.issue_date}</strong></div>
-                    <div>Department: <strong className="text-foreground">{offer.department_code}</strong></div>
+                  <div className="mt-3.5 space-y-1 text-xs text-muted-foreground">
+                    <div className="flex justify-between">
+                      <span>Issue Date:</span>
+                      <strong className="text-foreground">{offer.issue_date}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Department:</span>
+                      <strong className="text-foreground">{offer.department_code}</strong>
+                    </div>
                   </div>
                 </div>
 
@@ -88,13 +99,13 @@ export function Offers() {
                   <div className="pt-3 border-t border-border flex gap-2">
                     <button
                       onClick={() => handleRespondOffer(offer.id, 'ACCEPTED')}
-                      className="flex-1 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-lg text-xs transition-colors cursor-pointer"
+                      className="flex-1 py-2 bg-primary text-primary-foreground font-bold rounded-xl text-xs transition-opacity hover:opacity-90 cursor-pointer shadow-xs"
                     >
                       Accept Offer Letter
                     </button>
                     <button
                       onClick={() => handleRespondOffer(offer.id, 'REJECTED')}
-                      className="px-4 py-2 border border-border hover:bg-secondary text-foreground font-semibold rounded-lg text-xs transition-colors cursor-pointer"
+                      className="px-4 py-2 border border-border hover:bg-secondary text-foreground font-semibold rounded-xl text-xs transition-colors cursor-pointer"
                     >
                       Decline
                     </button>
@@ -108,3 +119,4 @@ export function Offers() {
     </div>
   );
 }
+export default Offers;

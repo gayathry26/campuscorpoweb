@@ -543,6 +543,48 @@ async function runMigrations() {
       console.warn('initRolePermissions warning:', e.message);
     }
 
+    try {
+      const { runSkillAnalyzerMigration } = require('./skill_analyzer_migration');
+      await runSkillAnalyzerMigration();
+    } catch (e) {
+      console.warn('runSkillAnalyzerMigration warning:', e.message);
+    }
+
+    try {
+      const { runCareerExplorerMigration } = require('./career_explorer_migration');
+      await runCareerExplorerMigration();
+    } catch (e) {
+      console.warn('runCareerExplorerMigration warning:', e.message);
+    }
+
+    try {
+      const { runLmsIntegrationMigration } = require('./lms_integration_migration');
+      await runLmsIntegrationMigration();
+    } catch (e) {
+      console.warn('runLmsIntegrationMigration warning:', e.message);
+    }
+
+    try {
+      const { runResumeAnalyzerMigration } = require('./resume_analyzer_migration');
+      await runResumeAnalyzerMigration();
+    } catch (e) {
+      console.warn('runResumeAnalyzerMigration warning:', e.message);
+    }
+
+    try {
+      const { initUserPreferences } = require('./initUserPreferences');
+      await initUserPreferences();
+    } catch (e) {
+      console.warn('initUserPreferences warning:', e.message);
+    }
+
+    try {
+      const { runPlacementPolicyMigration } = require('./placement_policy_migration');
+      await runPlacementPolicyMigration();
+    } catch (e) {
+      console.warn('runPlacementPolicyMigration warning:', e.message);
+    }
+
     console.log('\n================================================================');
     console.log('✅ [MIGRATION COMPLETE] All Common and Department databases ready!');
     console.log('================================================================\n');

@@ -243,6 +243,14 @@ async function getCurrentUserPermissions(req, res, next) {
  */
 async function updateRolePermissions(req, res, next) {
   try {
+    const role = req.user?.role_name || req.user?.roleName;
+    if (role !== 'SUPER_ADMIN' && role !== 'ADMIN') {
+      return res.status(403).json({
+        success: false,
+        message: 'Forbidden. Only administrators have the authority to modify role permissions.',
+      });
+    }
+
     const { roleName, allowedPages, permissions } = req.body;
 
     // Support either single role update or batch update
@@ -315,6 +323,14 @@ async function updateRolePermissions(req, res, next) {
  */
 async function resetRolePermissions(req, res, next) {
   try {
+    const role = req.user?.role_name || req.user?.roleName;
+    if (role !== 'SUPER_ADMIN' && role !== 'ADMIN') {
+      return res.status(403).json({
+        success: false,
+        message: 'Forbidden. Only administrators have the authority to reset role permissions.',
+      });
+    }
+
     for (const [rName, pages] of Object.entries(DEFAULT_PERMISSIONS)) {
       await queryCommon(
         `INSERT INTO role_permissions (role_name, allowed_pages)

@@ -435,21 +435,20 @@ async function calculateRoleMatches(studentSkills, targetRoleId = null) {
     studentSkillMap.set(s.skillId, s);
   });
 
-  // Known role metadata lookup (matching itRoles.js)
-  const roleMetadata = {
-    'frontend-developer': { title: 'Frontend Developer', category: 'Software Development', shortDescription: 'Builds responsive, high-performance web user interfaces using modern web frameworks, component architectures, and browser APIs.' },
-    'backend-developer': { title: 'Backend Developer', category: 'Software Development', shortDescription: 'Engineers scalable server-side systems, microservices, databases, authentication, and high-throughput APIs.' },
-    'full-stack-developer': { title: 'Full Stack Developer', category: 'Software Development', shortDescription: 'Bridges frontend design systems and robust backend microservices to deliver end-to-end web applications.' },
-    'data-analyst': { title: 'Data Analyst', category: 'Data Science & Analytics', shortDescription: 'Transforms structured business data into actionable dashboards, KPIs, and analytical intelligence.' },
-    'data-scientist': { title: 'Data Scientist', category: 'Data Science & Analytics', shortDescription: 'Applies statistical modeling, exploratory analytics, and predictive machine learning algorithms to complex datasets.' },
-    'ai-ml-engineer': { title: 'AI / Machine Learning Engineer', category: 'Artificial Intelligence & Machine Learning', shortDescription: 'Designs, trains, and deploys deep learning models, LLMs, and intelligent automation systems to production.' },
-    'cybersecurity-analyst': { title: 'Cybersecurity Analyst', category: 'Cybersecurity', shortDescription: 'Defends digital infrastructure against threats, conducts vulnerability assessments, and enforces compliance.' },
-    'cloud-engineer': { title: 'Cloud Engineer', category: 'Cloud Computing & DevOps', shortDescription: 'Architects, provisions, and maintains highly resilient multi-region infrastructure on AWS, Azure, or GCP.' },
-    'devops-engineer': { title: 'DevOps Engineer', category: 'Cloud Computing & DevOps', shortDescription: 'Automates CI/CD delivery pipelines, manages Kubernetes clusters, and guarantees system observability.' },
-    'ui-ux-designer': { title: 'UI/UX Designer', category: 'UI/UX & Design', shortDescription: 'Crafts intuitive user journeys, interactive wireframes, and design systems with Figma.' },
-    'software-tester': { title: 'Software Tester / QA Engineer', category: 'Testing & Quality Assurance', shortDescription: 'Ensures software reliability through automated test suites, end-to-end regression frameworks, and API validation.' },
-    'mobile-app-developer': { title: 'Mobile App Developer', category: 'Software Development', shortDescription: 'Builds fluid cross-platform or native mobile experiences on iOS and Android devices.' },
-  };
+  // Load role metadata directly from career_roles in SQL database
+  const roleMetadata = {};
+  try {
+    const dbRoles = await queryCommon('SELECT id, title, category, short_description FROM career_roles');
+    dbRoles.forEach(r => {
+      roleMetadata[r.id] = {
+        title: r.title,
+        category: r.category,
+        shortDescription: r.short_description || 'Technical engineering role.'
+      };
+    });
+  } catch (err) {
+    console.warn('[SkillAnalyzer] Error loading career_roles from SQL, using fallback:', err.message);
+  }
 
   const results = [];
 
@@ -1025,6 +1024,14 @@ async function getStudentAnalysisHistory(studentId) {
  * Update roadmap task progress
  */
 async function updateRoadmapProgress(studentId, roleId, taskId, isCompleted) {
+  if (typeof studentId === 'object' && studentId !== null) {
+    const opts = studentId;
+    studentId = opts.studentId;
+    roleId = opts.roleId;
+    taskId = opts.taskId;
+    isCompleted = opts.isCompleted;
+  }
+
   if (!studentId || !roleId || !taskId) {
     throw new Error('studentId, roleId, and taskId are required.');
   }

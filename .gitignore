@@ -8,6 +8,7 @@ node_modules/
 .env.*.local
 **/.env
 **/.env.*
+!**/.env.example
 server/.env
 
 # Build outputs
@@ -28,6 +29,7 @@ server/uploads/*
 !server/uploads/.gitkeep
 temp/
 tmp/
+scratch/
 
 # Large AI Models & Weights
 *.gguf

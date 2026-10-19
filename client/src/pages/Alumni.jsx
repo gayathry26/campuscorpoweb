@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Modal } from '../components/Modal';
 import { HeartHandshake, Building2, Briefcase, Calendar, Globe, Send } from 'lucide-react';
 
 export function Alumni() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [alumniList, setAlumniList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAlumni, setSelectedAlumni] = useState(null);
@@ -28,6 +30,7 @@ export function Alumni() {
       setAlumniList(res.data.data || []);
     } catch (err) {
       console.error('Failed to load alumni:', err);
+      showToast('Failed to load alumni directory.', 'error');
     } finally {
       setLoading(false);
     }
@@ -40,10 +43,11 @@ export function Alumni() {
         alumni_id: selectedAlumni.id,
         ...bookingForm,
       });
+      const alumniName = selectedAlumni.first_name;
       setSelectedAlumni(null);
-      alert(`Mentorship booking request sent to ${selectedAlumni.first_name}! A calendar invitation will follow.`);
+      showToast(`Mentorship request sent to ${alumniName}! Calendar invitation will follow.`, 'success');
     } catch (err) {
-      alert('Failed to request mentorship');
+      showToast(err.response?.data?.message || 'Failed to request mentorship session.', 'error');
     }
   };
 
@@ -57,19 +61,19 @@ export function Alumni() {
       {loading ? (
         <LoadingSpinner text="Retrieving alumni directory..." />
       ) : alumniList.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-xl border border-border text-xs text-muted-foreground">
+        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-xs text-muted-foreground">
           No alumni profiles listed currently.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {alumniList.map((al) => (
-            <div key={al.id} className="bg-white rounded-xl border border-border p-5 shadow-xs flex flex-col justify-between">
+            <div key={al.id} className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-start justify-between">
-                  <div className="w-10 h-10 rounded-full bg-secondary text-foreground font-bold flex items-center justify-center text-sm">
+                  <div className="w-10 h-10 rounded-xl bg-secondary text-foreground font-bold flex items-center justify-center text-sm border border-border">
                     {al.first_name[0]}
                   </div>
-                  <span className="text-[10px] font-bold bg-secondary text-foreground px-2 py-0.5 rounded border border-border">
+                  <span className="text-[10px] font-bold bg-secondary text-foreground px-2 py-0.5 rounded-full border border-border">
                     Class of {al.graduation_year} ({al.department_code})
                   </span>
                 </div>
@@ -79,8 +83,14 @@ export function Alumni() {
                 <div className="text-xs font-semibold text-foreground mt-0.5">{al.current_company}</div>
 
                 <div className="mt-3.5 space-y-1.5 text-[11px] text-muted-foreground pt-3 border-t border-border">
-                  <div>Experience: <strong className="text-foreground">{al.experience_years} Years</strong></div>
-                  <div>Mentorship Status: <strong className="text-foreground">Available for 1:1 Slots</strong></div>
+                  <div className="flex justify-between">
+                    <span>Industry Experience:</span>
+                    <strong className="text-foreground">{al.experience_years} Years</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Mentorship Status:</span>
+                    <strong className="text-foreground">Available for 1:1 Slots</strong>
+                  </div>
                 </div>
               </div>
 
@@ -91,6 +101,7 @@ export function Alumni() {
                     target="_blank"
                     rel="noreferrer"
                     className="text-muted-foreground hover:text-foreground transition-colors p-1"
+                    title="LinkedIn Profile"
                   >
                     <Globe className="w-4 h-4" />
                   </a>
@@ -98,7 +109,7 @@ export function Alumni() {
 
                 <button
                   onClick={() => setSelectedAlumni(al)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg text-xs font-semibold transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-xs font-semibold transition-opacity cursor-pointer shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" /> Book Guidance Session
                 </button>
@@ -118,7 +129,7 @@ export function Alumni() {
               required
               value={bookingForm.topic}
               onChange={(e) => setBookingForm({ ...bookingForm, topic: e.target.value })}
-              className="w-full p-2 border border-border rounded"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
@@ -129,7 +140,7 @@ export function Alumni() {
               required
               value={bookingForm.proposed_date}
               onChange={(e) => setBookingForm({ ...bookingForm, proposed_date: e.target.value })}
-              className="w-full p-2 border border-border rounded"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
@@ -140,16 +151,28 @@ export function Alumni() {
               required
               value={bookingForm.message}
               onChange={(e) => setBookingForm({ ...bookingForm, message: e.target.value })}
-              className="w-full p-2 border border-border rounded"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
             ></textarea>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-border">
-            <button type="button" onClick={() => setSelectedAlumni(null)} className="px-4 py-2 border rounded">Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white font-semibold rounded hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]">Submit Booking Request</button>
+          <div className="flex justify-end gap-2 pt-3 border-t border-border">
+            <button
+              type="button"
+              onClick={() => setSelectedAlumni(null)}
+              className="px-4 py-2 border border-border rounded-xl hover:bg-secondary text-foreground font-semibold cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-xl hover:opacity-90 cursor-pointer shadow-xs"
+            >
+              Submit Booking Request
+            </button>
           </div>
         </form>
       </Modal>
     </div>
   );
 }
+export default Alumni;

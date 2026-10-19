@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -9,6 +10,7 @@ import { Clock, Video, User, Star, Sparkles, ArrowRight } from 'lucide-react';
 
 export function Interviews() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [evalModalOpen, setEvalModalOpen] = useState(false);
@@ -46,9 +48,9 @@ export function Interviews() {
       await apiClient.put(`/interviews/${selectedInterview.id}/feedback`, feedback);
       setEvalModalOpen(false);
       fetchInterviews();
-      alert('Interview evaluation submitted successfully!');
+      showToast('Interview evaluation submitted successfully!', 'success');
     } catch (err) {
-      alert('Failed to submit evaluation');
+      showToast('Failed to submit evaluation: ' + (err.response?.data?.message || err.message), 'error');
     }
   };
 

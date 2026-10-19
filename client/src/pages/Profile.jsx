@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { StatusBadge } from '../components/Badge';
 import { User, Mail, Phone, BookOpen, Award, FileText, Upload, Save, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 
 export function Profile() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -66,10 +68,10 @@ export function Profile() {
         ...form,
         skills: skillsArray,
       });
-      alert('Profile details updated successfully!');
+      showToast('Profile details updated successfully!', 'success');
       fetchProfile();
     } catch (err) {
-      alert('Failed to update profile');
+      showToast('Failed to update profile: ' + (err.response?.data?.message || err.message), 'error');
     } finally {
       setSaving(false);
     }

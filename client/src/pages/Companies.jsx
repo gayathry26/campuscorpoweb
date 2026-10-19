@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { Modal, LoadingSpinner } from '../components/Modal';
 import { CompanyManagementModal } from '../components/placement/CompanyManagementModal';
@@ -53,6 +54,7 @@ const ACADEMIC_YEARS = ['2026-2027', '2025-2026', '2024-2025', '2027-2028'];
 export function Companies() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { showToast } = useToast();
 
   const isAdmin = ['SUPER_ADMIN', 'TPO_OFFICER', 'ADMIN'].includes(user?.roleName);
   const isStudent = user?.roleName === 'STUDENT';
@@ -89,6 +91,7 @@ export function Companies() {
   // Applying state
   const [feedbackMessage, setFeedbackMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalError, setModalError] = useState(null);
 
   // Form State
   const defaultFormData = {
@@ -154,6 +157,7 @@ export function Companies() {
   const handleOpenCreateModal = () => {
     setModalMode('create');
     setSelectedCompanyId(null);
+    setModalError(null);
     setFormData(defaultFormData);
     setIsAddEditModalOpen(true);
   };
@@ -162,6 +166,7 @@ export function Companies() {
   const handleOpenEditModal = (comp) => {
     setModalMode('edit');
     setSelectedCompanyId(comp.id);
+    setModalError(null);
 
     let depts = comp.eligible_departments || ['CSE', 'ECE', 'IT'];
     if (typeof depts === 'string') {
@@ -211,19 +216,25 @@ export function Companies() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setModalError(null);
     try {
       if (modalMode === 'create') {
-        await apiClient.post('/companies', formData);
-        setFeedbackMessage({ type: 'success', text: `Company '${formData.name}' registered successfully!` });
+        const res = await apiClient.post('/companies', formData);
+        setFeedbackMessage({ type: 'success', text: res.data?.message || `Company '${formData.name}' registered successfully!` });
       } else {
-        await apiClient.put(`/companies/${selectedCompanyId}`, formData);
-        setFeedbackMessage({ type: 'success', text: `Company '${formData.name}' updated successfully!` });
+        const res = await apiClient.put(`/companies/${selectedCompanyId}`, formData);
+        setFeedbackMessage({ type: 'success', text: res.data?.message || `Company '${formData.name}' updated successfully!` });
       }
       setIsAddEditModalOpen(false);
       fetchCompanies();
       setTimeout(() => setFeedbackMessage(null), 5000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to save company information.');
+      const errMsg =
+        err.response?.data?.message ||
+        (err.message === 'Network Error' || err.code === 'ERR_NETWORK'
+          ? 'Cannot connect to backend server. Please verify the API server is running on port 5000.'
+          : 'Failed to save company information. Please try again.');
+      setModalError(errMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -240,7 +251,8 @@ export function Companies() {
       fetchCompanies();
       setTimeout(() => setFeedbackMessage(null), 4000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete company.');
+      setFeedbackMessage({ type: 'error', text: err.response?.data?.message || 'Failed to delete company.' });
+      setTimeout(() => setFeedbackMessage(null), 5000);
     }
   };
 
@@ -265,8 +277,9 @@ export function Companies() {
       }
       fetchCompanies();
       setTimeout(() => setFeedbackMessage(null), 8000);
+      showToast('Drive application submitted successfully!', 'success');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to submit drive application.');
+      showToast(err.response?.data?.message || 'Failed to submit drive application.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -289,8 +302,9 @@ export function Companies() {
       }
       fetchCompanies();
       setTimeout(() => setFeedbackMessage(null), 6000);
+      showToast('Application withdrawn successfully.', 'info');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to withdraw application.');
+      showToast(err.response?.data?.message || 'Failed to withdraw application.', 'error');
     } finally {
       setWithdrawingCompanyId(null);
     }
@@ -1024,6 +1038,22 @@ export function Companies() {
         maxWidth="max-w-3xl"
       >
         <form onSubmit={handleSubmitForm} className="space-y-5 text-xs max-h-[75vh] overflow-y-auto pr-1">
+          {modalError && (
+            <div className="p-3 rounded-xl border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0 text-red-500" />
+                <span className="font-semibold">{modalError}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setModalError(null)}
+                className="text-xs hover:underline font-bold cursor-pointer shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
           {/* Section 1: Company Profile */}
           <div className="space-y-3">
             <h4 className="font-bold text-foreground text-sm flex items-center gap-2 pb-1 border-b border-border">

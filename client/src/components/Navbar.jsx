@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
+import { usePreferences } from '../context/ThemeContext';
 import { 
   GraduationCap, 
   Bell, 
+  BellOff,
   ChevronDown, 
   LogOut, 
   ShieldCheck, 
@@ -12,14 +13,14 @@ import {
   Building2, 
   BookOpen, 
   Award,
-  Palette,
+  Settings,
   Sun,
   Moon,
 } from 'lucide-react';
 
 export function Navbar() {
   const { user, switchRole, logout } = useAuth();
-  const { isDark, toggleDarkMode } = useTheme();
+  const { isDark, toggleDarkMode, notificationsEnabled, placementAlertsEnabled } = usePreferences();
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
 
@@ -139,23 +140,30 @@ export function Navbar() {
             )}
           </button>
 
-          {/* Quick Settings & Theme Shortcut */}
+          {/* Quick Settings Shortcut */}
           <Link
             to="/settings"
-            title="Appearance & Themes"
+            title="Settings & Preferences"
             className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg relative transition-colors flex items-center justify-center"
           >
-            <Palette className="w-4 h-4" />
+            <Settings className="w-4 h-4" />
           </Link>
 
           {/* Notifications button */}
           <div className="relative">
             <button
               onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
+              title={notificationsEnabled ? "Notifications" : "Notifications Muted"}
               className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg relative transition-colors cursor-pointer"
             >
-              <Bell className="w-5 h-5 text-foreground" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full ring-2 ring-card bg-foreground" />
+              {notificationsEnabled ? (
+                <Bell className="w-5 h-5 text-foreground" />
+              ) : (
+                <BellOff className="w-5 h-5 text-muted-foreground opacity-60" />
+              )}
+              {notificationsEnabled && placementAlertsEnabled && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full ring-2 ring-card bg-foreground" />
+              )}
             </button>
 
             {notifDropdownOpen && (
@@ -163,21 +171,38 @@ export function Navbar() {
                 <div className="flex items-center justify-between pb-2 border-b border-border mb-2">
                   <span className="text-xs font-semibold text-foreground">CampusCorp Career Alerts</span>
                   <span className="text-[10px] font-bold text-muted-foreground">
-                    3 New
+                    {!notificationsEnabled
+                      ? 'Muted'
+                      : !placementAlertsEnabled
+                      ? 'Muted'
+                      : '2 Active'}
                   </span>
                 </div>
-                <div className="space-y-2 text-xs text-muted-foreground">
-                  <div className="p-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-foreground">
-                    <p className="font-bold text-xs text-foreground">
-                      Google Campus Recruitment Live
-                    </p>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">SDE applications deadline is Nov 30.</p>
+                {!notificationsEnabled ? (
+                  <div className="p-4 text-center text-xs text-muted-foreground space-y-1">
+                    <BellOff className="w-5 h-5 mx-auto opacity-50" />
+                    <p className="font-semibold text-foreground">Notifications Muted</p>
+                    <p className="text-[11px]">Turn on in Settings & Preferences to receive career alerts.</p>
                   </div>
-                  <div className="p-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-foreground">
-                    <p className="font-semibold text-xs text-foreground">Coding Assessment Saturday 10AM</p>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">National CodeSprint mock challenge.</p>
+                ) : !placementAlertsEnabled ? (
+                  <div className="p-4 text-center text-xs text-muted-foreground space-y-1">
+                    <p className="font-semibold text-foreground">Placement Alerts Muted</p>
+                    <p className="text-[11px]">Placement and drive notifications are muted in Settings.</p>
                   </div>
-                </div>
+                ) : (
+                  <div className="space-y-2 text-xs text-muted-foreground">
+                    <div className="p-2.5 rounded-lg border border-border bg-secondary/50 text-foreground">
+                      <p className="font-bold text-xs text-foreground">
+                        Google Campus Recruitment Live
+                      </p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">SDE applications deadline is Nov 30.</p>
+                    </div>
+                    <div className="p-2.5 rounded-lg border border-border bg-secondary/50 text-foreground">
+                      <p className="font-semibold text-xs text-foreground">Coding Assessment Saturday 10AM</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">National CodeSprint mock challenge.</p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

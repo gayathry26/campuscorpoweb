@@ -311,8 +311,8 @@ export function InterviewRoomPage() {
     const bc = new BroadcastChannel(`uniserve_meet_${currentRoom}`);
     broadcastChannelRef.current = bc;
 
-    // Connect Socket.io client
-    const socket = io('http://localhost:5000', {
+    // Connect Socket.io client (dynamically connects to the current single host/port)
+    const socket = io(window.location.origin || 'http://localhost:5000', {
       transports: ['websocket', 'polling'],
       reconnectionAttempts: 5,
       timeout: 10000

@@ -40,6 +40,7 @@ const COMPARISON_PRESETS = [
 
 export function CompareRolePicker({
   selectedRoleIds = [],
+  availableRoles = IT_ROLES,
   onAddRole,
   onApplyPreset,
   maxRoles = 4,
@@ -51,7 +52,7 @@ export function CompareRolePicker({
   const isFull = selectedRoleIds.length >= maxRoles;
 
   // Filter available roles
-  const filteredRoles = IT_ROLES.filter((role) => {
+  const filteredRoles = (availableRoles || IT_ROLES).filter((role) => {
     const isAlreadySelected = selectedRoleIds.includes(role.id);
     if (isAlreadySelected) return false;
 

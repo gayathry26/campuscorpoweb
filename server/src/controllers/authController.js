@@ -76,6 +76,28 @@ async function login(req, res, next) {
       departmentCode: user.final_dept || user.department_code,
     });
 
+    let preferences = {
+      themeMode: 'light',
+      notificationsEnabled: true,
+      lmsAlertsEnabled: true,
+      placementAlertsEnabled: true,
+    };
+    try {
+      const prefRows = await queryCommon(
+        `SELECT theme_mode, notifications_enabled, lms_alerts_enabled, placement_alerts_enabled
+         FROM user_preferences WHERE user_id = ?`,
+        [user.id]
+      );
+      if (prefRows.length > 0) {
+        preferences = {
+          themeMode: prefRows[0].theme_mode || 'light',
+          notificationsEnabled: Boolean(prefRows[0].notifications_enabled),
+          lmsAlertsEnabled: Boolean(prefRows[0].lms_alerts_enabled),
+          placementAlertsEnabled: Boolean(prefRows[0].placement_alerts_enabled),
+        };
+      }
+    } catch (e) {}
+
     res.json({
       success: true,
       message: 'Login successful.',
@@ -95,6 +117,7 @@ async function login(req, res, next) {
         batch: user.batch,
         graduationYear: user.graduation_year,
         academicYear: user.academic_year || '2026-2027',
+        preferences,
       },
     });
   } catch (err) {
@@ -205,6 +228,29 @@ async function login(req, res, next) {
 async function getCurrentUser(req, res, next) {
   try {
     const user = req.user;
+
+    let preferences = {
+      themeMode: 'light',
+      notificationsEnabled: true,
+      lmsAlertsEnabled: true,
+      placementAlertsEnabled: true,
+    };
+    try {
+      const prefRows = await queryCommon(
+        `SELECT theme_mode, notifications_enabled, lms_alerts_enabled, placement_alerts_enabled
+         FROM user_preferences WHERE user_id = ?`,
+        [user.id]
+      );
+      if (prefRows.length > 0) {
+        preferences = {
+          themeMode: prefRows[0].theme_mode || 'light',
+          notificationsEnabled: Boolean(prefRows[0].notifications_enabled),
+          lmsAlertsEnabled: Boolean(prefRows[0].lms_alerts_enabled),
+          placementAlertsEnabled: Boolean(prefRows[0].placement_alerts_enabled),
+        };
+      }
+    } catch (e) {}
+
     res.json({
       success: true,
       user: {
@@ -222,6 +268,7 @@ async function getCurrentUser(req, res, next) {
         batch: user.batch,
         graduationYear: user.graduation_year,
         academicYear: user.academic_year || '2026-2027',
+        preferences,
       },
     });
   } catch (err) {
@@ -276,6 +323,28 @@ async function quickSwitchDemoRole(req, res, next) {
       { expiresIn: '24h' }
     );
 
+    let preferences = {
+      themeMode: 'light',
+      notificationsEnabled: true,
+      lmsAlertsEnabled: true,
+      placementAlertsEnabled: true,
+    };
+    try {
+      const prefRows = await queryCommon(
+        `SELECT theme_mode, notifications_enabled, lms_alerts_enabled, placement_alerts_enabled
+         FROM user_preferences WHERE user_id = ?`,
+        [user.id]
+      );
+      if (prefRows.length > 0) {
+        preferences = {
+          themeMode: prefRows[0].theme_mode || 'light',
+          notificationsEnabled: Boolean(prefRows[0].notifications_enabled),
+          lmsAlertsEnabled: Boolean(prefRows[0].lms_alerts_enabled),
+          placementAlertsEnabled: Boolean(prefRows[0].placement_alerts_enabled),
+        };
+      }
+    } catch (e) {}
+
     res.json({
       success: true,
       message: `Switched session to ${user.role_name} portal.`,
@@ -295,6 +364,7 @@ async function quickSwitchDemoRole(req, res, next) {
         batch: user.batch,
         graduationYear: user.graduation_year,
         academicYear: user.academic_year || '2026-2027',
+        preferences,
       },
     });
   } catch (err) {

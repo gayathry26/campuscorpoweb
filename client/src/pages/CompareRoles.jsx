@@ -10,6 +10,7 @@ import {
   Search,
 } from 'lucide-react';
 import { IT_ROLES, getRoleById } from '../data/itRoles';
+import careerService from '../services/careerService';
 import { CompareRolePicker } from '../components/compare/CompareRolePicker';
 import { CompareHeaderCards } from '../components/compare/CompareHeaderCards';
 import { CompareMatrix } from '../components/compare/CompareMatrix';
@@ -18,6 +19,10 @@ import { RoleDetail } from '../components/career/RoleDetail';
 export function CompareRoles() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  // All roles catalogue from SQL
+  const [allRoles, setAllRoles] = useState(IT_ROLES);
+  const [isSqlConnected, setIsSqlConnected] = useState(false);
 
   // Parse and validate roles from URL query parameter
   const parseRolesFromUrl = () => {
@@ -29,11 +34,7 @@ export function CompareRoles() {
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed
-              .map((id) => getRoleById(id))
-              .filter(Boolean)
-              .slice(0, 4)
-              .map((r) => r.id);
+            return parsed.slice(0, 4);
           }
         }
       } catch (e) {}
@@ -41,22 +42,47 @@ export function CompareRoles() {
     }
 
     const ids = rolesParam.split(',').map((s) => s.trim().toLowerCase());
-    // Validate IDs against dataset and enforce max 4 distinct roles
-    const validIds = [];
-    for (const id of ids) {
-      if (validIds.length >= 4) break;
-      const found = getRoleById(id);
-      if (found && !validIds.includes(found.id)) {
-        validIds.push(found.id);
-      }
-    }
-    return validIds;
+    return ids.slice(0, 4);
   };
 
   const [selectedRoleIds, setSelectedRoleIds] = useState(parseRolesFromUrl);
+  const [loadedRoles, setLoadedRoles] = useState([]);
 
   // Detail modal state
   const [detailRole, setDetailRole] = useState(null);
+
+  // Load all available roles from SQL
+  useEffect(() => {
+    let isMounted = true;
+    careerService.getRoles().then((res) => {
+      if (isMounted && res?.roles?.length > 0) {
+        setAllRoles(res.roles);
+        if (res.source === 'sql') setIsSqlConnected(true);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Fetch full details for selected comparison roles from SQL
+  useEffect(() => {
+    let isMounted = true;
+    if (selectedRoleIds.length === 0) {
+      setLoadedRoles([]);
+      return;
+    }
+
+    careerService.compareRoles(selectedRoleIds).then((roles) => {
+      if (isMounted) {
+        setLoadedRoles(roles);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedRoleIds]);
 
   // Sync selectedRoleIds when searchParams changes (e.g. browser back/forward)
   useEffect(() => {
@@ -104,12 +130,13 @@ export function CompareRoles() {
     updateSelectedRoles(presetRoleIds);
   };
 
-  // Convert IDs into full role objects
+  // Roles to display in comparison cards & matrix (prioritizing SQL loaded data)
   const selectedRoles = useMemo(() => {
+    if (loadedRoles.length > 0) return loadedRoles;
     return selectedRoleIds
-      .map((id) => getRoleById(id))
+      .map((id) => allRoles.find((r) => r.id === id) || getRoleById(id))
       .filter(Boolean);
-  }, [selectedRoleIds]);
+  }, [loadedRoles, selectedRoleIds, allRoles]);
 
   return (
     <div className="space-y-8 pb-20">
@@ -124,6 +151,12 @@ export function CompareRoles() {
               <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                 Side-by-Side Career Intelligence
               </span>
+              {isSqlConnected && (
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  SQL Database
+                </span>
+              )}
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
               Compare Career Roles
@@ -148,6 +181,7 @@ export function CompareRoles() {
         <div className="mt-6 pt-6 border-t border-border/80">
           <CompareRolePicker
             selectedRoleIds={selectedRoleIds}
+            availableRoles={allRoles}
             onAddRole={handleAddRole}
             onApplyPreset={handleApplyPreset}
             maxRoles={4}

@@ -10,6 +10,7 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const { checkDatabaseHealth } = require('./config/db');
 const { detectCompilers } = require('./services/compilerService');
+const { ensureAiDaemonRunning } = require('./services/aiDaemonManager');
 const apiRoutes = require('./routes/api');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -17,9 +18,9 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS for frontend applications
+// Enable CORS for frontend applications (supports same-origin & dev tools)
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
+  origin: true,
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -33,6 +34,12 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 app.use('/uploads', express.static(uploadDir));
+
+// Serve compiled React frontend (Single Port Architecture: UI + API on same port)
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+}
 
 // System Health Endpoint
 app.get('/api/v1/health', async (req, res) => {
@@ -73,6 +80,16 @@ app.use('/api', (req, res) => {
   });
 });
 
+// SPA client-side fallback for React Router (Single Port support)
+if (fs.existsSync(clientDistPath)) {
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api') || req.originalUrl.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+}
+
 // Centralized Error Handling
 app.use(errorHandler);
 
@@ -91,10 +108,11 @@ setupWebRTCSockets(io);
 if (require.main === module) {
   server.listen(PORT, async () => {
     console.log('================================================================');
-    console.log(`[BACKEND SERVER] REST API and WebRTC Sockets listening on http://localhost:${PORT}`);
-    console.log(`[REST API] http://localhost:${PORT}/api/v1`);
-    console.log(`[WEBRTC SIGNALING] Active on ws://localhost:${PORT}`);
-    console.log(`[SYSTEM HEALTH] http://localhost:${PORT}/api/v1/health`);
+    console.log(`🚀 [UNIFIED SINGLE PORT] http://localhost:${PORT}`);
+    console.log(`💻 [REACT FRONTEND UI]  http://localhost:${PORT}`);
+    console.log(`🔌 [REST MASTER API]   http://localhost:${PORT}/api/v1`);
+    console.log(`📡 [WEBRTC SIGNALING]  ws://localhost:${PORT}`);
+    console.log(`🏥 [SYSTEM HEALTH]     http://localhost:${PORT}/api/v1/health`);
     console.log('================================================================');
 
     // Ensure mock interviews table is ready
@@ -102,6 +120,13 @@ if (require.main === module) {
       await setupMockInterviews();
     } catch (err) {
       console.error('[DATABASE] Mock interviews setup error:', err.message);
+    }
+
+    // Auto-launch internal Python AI daemon if not running
+    try {
+      await ensureAiDaemonRunning();
+    } catch (aiErr) {
+      console.warn('[AI DAEMON] Could not auto-launch AI service:', aiErr.message);
     }
 
     // Startup Diagnostic Check

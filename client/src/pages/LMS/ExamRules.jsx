@@ -49,28 +49,28 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
           <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
             {subject || 'Campus CodeSprint & Assessment'} Rules
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-md mx-auto">
             Please review the institutional examination instructions before launching your test.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-            <span className="px-3 py-1 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1.5 border border-slate-200">
-              <Clock className="w-3.5 h-3.5 text-slate-500" />
+            <span className="px-3 py-1 rounded-xl bg-secondary text-foreground text-xs font-semibold flex items-center gap-1.5 border border-border">
+              <Clock className="w-3.5 h-3.5 text-muted-foreground" />
               Duration: {duration} Minutes
             </span>
-            <span className="px-3 py-1 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1.5 border border-slate-200">
-              <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+            <span className="px-3 py-1 rounded-xl bg-secondary text-foreground text-xs font-semibold flex items-center gap-1.5 border border-border">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
               {totalQuestions} Questions (MCQ + Code)
             </span>
           </div>
         </div>
 
         {/* Rules Scrollable List */}
-        <div className="p-6 sm:p-8 max-h-[380px] overflow-y-auto space-y-2.5 bg-slate-50/50">
+        <div className="p-6 sm:p-8 max-h-[380px] overflow-y-auto space-y-2.5 bg-secondary/30">
           {rules.map((rule, idx) => (
             <div
               key={idx}
-              className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-start gap-3 hover:border-slate-300 transition-colors shadow-2xs"
+              className="p-3.5 rounded-2xl bg-card border border-border flex items-start gap-3 hover:border-border/80 transition-colors shadow-2xs"
             >
               <div
                 className="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
@@ -82,16 +82,16 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
                 {idx + 1}
               </div>
               <div className="min-w-0">
-                <h4 className="text-xs font-bold text-slate-900">{rule.title}</h4>
-                <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">{rule.desc}</p>
+                <h4 className="text-xs font-bold text-foreground">{rule.title}</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed mt-0.5">{rule.desc}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Agreement & Launch Actions */}
-        <div className="p-6 sm:p-8 bg-white border-t border-slate-100 space-y-4">
-          <label className="flex items-center gap-3 cursor-pointer select-none p-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100/70 transition-colors">
+        <div className="p-6 sm:p-8 bg-card border-t border-border space-y-4">
+          <label className="flex items-center gap-3 cursor-pointer select-none p-3 rounded-xl bg-secondary/60 border border-border hover:bg-secondary transition-colors">
             <input
               type="checkbox"
               checked={agreed}
@@ -99,7 +99,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
               className="w-4 h-4 rounded text-foreground focus:ring-neutral-400 cursor-pointer"
               style={{ accentColor: currentTheme.primary }}
             />
-            <span className="text-xs font-semibold text-slate-700">
+            <span className="text-xs font-semibold text-foreground">
               I have read, understood, and agree to strictly comply with all the assessment regulations above.
             </span>
           </label>
@@ -109,7 +109,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
               <button
                 type="button"
                 onClick={onGoBack}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-border text-foreground font-bold text-xs hover:bg-secondary transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Return to Assessments</span>

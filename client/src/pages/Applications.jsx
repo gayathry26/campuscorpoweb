@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -33,6 +34,7 @@ export function Applications() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { currentTheme } = useTheme();
+  const { showToast } = useToast();
 
   const isStudent = user?.roleName === 'STUDENT';
   const isAdminOrTpo = ['SUPER_ADMIN', 'TPO_OFFICER', 'ADMIN', 'RECRUITER'].includes(user?.roleName);
@@ -79,8 +81,9 @@ export function Applications() {
         current_round_number: nextRound,
       });
       fetchApplications();
+      showToast(`Candidate status updated to ${status}.`, 'success');
     } catch (err) {
-      alert('Failed to update status');
+      showToast(err.response?.data?.message || 'Failed to update candidate status.', 'error');
     }
   };
 
@@ -95,9 +98,9 @@ export function Applications() {
       });
       setOfferModalOpen(false);
       fetchApplications();
-      alert(`Offer letter for ₹${offerCtc} LPA issued to ${selectedApp.first_name}!`);
+      showToast(`Offer letter for ₹${offerCtc} LPA issued to ${selectedApp.first_name}!`, 'success');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to issue offer.');
+      showToast(err.response?.data?.message || 'Failed to issue offer.', 'error');
     }
   };
 
@@ -110,10 +113,10 @@ export function Applications() {
       await apiClient.post(`/applications/${appId}/withdraw`, {
         reason: 'Candidate self-withdrawal before recruitment drive deadline',
       });
-      alert('Application withdrawn successfully.');
+      showToast('Application withdrawn successfully.', 'info');
       fetchApplications();
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to withdraw application.');
+      showToast(err.response?.data?.message || 'Failed to withdraw application.', 'error');
     } finally {
       setWithdrawingId(null);
     }

@@ -27,13 +27,37 @@ async function getRuntimeStatus(req, res, next) {
  */
 async function getAllAssessments(req, res, next) {
   try {
+    const studentId = req.user?.student_id;
     const assessments = await queryCommon(
       `SELECT ca.*, 
-              (SELECT COUNT(*) FROM assessment_questions WHERE assessment_id = ca.id) AS total_questions
+              (SELECT COUNT(*) FROM assessment_questions WHERE assessment_id = ca.id) AS total_questions,
+              (SELECT COUNT(DISTINCT student_id) FROM assessment_submissions WHERE assessment_id = ca.id) AS total_candidates,
+              (SELECT COUNT(*) FROM assessment_submissions WHERE assessment_id = ca.id) AS total_submissions
        FROM coding_assessments ca
        WHERE ca.is_active = 1
        ORDER BY ca.created_at DESC`
     );
+
+    if (studentId) {
+      const mySubs = await queryCommon(
+        `SELECT assessment_id, 
+                COUNT(*) as my_submissions_count, 
+                MAX(score) as my_best_score,
+                MAX(CASE WHEN execution_status = 'ACCEPTED' THEN 1 ELSE 0 END) as my_has_passed
+         FROM assessment_submissions
+         WHERE student_id = ?
+         GROUP BY assessment_id`,
+        [studentId]
+      );
+      const subMap = new Map();
+      mySubs.forEach(s => subMap.set(s.assessment_id, s));
+      assessments.forEach(ca => {
+        const sub = subMap.get(ca.id);
+        ca.attemptsTaken = sub?.my_submissions_count || 0;
+        ca.bestScore = sub?.my_best_score || null;
+        ca.hasPassed = Boolean(sub?.my_has_passed);
+      });
+    }
 
     res.json({ success: true, data: assessments });
   } catch (err) {
@@ -290,12 +314,125 @@ async function saveProctorLog(req, res, next) {
   res.json({ success: true, message: 'Proctor log recorded.' });
 }
 
+/**
+ * Create a new programming assessment (Faculty / TPO)
+ */
+async function createCodingAssessment(req, res, next) {
+  try {
+    const { title, description, durationMinutes, totalScore, startTime, endTime, questions } = req.body;
+    const instructorId = req.user?.id || 1;
+    if (!title) {
+      return res.status(400).json({ success: false, message: 'Assessment title is required.' });
+    }
+
+    const result = await queryCommon(
+      `INSERT INTO coding_assessments (title, description, duration_minutes, total_score, start_time, end_time, is_active, created_by)
+       VALUES (?, ?, ?, ?, ?, ?, 1, ?)`,
+      [
+        title.trim(),
+        description || '',
+        durationMinutes || 60,
+        totalScore || 100,
+        startTime || null,
+        endTime || null,
+        instructorId,
+      ]
+    );
+
+    const assessmentId = result.insertId;
+
+    if (Array.isArray(questions) && questions.length > 0) {
+      for (const q of questions) {
+        await queryCommon(
+          `INSERT INTO assessment_questions (
+            assessment_id, title, difficulty, problem_statement, input_format, output_format, constraints, points, time_limit_ms, memory_limit_mb, sample_test_cases, hidden_test_cases
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            assessmentId,
+            q.title || 'Coding Challenge',
+            q.difficulty || 'MEDIUM',
+            q.problemStatement || q.statement || 'Solve the algorithmic challenge within memory and runtime constraints.',
+            q.inputFormat || '',
+            q.outputFormat || '',
+            q.constraints || '',
+            q.points || 25,
+            q.timeLimitMs || 2000,
+            q.memoryLimitMb || 256,
+            JSON.stringify(q.sampleTestCases || q.samples || []),
+            JSON.stringify(q.hiddenTestCases || q.hidden || []),
+          ]
+        );
+      }
+    }
+
+    res.status(201).json({
+      success: true,
+      id: assessmentId,
+      message: 'Programming assessment created successfully.',
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Get all submissions for an assessment (Faculty review & reporting)
+ */
+async function getAssessmentSubmissions(req, res, next) {
+  try {
+    const assessmentId = req.params.id;
+    const submissions = await queryCommon(
+      `SELECT asub.*, u.first_name, u.last_name, u.email, sm.department_code, aq.title as question_title
+       FROM assessment_submissions asub
+       JOIN students_master sm ON sm.id = asub.student_id
+       JOIN users u ON u.id = sm.user_id
+       JOIN assessment_questions aq ON aq.id = asub.question_id
+       WHERE asub.assessment_id = ?
+       ORDER BY asub.submitted_at DESC`,
+      [assessmentId]
+    );
+    res.json({ success: true, count: submissions.length, data: submissions });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Get current student's past coding submissions
+ */
+async function getStudentAssessmentsSummary(req, res, next) {
+  try {
+    const studentId = req.user?.student_id;
+    let mySubmissions = [];
+    if (studentId) {
+      mySubmissions = await queryCommon(
+        `SELECT asub.id, asub.assessment_id, asub.question_id, asub.language, asub.execution_status, asub.score,
+                asub.passed_test_cases, asub.total_test_cases, asub.submitted_at, asub.execution_time_ms,
+                ca.title as assessment_title, aq.title as question_title
+         FROM assessment_submissions asub
+         JOIN coding_assessments ca ON ca.id = asub.assessment_id
+         JOIN assessment_questions aq ON aq.id = asub.question_id
+         WHERE asub.student_id = ?
+         ORDER BY asub.submitted_at DESC
+         LIMIT 25`,
+        [studentId]
+      );
+    }
+    res.json({ success: true, data: mySubmissions });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getRuntimeStatus,
   getAllAssessments,
   getAssessmentById,
   submitCodeSolution,
   getAssessmentLeaderboard,
+  createCodingAssessment,
+  getAssessmentSubmissions,
+  getStudentAssessmentsSummary,
   getQuizSubjects,
   startQuizAttempt,
   saveQuizAttempt,

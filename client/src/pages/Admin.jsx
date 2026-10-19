@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Settings, Users, Database, ShieldCheck, Terminal, Search, Sparkles } from 'lucide-react';
 
 export function Admin() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState('databases'); // 'databases' | 'users' | 'audit'
   
   // Data states
@@ -45,8 +47,9 @@ export function Admin() {
     try {
       await apiClient.put(`/admin/users/${userId}`, { status: nextStatus });
       fetchAdminData();
+      showToast(`User status updated to ${nextStatus}`, 'success');
     } catch (err) {
-      alert('Failed to update status');
+      showToast('Failed to update status: ' + (err.response?.data?.message || err.message), 'error');
     }
   };
 

@@ -144,13 +144,13 @@ const Home = ({ section = 'overview' }) => {
       )}
 
       {section === 'test' && (
-        <div className="rounded-xl border bg-white p-4">
+        <div className="rounded-xl border border-border bg-card p-4 text-card-foreground">
           {!attempt ? (
-            <p className="text-sm text-slate-500">Start a quiz from Dashboard first.</p>
+            <p className="text-sm text-muted-foreground">Start a quiz from Dashboard first.</p>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center justify-between rounded bg-slate-50 p-3">
-                <p className="font-semibold">Time left: {formatTime(timer)}</p>
+              <div className="flex items-center justify-between rounded-xl bg-secondary/50 border border-border p-3">
+                <p className="font-semibold text-foreground">Time left: {formatTime(timer)}</p>
                 <div className="space-x-2">
                   <button className="rounded border px-3 py-1" onClick={saveProgress}>Save</button>
                   <button className="rounded bg-brand-600 px-3 py-1 text-white" onClick={submitQuiz}>Submit</button>
