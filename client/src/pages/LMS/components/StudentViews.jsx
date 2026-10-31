@@ -637,7 +637,7 @@ export function StudentViews({ activeSection, onSelectSection }) {
                     : 'bg-amber-500/10 border-amber-500/30 text-amber-800 dark:text-amber-300'
                 }`}
               >
-                <div className="text-3xl font-black">{quizResult.percentage}%</div>
+                <div className="text-2xl font-bold">{quizResult.percentage}%</div>
                 <p className="font-bold text-sm">{quizResult.message}</p>
                 <p className="text-xs">
                   Score: {quizResult.score} / {quizResult.maxScore} marks

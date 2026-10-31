@@ -76,19 +76,19 @@ export function Dashboard() {
     return (
       <div className="space-y-6">
         {/* Welcome Banner - Neutral Card */}
-        <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-6 text-foreground border border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-5 text-foreground border border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-secondary text-foreground text-xs font-semibold mb-2 border border-border">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-secondary text-foreground text-xs font-semibold mb-2 border border-border">
               <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
               Institutional Campus Drive 2026-27 Active
             </div>
             <h1 className="text-2xl font-bold tracking-tight text-foreground">CampusCorp Central Placement Governance</h1>
-            <p className="text-muted-foreground text-xs mt-1 max-w-2xl leading-relaxed">
+            <p className="text-muted-foreground text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed">
               Real-time synchronization across central institutional records (`lms`) and department databases (`lms_cse`, `lms_ece`, `lms_mech`, etc.).
             </p>
           </div>
           <div className="flex gap-2">
-            <span className="px-3 py-1.5 bg-card rounded-lg text-xs font-semibold text-foreground border border-border shadow-2xs">
+            <span className="px-3 py-1 bg-card rounded-lg text-xs font-semibold text-foreground border border-border shadow-2xs">
               Batch: 2023-2027
             </span>
           </div>
@@ -129,19 +129,19 @@ export function Dashboard() {
           <div className="lg:col-span-2 bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-sm font-bold text-foreground">Department Placement Performance</h3>
-                <p className="text-xs text-muted-foreground">Placement percentage by department</p>
+                <h3 className="text-lg font-bold text-foreground">Department Placement Performance</h3>
+                <p className="text-sm text-muted-foreground mt-0.5">Placement percentage by department</p>
               </div>
-              <span className="text-xs font-medium text-foreground bg-secondary px-2 py-1 rounded-md border border-border">Live Multi-DB</span>
+              <span className="text-xs font-semibold text-foreground bg-secondary px-2.5 py-1 rounded-md border border-border">Live Multi-DB</span>
             </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={deptData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "rgba(255,255,255,0.08)" : "#e5e5e5"} vertical={false} />
-                  <XAxis dataKey="department_code" tick={{ fontSize: 11, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} domain={[0, 100]} />
+                  <XAxis dataKey="department_code" tick={{ fontSize: 12, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 12, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} domain={[0, 100]} />
                   <Tooltip
-                    contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '12px' }}
+                    contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '13px' }}
                     formatter={(val) => [`${val}%`, 'Placement Rate']}
                   />
                   <Bar dataKey="placement_rate" fill={COLORS[0]} radius={[6, 6, 0, 0]} />
@@ -154,8 +154,8 @@ export function Dashboard() {
           <div className="bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-sm font-bold text-foreground">Salary Band Distribution</h3>
-                <p className="text-xs text-muted-foreground">Offers by CTC range</p>
+                <h3 className="text-lg font-bold text-foreground">Salary Band Distribution</h3>
+                <p className="text-sm text-muted-foreground mt-0.5">Offers by CTC range</p>
               </div>
             </div>
             <div className="h-64 flex items-center justify-center">
@@ -175,12 +175,12 @@ export function Dashboard() {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '12px' }} />
-                    <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
+                    <Tooltip contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '13px' }} />
+                    <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
-                <p className="text-xs text-muted-foreground">No offers issued yet</p>
+                <p className="text-sm text-muted-foreground">No offers issued yet</p>
               )}
             </div>
           </div>
@@ -192,31 +192,31 @@ export function Dashboard() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-foreground" />
-                <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">Assessment Sandbox Environment Status</h3>
+                <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">Assessment Sandbox Environment Status</h3>
               </div>
-              <span className="text-[11px] text-muted-foreground">Host Hardware Probed at Startup</span>
+              <span className="text-xs text-muted-foreground">Host Hardware Probed at Startup</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="p-3 rounded-lg border bg-secondary border-border">
-                <span className="text-muted-foreground font-medium">Python 3:</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+              <div className="p-3.5 rounded-lg border bg-secondary border-border">
+                <span className="text-muted-foreground font-medium text-xs">Python 3:</span>
                 <p className="font-bold text-foreground mt-1">
                   {data.compilersStatus.python?.available ? `Ready (${data.compilersStatus.python.version?.split(' ')[1] || '3.13'})` : 'Missing'}
                 </p>
               </div>
-              <div className="p-3 rounded-lg border bg-secondary border-border">
-                <span className="text-muted-foreground font-medium">C (GCC):</span>
+              <div className="p-3.5 rounded-lg border bg-secondary border-border">
+                <span className="text-muted-foreground font-medium text-xs">C (GCC):</span>
                 <p className="font-semibold text-foreground mt-1">
                   {data.compilersStatus.c?.available ? 'GCC Ready' : 'Install MinGW in PATH'}
                 </p>
               </div>
-              <div className="p-3 rounded-lg border bg-secondary border-border">
-                <span className="text-muted-foreground font-medium">C++ (G++):</span>
+              <div className="p-3.5 rounded-lg border bg-secondary border-border">
+                <span className="text-muted-foreground font-medium text-xs">C++ (G++):</span>
                 <p className="font-semibold text-foreground mt-1">
                   {data.compilersStatus.cpp?.available ? 'G++ Ready' : 'Install MinGW in PATH'}
                 </p>
               </div>
-              <div className="p-3 rounded-lg border bg-secondary border-border">
-                <span className="text-muted-foreground font-medium">Java (javac):</span>
+              <div className="p-3.5 rounded-lg border bg-secondary border-border">
+                <span className="text-muted-foreground font-medium text-xs">Java (javac):</span>
                 <p className="font-semibold text-foreground mt-1">
                   {data.compilersStatus.java?.available ? 'Java Ready' : 'Install JDK in PATH'}
                 </p>
@@ -236,20 +236,20 @@ export function Dashboard() {
 
     return (
       <div className="space-y-6">
-        <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-6 text-foreground border border-border">
+        <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-5 text-foreground border border-border">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <span className="text-xs bg-secondary text-foreground border border-border px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider">
+              <span className="text-xs bg-secondary text-foreground border border-border px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">
                 Student Self-Service Portal
               </span>
-              <h1 className="text-2xl font-bold tracking-tight text-foreground mt-2">Welcome, {user.firstName} {user.lastName}</h1>
-              <p className="text-muted-foreground text-xs mt-1">
+              <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1.5">Welcome, {user.firstName} {user.lastName}</h1>
+              <p className="text-muted-foreground text-xs mt-0.5">
                 Reg No: {user.registerNumber} • Department: {user.departmentCode} • CGPA: {prof.cgpa || '8.50'}
               </p>
             </div>
             <div className="bg-card p-3 rounded-xl border border-border text-center shadow-2xs">
-              <span className="text-xs text-muted-foreground font-medium">AI Readiness Score</span>
-              <div className="text-2xl font-black text-foreground mt-0.5">{stats.readinessScore || 75}%</div>
+              <span className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">AI Readiness Score</span>
+              <div className="text-2xl font-bold text-foreground mt-0.5">{stats.readinessScore || 75}%</div>
             </div>
           </div>
         </div>
@@ -263,19 +263,19 @@ export function Dashboard() {
         </div>
 
         {/* Skill Analyzer Quick Banner */}
-        <div className="bg-card rounded-xl border border-purple-500/30 p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-card rounded-xl border border-purple-500/30 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+              <Sparkles className="w-4 h-4" />
             </div>
             <div>
               <h4 className="text-sm font-bold text-foreground">Skill Analyzer & IT Career Match</h4>
-              <p className="text-xs text-muted-foreground">Discover your technical fitment across 12+ IT roles and follow your personalized placement roadmap.</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Discover your technical fitment across 12+ IT roles and follow your personalized placement roadmap.</p>
             </div>
           </div>
           <Link
             to="/skill-analyzer"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white shrink-0 shadow-xs transition-transform active:scale-95"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white shrink-0 shadow-xs transition-transform active:scale-95"
           >
             <span>Analyze My Skills</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -283,14 +283,14 @@ export function Dashboard() {
         </div>
 
         {/* Active Applications Table */}
-        <div className="bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
-          <h3 className="text-sm font-bold text-foreground mb-3">My Application Status</h3>
+        <div className="bg-card text-card-foreground rounded-xl border border-border p-5 shadow-xs">
+          <h3 className="text-base font-bold text-foreground mb-3">My Application Status</h3>
           {apps.length === 0 ? (
             <p className="text-xs text-muted-foreground py-6 text-center">You have not applied for any drives yet. Check the Jobs tab.</p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-muted-foreground">
-                <thead className="bg-secondary text-foreground font-semibold border-b border-border">
+              <table className="w-full text-left text-sm text-muted-foreground">
+                <thead className="bg-secondary text-foreground font-semibold border-b border-border text-xs uppercase tracking-wider">
                   <tr>
                     <th className="py-2.5 px-3">Company</th>
                     <th className="py-2.5 px-3">Role</th>
@@ -302,11 +302,11 @@ export function Dashboard() {
                 <tbody className="divide-y divide-border">
                   {apps.map((app) => (
                     <tr key={app.id} className="hover:bg-secondary transition-colors">
-                      <td className="py-3 px-3 font-semibold text-foreground">{app.company_name}</td>
-                      <td className="py-3 px-3">{app.job_title}</td>
-                      <td className="py-3 px-3 font-semibold text-foreground">₹{app.ctc_lpa} LPA</td>
-                      <td className="py-3 px-3">Round {app.current_round_number}</td>
-                      <td className="py-3 px-3"><StatusBadge status={app.status} /></td>
+                      <td className="py-2.5 px-3 font-semibold text-foreground">{app.company_name}</td>
+                      <td className="py-2.5 px-3">{app.job_title}</td>
+                      <td className="py-2.5 px-3 font-semibold text-foreground">₹{app.ctc_lpa} LPA</td>
+                      <td className="py-2.5 px-3">Round {app.current_round_number}</td>
+                      <td className="py-2.5 px-3"><StatusBadge status={app.status} /></td>
                     </tr>
                   ))}
                 </tbody>
@@ -325,12 +325,12 @@ export function Dashboard() {
 
     return (
       <div className="space-y-6">
-        <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-6 text-foreground border border-border">
-          <span className="text-xs bg-secondary text-foreground border border-border px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider">
+        <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-5 text-foreground border border-border">
+          <span className="text-xs bg-secondary text-foreground border border-border px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">
             Department Isolation Portal
           </span>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground mt-2">Department of {data?.departmentCode} Placement Coordination</h1>
-          <p className="text-muted-foreground text-xs mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1.5">Department of {data?.departmentCode} Placement Coordination</h1>
+          <p className="text-muted-foreground text-xs sm:text-sm mt-1">
             Isolated Department Database: `lms_{data?.departmentCode?.toLowerCase()}` • Academic History & Waivers
           </p>
         </div>
@@ -342,29 +342,29 @@ export function Dashboard() {
         </div>
 
         {/* Academic Roster from Department Database */}
-        <div className="bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
-          <h3 className="text-sm font-bold text-foreground mb-3">Department Academic Roster (Isolated SQL DB)</h3>
+        <div className="bg-card text-card-foreground rounded-xl border border-border p-5 shadow-xs">
+          <h3 className="text-base font-bold text-foreground mb-3">Department Academic Roster (Isolated SQL DB)</h3>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-muted-foreground">
+            <table className="w-full text-left text-sm text-muted-foreground">
               <thead className="bg-secondary text-foreground font-semibold border-b border-border">
                 <tr>
-                  <th className="py-2.5 px-3">Register No</th>
-                  <th className="py-2.5 px-3">Current CGPA</th>
-                  <th className="py-2.5 px-3">Active Backlogs</th>
-                  <th className="py-2.5 px-3">Dept Rank</th>
-                  <th className="py-2.5 px-3">Faculty Mentor</th>
-                  <th className="py-2.5 px-3">Verification</th>
+                  <th className="py-3 px-3.5">Register No</th>
+                  <th className="py-3 px-3.5">Current CGPA</th>
+                  <th className="py-3 px-3.5">Active Backlogs</th>
+                  <th className="py-3 px-3.5">Dept Rank</th>
+                  <th className="py-3 px-3.5">Faculty Mentor</th>
+                  <th className="py-3 px-3.5">Verification</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {academicRoster.map((r, i) => (
                   <tr key={i} className="hover:bg-secondary transition-colors">
-                    <td className="py-3 px-3 font-semibold text-foreground">{r.register_number}</td>
-                    <td className="py-3 px-3 font-bold text-foreground">{r.current_cgpa}</td>
-                    <td className="py-3 px-3">{r.active_backlogs}</td>
-                    <td className="py-3 px-3">#{r.department_rank}</td>
-                    <td className="py-3 px-3">{r.faculty_mentor_name}</td>
-                    <td className="py-3 px-3"><StatusBadge status={r.verification_status} /></td>
+                    <td className="py-3.5 px-3.5 font-semibold text-foreground">{r.register_number}</td>
+                    <td className="py-3.5 px-3.5 font-bold text-foreground">{r.current_cgpa}</td>
+                    <td className="py-3.5 px-3.5">{r.active_backlogs}</td>
+                    <td className="py-3.5 px-3.5">#{r.department_rank}</td>
+                    <td className="py-3.5 px-3.5">{r.faculty_mentor_name}</td>
+                    <td className="py-3.5 px-3.5"><StatusBadge status={r.verification_status} /></td>
                   </tr>
                 ))}
               </tbody>
@@ -379,11 +379,11 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-6 text-foreground border border-border">
-        <span className="text-xs bg-secondary text-foreground border border-border px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider">
+        <span className="text-xs bg-secondary text-foreground border border-border px-3 py-1 rounded-full font-semibold uppercase tracking-wider">
           Company Recruiter Portal
         </span>
         <h1 className="text-2xl font-bold tracking-tight text-foreground mt-2">{data?.companyName || 'Corporate Partner'} Campus Drive Portal</h1>
-        <p className="text-muted-foreground text-xs mt-1">Review candidates, progress rounds, and issue offers.</p>
+        <p className="text-muted-foreground text-sm mt-1.5">Review candidates, progress rounds, and issue offers.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">

@@ -52,7 +52,7 @@ export function StudentCompanyDetailsModal({
       title={`Opportunity Profile: ${company.name}`}
       maxWidth="max-w-2xl"
     >
-      <div className="space-y-4 text-xs max-h-[75vh] overflow-y-auto pr-1">
+      <div className="space-y-4 text-sm max-h-[75vh] overflow-y-auto pr-1">
         {/* Company Header Card */}
         <div className="p-4 bg-neutral-100 dark:bg-neutral-900 border border-border text-foreground rounded-2xl flex items-start justify-between gap-4 shadow-xs">
           <div className="flex items-center gap-3.5">
@@ -60,12 +60,12 @@ export function StudentCompanyDetailsModal({
               {company.name[0]}
             </div>
             <div>
-              <h3 className="text-base font-extrabold text-foreground">{company.name}</h3>
-              <p className="text-muted-foreground text-xs font-medium">{company.industry}</p>
-              <div className="flex items-center gap-2 mt-1.5 text-[11px] text-muted-foreground">
+              <h3 className="text-lg font-extrabold text-foreground">{company.name}</h3>
+              <p className="text-muted-foreground text-sm font-medium">{company.industry}</p>
+              <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground">
                 {company.headquarters && (
                   <span className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-muted-foreground" /> {company.headquarters}
+                    <MapPin className="w-3.5 h-3.5 text-muted-foreground" /> {company.headquarters}
                   </span>
                 )}
                 {company.website && (
@@ -75,7 +75,7 @@ export function StudentCompanyDetailsModal({
                     rel="noreferrer"
                     className="flex items-center gap-1 text-foreground hover:underline"
                   >
-                    <Globe className="w-3 h-3" /> Website
+                    <Globe className="w-3.5 h-3.5" /> Website
                   </a>
                 )}
               </div>
@@ -83,7 +83,7 @@ export function StudentCompanyDetailsModal({
           </div>
 
           <div className="flex flex-col items-end gap-1.5 shrink-0">
-            <span className="text-sm font-black text-foreground bg-secondary px-2.5 py-1 rounded-lg border border-border">
+            <span className="text-sm font-black text-foreground bg-secondary px-3 py-1 rounded-lg border border-border">
               ₹{company.package_ctc || '12.00'} LPA
             </span>
             <StatusBadge status={company.tier} />
@@ -92,12 +92,12 @@ export function StudentCompanyDetailsModal({
 
         {/* Ineligibility Warning Callout (if ineligible) */}
         {!isEligible && ineligibilityReasons.length > 0 && (
-          <div className="p-3.5 bg-secondary border border-border rounded-xl text-foreground space-y-1">
-            <div className="flex items-center gap-2 font-bold text-xs">
+          <div className="p-3.5 bg-secondary border border-border rounded-xl text-foreground space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-sm">
               <ShieldAlert className="w-4 h-4 text-foreground shrink-0" />
               <span>You do not meet the minimum criteria for this company:</span>
             </div>
-            <ul className="list-disc list-inside text-[11px] space-y-0.5 text-muted-foreground pl-1">
+            <ul className="list-disc list-inside text-xs space-y-1 text-muted-foreground pl-1">
               {ineligibilityReasons.map((r, i) => (
                 <li key={i}>{r}</li>
               ))}

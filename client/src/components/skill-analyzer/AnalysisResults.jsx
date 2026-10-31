@@ -79,7 +79,7 @@ export function AnalysisResults({
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight flex flex-wrap items-center gap-3">
+              <h2 className="text-2xl font-bold text-foreground tracking-tight flex flex-wrap items-center gap-3">
                 <span>Top Recommended:</span>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 dark:from-purple-400 dark:to-indigo-300">
                   {targetRole?.title}

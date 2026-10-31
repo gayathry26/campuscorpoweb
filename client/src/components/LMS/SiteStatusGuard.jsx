@@ -18,7 +18,7 @@ const MaintenanceScreen = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white mb-2 uppercase">
+        <h1 className="text-2xl font-bold tracking-tight text-white mb-2 uppercase">
           Palette Production Academy
         </h1>
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black/10 border border-border text-foreground text-xs font-bold uppercase tracking-wider mb-6">

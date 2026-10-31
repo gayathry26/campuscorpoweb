@@ -500,7 +500,7 @@ const AdminDashboard = ({ section = 'questions' }) => {
                       className="cursor-pointer border border-slate-200 rounded-xl p-6 hover:shadow-md hover:border-brand-300 transition-all bg-slate-50 flex flex-col items-center justify-center gap-2"
                     >
                       <h3 className="text-xl font-bold text-slate-800">{`${year}${year === '1' ? 'st' : year === '2' ? 'nd' : year === '3' ? 'rd' : 'th'} Year`}</h3>
-                      <span className="text-3xl font-black text-brand-600">{count}</span>
+                      <span className="text-2xl font-bold text-brand-600">{count}</span>
                       <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Students</span>
                     </div>
                   );
@@ -940,7 +940,7 @@ const AdminDashboard = ({ section = 'questions' }) => {
                       className="cursor-pointer border border-slate-200 rounded-xl p-6 hover:shadow-md hover:border-brand-300 transition-all bg-slate-50 flex flex-col items-center justify-center gap-2"
                     >
                       <h3 className="text-xl font-bold text-slate-800">{`${year}${year === '3' ? 'rd' : 'th'} Year`}</h3>
-                      <span className="text-3xl font-black text-brand-600">{count}</span>
+                      <span className="text-2xl font-bold text-brand-600">{count}</span>
                       <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Recorded Attempts</span>
                     </div>
                   );

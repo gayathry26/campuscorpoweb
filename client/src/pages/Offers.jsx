@@ -43,15 +43,15 @@ export function Offers() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Placement Offers & Joining Outcomes</h1>
-          <p className="text-xs text-muted-foreground">Official offers, accepted appointments, and verified joining outcomes.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Placement Offers & Joining Outcomes</h1>
+          <p className="text-sm text-muted-foreground mt-1">Official offers, accepted appointments, and verified joining outcomes.</p>
         </div>
       </div>
 
       {loading ? (
         <LoadingSpinner text="Retrieving verified offer letters..." />
       ) : offers.length === 0 ? (
-        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-xs text-muted-foreground">
+        <div className="bg-card text-card-foreground p-12 text-center rounded-2xl border border-border text-sm text-muted-foreground">
           No placement offers on record yet.
         </div>
       ) : (
@@ -65,31 +65,31 @@ export function Offers() {
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">{offer.company_name}</span>
-                      <h3 className="text-base font-bold text-foreground mt-0.5">{offer.job_title}</h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{offer.company_name}</span>
+                      <h3 className="text-lg font-bold text-foreground mt-1">{offer.job_title}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">
                         Candidate: <strong className="text-foreground">{offer.first_name} {offer.last_name}</strong> ({offer.register_number})
                       </p>
                     </div>
                     <StatusBadge status={offer.status} />
                   </div>
 
-                  <div className="mt-4 p-3.5 rounded-xl bg-secondary/60 border border-border flex items-center justify-between">
+                  <div className="mt-4 p-4 rounded-xl bg-secondary/60 border border-border flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] text-muted-foreground font-semibold uppercase">Offered Annual CTC</span>
-                      <div className="text-xl font-black text-foreground mt-0.5">₹{offer.offered_ctc_lpa} LPA</div>
+                      <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Offered Annual CTC</span>
+                      <div className="text-2xl font-black text-foreground mt-1">₹{offer.offered_ctc_lpa} LPA</div>
                     </div>
                     <Award className="w-8 h-8 text-foreground opacity-80" />
                   </div>
 
-                  <div className="mt-3.5 space-y-1 text-xs text-muted-foreground">
+                  <div className="mt-3.5 space-y-1.5 text-sm text-muted-foreground">
                     <div className="flex justify-between">
                       <span>Issue Date:</span>
-                      <strong className="text-foreground">{offer.issue_date}</strong>
+                      <strong className="text-foreground font-semibold">{offer.issue_date}</strong>
                     </div>
                     <div className="flex justify-between">
                       <span>Department:</span>
-                      <strong className="text-foreground">{offer.department_code}</strong>
+                      <strong className="text-foreground font-semibold">{offer.department_code}</strong>
                     </div>
                   </div>
                 </div>
@@ -99,13 +99,13 @@ export function Offers() {
                   <div className="pt-3 border-t border-border flex gap-2">
                     <button
                       onClick={() => handleRespondOffer(offer.id, 'ACCEPTED')}
-                      className="flex-1 py-2 bg-primary text-primary-foreground font-bold rounded-xl text-xs transition-opacity hover:opacity-90 cursor-pointer shadow-xs"
+                      className="flex-1 py-2.5 bg-primary text-primary-foreground font-bold rounded-xl text-sm transition-opacity hover:opacity-90 cursor-pointer shadow-xs"
                     >
                       Accept Offer Letter
                     </button>
                     <button
                       onClick={() => handleRespondOffer(offer.id, 'REJECTED')}
-                      className="px-4 py-2 border border-border hover:bg-secondary text-foreground font-semibold rounded-xl text-xs transition-colors cursor-pointer"
+                      className="px-4 py-2.5 border border-border hover:bg-secondary text-foreground font-semibold rounded-xl text-sm transition-colors cursor-pointer"
                     >
                       Decline
                     </button>

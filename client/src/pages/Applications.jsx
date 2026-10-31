@@ -147,15 +147,15 @@ export function Applications() {
         <div className="bg-secondary border border-border text-foreground p-6 rounded-2xl shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-card text-foreground border border-border">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-card text-foreground border border-border">
                 Candidate Portal
               </span>
-              <span className="text-xs text-muted-foreground font-medium">Placement Governance Tracking</span>
+              <span className="text-sm text-muted-foreground font-medium">Placement Governance Tracking</span>
             </div>
-            <h1 className="text-2xl font-black tracking-tight flex items-center gap-2.5 text-foreground">
-              <FileCheck2 className="w-7 h-7 text-foreground" /> My Placement Applications
+            <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2.5 text-foreground">
+              <FileCheck2 className="w-6 h-6 text-foreground" /> My Placement Applications
             </h1>
-            <p className="text-xs text-muted-foreground mt-1 max-w-2xl leading-relaxed">
+            <p className="text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
               Real-time multi-stage recruitment pipeline tracking, eligibility status verification, confirmed interview schedules, and official selection results.
             </p>
           </div>
@@ -163,7 +163,7 @@ export function Applications() {
           <div className="flex items-center gap-2">
             <Link
               to="/companies"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-xs font-bold shadow-xs transition-opacity"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-sm font-bold shadow-xs transition-opacity"
             >
               <Building2 className="w-4 h-4" /> Browse More Companies
             </Link>
@@ -174,43 +174,43 @@ export function Applications() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="bg-card p-4 rounded-xl border border-border shadow-xs">
             <div className="flex items-center justify-between text-muted-foreground mb-1">
-              <span className="text-xs font-semibold">Total Applied</span>
+              <span className="text-sm font-semibold">Total Applied</span>
               <FileCheck2 className="w-4 h-4 text-foreground" />
             </div>
-            <div className="text-2xl font-black text-foreground">{applications.length}</div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Campus recruitment drives</p>
+            <div className="text-xl sm:text-2xl font-bold text-foreground">{applications.length}</div>
+            <p className="text-xs text-muted-foreground mt-0.5">Campus recruitment drives</p>
           </div>
 
           <div className="bg-card p-4 rounded-xl border border-border shadow-xs">
             <div className="flex items-center justify-between text-muted-foreground mb-1">
-              <span className="text-xs font-semibold">In Progress</span>
+              <span className="text-sm font-semibold">In Progress</span>
               <Clock className="w-4 h-4 text-foreground" />
             </div>
-            <div className="text-2xl font-black text-foreground">{activeCount}</div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Active under evaluation</p>
+            <div className="text-xl sm:text-2xl font-bold text-foreground">{activeCount}</div>
+            <p className="text-xs text-muted-foreground mt-0.5">Active under evaluation</p>
           </div>
 
           <div className="bg-card p-4 rounded-xl border border-border shadow-xs">
             <div className="flex items-center justify-between text-muted-foreground mb-1">
-              <span className="text-xs font-semibold">Shortlisted & Tech</span>
+              <span className="text-sm font-semibold">Shortlisted & Tech</span>
               <Sparkles className="w-4 h-4 text-foreground" />
             </div>
-            <div className="text-2xl font-black text-foreground">{shortlistedCount}</div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Assessment & Interview stages</p>
+            <div className="text-xl sm:text-2xl font-bold text-foreground">{shortlistedCount}</div>
+            <p className="text-xs text-muted-foreground mt-0.5">Assessment & Interview stages</p>
           </div>
 
           <div className="bg-card p-4 rounded-xl border border-border shadow-xs">
             <div className="flex items-center justify-between text-muted-foreground mb-1">
-              <span className="text-xs font-semibold">Offers Released</span>
+              <span className="text-sm font-semibold">Offers Released</span>
               <Award className="w-4 h-4 text-foreground" />
             </div>
-            <div className="text-2xl font-black text-foreground">{offeredCount}</div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Final selections confirmed</p>
+            <div className="text-xl sm:text-2xl font-bold text-foreground">{offeredCount}</div>
+            <p className="text-xs text-muted-foreground mt-0.5">Final selections confirmed</p>
           </div>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="bg-card p-3.5 rounded-xl border border-border shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
+        <div className="bg-card p-3.5 rounded-xl border border-border shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-sm">
           <div className="relative flex-1 max-w-md">
             <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
             <input
@@ -218,16 +218,16 @@ export function Applications() {
               placeholder="Filter by company name or job role..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             />
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground text-[11px] font-medium hidden sm:inline">Status:</span>
+            <span className="text-muted-foreground text-xs font-medium hidden sm:inline">Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-1.5 text-xs rounded-lg border border-border bg-secondary font-medium text-foreground cursor-pointer"
+              className="px-3.5 py-2 text-sm rounded-lg border border-border bg-secondary font-medium text-foreground cursor-pointer"
             >
               <option value="ALL">All Application Statuses</option>
               <option value="APPLIED">Applied</option>
@@ -619,29 +619,29 @@ export function Applications() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Recruitment Applications Pipeline</h1>
-          <p className="text-xs text-muted-foreground">Track candidate progression from initial apply through shortlisting, interviews, and final offers.</p>
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">Recruitment Applications Pipeline</h1>
+          <p className="text-sm text-muted-foreground mt-1">Track candidate progression from initial apply through shortlisting, interviews, and final offers.</p>
         </div>
       </div>
 
       {/* Filter Row */}
-      <div className="bg-white p-4 rounded-xl border border-border shadow-xs flex flex-wrap gap-3 items-center justify-between">
+      <div className="bg-card p-4 rounded-xl border border-border shadow-xs flex flex-wrap gap-3 items-center justify-between">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="relative min-w-[200px]">
-            <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+          <div className="relative min-w-[220px]">
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search candidate or company..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-border bg-secondary font-medium text-foreground"
+              className="pl-9 pr-3 py-2 text-sm rounded-lg border border-border bg-secondary font-medium text-foreground"
             />
           </div>
 
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-1.5 text-xs rounded-lg border border-border bg-secondary font-medium text-foreground"
+            className="px-3.5 py-2 text-sm rounded-lg border border-border bg-secondary font-medium text-foreground"
           >
             <option value="ALL">All Application Statuses</option>
             <option value="APPLIED">Applied</option>
@@ -656,7 +656,7 @@ export function Applications() {
             <select
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="px-3 py-1.5 text-xs rounded-lg border border-border bg-secondary font-medium text-foreground"
+              className="px-3.5 py-2 text-sm rounded-lg border border-border bg-secondary font-medium text-foreground"
             >
               <option value="ALL">All Departments</option>
               <option value="CSE">CSE</option>
@@ -669,72 +669,66 @@ export function Applications() {
           )}
         </div>
 
-        <span className="text-xs text-muted-foreground font-semibold">Showing {filteredApplications.length} candidates</span>
+        <span className="text-sm text-muted-foreground font-semibold">Showing {filteredApplications.length} candidates</span>
       </div>
 
       {/* Applications Table */}
-      <div className="bg-white rounded-xl border border-border shadow-xs overflow-hidden">
+      <div className="bg-card rounded-xl border border-border shadow-xs overflow-hidden">
         {loading ? (
           <LoadingSpinner text="Loading candidate pipeline..." />
         ) : filteredApplications.length === 0 ? (
-          <div className="py-12 text-center text-xs text-muted-foreground">No applications match the current filter.</div>
+          <div className="py-12 text-center text-sm text-muted-foreground">No applications match the current filter.</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-muted-foreground">
-              <thead className="bg-secondary font-semibold border-b border-border">
+            <table className="w-full text-left text-sm text-muted-foreground">
+              <thead className="bg-secondary font-semibold border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <th className="py-3 px-4">Student</th>
-                  <th className="py-3 px-4">Dept & CGPA</th>
-                  <th className="py-3 px-4">Company & Job</th>
-                  <th className="py-3 px-4">Eligibility</th>
-                  <th className="py-3 px-4">Round</th>
-                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3.5 px-4">Student</th>
+                  <th className="py-3.5 px-4">Dept & CGPA</th>
+                  <th className="py-3.5 px-4">Company & Job</th>
+                  <th className="py-3.5 px-4">Eligibility</th>
+                  <th className="py-3.5 px-4">Round</th>
+                  <th className="py-3.5 px-4">Status</th>
                   {isAdminOrTpo && (
-                    <th className="py-3 px-4 text-right">Actions</th>
+                    <th className="py-3.5 px-4 text-right">Actions</th>
                   )}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-border">
                 {filteredApplications.map((app) => (
-                  <tr key={app.id} className="hover:bg-secondary transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="font-semibold text-foreground">{app.first_name} {app.last_name}</div>
-                      <div className="text-[11px] font-mono text-muted-foreground">{app.register_number}</div>
+                  <tr key={app.id} className="hover:bg-secondary/50 transition-colors">
+                    <td className="py-3.5 px-4">
+                      <div className="font-semibold text-foreground text-sm">{app.first_name} {app.last_name}</div>
+                      <div className="text-xs font-mono text-muted-foreground">{app.register_number}</div>
                     </td>
-                    <td className="py-3 px-4">
-                      <div className="font-medium text-foreground">{app.department_code}</div>
-                      <div className="text-[11px] text-foreground font-bold">CGPA: {app.cgpa}</div>
+                    <td className="py-3.5 px-4">
+                      <div className="font-medium text-foreground text-sm">{app.department_code}</div>
+                      <div className="text-xs text-foreground font-bold">CGPA: {app.cgpa}</div>
                     </td>
-                    <td className="py-3 px-4">
-                      <div className="font-semibold text-foreground">{app.company_name}</div>
-                      <div className="text-[11px] text-muted-foreground">{app.job_title} (₹{app.ctc_lpa} LPA)</div>
+                    <td className="py-3.5 px-4">
+                      <div className="font-semibold text-foreground text-sm">{app.company_name}</div>
+                      <div className="text-xs text-muted-foreground">{app.job_title} (₹{app.ctc_lpa} LPA)</div>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
-                        app.eligibility_status === 'ELIGIBLE'
-                          ? 'bg-secondary text-foreground'
-                          : app.eligibility_status === 'INELIGIBLE'
-                          ? 'bg-secondary text-foreground'
-                          : 'bg-secondary text-foreground'
-                      }`}>
+                    <td className="py-3.5 px-4">
+                      <span className="px-2.5 py-1 rounded text-xs font-bold bg-secondary text-foreground border border-border">
                         {app.eligibility_status || 'ELIGIBLE'}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded bg-secondary font-medium">Round {app.current_round_number}</span>
+                    <td className="py-3.5 px-4">
+                      <span className="px-2.5 py-1 rounded bg-secondary font-medium text-xs border border-border">Round {app.current_round_number}</span>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-3.5 px-4">
                       <StatusBadge status={app.status} />
                     </td>
 
                     {/* Recruiter / TPO Action buttons */}
                     {isAdminOrTpo && (
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           {app.status === 'APPLIED' && (
                             <button
                               onClick={() => handleUpdateStatus(app.id, 'SHORTLISTED', 2)}
-                              className="px-2.5 py-1 rounded bg-secondary text-foreground hover:bg-secondary font-semibold text-[11px] cursor-pointer"
+                              className="px-3 py-1.5 rounded-lg bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold text-xs cursor-pointer shadow-xs"
                             >
                               Shortlist
                             </button>
@@ -742,7 +736,7 @@ export function Applications() {
                           {app.status === 'SHORTLISTED' && (
                             <button
                               onClick={() => handleUpdateStatus(app.id, 'IN_PROCESS', 3)}
-                              className="px-2.5 py-1 rounded bg-secondary text-foreground hover:bg-secondary font-semibold text-[11px] cursor-pointer"
+                              className="px-3 py-1.5 rounded-lg bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold text-xs cursor-pointer shadow-xs"
                             >
                               Advance
                             </button>
@@ -754,15 +748,15 @@ export function Applications() {
                                 setOfferCtc(app.ctc_lpa || '12.0');
                                 setOfferModalOpen(true);
                               }}
-                              className="px-2.5 py-1 rounded bg-secondary text-foreground hover:bg-secondary font-semibold text-[11px] cursor-pointer flex items-center gap-1"
+                              className="px-3 py-1.5 rounded-lg bg-card hover:bg-secondary text-foreground border border-border font-semibold text-xs cursor-pointer flex items-center gap-1.5"
                             >
-                              <Award className="w-3 h-3" /> Offer
+                              <Award className="w-3.5 h-3.5" /> Offer
                             </button>
                           )}
                           {app.status !== 'REJECTED' && app.status !== 'OFFERED' && app.status !== 'ACCEPTED' && (
                             <button
                               onClick={() => handleUpdateStatus(app.id, 'REJECTED')}
-                              className="px-2 py-1 rounded text-foreground hover:bg-secondary border border-border text-[11px] cursor-pointer"
+                              className="px-2.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary border border-border text-xs cursor-pointer"
                             >
                               Reject
                             </button>
@@ -780,30 +774,30 @@ export function Applications() {
 
       {/* Offer Release Modal */}
       <Modal isOpen={offerModalOpen} onClose={() => setOfferModalOpen(false)} title={`Issue Placement Offer to ${selectedApp?.first_name} ${selectedApp?.last_name}`}>
-        <form onSubmit={handleReleaseOffer} className="space-y-4 text-xs">
+        <form onSubmit={handleReleaseOffer} className="space-y-4 text-sm">
           <div>
-            <label className="block font-semibold text-foreground mb-1">Company</label>
-            <input type="text" readOnly value={selectedApp?.company_name || ''} className="w-full p-2 border bg-secondary rounded" />
+            <label className="block font-semibold text-foreground text-sm mb-1.5">Company</label>
+            <input type="text" readOnly value={selectedApp?.company_name || ''} className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-sm" />
           </div>
           <div>
-            <label className="block font-semibold text-foreground mb-1">Role</label>
-            <input type="text" readOnly value={selectedApp?.job_title || ''} className="w-full p-2 border bg-secondary rounded" />
+            <label className="block font-semibold text-foreground text-sm mb-1.5">Role</label>
+            <input type="text" readOnly value={selectedApp?.job_title || ''} className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-sm" />
           </div>
           <div>
-            <label className="block font-semibold text-foreground mb-1">Offered CTC Package (LPA)</label>
+            <label className="block font-semibold text-foreground text-sm mb-1.5">Offered CTC Package (LPA)</label>
             <input
               type="number"
               step="0.1"
               required
               value={offerCtc}
               onChange={(e) => setOfferCtc(e.target.value)}
-              className="w-full p-2 border border-border rounded font-bold text-foreground text-sm"
+              className="w-full p-2.5 border border-border rounded-lg font-bold text-foreground bg-background text-base"
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-border">
-            <button type="button" onClick={() => setOfferModalOpen(false)} className="px-4 py-2 border rounded text-muted-foreground">Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white font-bold rounded hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]">Release Offer Letter</button>
+          <div className="flex justify-end gap-2.5 pt-3 border-t border-border">
+            <button type="button" onClick={() => setOfferModalOpen(false)} className="px-4 py-2 border border-border rounded-lg text-muted-foreground hover:bg-secondary font-medium text-sm cursor-pointer">Cancel</button>
+            <button type="submit" className="px-5 py-2.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-lg shadow-xs cursor-pointer text-sm">Release Offer Letter</button>
           </div>
         </form>
       </Modal>

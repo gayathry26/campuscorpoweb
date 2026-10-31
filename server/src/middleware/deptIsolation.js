@@ -1,10 +1,10 @@
-const { defaultDeptDatabaseMap, getDepartmentPool } = require('../config/db');
+const { defaultDeptDatabaseMap, commonPool } = require('../config/db');
 
 /**
  * Department Data Isolation Middleware
  * Resolves the target department database pool based on the authenticated user and request scope.
  */
-function enforceDepartmentIsolation(req, res, next) {
+async function enforceDepartmentIsolation(req, res, next) {
   if (!req.user) {
     return res.status(401).json({ success: false, message: 'Unauthenticated user.' });
   }
@@ -37,8 +37,21 @@ function enforceDepartmentIsolation(req, res, next) {
     }
   }
 
-  // Validate department exists in supported registry
-  if (!defaultDeptDatabaseMap[targetDept]) {
+  // Validate department exists in supported registry or database
+  let isRegistered = Boolean(defaultDeptDatabaseMap[targetDept]);
+  if (!isRegistered) {
+    try {
+      const [rows] = await commonPool.query(
+        'SELECT dept_code FROM department_databases WHERE dept_code = ? AND is_active = 1',
+        [targetDept]
+      );
+      if (rows.length > 0) {
+        isRegistered = true;
+      }
+    } catch (e) {}
+  }
+
+  if (!isRegistered) {
     return res.status(400).json({
       success: false,
       message: `Invalid or unregistered department code: '${targetDept}'.`,
@@ -53,3 +66,4 @@ function enforceDepartmentIsolation(req, res, next) {
 module.exports = {
   enforceDepartmentIsolation,
 };
+

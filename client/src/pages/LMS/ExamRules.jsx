@@ -42,38 +42,38 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
               borderColor: currentTheme.primaryBorder,
             }}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-4 h-4" />
             CampusCorp Proctored Assessment
           </span>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">
             {subject || 'Campus CodeSprint & Assessment'} Rules
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-lg mx-auto">
             Please review the institutional examination instructions before launching your test.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-            <span className="px-3 py-1 rounded-xl bg-secondary text-foreground text-xs font-semibold flex items-center gap-1.5 border border-border">
-              <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+            <span className="px-3.5 py-1.5 rounded-xl bg-secondary text-foreground text-sm font-semibold flex items-center gap-2 border border-border">
+              <Clock className="w-4 h-4 text-muted-foreground" />
               Duration: {duration} Minutes
             </span>
-            <span className="px-3 py-1 rounded-xl bg-secondary text-foreground text-xs font-semibold flex items-center gap-1.5 border border-border">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+            <span className="px-3.5 py-1.5 rounded-xl bg-secondary text-foreground text-sm font-semibold flex items-center gap-2 border border-border">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               {totalQuestions} Questions (MCQ + Code)
             </span>
           </div>
         </div>
 
         {/* Rules Scrollable List */}
-        <div className="p-6 sm:p-8 max-h-[380px] overflow-y-auto space-y-2.5 bg-secondary/30">
+        <div className="p-6 sm:p-8 max-h-[380px] overflow-y-auto space-y-3 bg-secondary/30">
           {rules.map((rule, idx) => (
             <div
               key={idx}
-              className="p-3.5 rounded-2xl bg-card border border-border flex items-start gap-3 hover:border-border/80 transition-colors shadow-2xs"
+              className="p-4 rounded-2xl bg-card border border-border flex items-start gap-3.5 hover:border-border/80 transition-colors shadow-2xs"
             >
               <div
-                className="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
                 style={{
                   backgroundColor: currentTheme.primaryLight,
                   color: currentTheme.primaryText,
@@ -82,8 +82,8 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
                 {idx + 1}
               </div>
               <div className="min-w-0">
-                <h4 className="text-xs font-bold text-foreground">{rule.title}</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed mt-0.5">{rule.desc}</p>
+                <h4 className="text-sm font-bold text-foreground">{rule.title}</h4>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-1">{rule.desc}</p>
               </div>
             </div>
           ))}
@@ -91,7 +91,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
 
         {/* Agreement & Launch Actions */}
         <div className="p-6 sm:p-8 bg-card border-t border-border space-y-4">
-          <label className="flex items-center gap-3 cursor-pointer select-none p-3 rounded-xl bg-secondary/60 border border-border hover:bg-secondary transition-colors">
+          <label className="flex items-center gap-3 cursor-pointer select-none p-3.5 rounded-xl bg-secondary/60 border border-border hover:bg-secondary transition-colors">
             <input
               type="checkbox"
               checked={agreed}
@@ -99,7 +99,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
               className="w-4 h-4 rounded text-foreground focus:ring-neutral-400 cursor-pointer"
               style={{ accentColor: currentTheme.primary }}
             />
-            <span className="text-xs font-semibold text-foreground">
+            <span className="text-sm font-semibold text-foreground">
               I have read, understood, and agree to strictly comply with all the assessment regulations above.
             </span>
           </label>
@@ -109,7 +109,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
               <button
                 type="button"
                 onClick={onGoBack}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-border text-foreground font-bold text-xs hover:bg-secondary transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-border text-foreground font-semibold text-sm hover:bg-secondary transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Return to Assessments</span>
@@ -131,7 +131,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
                 }
                 onStartExam && onStartExam(e);
               }}
-              className="w-full sm:w-auto ml-auto px-6 py-3 rounded-xl text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto ml-auto px-6 py-3 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 backgroundColor: currentTheme.primary,
                 boxShadow: agreed ? `0 4px 14px 0 ${currentTheme.glow}` : undefined,

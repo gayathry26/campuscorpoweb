@@ -60,14 +60,14 @@ export function Finance() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Placement Cell Budget & Operational Expenditure</h1>
-          <p className="text-xs text-muted-foreground">Track institutional training funds, recruitment logistics, hospitality, and licenses.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Placement Cell Budget & Operational Expenditure</h1>
+          <p className="text-sm text-muted-foreground mt-1">Track institutional training funds, recruitment logistics, hospitality, and licenses.</p>
         </div>
 
         {['TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN'].includes(user?.roleName) && (
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-3.5 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-xs font-semibold shadow-xs transition-opacity cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground hover:opacity-90 rounded-xl text-sm font-semibold shadow-xs transition-opacity cursor-pointer"
           >
             <Plus className="w-4 h-4" /> Record Operational Expense
           </button>
@@ -77,63 +77,63 @@ export function Finance() {
       {/* Main Budget Health Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-xs">
-          <span className="text-[11px] font-semibold text-muted-foreground uppercase">Allocated Fiscal Budget</span>
-          <div className="text-2xl font-black text-foreground mt-1">₹{allocated.toLocaleString('en-IN')}</div>
-          <span className="text-[11px] text-muted-foreground">FY 2026-2027</span>
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Allocated Fiscal Budget</span>
+          <div className="text-xl sm:text-2xl font-bold text-foreground mt-1.5">₹{allocated.toLocaleString('en-IN')}</div>
+          <span className="text-xs text-muted-foreground font-medium mt-1 block">FY 2026-2027</span>
         </div>
 
         <div className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-xs">
-          <span className="text-[11px] font-semibold text-muted-foreground uppercase">Expenditure Utilized</span>
-          <div className="text-2xl font-black text-foreground mt-1">₹{spent.toLocaleString('en-IN')}</div>
-          <span className="text-[11px] text-muted-foreground font-semibold">{utilizationPct}% Utilization</span>
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Expenditure Utilized</span>
+          <div className="text-xl sm:text-2xl font-bold text-foreground mt-1.5">₹{spent.toLocaleString('en-IN')}</div>
+          <span className="text-xs text-muted-foreground font-semibold mt-1 block">{utilizationPct}% Utilization</span>
         </div>
 
         <div className="bg-card text-card-foreground p-5 rounded-2xl border border-border shadow-xs">
-          <span className="text-[11px] font-semibold text-muted-foreground uppercase">Remaining Balance</span>
-          <div className="text-2xl font-black text-foreground mt-1">₹{remaining.toLocaleString('en-IN')}</div>
-          <span className="text-[11px] text-foreground font-semibold">Available for Spring Drives</span>
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Remaining Balance</span>
+          <div className="text-xl sm:text-2xl font-bold text-foreground mt-1.5">₹{remaining.toLocaleString('en-IN')}</div>
+          <span className="text-xs text-foreground font-semibold mt-1 block">Available for Spring Drives</span>
         </div>
       </div>
 
       {/* Expenditure Breakdown by Category */}
       <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs">
-        <h3 className="text-sm font-bold text-foreground mb-4">Expenditure Category Allocation</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
+        <h3 className="text-lg font-bold text-foreground mb-4">Expenditure Category Allocation</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
           <div className="p-4 bg-secondary/60 rounded-xl border border-border">
-            <span className="font-semibold text-muted-foreground block mb-1">Corporate Training</span>
-            <div className="text-lg font-black text-foreground">₹{parseFloat(budget?.training_expense || 0).toLocaleString('en-IN')}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">Bootcamps, DSA mentors & assessments</p>
+            <span className="font-semibold text-muted-foreground block mb-1 text-sm">Corporate Training</span>
+            <div className="text-xl font-black text-foreground">₹{parseFloat(budget?.training_expense || 0).toLocaleString('en-IN')}</div>
+            <p className="text-xs text-muted-foreground mt-1">Bootcamps, DSA mentors & assessments</p>
           </div>
 
           <div className="p-4 bg-secondary/60 rounded-xl border border-border">
-            <span className="font-semibold text-muted-foreground block mb-1">Logistics & Infrastructure</span>
-            <div className="text-lg font-black text-foreground">₹{parseFloat(budget?.logistics_expense || 0).toLocaleString('en-IN')}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">Interview halls, lab reservation, transport</p>
+            <span className="font-semibold text-muted-foreground block mb-1 text-sm">Logistics & Infrastructure</span>
+            <div className="text-xl font-black text-foreground">₹{parseFloat(budget?.logistics_expense || 0).toLocaleString('en-IN')}</div>
+            <p className="text-xs text-muted-foreground mt-1">Interview halls, lab reservation, transport</p>
           </div>
 
           <div className="p-4 bg-secondary/60 rounded-xl border border-border">
-            <span className="font-semibold text-muted-foreground block mb-1">Corporate Hospitality</span>
-            <div className="text-lg font-black text-foreground">₹{parseFloat(budget?.hospitality_expense || 0).toLocaleString('en-IN')}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">Recruiter accommodation & guest meals</p>
+            <span className="font-semibold text-muted-foreground block mb-1 text-sm">Corporate Hospitality</span>
+            <div className="text-xl font-black text-foreground">₹{parseFloat(budget?.hospitality_expense || 0).toLocaleString('en-IN')}</div>
+            <p className="text-xs text-muted-foreground mt-1">Recruiter accommodation & guest meals</p>
           </div>
 
           <div className="p-4 bg-secondary/60 rounded-xl border border-border">
-            <span className="font-semibold text-muted-foreground block mb-1">Software & Cloud Licenses</span>
-            <div className="text-lg font-black text-foreground">₹{parseFloat(budget?.software_license_expense || 0).toLocaleString('en-IN')}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">Assessment sandbox, ATS & cloud hosting</p>
+            <span className="font-semibold text-muted-foreground block mb-1 text-sm">Software & Cloud Licenses</span>
+            <div className="text-xl font-black text-foreground">₹{parseFloat(budget?.software_license_expense || 0).toLocaleString('en-IN')}</div>
+            <p className="text-xs text-muted-foreground mt-1">Assessment sandbox, ATS & cloud hosting</p>
           </div>
         </div>
       </div>
 
       {/* Record Expense Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Record Operational Placement Expense">
-        <form onSubmit={handleRecordExpense} className="space-y-4 text-xs">
+        <form onSubmit={handleRecordExpense} className="space-y-4 text-sm">
           <div>
-            <label className="block font-semibold text-foreground mb-1">Expense Category</label>
+            <label className="block font-semibold text-foreground mb-1 text-sm">Expense Category</label>
             <select
               value={expenseForm.category}
               onChange={(e) => setExpenseForm({ ...expenseForm, category: e.target.value })}
-              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm"
             >
               <option value="TRAINING">Corporate Training & Mentors</option>
               <option value="LOGISTICS">Logistics & Campus Labs</option>
@@ -143,24 +143,24 @@ export function Finance() {
           </div>
 
           <div>
-            <label className="block font-semibold text-foreground mb-1">Amount (in ₹ INR)</label>
+            <label className="block font-semibold text-foreground mb-1 text-sm">Amount (in ₹ INR)</label>
             <input
               type="number"
               required
               placeholder="e.g. 50000"
               value={expenseForm.amount}
               onChange={(e) => setExpenseForm({ ...expenseForm, amount: e.target.value })}
-              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-foreground mb-1">Purpose / Vendor Invoice Details</label>
+            <label className="block font-semibold text-foreground mb-1 text-sm">Purpose / Vendor Invoice Details</label>
             <textarea
               rows="3"
               value={expenseForm.description}
               onChange={(e) => setExpenseForm({ ...expenseForm, description: e.target.value })}
-              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full p-2.5 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm"
             ></textarea>
           </div>
 
@@ -168,13 +168,13 @@ export function Finance() {
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 border border-border rounded-xl hover:bg-secondary text-foreground font-semibold cursor-pointer"
+              className="px-4 py-2 border border-border rounded-xl hover:bg-secondary text-foreground font-semibold text-sm cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-xl hover:opacity-90 cursor-pointer shadow-xs"
+              className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-xl hover:opacity-90 cursor-pointer shadow-xs text-sm"
             >
               Record Expense
             </button>

@@ -26,7 +26,7 @@ const Profile = () => {
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
           <div className="bg-brand-600 h-32 relative">
              <div className="absolute -bottom-12 left-8">
-                <div className="w-24 h-24 rounded-2xl bg-white border-4 border-white shadow-md flex items-center justify-center text-3xl font-bold text-brand-600">
+                <div className="w-24 h-24 rounded-2xl bg-white border-4 border-white shadow-md flex items-center justify-center text-2xl font-bold text-brand-600">
                     {user?.name?.charAt(0) || 'U'}
                 </div>
              </div>

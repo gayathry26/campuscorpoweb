@@ -339,10 +339,10 @@ export function CompanyManagementModal({
       title={company ? `Placement Company: ${company.name}` : 'Loading Company...'}
       maxWidth="max-w-5xl"
     >
-      <div className="space-y-4 text-xs max-h-[82vh] overflow-y-auto pr-1">
+      <div className="space-y-4 text-sm max-h-[82vh] overflow-y-auto pr-1">
         {/* Banner Notice */}
         {bannerNotice && (
-          <div className="p-3 rounded-xl border border-border bg-secondary text-foreground flex items-center justify-between text-xs font-semibold animate-fadeIn">
+          <div className="p-3.5 rounded-xl border border-border bg-secondary text-foreground flex items-center justify-between text-sm font-semibold animate-fadeIn">
             <span>{bannerNotice.text}</span>
             <button onClick={() => setBannerNotice(null)} className="text-muted-foreground hover:text-foreground">
               ✕
@@ -422,7 +422,7 @@ export function CompanyManagementModal({
         )}
 
         {/* 3.B Organised Tabs (Exact Order) */}
-        <div className="flex items-center gap-1.5 p-1 bg-secondary rounded-xl border border-border overflow-x-auto text-xs font-semibold">
+        <div className="flex items-center gap-1.5 p-1 bg-secondary rounded-xl border border-border overflow-x-auto text-sm font-semibold">
           <button
             onClick={() => setActiveTab('overview')}
             className={`px-3.5 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${

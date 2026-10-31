@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 import { usePreferences } from '../context/ThemeContext';
+import { useUI } from '../context/UIContext';
+import { dropdownVariants } from '../utils/motion';
 import { 
   GraduationCap, 
   Bell, 
@@ -16,19 +19,52 @@ import {
   Settings,
   Sun,
   Moon,
+  Menu,
+  X,
 } from 'lucide-react';
 
 export function Navbar() {
   const { user, switchRole, logout } = useAuth();
   const { isDark, toggleDarkMode, notificationsEnabled, placementAlertsEnabled } = usePreferences();
+  const { toggleMobileSidebar, mobileSidebarOpen } = useUI();
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  const roleRef = useRef(null);
+  const notifRef = useRef(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (roleRef.current && !roleRef.current.contains(event.target)) {
+        setRoleDropdownOpen(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(event.target)) {
+        setNotifDropdownOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setRoleDropdownOpen(false);
+        setNotifDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const portals = [
-    { role: 'SUPER_ADMIN', label: 'Master Super Administrator (All Pages)', icon: ShieldCheck },
+    { role: 'SUPER_ADMIN', label: 'Master Super Administrator', icon: ShieldCheck },
     { role: 'TPO_OFFICER', label: 'Placement Officer / TPO Portal', icon: Award },
     { role: 'STUDENT', label: 'Student Portal (Aditya - CSE)', icon: GraduationCap },
-    { role: 'FACULTY_COORDINATOR', label: 'Dept Coordinator (Prof. Suresh - CSE)', icon: BookOpen },
+    { role: 'FACULTY_COORDINATOR', label: 'Dept Coordinator (Prof. Suresh)', icon: BookOpen },
     { role: 'RECRUITER', label: 'Company Recruiter (Google)', icon: Building2 },
     { role: 'MANAGEMENT', label: 'Management / Principal Portal', icon: ShieldCheck },
     { role: 'ALUMNI', label: 'Alumni Portal (Alex - AWS)', icon: User },
@@ -46,187 +82,239 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-card border-border text-card-foreground transition-colors">
-      <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur-md border-border text-card-foreground transition-colors shadow-2xs">
+      <div className="px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         
-        {/* Left: CampusCorp Brand & Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-card p-1 border border-border shadow-xs flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
-            {/* Light Theme Logo */}
-            <img
-              src="/logo-light.jpeg"
-              alt="CampusCorp Logo"
-              className="w-full h-full object-contain dark:hidden"
-            />
-            {/* Dark Theme Logo */}
-            <img
-              src="/logo-dark.jpeg"
-              alt="CampusCorp Logo"
-              className="w-full h-full object-contain hidden dark:block"
-            />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-foreground tracking-wider text-lg flex items-center">
-                CampusCorp
-                <span className="w-1.5 h-1.5 rounded-full inline-block ml-1 bg-foreground" />
-              </span>
-              <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
-                IT Career Hub
-              </span>
-            </div>
-            <p className="text-[11px] text-muted-foreground hidden md:block">
-              Placement & Career Governance Platform
-            </p>
-          </div>
-        </Link>
-
-        {/* Center: Instant Portal Role Switcher */}
-        <div className="relative">
-          <button
-            onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-            className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-lg border border-border bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+        {/* Left: Mobile Menu Toggle + CampusCorp Brand */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Sidebar Hamburger Button */}
+          <motion.button
+            type="button"
+            onClick={toggleMobileSidebar}
+            aria-label={mobileSidebarOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+            whileTap={{ scale: 0.92 }}
+            className="lg:hidden p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden transition-colors cursor-pointer"
           >
-            <span className="inline-block w-2 h-2 rounded-full bg-foreground" />
-            <span className="hidden md:inline text-muted-foreground font-medium">Active Portal:</span>
-            <span className="text-foreground font-bold">{getPortalLabel()}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-muted-foreground ml-1" />
-          </button>
+            {mobileSidebarOpen ? (
+              <X className="w-5 h-5 text-foreground" />
+            ) : (
+              <Menu className="w-5 h-5 text-foreground" />
+            )}
+          </motion.button>
 
-          {roleDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-72 bg-popover text-popover-foreground rounded-xl shadow-xl border border-border py-1.5 z-50">
-              <div className="px-3 py-1.5 border-b border-border">
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Switch Connected Portal</p>
-                <p className="text-xs text-muted-foreground">Live data with department role isolation</p>
+          <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group focus-visible:ring-2 focus-visible:ring-ring rounded-xl outline-hidden">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-card p-1 border border-border shadow-xs flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <img
+                src="/logo-light.jpeg"
+                alt="CampusCorp Logo"
+                className="w-full h-full object-contain dark:hidden"
+              />
+              <img
+                src="/logo-dark.jpeg"
+                alt="CampusCorp Logo"
+                className="w-full h-full object-contain hidden dark:block"
+              />
+            </motion.div>
+            <div>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-extrabold text-foreground tracking-wider text-base sm:text-xl flex items-center">
+                  CampusCorp
+                  <span className="w-1.5 h-1.5 rounded-full inline-block ml-1 bg-foreground" />
+                </span>
+                <span className="hidden sm:inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                  IT Career Hub
+                </span>
               </div>
-              <div className="py-1 max-h-72 overflow-y-auto">
-                {portals.map((p) => {
-                  const Icon = p.icon;
-                  const isActive = user?.roleName === p.role;
-                  return (
-                    <button
-                      key={p.role}
-                      onClick={() => handleRoleSelect(p.role)}
-                      className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-left text-xs font-medium transition-colors cursor-pointer ${
-                        isActive ? 'bg-neutral-200 dark:bg-neutral-800 font-semibold text-foreground' : 'text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 text-foreground" />
-                      <span className="flex-1 truncate">{p.label}</span>
-                      {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+              <p className="text-[11px] text-muted-foreground hidden md:block">
+                Placement & Career Governance Platform
+              </p>
             </div>
-          )}
+          </Link>
         </div>
 
-        {/* Right: Theme Toggle, Appearance, Notifications, Profile & Logout */}
-        <div className="flex items-center gap-2.5">
+        {/* Center: Instant Portal Role Switcher */}
+        <div ref={roleRef} className="relative">
+          <motion.button
+            type="button"
+            onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
+            aria-expanded={roleDropdownOpen}
+            aria-haspopup="true"
+            whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-border bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground text-xs sm:text-sm font-semibold shadow-2xs transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
+          >
+            <span className="inline-block w-2 h-2 rounded-full bg-foreground shrink-0" />
+            <span className="hidden xl:inline text-muted-foreground font-medium">Active Portal:</span>
+            <span className="text-foreground font-bold truncate max-w-[120px] sm:max-w-[200px] md:max-w-xs">{getPortalLabel()}</span>
+            <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground transition-transform duration-200 shrink-0 ${roleDropdownOpen ? 'rotate-180' : ''}`} />
+          </motion.button>
+
+          <AnimatePresence>
+            {roleDropdownOpen && (
+              <motion.div
+                initial={shouldReduceMotion ? { opacity: 0 } : dropdownVariants.initial}
+                animate={shouldReduceMotion ? { opacity: 1 } : dropdownVariants.animate}
+                exit={shouldReduceMotion ? { opacity: 0 } : dropdownVariants.exit}
+                className="absolute right-0 mt-2 w-72 sm:w-80 bg-popover text-popover-foreground rounded-2xl shadow-2xl border border-border py-2 z-50 origin-top-right"
+              >
+                <div className="px-4 py-2.5 border-b border-border">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Switch Connected Portal</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Live role testing with instant permission sync</p>
+                </div>
+                <div className="py-1 max-h-80 overflow-y-auto">
+                  {portals.map((p) => {
+                    const Icon = p.icon;
+                    const isActive = user?.roleName === p.role;
+                    return (
+                      <motion.button
+                        key={p.role}
+                        type="button"
+                        onClick={() => handleRoleSelect(p.role)}
+                        whileHover={{ x: 2 }}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 text-left text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                          isActive
+                            ? 'bg-neutral-200 dark:bg-neutral-800 font-semibold text-foreground'
+                            : 'text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4 text-foreground shrink-0" />
+                        <span className="flex-1 truncate">{p.label}</span>
+                        {isActive && (
+                          <span className="w-2 h-2 rounded-full bg-foreground shrink-0" />
+                        )}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Right: Theme Toggle, Notifications, Profile & Logout */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
           {/* Light / Dark Mode Toggle Button */}
-          <button
+          <motion.button
+            type="button"
             onClick={toggleDarkMode}
             title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             aria-label="Toggle theme mode"
-            className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg relative transition-colors flex items-center justify-center cursor-pointer"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-xl transition-colors flex items-center justify-center cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
           >
             {isDark ? (
               <Sun className="w-4 h-4 text-foreground" />
             ) : (
               <Moon className="w-4 h-4 text-foreground" />
             )}
-          </button>
+          </motion.button>
 
           {/* Quick Settings Shortcut */}
           <Link
             to="/settings"
             title="Settings & Preferences"
-            className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg relative transition-colors flex items-center justify-center"
+            className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-xl transition-colors flex items-center justify-center focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden active:scale-95"
           >
             <Settings className="w-4 h-4" />
           </Link>
 
           {/* Notifications button */}
-          <div className="relative">
-            <button
+          <div ref={notifRef} className="relative">
+            <motion.button
+              type="button"
               onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
               title={notificationsEnabled ? "Notifications" : "Notifications Muted"}
-              className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg relative transition-colors cursor-pointer"
+              aria-label="View notifications"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-xl relative transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
             >
               {notificationsEnabled ? (
-                <Bell className="w-5 h-5 text-foreground" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
               ) : (
-                <BellOff className="w-5 h-5 text-muted-foreground opacity-60" />
+                <BellOff className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground opacity-60" />
               )}
               {notificationsEnabled && placementAlertsEnabled && (
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full ring-2 ring-card bg-foreground" />
               )}
-            </button>
+            </motion.button>
 
-            {notifDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-80 bg-popover text-popover-foreground rounded-xl shadow-xl border border-border p-3 z-50">
-                <div className="flex items-center justify-between pb-2 border-b border-border mb-2">
-                  <span className="text-xs font-semibold text-foreground">CampusCorp Career Alerts</span>
-                  <span className="text-[10px] font-bold text-muted-foreground">
-                    {!notificationsEnabled
-                      ? 'Muted'
-                      : !placementAlertsEnabled
-                      ? 'Muted'
-                      : '2 Active'}
-                  </span>
-                </div>
-                {!notificationsEnabled ? (
-                  <div className="p-4 text-center text-xs text-muted-foreground space-y-1">
-                    <BellOff className="w-5 h-5 mx-auto opacity-50" />
-                    <p className="font-semibold text-foreground">Notifications Muted</p>
-                    <p className="text-[11px]">Turn on in Settings & Preferences to receive career alerts.</p>
+            <AnimatePresence>
+              {notifDropdownOpen && (
+                <motion.div
+                  initial={shouldReduceMotion ? { opacity: 0 } : dropdownVariants.initial}
+                  animate={shouldReduceMotion ? { opacity: 1 } : dropdownVariants.animate}
+                  exit={shouldReduceMotion ? { opacity: 0 } : dropdownVariants.exit}
+                  className="absolute right-0 mt-2 w-80 sm:w-84 bg-popover text-popover-foreground rounded-2xl shadow-2xl border border-border p-3.5 z-50 origin-top-right"
+                >
+                  <div className="flex items-center justify-between pb-2.5 border-b border-border mb-2.5">
+                    <span className="text-xs sm:text-sm font-semibold text-foreground">CampusCorp Career Alerts</span>
+                    <span className="text-[11px] font-bold text-muted-foreground">
+                      {!notificationsEnabled
+                        ? 'Muted'
+                        : !placementAlertsEnabled
+                        ? 'Muted'
+                        : '2 Active'}
+                    </span>
                   </div>
-                ) : !placementAlertsEnabled ? (
-                  <div className="p-4 text-center text-xs text-muted-foreground space-y-1">
-                    <p className="font-semibold text-foreground">Placement Alerts Muted</p>
-                    <p className="text-[11px]">Placement and drive notifications are muted in Settings.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-2 text-xs text-muted-foreground">
-                    <div className="p-2.5 rounded-lg border border-border bg-secondary/50 text-foreground">
-                      <p className="font-bold text-xs text-foreground">
-                        Google Campus Recruitment Live
-                      </p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">SDE applications deadline is Nov 30.</p>
+                  {!notificationsEnabled ? (
+                    <div className="p-4 text-center text-xs sm:text-sm text-muted-foreground space-y-1">
+                      <BellOff className="w-5 h-5 mx-auto opacity-50" />
+                      <p className="font-semibold text-foreground">Notifications Muted</p>
+                      <p className="text-[11px]">Turn on in Settings & Preferences to receive career alerts.</p>
                     </div>
-                    <div className="p-2.5 rounded-lg border border-border bg-secondary/50 text-foreground">
-                      <p className="font-semibold text-xs text-foreground">Coding Assessment Saturday 10AM</p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">National CodeSprint mock challenge.</p>
+                  ) : !placementAlertsEnabled ? (
+                    <div className="p-4 text-center text-xs sm:text-sm text-muted-foreground space-y-1">
+                      <p className="font-semibold text-foreground">Placement Alerts Muted</p>
+                      <p className="text-[11px]">Placement and drive notifications are muted in Settings.</p>
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
+                  ) : (
+                    <div className="space-y-2 text-xs sm:text-sm text-muted-foreground">
+                      <div className="p-3 rounded-xl border border-border bg-secondary/50 text-foreground">
+                        <p className="font-bold text-xs sm:text-sm text-foreground">
+                          Google Campus Recruitment Live
+                        </p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">SDE applications deadline is Nov 30.</p>
+                      </div>
+                      <div className="p-3 rounded-xl border border-border bg-secondary/50 text-foreground">
+                        <p className="font-semibold text-xs sm:text-sm text-foreground">Coding Assessment Saturday 10AM</p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">National CodeSprint mock challenge.</p>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* User Profile pill */}
-          <div className="flex items-center gap-2 pl-2 border-l border-border">
-            <div className="w-8 h-8 rounded-full font-bold flex items-center justify-center text-xs bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900">
+          <div className="flex items-center gap-2 sm:gap-2.5 pl-2 sm:pl-2.5 border-l border-border">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full font-bold flex items-center justify-center text-xs sm:text-sm bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 shrink-0">
               {user ? user.firstName?.[0] || 'U' : 'U'}
             </div>
-            <div className="hidden sm:block text-left">
-              <p className="text-xs font-semibold text-foreground leading-tight">
+            <div className="hidden lg:block text-left max-w-[140px]">
+              <p className="text-xs sm:text-sm font-semibold text-foreground leading-tight truncate">
                 {user ? `${user.firstName} ${user.lastName}` : 'Guest User'}
               </p>
-              <p className="text-[10px] text-muted-foreground leading-none mt-0.5">
+              <p className="text-[10px] sm:text-xs text-muted-foreground leading-none mt-0.5 truncate">
                 {user?.departmentCode ? `${user.departmentCode} • ` : ''}{user?.roleName}
               </p>
             </div>
-            <button
+            <motion.button
+              type="button"
               onClick={logout}
               title="Sign Out"
-              className="p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors ml-1 cursor-pointer"
+              aria-label="Sign out"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              className="p-1.5 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors cursor-pointer shrink-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
             >
               <LogOut className="w-4 h-4" />
-            </button>
+            </motion.button>
           </div>
 
         </div>
@@ -235,3 +323,5 @@ export function Navbar() {
     </header>
   );
 }
+
+export default Navbar;

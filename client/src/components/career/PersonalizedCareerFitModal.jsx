@@ -119,7 +119,7 @@ export default function PersonalizedCareerFitModal({ role, isOpen, onClose }) {
                       Curriculum Skill Overlap
                     </span>
                     <div className="flex items-baseline gap-2 mt-1">
-                      <span className="text-3xl font-extrabold text-slate-900">
+                      <span className="text-2xl font-bold text-slate-900">
                         {fitData.skillFitPercentage}%
                       </span>
                       <span className="text-xs text-slate-500 font-medium">
@@ -147,7 +147,7 @@ export default function PersonalizedCareerFitModal({ role, isOpen, onClose }) {
                     {fitData.hasResumeAnalysis ? (
                       <>
                         <div className="flex items-baseline gap-2 mt-1">
-                          <span className="text-3xl font-extrabold text-indigo-700">
+                          <span className="text-2xl font-bold text-indigo-700">
                             {fitData.resumeAnalysis.jobMatchScore || fitData.resumeAnalysis.overallScore}%
                           </span>
                           <span className="text-xs text-indigo-600 font-medium">

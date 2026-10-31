@@ -949,15 +949,15 @@ export function InterviewRoomPage() {
             >
               <ArrowLeft size={16} />
             </Link>
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] flex items-center justify-center text-white shadow-md shadow-xs">
-                <Video size={16} />
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] flex items-center justify-center text-white shadow-md shadow-xs">
+                <Video size={18} />
               </div>
               <div>
-                <h1 className="text-sm font-bold text-white tracking-tight leading-none">
+                <h1 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight">
                   Virtual Technical Interview Console
                 </h1>
-                <span className="text-[10px] text-slate-400 font-medium">
+                <span className="text-xs text-slate-400 font-medium">
                   WebRTC P2P Signaling Architecture
                 </span>
               </div>
@@ -965,17 +965,17 @@ export function InterviewRoomPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-xs">
+            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-sm">
               <span className="text-slate-400">Authenticated:</span>
               <span className="font-semibold text-white">{user?.firstName || user?.username}</span>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-muted-foreground">
+              <span className="px-2 py-0.5 rounded text-xs font-bold bg-slate-700 text-muted-foreground">
                 {userRole}
               </span>
             </div>
 
             <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-800/50 px-2.5 py-1 rounded-lg border border-slate-700/50">
-              <Shield size={12} className="text-foreground" />
-              <span className="font-mono text-[11px]">STUN Active</span>
+              <Shield size={13} className="text-foreground" />
+              <span className="font-mono text-xs">STUN Active</span>
             </div>
           </div>
         </header>
@@ -991,14 +991,14 @@ export function InterviewRoomPage() {
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 text-foreground border border-border mb-2">
-                    <Sparkles size={12} />
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 text-foreground border border-border mb-2.5">
+                    <Sparkles size={14} />
                     <span>Executive Interview Management</span>
                   </div>
-                  <h2 className="text-xl font-bold text-white tracking-tight">
+                  <h2 className="text-2xl font-bold text-white tracking-tight">
                     Schedule New Interview Session
                   </h2>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-sm text-slate-400 mt-1">
                     Configure technical interview specifications, select candidates, and generate encrypted WebRTC room links.
                   </p>
                 </div>
@@ -1007,7 +1007,7 @@ export function InterviewRoomPage() {
                   <button
                     type="button"
                     onClick={handleGenerateRoomCode}
-                    className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs font-semibold text-slate-300 transition-colors"
+                    className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-sm font-semibold text-slate-200 transition-colors cursor-pointer"
                   >
                     Generate Room Code
                   </button>
@@ -1015,11 +1015,11 @@ export function InterviewRoomPage() {
               </div>
 
               {/* Inline Creation Form */}
-              <form onSubmit={(e) => handleCreateMeeting(e, false)} className="pt-6 space-y-5 text-xs">
+              <form onSubmit={(e) => handleCreateMeeting(e, false)} className="pt-6 space-y-5 text-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Title */}
                   <div className="lg:col-span-2">
-                    <label className="block font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-sm font-semibold text-slate-300 mb-1.5">
                       Interview Title <span className="text-foreground">*</span>
                     </label>
                     <input
@@ -1028,19 +1028,19 @@ export function InterviewRoomPage() {
                       placeholder="e.g. Amazon SDE-1 Technical Round - System Design"
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-border focus:ring-1 focus:ring-neutral-400"
+                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-border focus:ring-1 focus:ring-neutral-400"
                     />
                   </div>
 
                   {/* Technical Topic */}
                   <div>
-                    <label className="block font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-sm font-semibold text-slate-300 mb-1.5">
                       Domain / Assessment Track <span className="text-foreground">*</span>
                     </label>
                     <select
                       value={formData.topic}
                       onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-border"
+                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-border"
                     >
                       <option value="Data Structures and Algorithms">Data Structures and Algorithms</option>
                       <option value="System Design and Scalability">System Design and Scalability</option>
@@ -1054,13 +1054,13 @@ export function InterviewRoomPage() {
                   {/* Candidate Selection */}
                   <div className="lg:col-span-2">
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="font-semibold text-slate-300">
+                      <label className="text-sm font-semibold text-slate-300">
                         Candidate Student <span className="text-foreground">*</span>
                       </label>
                       <button
                         type="button"
                         onClick={() => setCustomStudentMode(!customStudentMode)}
-                        className="text-[11px] text-foreground hover:underline"
+                        className="text-xs text-foreground hover:underline font-semibold"
                       >
                         {customStudentMode ? 'Select from Roster' : 'Manual Entry'}
                       </button>
@@ -1205,15 +1205,15 @@ export function InterviewRoomPage() {
                       value={inputCode}
                       onChange={(e) => setInputCode(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleJoinByCode()}
-                      className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-border font-mono"
+                      className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-border font-mono"
                     />
                     <button
                       type="button"
                       onClick={() => handleJoinByCode()}
                       disabled={!inputCode.trim()}
-                      className="px-5 py-2.5 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] disabled:opacity-40 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
+                      className="px-5 py-2.5 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] disabled:opacity-40 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
                     >
-                      <Video size={14} />
+                      <Video size={16} />
                       <span>Join Room</span>
                     </button>
                   </div>
@@ -1223,11 +1223,11 @@ export function InterviewRoomPage() {
               {/* Right: Camera & Mic Self-Check Mirror */}
               <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-4">
                 <div>
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
                     <span>Hardware Readiness Check</span>
                     <span className="w-2 h-2 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]" />
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">Test audio and video feed before joining panel</p>
+                  <p className="text-sm text-slate-400 mt-1">Test audio and video feed before joining panel</p>
                 </div>
 
                 <div className="relative aspect-video bg-slate-950 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
@@ -1244,14 +1244,14 @@ export function InterviewRoomPage() {
                       <div className="w-14 h-14 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center mb-2 border border-slate-700">
                         <VideoOff size={22} />
                       </div>
-                      <p className="text-xs font-semibold text-slate-300">Camera is off</p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Toggle camera button below to preview</p>
+                      <p className="text-sm font-semibold text-slate-300">Camera is off</p>
+                      <p className="text-xs text-slate-500 mt-1">Toggle camera button below to preview</p>
                     </div>
                   )}
 
                   <div className="absolute bottom-3 left-3 flex items-center gap-2">
                     <div
-                      className={`px-2 py-1 rounded-md text-[10px] font-semibold flex items-center gap-1.5 ${
+                      className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 ${
                         micOn ? 'bg-black/70 text-foreground' : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black/80 text-white'
                       }`}
                     >

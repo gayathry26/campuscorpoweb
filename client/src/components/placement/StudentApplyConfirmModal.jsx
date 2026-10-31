@@ -31,25 +31,25 @@ export function StudentApplyConfirmModal({
       title={`Confirm Application: ${company.name}`}
       maxWidth="max-w-xl"
     >
-      <div className="space-y-4 text-xs">
+      <div className="space-y-4 text-sm">
         {/* Company Opportunity Header */}
         <div className="p-3.5 bg-secondary rounded-xl border border-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] font-black text-lg flex items-center justify-center shadow-xs">
+            <div className="w-11 h-11 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] font-black text-xl flex items-center justify-center shadow-xs">
               {company.name[0]}
             </div>
             <div>
-              <h4 className="font-bold text-foreground text-sm">{company.name}</h4>
-              <p className="text-muted-foreground text-[11px] font-medium">
+              <h4 className="font-bold text-foreground text-base">{company.name}</h4>
+              <p className="text-muted-foreground text-xs font-medium">
                 {company.job_title || `${company.name} Campus Drive`}
               </p>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xs font-black text-foreground bg-card px-2 py-0.5 rounded border border-border">
+            <span className="text-sm font-black text-foreground bg-card px-2.5 py-1 rounded border border-border">
               ₹{company.package_ctc || '12.00'} LPA
             </span>
-            <span className="block text-[10px] text-muted-foreground mt-1 uppercase font-semibold">
+            <span className="block text-xs text-muted-foreground mt-1 uppercase font-semibold">
               {company.tier}
             </span>
           </div>
@@ -57,42 +57,42 @@ export function StudentApplyConfirmModal({
 
         {/* Student Profile Snapshot */}
         <div className="bg-secondary rounded-xl p-3.5 border border-border space-y-2">
-          <div className="flex items-center justify-between pb-1.5 border-b border-border text-foreground font-bold text-[11px]">
+          <div className="flex items-center justify-between pb-1.5 border-b border-border text-foreground font-bold text-xs">
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-foreground" />
               Verified Academic Profile (Shared with Recruiter)
             </span>
-            <span className="text-foreground bg-card px-2 py-0.5 rounded text-[10px] border border-border">
+            <span className="text-foreground bg-card px-2 py-0.5 rounded text-xs border border-border font-bold">
               Eligible
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1 text-[11px]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
             <div>
-              <span className="text-muted-foreground block text-[10px]">Student Name</span>
-              <strong className="text-foreground">
+              <span className="text-muted-foreground block text-xs">Student Name</span>
+              <strong className="text-foreground text-sm">
                 {user.firstName} {user.lastName}
               </strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Register Number</span>
-              <strong className="font-mono text-foreground">{user.registerNumber}</strong>
+              <span className="text-muted-foreground block text-xs">Register Number</span>
+              <strong className="font-mono text-foreground text-sm">{user.registerNumber}</strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Department</span>
-              <strong className="text-foreground">{user.departmentCode}</strong>
+              <span className="text-muted-foreground block text-xs">Department</span>
+              <strong className="text-foreground text-sm">{user.departmentCode}</strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Recorded CGPA</span>
-              <strong className="text-foreground font-bold">{user.cgpa || '8.50'}</strong>
+              <span className="text-muted-foreground block text-xs">Recorded CGPA</span>
+              <strong className="text-foreground font-bold text-sm">{user.cgpa || '8.50'}</strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Active Backlogs</span>
-              <strong className="text-foreground">0 Active</strong>
+              <span className="text-muted-foreground block text-xs">Active Backlogs</span>
+              <strong className="text-foreground text-sm">0 Active</strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Academic Batch</span>
-              <strong className="text-foreground">{user.academicYear || '2026-2027'}</strong>
+              <span className="text-muted-foreground block text-xs">Academic Batch</span>
+              <strong className="text-foreground text-sm">{user.academicYear || '2026-2027'}</strong>
             </div>
           </div>
         </div>

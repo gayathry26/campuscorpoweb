@@ -26,9 +26,7 @@ import { Offers } from './pages/Offers';
 import { Policies } from './pages/Policies';
 import { Reports } from './pages/Reports';
 import { Finance } from './pages/Finance';
-import { Alumni } from './pages/Alumni';
 import { Grievances } from './pages/Grievances';
-import { AIAssistant } from './pages/AIAssistant';
 import { Admin } from './pages/Admin';
 import { Settings } from './pages/Settings';
 import { Domains } from './pages/Domains';
@@ -40,6 +38,13 @@ import ExamScreen from './pages/LMS/ExamScreen';
 import { LmsPortal } from './pages/LMS/LmsPortal';
 import { ResumeAnalyzer } from './pages/ResumeAnalyzer';
 import { InterviewRoomPage } from './pages/videocall/interview';
+import { DepartmentAcademicManagement } from './pages/DepartmentAcademicManagement';
+import { CompanyLocationExplorer } from './pages/career/CompanyLocationExplorer';
+import { CompanyLocationDetail } from './pages/career/CompanyLocationDetail';
+import { UIProvider } from './context/UIContext';
+import { ScrollToTop } from './components/ScrollToTop';
+import { Breadcrumbs } from './components/Breadcrumbs';
+import { PageMotion } from './components/motion/PageMotion';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -59,8 +64,11 @@ function Layout({ children }) {
       <Navbar />
       <div className="flex flex-1 items-start">
         <Sidebar />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full min-w-0">
-          {children}
+        <main className="flex-1 p-3.5 sm:p-5 lg:p-7 max-w-7xl mx-auto w-full min-w-0">
+          <Breadcrumbs />
+          <PageMotion locationKey={location.pathname}>
+            {children}
+          </PageMotion>
         </main>
       </div>
     </div>
@@ -88,13 +96,13 @@ function ProtectedRoute({ children, path }) {
             <ShieldAlert className="w-7 h-7" />
           </div>
           <h2 className="text-xl font-bold text-foreground mb-1">Page Access Restricted</h2>
-          <p className="text-xs text-muted-foreground mb-6 leading-relaxed">
+          <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
             The page <strong className="font-mono text-foreground">{currentPath}</strong> is currently not ticked in the Super Admin Page Permissions Matrix for your role (<strong>{user.roleName}</strong>).
           </p>
           <div className="flex items-center justify-center gap-3">
             <Link
               to={user.roleName === 'STUDENT' ? '/profile' : '/'}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold shadow-xs transition-transform active:scale-95 bg-primary text-primary-foreground hover:opacity-90"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold shadow-xs transition-transform active:scale-95 bg-primary text-primary-foreground hover:opacity-90"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Accessible Modules</span>
@@ -204,62 +212,73 @@ export default function App() {
         <PermissionProvider>
           <ToastProvider>
             <BrowserRouter>
-              <Routes>
-                {/* Direct Login and Specified Routes */}
-                <Route path="/" element={<DirectRoute />} />
-                <Route path="/login" element={<Login portal="student" />} />
-                <Route path="/superadmin" element={<SuperAdminRoute />} />
-                <Route path="/admin" element={<AdminRoute />} />
-                <Route path="/placement" element={<PlacementRoute />} />
-                <Route path="/staff" element={<StaffRoute />} />
+              <UIProvider>
+                <ScrollToTop />
+                <Routes>
+                  {/* Direct Login and Specified Routes */}
+                  <Route path="/" element={<DirectRoute />} />
+                  <Route path="/login" element={<Login portal="student" />} />
+                  <Route path="/superadmin" element={<SuperAdminRoute />} />
+                  <Route path="/admin" element={<AdminRoute />} />
+                  <Route path="/placement" element={<PlacementRoute />} />
+                  <Route path="/staff" element={<StaffRoute />} />
 
-                {/* Settings & Appearance */}
-                <Route path="/settings" element={<ProtectedRoute path="/settings"><Settings /></ProtectedRoute>} />
+                  {/* Settings & Appearance */}
+                  <Route path="/settings" element={<ProtectedRoute path="/settings"><Settings /></ProtectedRoute>} />
 
-                {/* Career Explorer & Role Comparison & Skill Analyzer */}
-                <Route path="/domains" element={<ProtectedRoute path="/domains"><Domains /></ProtectedRoute>} />
-                <Route path="/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
-                <Route path="/domains/:domainSlug/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
-                <Route path="/compare" element={<ProtectedRoute path="/compare"><CompareRoles /></ProtectedRoute>} />
-                <Route path="/skill-analyzer" element={<ProtectedRoute path="/skill-analyzer"><SkillAnalyzer /></ProtectedRoute>} />
-                <Route path="/role-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
-                <Route path="/career-explorer" element={<Navigate to="/domains" replace />} />
-                <Route path="/career-explorer/domains" element={<Navigate to="/domains" replace />} />
-                <Route path="/career-explorer/compare" element={<Navigate to="/compare" replace />} />
-                <Route path="/career-explorer/skill-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
+                  {/* Career Explorer & Role Comparison & Skill Analyzer */}
+                  <Route path="/domains" element={<ProtectedRoute path="/domains"><Domains /></ProtectedRoute>} />
+                  <Route path="/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
+                  <Route path="/career-explorer/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
+                  <Route path="/domains/:domainSlug/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
+                  <Route path="/career-explorer/roles/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
+                  <Route path="/roles/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
+                  <Route path="/compare" element={<ProtectedRoute path="/compare"><CompareRoles /></ProtectedRoute>} />
+                  <Route path="/skill-analyzer" element={<ProtectedRoute path="/skill-analyzer"><SkillAnalyzer /></ProtectedRoute>} />
+                  <Route path="/role-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
+                  <Route path="/career-explorer" element={<Navigate to="/domains" replace />} />
+                  <Route path="/career-explorer/domains" element={<Navigate to="/domains" replace />} />
+                  <Route path="/career-explorer/compare" element={<Navigate to="/compare" replace />} />
+                  <Route path="/career-explorer/skill-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
+                  <Route path="/career-explorer/companies" element={<ProtectedRoute path="/career-explorer"><CompanyLocationExplorer /></ProtectedRoute>} />
+                  <Route path="/career-explorer/companies/:id" element={<ProtectedRoute path="/career-explorer"><CompanyLocationDetail /></ProtectedRoute>} />
+                  <Route path="/companies-by-location" element={<Navigate to="/career-explorer/companies" replace />} />
 
-                {/* LMS - Role-Based Learning Management System */}
-                <Route path="/lms" element={<ProtectedRoute path="/lms"><LmsPortal /></ProtectedRoute>} />
-                <Route path="/lms/:section" element={<ProtectedRoute path="/lms"><LmsPortal /></ProtectedRoute>} />
+                  {/* LMS - Role-Based Learning Management System */}
+                  <Route path="/lms" element={<ProtectedRoute path="/lms"><LmsPortal /></ProtectedRoute>} />
+                  <Route path="/lms/:section" element={<ProtectedRoute path="/lms"><LmsPortal /></ProtectedRoute>} />
 
-                {/* Portal Modules with Permission Enforcement */}
-                <Route path="/students" element={<ProtectedRoute path="/students"><Students /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute path="/profile"><Profile /></ProtectedRoute>} />
-                <Route path="/companies" element={<ProtectedRoute path="/companies"><Companies /></ProtectedRoute>} />
-                <Route path="/jobs" element={<ProtectedRoute path="/jobs"><Jobs /></ProtectedRoute>} />
-                <Route path="/drives" element={<ProtectedRoute path="/drives"><Drives /></ProtectedRoute>} />
-                <Route path="/applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
-                <Route path="/my-applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
-                <Route path="/assessment" element={<ProtectedRoute path="/assessment"><Assessment /></ProtectedRoute>} />
-                <Route path="/exam" element={<ProtectedRoute path="/assessment"><ExamScreen /></ProtectedRoute>} />
-                <Route path="/interviews" element={<ProtectedRoute path="/interviews"><Interviews /></ProtectedRoute>} />
-                <Route path="/videocall/interview" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
-                <Route path="/videocall/interview/:roomCode" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
-                <Route path="/interview/room/:roomCode" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
-                <Route path="/resume-analyzer" element={<ProtectedRoute path="/resume-analyzer"><ResumeAnalyzer /></ProtectedRoute>} />
-                <Route path="/training" element={<ProtectedRoute path="/training"><Training /></ProtectedRoute>} />
-                <Route path="/internships" element={<ProtectedRoute path="/internships"><Internships /></ProtectedRoute>} />
-                <Route path="/offers" element={<ProtectedRoute path="/offers"><Offers /></ProtectedRoute>} />
-                <Route path="/policies" element={<ProtectedRoute path="/policies"><Policies /></ProtectedRoute>} />
-                <Route path="/reports" element={<ProtectedRoute path="/reports"><Reports /></ProtectedRoute>} />
-                <Route path="/finance" element={<ProtectedRoute path="/finance"><Finance /></ProtectedRoute>} />
-                <Route path="/alumni" element={<ProtectedRoute path="/alumni"><Alumni /></ProtectedRoute>} />
-                <Route path="/grievances" element={<ProtectedRoute path="/grievances"><Grievances /></ProtectedRoute>} />
-                <Route path="/ai-assistant" element={<ProtectedRoute path="/ai-assistant"><AIAssistant /></ProtectedRoute>} />
+                  {/* Portal Modules with Permission Enforcement */}
+                  <Route path="/students" element={<ProtectedRoute path="/students"><Students /></ProtectedRoute>} />
+                  <Route path="/profile" element={<ProtectedRoute path="/profile"><Profile /></ProtectedRoute>} />
+                  <Route path="/companies" element={<ProtectedRoute path="/companies"><Companies /></ProtectedRoute>} />
+                  <Route path="/jobs" element={<ProtectedRoute path="/jobs"><Jobs /></ProtectedRoute>} />
+                  <Route path="/drives" element={<ProtectedRoute path="/drives"><Drives /></ProtectedRoute>} />
+                  <Route path="/applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
+                  <Route path="/my-applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
+                  <Route path="/assessment" element={<ProtectedRoute path="/assessment"><Assessment /></ProtectedRoute>} />
+                  <Route path="/exam" element={<ProtectedRoute path="/assessment"><ExamScreen /></ProtectedRoute>} />
+                  <Route path="/interviews" element={<ProtectedRoute path="/interviews"><Interviews /></ProtectedRoute>} />
+                  <Route path="/videocall/interview" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
+                  <Route path="/videocall/interview/:roomCode" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
+                  <Route path="/interview/room/:roomCode" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
+                  <Route path="/resume-analyzer" element={<ProtectedRoute path="/resume-analyzer"><ResumeAnalyzer /></ProtectedRoute>} />
+                  <Route path="/training" element={<ProtectedRoute path="/training"><Training /></ProtectedRoute>} />
+                  <Route path="/internships" element={<ProtectedRoute path="/internships"><Internships /></ProtectedRoute>} />
+                  <Route path="/offers" element={<ProtectedRoute path="/offers"><Offers /></ProtectedRoute>} />
+                  <Route path="/policies" element={<ProtectedRoute path="/policies"><Policies /></ProtectedRoute>} />
+                  <Route path="/reports" element={<ProtectedRoute path="/reports"><Reports /></ProtectedRoute>} />
+                  <Route path="/finance" element={<ProtectedRoute path="/finance"><Finance /></ProtectedRoute>} />
+                  <Route path="/alumni" element={<Navigate to="/" replace />} />
+                  <Route path="/grievances" element={<ProtectedRoute path="/grievances"><Grievances /></ProtectedRoute>} />
+                  <Route path="/ai-assistant" element={<Navigate to="/" replace />} />
+                  <Route path="/admin/academics" element={<ProtectedRoute path="/admin/academics"><DepartmentAcademicManagement /></ProtectedRoute>} />
+                  <Route path="/admin/departments" element={<ProtectedRoute path="/admin/academics"><DepartmentAcademicManagement /></ProtectedRoute>} />
 
-                {/* Fallback */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
+                  {/* Fallback */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </UIProvider>
             </BrowserRouter>
           </ToastProvider>
         </PermissionProvider>

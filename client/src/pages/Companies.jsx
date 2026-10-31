@@ -362,16 +362,16 @@ export function Companies() {
       {/* Top Banner / Heading - Clean Neutral Styling */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-secondary border border-border p-6 rounded-2xl text-foreground">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-card text-foreground border border-border">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-card text-foreground border border-border">
               Recruitment Cell
             </span>
-            <span className="text-xs text-muted-foreground font-medium">Placement Governance System</span>
+            <span className="text-sm text-muted-foreground font-medium">Placement Governance System</span>
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-foreground flex items-center gap-2">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
             Placement Companies & Corporate Partners
           </h1>
-          <p className="text-xs text-muted-foreground mt-1 max-w-2xl leading-relaxed">
+          <p className="text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
             {isStudent
               ? 'Personalized student clearance: Displaying placement drives open to your branch and graduation batch.'
               : 'Administrator directory for managing campus recruitment partners, setting branch eligibility, academic year cohorts, and student quota capacity.'}
@@ -382,7 +382,7 @@ export function Companies() {
           {isAdmin && (
             <button
               onClick={handleOpenCreateModal}
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:opacity-90 text-primary-foreground rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary hover:opacity-90 text-primary-foreground rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-xs"
             >
               <Plus className="w-4 h-4" /> Add Placement Company
             </button>
@@ -394,19 +394,19 @@ export function Companies() {
       {isStudent && (
         <div className="bg-card border border-border p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-2xs">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm shadow-xs">
+            <div className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-base shadow-xs">
               <GraduationCap className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-foreground text-sm">
+                <span className="font-bold text-foreground text-base">
                   {user.firstName} {user.lastName}
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-secondary text-foreground text-[11px] font-bold border border-border">
+                <span className="px-2.5 py-0.5 rounded-md bg-secondary text-foreground text-xs font-bold border border-border">
                   ID: {user.registerNumber || user.studentId || '2023CSE001'}
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mt-0.5">
+              <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mt-0.5">
                 <span>
                   Department: <strong className="text-foreground">{user.departmentCode || 'CSE'}</strong>
                 </span>
@@ -422,7 +422,7 @@ export function Companies() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground bg-card px-3 py-1.5 rounded-lg border border-border">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card px-3.5 py-1.5 rounded-lg border border-border">
             <CheckCircle2 className="w-4 h-4 text-foreground shrink-0" />
             <span>
               Showing <strong className="text-foreground">{companies.length}</strong> placement drives eligible for your branch & batch
@@ -434,7 +434,7 @@ export function Companies() {
       {/* Global Feedback Banner */}
       {feedbackMessage && (
         <div className="p-4 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-foreground flex items-center justify-between transition-all">
-          <div className="flex items-center gap-2.5 text-xs font-semibold">
+          <div className="flex items-center gap-2.5 text-sm font-semibold">
             {feedbackMessage.type === 'success' ? (
               <CheckCircle2 className="w-4 h-4 text-foreground" />
             ) : (
@@ -442,7 +442,7 @@ export function Companies() {
             )}
             <span>{feedbackMessage.text}</span>
           </div>
-          <button onClick={() => setFeedbackMessage(null)} className="text-xs font-bold hover:underline cursor-pointer">
+          <button onClick={() => setFeedbackMessage(null)} className="text-sm font-bold hover:underline cursor-pointer">
             Dismiss
           </button>
         </div>
@@ -452,38 +452,38 @@ export function Companies() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-card p-4 rounded-xl border border-border shadow-xs hover:border-neutral-400 dark:hover:border-neutral-600 transition-all">
           <div className="flex items-center justify-between text-muted-foreground mb-1">
-            <span className="text-xs font-semibold">Available Companies</span>
+            <span className="text-sm font-semibold">Available Companies</span>
             <Building2 className="w-4 h-4 text-foreground" />
           </div>
-          <div className="text-2xl font-black text-foreground">{totalCompaniesCount}</div>
-          <p className="text-[11px] text-muted-foreground mt-0.5">Corporate partners active</p>
+          <div className="text-xl sm:text-2xl font-bold text-foreground">{totalCompaniesCount}</div>
+          <p className="text-xs text-muted-foreground mt-0.5">Corporate partners active</p>
         </div>
 
         <div className="bg-card p-4 rounded-xl border border-border shadow-xs hover:border-neutral-400 dark:hover:border-neutral-600 transition-all">
           <div className="flex items-center justify-between text-muted-foreground mb-1">
-            <span className="text-xs font-semibold">Dream & Super Dream</span>
+            <span className="text-sm font-semibold">Dream & Super Dream</span>
             <Sparkles className="w-4 h-4 text-foreground" />
           </div>
-          <div className="text-2xl font-black text-foreground">{superDreamCount}</div>
-          <p className="text-[11px] text-muted-foreground mt-0.5">&gt; 10 LPA Tier roles</p>
+          <div className="text-xl sm:text-2xl font-bold text-foreground">{superDreamCount}</div>
+          <p className="text-xs text-muted-foreground mt-0.5">&gt; 10 LPA Tier roles</p>
         </div>
 
         <div className="bg-card p-4 rounded-xl border border-border shadow-xs hover:border-neutral-400 dark:hover:border-neutral-600 transition-all">
           <div className="flex items-center justify-between text-muted-foreground mb-1">
-            <span className="text-xs font-semibold">Eligible Student Quota</span>
+            <span className="text-sm font-semibold">Eligible Student Quota</span>
             <Users className="w-4 h-4 text-foreground" />
           </div>
-          <div className="text-2xl font-black text-foreground">{totalQuotaCapacity}</div>
-          <p className="text-[11px] text-muted-foreground mt-0.5">Configured seats across drives</p>
+          <div className="text-xl sm:text-2xl font-bold text-foreground">{totalQuotaCapacity}</div>
+          <p className="text-xs text-muted-foreground mt-0.5">Configured seats across drives</p>
         </div>
 
         <div className="bg-card p-4 rounded-xl border border-border shadow-xs hover:border-neutral-400 dark:hover:border-neutral-600 transition-all">
           <div className="flex items-center justify-between text-muted-foreground mb-1">
-            <span className="text-xs font-semibold">Next Scheduled Drive</span>
+            <span className="text-sm font-semibold">Next Scheduled Drive</span>
             <CalendarDays className="w-4 h-4 text-foreground" />
           </div>
-          <div className="text-lg font-black text-foreground truncate">{nextDriveDate}</div>
-          <p className="text-[11px] text-muted-foreground mt-0.5">Upcoming campus assessment</p>
+          <div className="text-xl sm:text-2xl font-bold text-foreground truncate">{nextDriveDate}</div>
+          <p className="text-xs text-muted-foreground mt-0.5">Upcoming campus assessment</p>
         </div>
       </div>
 
@@ -498,20 +498,20 @@ export function Companies() {
               placeholder="Search companies by name, industry, headquarters, or venue..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-neutral-400"
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-neutral-400"
             />
           </div>
 
           {/* Filter Dropdowns */}
-          <div className="flex flex-wrap items-center gap-2 text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-sm">
             {/* Department Filter (Admin view) */}
             {isAdmin && (
               <div className="flex items-center gap-1.5">
-                <span className="text-muted-foreground text-[11px] font-medium hidden sm:inline">Dept:</span>
+                <span className="text-muted-foreground text-xs font-medium hidden sm:inline">Dept:</span>
                 <select
                   value={deptFilter}
                   onChange={(e) => setDeptFilter(e.target.value)}
-                  className="px-2.5 py-1.5 rounded-lg border border-border bg-secondary font-medium text-foreground"
+                  className="px-3 py-2 rounded-lg border border-border bg-secondary font-medium text-foreground text-sm"
                 >
                   <option value="ALL">All Departments</option>
                   {ALL_DEPARTMENTS.map((d) => (
@@ -525,11 +525,11 @@ export function Companies() {
 
             {/* Academic Year Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-muted-foreground text-[11px] font-medium hidden sm:inline">Cohort:</span>
+              <span className="text-muted-foreground text-xs font-medium hidden sm:inline">Cohort:</span>
               <select
                 value={yearFilter}
                 onChange={(e) => setYearFilter(e.target.value)}
-                className="px-2.5 py-1.5 rounded-lg border border-border bg-secondary font-medium text-foreground"
+                className="px-3 py-2 rounded-lg border border-border bg-secondary font-medium text-foreground text-sm"
               >
                 <option value="ALL">All Academic Years</option>
                 {ACADEMIC_YEARS.map((y) => (
@@ -542,11 +542,11 @@ export function Companies() {
 
             {/* Hiring Tier Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-muted-foreground text-[11px] font-medium hidden sm:inline">Tier:</span>
+              <span className="text-muted-foreground text-xs font-medium hidden sm:inline">Tier:</span>
               <select
                 value={tierFilter}
                 onChange={(e) => setTierFilter(e.target.value)}
-                className="px-2.5 py-1.5 rounded-lg border border-border bg-secondary font-medium text-foreground"
+                className="px-3 py-2 rounded-lg border border-border bg-secondary font-medium text-foreground text-sm"
               >
                 <option value="ALL">All Hiring Tiers</option>
                 <option value="SUPER_DREAM">Super Dream (&gt; 20 LPA)</option>
@@ -560,16 +560,16 @@ export function Companies() {
 
         {/* Administrator Student Simulator Switcher */}
         {isAdmin && (
-          <div className="pt-2.5 border-t border-border flex flex-wrap items-center justify-between text-xs text-muted-foreground gap-2">
+          <div className="pt-2.5 border-t border-border flex flex-wrap items-center justify-between text-sm text-muted-foreground gap-2">
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 bg-neutral-200 dark:bg-neutral-800 text-foreground rounded font-bold text-[10px] uppercase border border-border">
+              <span className="px-2.5 py-0.5 bg-neutral-200 dark:bg-neutral-800 text-foreground rounded font-bold text-xs uppercase border border-border">
                 Admin Simulation Tool
               </span>
               <span>Test Department Visibility View:</span>
               <select
                 value={adminSimulateDept}
                 onChange={(e) => setAdminSimulateDept(e.target.value)}
-                className="px-2.5 py-1 rounded border border-border bg-secondary text-foreground font-semibold"
+                className="px-3 py-1.5 rounded-lg border border-border bg-secondary text-foreground font-semibold text-sm"
               >
                 <option value="NONE">Disabled (Viewing all companies)</option>
                 <option value="CSE">Simulate CSE Student Portal</option>
@@ -581,7 +581,7 @@ export function Companies() {
             </div>
 
             {adminSimulateDept !== 'NONE' && (
-              <span className="text-foreground font-semibold text-[11px]">
+              <span className="text-foreground font-semibold text-xs">
                 Showing only companies configured for {adminSimulateDept} students!
               </span>
             )}
@@ -591,11 +591,11 @@ export function Companies() {
 
       {/* Student 3 Logical Categories Navigation Tabs - Strict B&W */}
       {isStudent && (
-        <div className="bg-card p-2.5 rounded-2xl border border-border space-y-2">
-          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-secondary rounded-xl">
+        <div className="bg-card p-3 rounded-2xl border border-border space-y-2.5">
+          <div className="flex flex-wrap items-center gap-2 p-1.5 bg-secondary rounded-xl">
             <button
               onClick={() => setStudentCategoryTab('ELIGIBLE')}
-              className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 studentCategoryTab === 'ELIGIBLE'
                   ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
@@ -603,7 +603,7 @@ export function Companies() {
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>Eligible Companies</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                 studentCategoryTab === 'ELIGIBLE'
                   ? 'bg-neutral-700 text-white dark:bg-neutral-300 dark:text-black'
                   : 'bg-neutral-200 dark:bg-neutral-700 text-foreground'
@@ -614,7 +614,7 @@ export function Companies() {
 
             <button
               onClick={() => setStudentCategoryTab('APPLIED')}
-              className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 studentCategoryTab === 'APPLIED'
                   ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
@@ -622,7 +622,7 @@ export function Companies() {
             >
               <FileCheck2 className="w-4 h-4" />
               <span>Applied Companies</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                 studentCategoryTab === 'APPLIED'
                   ? 'bg-neutral-700 text-white dark:bg-neutral-300 dark:text-black'
                   : 'bg-neutral-200 dark:bg-neutral-700 text-foreground'
@@ -633,7 +633,7 @@ export function Companies() {
 
             <button
               onClick={() => setStudentCategoryTab('INELIGIBLE')}
-              className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 studentCategoryTab === 'INELIGIBLE'
                   ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
@@ -641,7 +641,7 @@ export function Companies() {
             >
               <AlertTriangle className="w-4 h-4" />
               <span>Ineligible Companies</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                 studentCategoryTab === 'INELIGIBLE'
                   ? 'bg-neutral-700 text-white dark:bg-neutral-300 dark:text-black'
                   : 'bg-neutral-200 dark:bg-neutral-700 text-foreground'
@@ -652,7 +652,7 @@ export function Companies() {
 
             <button
               onClick={() => setStudentCategoryTab('ALL')}
-              className={`px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 studentCategoryTab === 'ALL'
                   ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
@@ -662,7 +662,7 @@ export function Companies() {
             </button>
           </div>
 
-          <div className="px-3 py-1 text-[11px] text-muted-foreground flex items-center justify-between">
+          <div className="px-3 py-1 text-xs text-muted-foreground flex items-center justify-between">
             <span>
               {studentCategoryTab === 'ELIGIBLE' && 'Showing recruitment drives that match your department, graduation year, and minimum CGPA.'}
               {studentCategoryTab === 'APPLIED' && 'Showing placement drives you have applied for. Track multi-stage progression in My Applications.'}
@@ -732,14 +732,14 @@ export function Companies() {
                 <div className="p-5 space-y-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] flex items-center justify-center font-black text-lg shadow-xs">
+                      <div className="w-12 h-12 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] flex items-center justify-center font-black text-xl shadow-xs">
                         {comp.name[0]}
                       </div>
                       <div>
-                        <h3 className="font-bold text-base text-foreground group-hover:underline transition-colors">
+                        <h3 className="font-bold text-lg text-foreground group-hover:underline transition-colors">
                           {comp.name}
                         </h3>
-                        <p className="text-xs text-muted-foreground font-medium">
+                        <p className="text-sm text-muted-foreground font-medium">
                           {comp.job_title ? `${comp.job_title} • ` : ''}{comp.industry}
                         </p>
                       </div>
@@ -747,25 +747,25 @@ export function Companies() {
 
                     <div className="flex flex-col items-end gap-1.5">
                       <StatusBadge status={comp.tier} />
-                      <span className="text-xs font-black text-foreground bg-secondary px-2 py-0.5 rounded-md border border-border">
+                      <span className="text-sm font-black text-foreground bg-secondary px-2.5 py-1 rounded-md border border-border">
                         ₹{comp.package_ctc || '12.00'} LPA
                       </span>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                     {comp.description || 'Global industry leader participating in campus placement drives.'}
                   </p>
 
                   {/* Key Metadata: Departments & Academic Year */}
-                  <div className="bg-secondary rounded-xl p-3.5 border border-border space-y-2.5 text-xs">
+                  <div className="bg-secondary rounded-xl p-3.5 border border-border space-y-2.5 text-sm">
                     <div>
-                      <div className="flex items-center justify-between text-[11px] font-semibold text-muted-foreground mb-1.5">
-                        <span className="flex items-center gap-1 text-foreground">
-                          <Layers className="w-3.5 h-3.5 text-foreground" /> Eligible Departments ({depts.length}):
+                      <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground mb-1.5">
+                        <span className="flex items-center gap-1.5 text-foreground">
+                          <Layers className="w-4 h-4 text-foreground" /> Eligible Departments ({depts.length}):
                         </span>
-                        <span className="text-foreground font-bold bg-card px-2 py-0.5 rounded border border-border">
+                        <span className="text-foreground font-bold bg-card px-2.5 py-0.5 rounded border border-border text-xs">
                           Batch: {comp.academic_year || '2026-2027'}
                         </span>
                       </div>
@@ -776,7 +776,7 @@ export function Companies() {
                           return (
                             <span
                               key={d}
-                              className={`px-2 py-0.5 rounded text-[11px] font-bold transition-all ${
+                              className={`px-2.5 py-1 rounded text-xs font-bold transition-all ${
                                 isCurrentStudentDept
                                   ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] shadow-xs'
                                   : 'bg-card text-foreground border border-border'
@@ -792,7 +792,7 @@ export function Companies() {
 
                     {/* Enrolled Students Capacity & Quota */}
                     <div className="pt-2 border-t border-border">
-                      <div className="flex items-center justify-between text-[11px] mb-1">
+                      <div className="flex items-center justify-between text-xs mb-1.5">
                         <span className="text-muted-foreground">
                           Configured Student Quota: <strong className="text-foreground">{quota} Students</strong>
                         </span>
@@ -800,7 +800,7 @@ export function Companies() {
                           {matchingCount} Eligible Enrolled ({capacityPercent}%)
                         </span>
                       </div>
-                      <div className="w-full bg-neutral-200 dark:bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-neutral-200 dark:bg-neutral-800 h-2 rounded-full overflow-hidden">
                         <div
                           className="bg-neutral-900 dark:bg-neutral-100 h-full rounded-full transition-all"
                           style={{ width: `${capacityPercent}%` }}
@@ -809,7 +809,7 @@ export function Companies() {
                     </div>
 
                     {/* Eligibility Criteria Check */}
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1.5 text-[11px]">
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1.5 text-xs">
                       <span className="text-muted-foreground">
                         Min CGPA Cutoff: <strong className="text-foreground">{comp.min_cgpa || '6.50'}</strong>
                       </span>
@@ -817,12 +817,12 @@ export function Companies() {
                       {isStudent && (
                         <div>
                           {meetsCgpa && isStudentDeptEligible ? (
-                            <span className="inline-flex items-center gap-1 text-foreground font-bold bg-card px-2 py-0.5 rounded border border-border">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-foreground" /> You Meet Criteria ({user.cgpa} &ge; {comp.min_cgpa})
+                            <span className="inline-flex items-center gap-1.5 text-foreground font-bold bg-card px-2.5 py-1 rounded border border-border text-xs">
+                              <CheckCircle2 className="w-4 h-4 text-foreground" /> You Meet Criteria ({user.cgpa} &ge; {comp.min_cgpa})
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 text-muted-foreground font-bold bg-card px-2 py-0.5 rounded border border-border">
-                              <XCircle className="w-3.5 h-3.5 text-foreground" /> Cutoff {comp.min_cgpa} (Yours: {user.cgpa})
+                            <span className="inline-flex items-center gap-1.5 text-muted-foreground font-bold bg-card px-2.5 py-1 rounded border border-border text-xs">
+                              <XCircle className="w-4 h-4 text-foreground" /> Cutoff {comp.min_cgpa} (Yours: {user.cgpa})
                             </span>
                           )}
                         </div>
@@ -831,20 +831,20 @@ export function Companies() {
                   </div>
 
                   {/* Placement Drive Schedule Details */}
-                  <div className="rounded-xl border border-border bg-card p-3 space-y-2 text-xs">
-                    <div className="flex items-center justify-between font-semibold text-foreground text-[11px]">
+                  <div className="rounded-xl border border-border bg-card p-3.5 space-y-2.5 text-sm">
+                    <div className="flex items-center justify-between font-semibold text-foreground text-xs">
                       <span className="flex items-center gap-1.5 font-bold">
-                        <CalendarDays className="w-3.5 h-3.5 text-foreground" />
+                        <CalendarDays className="w-4 h-4 text-foreground" />
                         Drive Date: {comp.drive_date?.split('T')[0] || '2026-11-25'}
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-secondary text-foreground text-[10px] font-bold border border-border">
+                      <span className="px-2.5 py-0.5 rounded bg-secondary text-foreground text-xs font-bold border border-border">
                         {comp.drive_mode || 'ON_CAMPUS'}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                      <span className="flex items-center gap-1 truncate max-w-[240px]">
-                        <MapPin className="w-3 h-3 text-muted-foreground shrink-0" />
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1.5 truncate max-w-[240px]">
+                        <MapPin className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                         {comp.drive_venue || 'Main Campus Placement Cell'}
                       </span>
                       <span className="font-semibold text-foreground">
@@ -854,13 +854,13 @@ export function Companies() {
 
                     {/* Recruitment Stages Mini Stepper */}
                     {rounds && rounds.length > 0 && (
-                      <div className="pt-1.5 border-t border-border flex items-center gap-1 overflow-x-auto text-[10px] text-muted-foreground">
+                      <div className="pt-2 border-t border-border flex items-center gap-1.5 overflow-x-auto text-xs text-muted-foreground">
                         {rounds.map((rnd, idx) => {
                           const roundLabel = typeof rnd === 'string' ? rnd : (rnd.round_name || `Round ${idx + 1}`);
                           return (
                             <span
                               key={idx}
-                              className="shrink-0 bg-secondary px-2 py-0.5 rounded border border-border text-foreground font-medium"
+                              className="shrink-0 bg-secondary px-2.5 py-1 rounded border border-border text-foreground font-medium"
                             >
                               {idx + 1}. {roundLabel}
                             </span>
@@ -872,12 +872,12 @@ export function Companies() {
 
                   {/* Ineligible Alert Banner (if student is ineligible) */}
                   {isStudent && !hasApplied && !isEligible && (
-                    <div className="rounded-xl border border-border bg-secondary p-3 text-xs space-y-1">
-                      <div className="flex items-center gap-1.5 font-bold text-foreground text-[11px]">
+                    <div className="rounded-xl border border-border bg-secondary p-3.5 text-sm space-y-1.5">
+                      <div className="flex items-center gap-1.5 font-bold text-foreground text-xs">
                         <AlertTriangle className="w-4 h-4 text-foreground shrink-0" />
                         <span>Ineligibility Notice</span>
                       </div>
-                      <ul className="list-disc list-inside text-[11px] text-muted-foreground pl-1 space-y-0.5">
+                      <ul className="list-disc list-inside text-xs text-muted-foreground pl-1 space-y-1">
                         {(comp.ineligibility_reasons || ['Branch or academic criteria unmet']).map((reason, i) => (
                           <li key={i}>{reason}</li>
                         ))}
@@ -887,19 +887,19 @@ export function Companies() {
 
                   {/* Registered Status Banner (if student already applied) */}
                   {isStudent && hasApplied && (
-                    <div className="rounded-xl border border-border bg-secondary p-3 flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-foreground shrink-0" />
+                    <div className="rounded-xl border border-border bg-secondary p-3.5 flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2.5">
+                        <CheckCircle2 className="w-5 h-5 text-foreground shrink-0" />
                         <div>
-                          <span className="font-bold text-foreground text-xs">Application Submitted</span>
-                          <span className="text-[11px] text-muted-foreground block">
+                          <span className="font-bold text-foreground text-sm">Application Submitted</span>
+                          <span className="text-xs text-muted-foreground block">
                             App ID: #{comp.application_id || 'REGISTERED'} • Status: {comp.application_status || 'APPLIED'} • Round {comp.current_round || 1}
                           </span>
                         </div>
                       </div>
                       <button
                         onClick={() => navigate('/applications')}
-                        className="px-2.5 py-1 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg font-bold text-[11px] transition-colors cursor-pointer"
+                        className="px-3 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg font-bold text-xs transition-colors cursor-pointer"
                       >
                         Track &rarr;
                       </button>
@@ -908,7 +908,7 @@ export function Companies() {
 
                   {/* Placement Officer Pipeline Counters Box */}
                   {isAdmin && (
-                    <div className="rounded-xl border border-border bg-secondary p-2.5 flex items-center justify-between text-[11px] font-semibold text-foreground">
+                    <div className="rounded-xl border border-border bg-secondary p-3 flex items-center justify-between text-xs font-semibold text-foreground">
                       <div className="flex items-center gap-3">
                         <span>Applicants: <strong className="text-foreground">{comp.total_applicants || 0}</strong></span>
                         <span>•</span>
@@ -927,15 +927,15 @@ export function Companies() {
                 </div>
 
                 {/* Card Footer Actions */}
-                <div className="px-5 py-3.5 bg-secondary border-t border-border flex items-center justify-between text-xs">
+                <div className="px-5 py-4 bg-secondary border-t border-border flex items-center justify-between text-sm">
                   {/* Left: Rating and Details button */}
-                  <div className="flex items-center gap-2">
-                    <span className="flex items-center gap-1 text-foreground font-bold text-xs bg-card px-2 py-1 rounded border border-border">
-                      <Star className="w-3.5 h-3.5 fill-current" /> {comp.rating || '4.5'}
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex items-center gap-1 text-foreground font-bold text-sm bg-card px-2.5 py-1 rounded border border-border">
+                      <Star className="w-4 h-4 fill-current" /> {comp.rating || '4.5'}
                     </span>
                     <button
                       onClick={() => (isStudent ? setStudentDetailsCompany(comp) : setManageCompanyId(comp.id))}
-                      className="text-muted-foreground hover:text-foreground font-semibold text-xs hover:underline cursor-pointer"
+                      className="text-muted-foreground hover:text-foreground font-semibold text-sm hover:underline cursor-pointer"
                     >
                       View Details
                     </button>
@@ -947,22 +947,22 @@ export function Companies() {
                       <>
                         <button
                           onClick={() => setManageCompanyId(comp.id)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-lg shadow-xs transition-colors cursor-pointer text-xs"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-lg shadow-xs transition-colors cursor-pointer text-sm"
                           title="View registered students, review eligibility, schedule rounds, and publish results"
                         >
-                          <Users className="w-3.5 h-3.5" /> Manage Company
+                          <Users className="w-4 h-4" /> Manage Company
                         </button>
 
                         <button
                           onClick={() => handleOpenEditModal(comp)}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border transition-colors cursor-pointer text-xs"
+                          className="inline-flex items-center gap-1 px-3 py-2 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border transition-colors cursor-pointer text-sm"
                         >
-                          <Edit3 className="w-3.5 h-3.5 text-foreground" /> Edit
+                          <Edit3 className="w-4 h-4 text-foreground" /> Edit
                         </button>
 
                         <button
                           onClick={() => handleDeleteCompany(comp.id, comp.name)}
-                          className="p-1.5 bg-card hover:bg-neutral-200 dark:hover:bg-neutral-800 text-muted-foreground hover:text-foreground rounded-lg border border-border transition-colors cursor-pointer"
+                          className="p-2 bg-card hover:bg-neutral-200 dark:hover:bg-neutral-800 text-muted-foreground hover:text-foreground rounded-lg border border-border transition-colors cursor-pointer"
                           title="Delete Company"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -976,14 +976,14 @@ export function Companies() {
                           <>
                             <button
                               onClick={() => navigate('/applications')}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg font-bold text-xs shadow-xs cursor-pointer transition-colors"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg font-bold text-sm shadow-xs cursor-pointer transition-colors"
                             >
-                              <FileCheck2 className="w-3.5 h-3.5" />
+                              <FileCheck2 className="w-4 h-4" />
                               Track in My Applications
                             </button>
                             <button
                               onClick={() => setStudentDetailsCompany(comp)}
-                              className="px-3 py-1.5 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border text-xs cursor-pointer"
+                              className="px-3.5 py-2 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border text-sm cursor-pointer"
                             >
                               Details
                             </button>
@@ -992,14 +992,14 @@ export function Companies() {
                           <>
                             <button
                               disabled
-                              className="px-3 py-1.5 bg-neutral-200 dark:bg-neutral-800 text-neutral-500 font-semibold rounded-lg text-xs cursor-not-allowed border border-border"
+                              className="px-3.5 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-500 font-semibold rounded-lg text-sm cursor-not-allowed border border-border"
                               title={comp.ineligibility_reasons?.join(', ') || 'Ineligible for this placement opportunity.'}
                             >
                               Ineligible to Apply
                             </button>
                             <button
                               onClick={() => setStudentDetailsCompany(comp)}
-                              className="px-3 py-1.5 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border text-xs cursor-pointer"
+                              className="px-3.5 py-2 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border text-sm cursor-pointer"
                             >
                               View Reasons
                             </button>
@@ -1008,13 +1008,13 @@ export function Companies() {
                           <>
                             <button
                               onClick={() => handleConfirmApply(comp.id)}
-                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-lg shadow-xs transition-colors cursor-pointer text-xs"
+                              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] font-bold rounded-lg shadow-xs transition-colors cursor-pointer text-sm"
                             >
-                              Apply Now <ChevronRight className="w-3.5 h-3.5" />
+                              Apply Now <ChevronRight className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => setStudentDetailsCompany(comp)}
-                              className="px-3 py-1.5 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border text-xs cursor-pointer"
+                              className="px-3.5 py-2 bg-card hover:bg-secondary text-foreground font-semibold rounded-lg border border-border text-sm cursor-pointer"
                             >
                               View Details
                             </button>
@@ -1037,9 +1037,9 @@ export function Companies() {
         title={modalMode === 'create' ? 'Register New Placement Company' : `Edit Placement Company: ${formData.name}`}
         maxWidth="max-w-3xl"
       >
-        <form onSubmit={handleSubmitForm} className="space-y-5 text-xs max-h-[75vh] overflow-y-auto pr-1">
+        <form onSubmit={handleSubmitForm} className="space-y-5 text-sm max-h-[75vh] overflow-y-auto pr-1">
           {modalError && (
-            <div className="p-3 rounded-xl border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-between gap-3 text-xs">
+            <div className="p-3.5 rounded-xl border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-between gap-3 text-sm">
               <div className="flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 shrink-0 text-red-500" />
                 <span className="font-semibold">{modalError}</span>
@@ -1047,7 +1047,7 @@ export function Companies() {
               <button
                 type="button"
                 onClick={() => setModalError(null)}
-                className="text-xs hover:underline font-bold cursor-pointer shrink-0"
+                className="text-sm hover:underline font-bold cursor-pointer shrink-0"
               >
                 Dismiss
               </button>
@@ -1055,44 +1055,44 @@ export function Companies() {
           )}
 
           {/* Section 1: Company Profile */}
-          <div className="space-y-3">
-            <h4 className="font-bold text-foreground text-sm flex items-center gap-2 pb-1 border-b border-border">
+          <div className="space-y-3.5">
+            <h4 className="font-bold text-foreground text-base flex items-center gap-2 pb-1.5 border-b border-border">
               <Building2 className="w-4 h-4 text-foreground" /> Corporate Profile & Recruiter Contact
             </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Company Name *</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Company Name *</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. Google India, Amazon, Infosys"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Industry Domain *</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Industry Domain *</label>
                 <input
                   type="text"
                   required
                   value={formData.industry}
                   onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
                   placeholder="e.g. Information Technology & Cloud"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Recruitment Tier</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Recruitment Tier</label>
                 <select
                   value={formData.tier}
                   onChange={(e) => setFormData({ ...formData, tier: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-sm"
                 >
                   <option value="SUPER_DREAM">Super Dream (&gt; 20 LPA)</option>
                   <option value="DREAM">Dream (10 - 20 LPA)</option>
@@ -1102,77 +1102,77 @@ export function Companies() {
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Website URL</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Website URL</label>
                 <input
                   type="url"
                   value={formData.website}
                   onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                   placeholder="https://company.com/careers"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Headquarters</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Headquarters</label>
                 <input
                   type="text"
                   value={formData.headquarters}
                   onChange={(e) => setFormData({ ...formData, headquarters: e.target.value })}
                   placeholder="e.g. Bengaluru / Hyderabad"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Recruiter Email</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Recruiter Email</label>
                 <input
                   type="email"
                   value={formData.contact_email}
                   onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
                   placeholder="campus-talent@company.com"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Contact Phone</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Contact Phone</label>
                 <input
                   type="text"
                   value={formData.contact_phone}
                   onChange={(e) => setFormData({ ...formData, contact_phone: e.target.value })}
                   placeholder="+91 9876543210"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-semibold text-foreground mb-1">Company Description & Hiring Mission</label>
+              <label className="block font-semibold text-foreground text-sm mb-1.5">Company Description & Hiring Mission</label>
               <textarea
                 rows="2"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 placeholder="Overview of company business model, technology stack, and student hiring goals..."
-                className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
               />
             </div>
           </div>
 
           {/* Section 2: Department & Academic Year Eligibility */}
-          <div className="space-y-3 pt-2">
-            <h4 className="font-bold text-foreground text-sm flex items-center gap-2 pb-1 border-b border-border">
+          <div className="space-y-3.5 pt-2">
+            <h4 className="font-bold text-foreground text-base flex items-center gap-2 pb-1.5 border-b border-border">
               <Layers className="w-4 h-4 text-foreground" /> Branch & Academic Year Eligibility Rules
             </h4>
 
             {/* Department Multi-Select */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="font-semibold text-foreground">
+                <label className="font-semibold text-foreground text-sm">
                   Select Eligible University Departments ({formData.eligible_departments?.length || 0} selected) *
                 </label>
-                <div className="flex items-center gap-2 text-[11px]">
+                <div className="flex items-center gap-2 text-xs">
                   <button
                     type="button"
                     onClick={selectAllDepartments}
@@ -1198,7 +1198,7 @@ export function Companies() {
                     <label
                       key={dept.code}
                       onClick={() => toggleDepartment(dept.code)}
-                      className={`flex items-center gap-2 p-2 rounded-lg border text-xs cursor-pointer select-none transition-all ${
+                      className={`flex items-center gap-2 p-2 rounded-lg border text-sm cursor-pointer select-none transition-all ${
                         isChecked
                           ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] border-transparent font-bold'
                           : 'bg-card border-border text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
@@ -1217,13 +1217,13 @@ export function Companies() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Academic Year Cohort *</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Academic Year Cohort *</label>
                 <select
                   value={formData.academic_year}
                   onChange={(e) => setFormData({ ...formData, academic_year: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-sm"
                 >
                   {ACADEMIC_YEARS.map((yr) => (
                     <option key={yr} value={yr}>
@@ -1234,7 +1234,7 @@ export function Companies() {
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">
+                <label className="block font-semibold text-foreground text-sm mb-1.5">
                   Enrolled Students Quota Capacity *
                 </label>
                 <input
@@ -1244,13 +1244,13 @@ export function Companies() {
                   max="5000"
                   value={formData.eligible_student_count}
                   onChange={(e) => setFormData({ ...formData, eligible_student_count: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
-                <span className="text-[10px] text-muted-foreground">Max candidates allowed to attend drive</span>
+                <span className="text-xs text-muted-foreground">Max candidates allowed to attend drive</span>
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Minimum CGPA Cutoff</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Minimum CGPA Cutoff</label>
                 <input
                   type="number"
                   step="0.05"
@@ -1258,26 +1258,26 @@ export function Companies() {
                   max="10"
                   value={formData.min_cgpa}
                   onChange={(e) => setFormData({ ...formData, min_cgpa: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Package / CTC (LPA) *</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Package / CTC (LPA) *</label>
                 <input
                   type="number"
                   step="0.1"
                   min="1"
                   value={formData.package_ctc}
                   onChange={(e) => setFormData({ ...formData, package_ctc: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Partner Rating (Out of 5.0)</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Partner Rating (Out of 5.0)</label>
                 <input
                   type="number"
                   step="0.1"
@@ -1285,36 +1285,36 @@ export function Companies() {
                   max="5"
                   value={formData.rating}
                   onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
             </div>
           </div>
 
           {/* Section 3: Placement Drive Schedule */}
-          <div className="space-y-3 pt-2">
-            <h4 className="font-bold text-foreground text-sm flex items-center gap-2 pb-1 border-b border-border">
+          <div className="space-y-3.5 pt-2">
+            <h4 className="font-bold text-foreground text-base flex items-center gap-2 pb-1.5 border-b border-border">
               <CalendarDays className="w-4 h-4 text-foreground" /> Placement Drive Schedule & Stages
             </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Drive Date *</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Drive Date *</label>
                 <input
                   type="date"
                   required
                   value={formData.drive_date}
                   onChange={(e) => setFormData({ ...formData, drive_date: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Drive Mode</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Drive Mode</label>
                 <select
                   value={formData.drive_mode}
                   onChange={(e) => setFormData({ ...formData, drive_mode: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-sm"
                 >
                   <option value="ON_CAMPUS">On-Campus</option>
                   <option value="VIRTUAL">Virtual / Remote</option>
@@ -1324,11 +1324,11 @@ export function Companies() {
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Current Drive Stage</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Current Drive Stage</label>
                 <select
                   value={formData.selection_stage}
                   onChange={(e) => setFormData({ ...formData, selection_stage: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-secondary text-foreground rounded-lg text-sm"
                 >
                   <option value="Registration Stage">Registration Stage</option>
                   <option value="Online Assessment">Online Assessment</option>
@@ -1339,25 +1339,25 @@ export function Companies() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block font-semibold text-foreground mb-1">Campus Venue / Assessment Link</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Campus Venue / Assessment Link</label>
                 <input
                   type="text"
                   value={formData.drive_venue}
                   onChange={(e) => setFormData({ ...formData, drive_venue: e.target.value })}
                   placeholder="e.g. Placement Auditorium & Computing Block"
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-foreground mb-1">Application Deadline</label>
+                <label className="block font-semibold text-foreground text-sm mb-1.5">Application Deadline</label>
                 <input
                   type="datetime-local"
                   value={formData.application_deadline}
                   onChange={(e) => setFormData({ ...formData, application_deadline: e.target.value })}
-                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-xs"
+                  className="w-full p-2.5 border border-border bg-background text-foreground rounded-lg text-sm"
                 />
               </div>
             </div>
@@ -1368,14 +1368,14 @@ export function Companies() {
             <button
               type="button"
               onClick={() => setIsAddEditModalOpen(false)}
-              className="px-4 py-2 border border-border rounded-xl text-foreground hover:bg-secondary font-semibold cursor-pointer"
+              className="px-4 py-2 border border-border rounded-xl text-foreground hover:bg-secondary font-semibold text-sm cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-xl font-bold shadow-xs transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-xl font-bold shadow-xs transition-all cursor-pointer text-sm"
             >
               {isSubmitting
                 ? 'Saving Details...'
@@ -1395,42 +1395,42 @@ export function Companies() {
           title={`Corporate Dossier: ${viewDossierCompany.name}`}
           maxWidth="max-w-2xl"
         >
-          <div className="space-y-4 text-xs">
+          <div className="space-y-4 text-sm">
             <div className="flex items-center justify-between pb-3 border-b border-border">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 flex items-center justify-center font-bold text-lg">
+                <div className="w-12 h-12 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] flex items-center justify-center font-bold text-xl">
                   {viewDossierCompany.name[0]}
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-foreground">{viewDossierCompany.name}</h3>
-                  <p className="text-muted-foreground">{viewDossierCompany.industry}</p>
+                  <h3 className="text-lg font-bold text-foreground">{viewDossierCompany.name}</h3>
+                  <p className="text-sm text-muted-foreground">{viewDossierCompany.industry}</p>
                 </div>
               </div>
               <StatusBadge status={viewDossierCompany.tier} />
             </div>
 
-            <p className="text-foreground leading-relaxed">{viewDossierCompany.description}</p>
+            <p className="text-foreground leading-relaxed text-sm">{viewDossierCompany.description}</p>
 
-            <div className="grid grid-cols-2 gap-3 p-3 bg-secondary rounded-xl border border-border">
+            <div className="grid grid-cols-2 gap-3.5 p-3.5 bg-secondary rounded-xl border border-border">
               <div>
-                <span className="text-muted-foreground block text-[10px] uppercase font-bold">Package CTC</span>
-                <span className="text-sm font-bold text-foreground">₹{viewDossierCompany.package_ctc} LPA</span>
+                <span className="text-muted-foreground block text-xs uppercase font-bold">Package CTC</span>
+                <span className="text-base font-bold text-foreground">₹{viewDossierCompany.package_ctc} LPA</span>
               </div>
               <div>
-                <span className="text-muted-foreground block text-[10px] uppercase font-bold">Academic Year</span>
-                <span className="text-sm font-bold text-foreground">{viewDossierCompany.academic_year}</span>
+                <span className="text-muted-foreground block text-xs uppercase font-bold">Academic Year</span>
+                <span className="text-base font-bold text-foreground">{viewDossierCompany.academic_year}</span>
               </div>
               <div>
-                <span className="text-muted-foreground block text-[10px] uppercase font-bold">Eligible Quota</span>
-                <span className="text-sm font-bold text-foreground">{viewDossierCompany.configured_eligible_quota} Enrolled Students</span>
+                <span className="text-muted-foreground block text-xs uppercase font-bold">Eligible Quota</span>
+                <span className="text-base font-bold text-foreground">{viewDossierCompany.configured_eligible_quota} Enrolled Students</span>
               </div>
               <div>
-                <span className="text-muted-foreground block text-[10px] uppercase font-bold">Min CGPA Cutoff</span>
-                <span className="text-sm font-bold text-foreground">{viewDossierCompany.min_cgpa}</span>
+                <span className="text-muted-foreground block text-xs uppercase font-bold">Min CGPA Cutoff</span>
+                <span className="text-base font-bold text-foreground">{viewDossierCompany.min_cgpa}</span>
               </div>
             </div>
 
-            <div className="space-y-1.5 text-muted-foreground">
+            <div className="space-y-2 text-sm text-muted-foreground">
               {viewDossierCompany.headquarters && (
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-muted-foreground" /> Headquarters: {viewDossierCompany.headquarters}
@@ -1451,10 +1451,10 @@ export function Companies() {
               )}
             </div>
 
-            <div className="pt-3 border-t border-border flex justify-end">
+            <div className="pt-3.5 border-t border-border flex justify-end">
               <button
                 onClick={() => setViewDossierCompany(null)}
-                className="px-4 py-1.5 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg font-semibold cursor-pointer"
+                className="px-5 py-2 bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] rounded-lg font-semibold text-sm cursor-pointer"
               >
                 Close Dossier
               </button>

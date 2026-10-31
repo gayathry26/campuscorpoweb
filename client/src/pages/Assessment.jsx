@@ -342,7 +342,7 @@ if __name__ == '__main__':
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Assessment & CodeSprint Hub
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
@@ -400,23 +400,23 @@ if __name__ == '__main__':
         <div className="lg:col-span-7 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-foreground flex items-center gap-2">
+              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                 <span>Active Assessments & Quizzes</span>
-                <span className="px-2 py-0.5 rounded-full bg-secondary text-muted-foreground text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-secondary text-muted-foreground text-xs font-bold border border-border">
                   {filteredAssessments.length} Available
                 </span>
               </h2>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-sm text-muted-foreground mt-0.5">
                 Authorized institutional assessments retrieved live from campus database.
               </p>
             </div>
 
             {/* Assessment Type Filter Pills */}
-            <div className="flex items-center gap-1 p-1 bg-secondary rounded-xl border border-border text-xs font-bold shrink-0">
+            <div className="flex items-center gap-1 p-1 bg-secondary rounded-xl border border-border text-sm font-semibold shrink-0">
               <button
                 type="button"
                 onClick={() => setTypeFilter('ALL')}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                   typeFilter === 'ALL'
                     ? 'bg-card text-foreground shadow-xs border border-border'
                     : 'text-muted-foreground hover:text-foreground'
@@ -427,7 +427,7 @@ if __name__ == '__main__':
               <button
                 type="button"
                 onClick={() => setTypeFilter('PROGRAMMING')}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                   typeFilter === 'PROGRAMMING'
                     ? 'bg-card text-foreground shadow-xs border border-border'
                     : 'text-muted-foreground hover:text-foreground'
@@ -438,7 +438,7 @@ if __name__ == '__main__':
               <button
                 type="button"
                 onClick={() => setTypeFilter('QUIZ')}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                   typeFilter === 'QUIZ'
                     ? 'bg-card text-foreground shadow-xs border border-border'
                     : 'text-muted-foreground hover:text-foreground'
@@ -450,11 +450,11 @@ if __name__ == '__main__':
           </div>
 
           {loadingAssessments ? (
-            <div className="p-8 rounded-2xl bg-card border border-border text-center text-xs text-muted-foreground animate-pulse">
+            <div className="p-8 rounded-2xl bg-card border border-border text-center text-sm text-muted-foreground animate-pulse">
               Retrieving authorized database assessments and curriculum quizzes...
             </div>
           ) : filteredAssessments.length === 0 ? (
-            <div className="p-8 rounded-2xl bg-card border border-border text-center text-xs text-muted-foreground">
+            <div className="p-8 rounded-2xl bg-card border border-border text-center text-sm text-muted-foreground">
               No active assessments found matching the selected category.
             </div>
           ) : (
@@ -462,25 +462,25 @@ if __name__ == '__main__':
               {filteredAssessments.map((test) => (
                 <div
                   key={test.id}
-                  className="bg-card text-card-foreground rounded-2xl p-5 border border-border shadow-xs hover:border-border transition-all relative overflow-hidden group"
+                  className="bg-card text-card-foreground rounded-2xl p-5 border border-border shadow-xs hover:border-neutral-400 dark:hover:border-neutral-600 transition-all relative overflow-hidden group"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="space-y-1.5 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         {test.type === 'PROGRAMMING' ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-[10px] font-bold uppercase tracking-wider">
-                            <Code2 className="w-3 h-3" />
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-xs font-bold uppercase tracking-wider">
+                            <Code2 className="w-3.5 h-3.5" />
                             CodeSprint Challenge
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-secondary text-foreground text-[10px] font-bold uppercase tracking-wider border border-border">
-                            <BookOpen className="w-3 h-3" />
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-secondary text-foreground text-xs font-bold uppercase tracking-wider border border-border">
+                            <BookOpen className="w-3.5 h-3.5" />
                             Curriculum Quiz
                           </span>
                         )}
 
                         <span
-                          className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider"
+                          className="px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider"
                           style={{
                             backgroundColor: currentTheme.primaryLight,
                             color: currentTheme.primaryText,
@@ -488,43 +488,43 @@ if __name__ == '__main__':
                         >
                           {test.subject}
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-secondary text-muted-foreground text-[10px] font-semibold">
+                        <span className="px-2 py-0.5 rounded-md bg-secondary text-muted-foreground text-xs font-semibold">
                           {test.difficulty}
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-secondary text-foreground text-[10px] font-bold border border-border">
+                        <span className="px-2 py-0.5 rounded-md bg-secondary text-foreground text-xs font-bold border border-border">
                           Pass Mark: {test.cutoff}%
                         </span>
                         {test.dueDate && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-muted-foreground text-[10px] font-medium border border-border">
-                            <Calendar className="w-3 h-3" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-muted-foreground text-xs font-medium border border-border">
+                            <Calendar className="w-3.5 h-3.5" />
                             Due: {new Date(test.dueDate).toLocaleDateString()}
                           </span>
                         )}
                       </div>
 
-                      <h3 className="text-base font-extrabold text-foreground group-hover:text-foreground transition-colors">
+                      <h3 className="text-lg font-bold text-foreground group-hover:underline transition-colors">
                         {test.title}
                       </h3>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
                         {test.description}
                       </p>
 
-                      <div className="flex flex-wrap items-center gap-3 pt-2 text-[11px] text-muted-foreground font-medium">
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+                      <div className="flex flex-wrap items-center gap-3.5 pt-2 text-xs text-muted-foreground font-medium">
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 text-muted-foreground" />
                           {test.duration} Mins
                         </span>
-                        <span className="flex items-center gap-1">
-                          <Layers className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="flex items-center gap-1.5">
+                          <Layers className="w-4 h-4 text-muted-foreground" />
                           {test.questionsCount} {test.type === 'PROGRAMMING' ? 'Coding Problems' : 'Questions'}
                         </span>
-                        <span className="flex items-center gap-1">
-                          <Trophy className="w-3.5 h-3.5 text-foreground" />
+                        <span className="flex items-center gap-1.5">
+                          <Trophy className="w-4 h-4 text-foreground" />
                           {test.totalPoints} Marks Total
                         </span>
                         {test.attemptsTaken > 0 && (
-                          <span className="flex items-center gap-1 font-bold text-foreground">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                          <span className="flex items-center gap-1.5 font-bold text-foreground">
+                            <CheckCircle2 className="w-4 h-4 text-foreground" />
                             Best: {test.bestScore} pts ({test.attemptsTaken} attempt{test.attemptsTaken > 1 ? 's' : ''})
                           </span>
                         )}
@@ -534,12 +534,12 @@ if __name__ == '__main__':
                     <div className="shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-2 border-t sm:border-t-0 pt-3 sm:pt-0 border-border">
                       <button
                         onClick={() => handleStartTest(test)}
-                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-95"
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-95"
                         style={{
                           backgroundColor: currentTheme.primary,
                         }}
                       >
-                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <Play className="w-4 h-4 fill-current" />
                         <span>{test.type === 'PROGRAMMING' ? 'Start CodeSprint' : 'Start Quiz'}</span>
                       </button>
                     </div>
@@ -550,31 +550,31 @@ if __name__ == '__main__':
           )}
 
           {/* Past Submissions Section */}
-          <div className="bg-card text-card-foreground rounded-2xl p-5 border border-border shadow-xs space-y-3 mt-6">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
-              <h3 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
+          <div className="bg-card text-card-foreground rounded-2xl p-5 border border-border shadow-xs space-y-3.5 mt-6">
+            <div className="flex items-center justify-between pb-2.5 border-b border-border">
+              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-foreground" />
                 <span>My Evaluated Submissions & History</span>
               </h3>
-              <span className="text-[11px] text-muted-foreground font-medium">
+              <span className="text-xs text-muted-foreground font-medium">
                 {myAttempts.length} Records Found
               </span>
             </div>
 
             {loadingAttempts ? (
-              <p className="text-xs text-muted-foreground py-4 text-center animate-pulse">Loading submission history...</p>
+              <p className="text-sm text-muted-foreground py-4 text-center animate-pulse">Loading submission history...</p>
             ) : myAttempts.length === 0 ? (
-              <p className="text-xs text-muted-foreground py-4 text-center">No past assessment submissions recorded yet. Attempt an assessment above to view evaluated scores.</p>
+              <p className="text-sm text-muted-foreground py-4 text-center">No past assessment submissions recorded yet. Attempt an assessment above to view evaluated scores.</p>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {myAttempts.map((attempt) => (
                   <div
                     key={attempt.id}
-                    className="p-3 rounded-xl bg-secondary border border-border flex items-center justify-between gap-3 text-xs"
+                    className="p-3.5 rounded-xl bg-secondary border border-border flex items-center justify-between gap-3 text-sm"
                   >
                     <div>
-                      <p className="font-bold text-foreground">{attempt.title}</p>
-                      <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-0.5">
+                      <p className="font-bold text-foreground text-sm">{attempt.title}</p>
+                      <div className="flex items-center gap-2.5 text-xs text-muted-foreground mt-0.5">
                         <span>{attempt.date}</span>
                         {attempt.executionTime && <span>• Runtime: {attempt.executionTime}</span>}
                         {attempt.passedTests && <span>• {attempt.passedTests}</span>}
@@ -582,11 +582,11 @@ if __name__ == '__main__':
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-right">
-                        <span className="text-xs font-black text-foreground">
+                        <span className="text-sm font-black text-foreground">
                           {attempt.score}/{attempt.total}
                         </span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold border ${
+                      <span className={`px-2.5 py-1 rounded-md text-xs font-extrabold border ${
                         attempt.status === 'ACCEPTED' || attempt.status === 'PASSED'
                           ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20'
                           : 'bg-secondary text-foreground border-border'
@@ -606,11 +606,11 @@ if __name__ == '__main__':
           <div className="bg-card text-card-foreground rounded-2xl p-5 border border-border shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-border">
               <div>
-                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                   <Terminal className="w-4 h-4 text-foreground" />
                   <span>Compiler Execution Sandbox</span>
                 </h3>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Write and test code instantly against the live backend compiler runner.
                 </p>
               </div>
@@ -619,7 +619,7 @@ if __name__ == '__main__':
               <select
                 value={sandboxLang}
                 onChange={(e) => setSandboxLang(e.target.value)}
-                className="px-2.5 py-1 rounded-lg border border-border text-xs font-bold text-foreground bg-secondary focus:outline-none cursor-pointer"
+                className="px-3 py-1.5 rounded-lg border border-border text-sm font-bold text-foreground bg-secondary focus:outline-none cursor-pointer"
               >
                 <option value="python">Python 3</option>
                 <option value="c">C (GCC)</option>
@@ -631,7 +631,7 @@ if __name__ == '__main__':
 
             {/* Embedded Code Editor */}
             <div className="rounded-xl overflow-hidden border border-border bg-slate-950">
-              <div className="px-3 py-1.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-[11px] text-muted-foreground">
+              <div className="px-3.5 py-2 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs text-muted-foreground">
                 <span className="font-mono">main.{sandboxLang === 'python' ? 'py' : sandboxLang === 'java' ? 'java' : sandboxLang === 'cpp' ? 'cpp' : 'c'}</span>
                 <span>UTF-8</span>
               </div>
@@ -639,7 +639,7 @@ if __name__ == '__main__':
                 value={sandboxCode}
                 onChange={(e) => setSandboxCode(e.target.value)}
                 rows={10}
-                className="w-full p-3 bg-slate-950 text-slate-100 font-mono text-xs focus:outline-none resize-y selection:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] selection:text-white"
+                className="w-full p-3.5 bg-slate-950 text-slate-100 font-mono text-sm focus:outline-none resize-y selection:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] selection:text-white leading-relaxed"
                 spellCheck="false"
               />
             </div>
@@ -647,7 +647,7 @@ if __name__ == '__main__':
             {/* Input & Output */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                   Custom Input (stdin)
                 </span>
               </div>
@@ -656,7 +656,7 @@ if __name__ == '__main__':
                 value={sandboxInput}
                 onChange={(e) => setSandboxInput(e.target.value)}
                 placeholder="Optional input arguments (e.g. 9)"
-                className="w-full px-3 py-1.5 rounded-lg border border-border text-xs font-mono bg-secondary focus:outline-none"
+                className="w-full px-3.5 py-2 rounded-lg border border-border text-sm font-mono bg-secondary focus:outline-none text-foreground"
               />
             </div>
 
@@ -665,22 +665,22 @@ if __name__ == '__main__':
               <button
                 onClick={handleRunSandbox}
                 disabled={sandboxRunning}
-                className="w-full py-2.5 rounded-xl text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer active:scale-95 disabled:opacity-60"
+                className="w-full py-2.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer active:scale-95 disabled:opacity-60"
                 style={{ backgroundColor: currentTheme.primary }}
               >
-                <Play className="w-3.5 h-3.5 fill-current" />
+                <Play className="w-4 h-4 fill-current" />
                 <span>{sandboxRunning ? 'Executing Code...' : 'Run Code in Sandbox'}</span>
               </button>
             </div>
 
             {/* Terminal Console Output */}
             {sandboxOutput && (
-              <div className="rounded-xl bg-slate-900 p-3 text-slate-100 font-mono text-xs border border-slate-800 space-y-1">
-                <div className="flex items-center justify-between text-[10px] text-muted-foreground border-b border-slate-800 pb-1 mb-1">
+              <div className="rounded-xl bg-slate-900 p-3.5 text-slate-100 font-mono text-sm border border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between text-xs text-muted-foreground border-b border-slate-800 pb-1 mb-1">
                   <span>SANDBOX TERMINAL OUTPUT</span>
                   <span className="text-foreground">Process Complete</span>
                 </div>
-                <pre className="whitespace-pre-wrap leading-relaxed text-[11px]">
+                <pre className="whitespace-pre-wrap leading-relaxed text-xs">
                   {sandboxOutput}
                 </pre>
               </div>

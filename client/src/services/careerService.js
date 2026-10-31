@@ -3,8 +3,11 @@ import {
   IT_ROLES,
   DOMAIN_CATEGORIES,
   ROLE_TAGS,
+  CAREER_DOMAINS,
+  CAREER_FAMILIES,
   filterRoles as localFilterRoles,
   getRoleById as localGetRoleById,
+  getRolesByDomain as localGetRolesByDomain,
 } from '../data/itRoles';
 
 /**
@@ -61,19 +64,20 @@ export const careerService = {
       console.warn('[careerService] Fallback to local dataset for domain by slug:', err.message);
     }
 
-    // Local fallback
-    const matchedCategory = DOMAIN_CATEGORIES.find(
-      (c) => c !== 'All Domains' && (
-        c.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug.toLowerCase() ||
-        c.toLowerCase() === slug.toLowerCase()
-      )
+    // Local fallback: find domain in CAREER_DOMAINS
+    const cleanSlug = slug.toLowerCase();
+    const matchedDomain = CAREER_DOMAINS.find(
+      (d) =>
+        d.id.toLowerCase() === cleanSlug ||
+        d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug ||
+        d.name.toLowerCase() === cleanSlug
     );
 
-    if (!matchedCategory) {
+    if (!matchedDomain) {
       return { notFound: true, message: `Domain '${slug}' not found.` };
     }
 
-    const domainRoles = IT_ROLES.filter((r) => r.category === matchedCategory);
+    const domainRoles = localGetRolesByDomain(matchedDomain.id);
     let withSalary = 0;
     let minSalary = Infinity;
     let maxSalary = 0;
@@ -95,9 +99,17 @@ export const careerService = {
 
     return {
       domain: {
-        id: matchedCategory.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        name: matchedCategory,
-        description: `Explore specialized career roles, competency benchmarks, and learning pathways in ${matchedCategory}.`,
+        id: matchedDomain.id,
+        name: matchedDomain.name,
+        family: matchedDomain.family,
+        icon: matchedDomain.icon,
+        shortDescription: matchedDomain.shortDescription,
+        overview: matchedDomain.overview,
+        whatProfessionalsDo: matchedDomain.whatProfessionalsDo || [],
+        coreTechnologies: matchedDomain.coreTechnologies || [],
+        prerequisites: matchedDomain.prerequisites || [],
+        relatedDomains: matchedDomain.relatedDomains || [],
+        careerProgression: matchedDomain.careerProgression || '',
         roleCount: domainRoles.length,
       },
       roles: domainRoles,
@@ -270,6 +282,131 @@ export const careerService = {
   },
 
   /**
+   * Toggle saving a role to student's favorites
+   */
+  async toggleFavorite(roleId) {
+    try {
+      const res = await apiClient.post(`/career/roles/${roleId}/favorite`);
+      if (res.data?.success) {
+        return res.data;
+      }
+    } catch (err) {
+      console.warn('[careerService] Favorite toggle error, falling back to localStorage:', err.message);
+    }
+
+    // Local storage fallback
+    try {
+      const saved = JSON.parse(localStorage.getItem('campuscorp_favorite_roles') || '[]');
+      const isFav = saved.includes(roleId);
+      const updated = isFav ? saved.filter((id) => id !== roleId) : [...saved, roleId];
+      localStorage.setItem('campuscorp_favorite_roles', JSON.stringify(updated));
+      return { success: true, saved: !isFav };
+    } catch (e) {
+      return { success: false };
+    }
+  },
+
+  /**
+   * Get student's favorite roles
+   */
+  async getFavorites() {
+    try {
+      const res = await apiClient.get('/career/favorites');
+      if (res.data?.success && Array.isArray(res.data.data)) {
+        return res.data.data;
+      }
+    } catch (err) {}
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('campuscorp_favorite_roles') || '[]');
+      return saved.map((id) => localGetRoleById(id)).filter(Boolean);
+    } catch (e) {
+      return [];
+    }
+  },
+
+  /**
+   * Get skills and technologies for a role
+   */
+  async getRoleSkills(roleId) {
+    if (!roleId) return null;
+    try {
+      const res = await apiClient.get(`/career/roles/${roleId}/skills`);
+      if (res.data?.success && res.data.data) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.warn(`[careerService] Fallback for role skills (${roleId}):`, err.message);
+    }
+    const r = localGetRoleById(roleId);
+    return r ? { roleId: r.id, roleTitle: r.title, category: r.category, technicalSkills: r.technicalSkills, softSkills: r.softSkills, tools: r.tools } : null;
+  },
+
+  /**
+   * Get learning roadmap for a role
+   */
+  async getRoleRoadmap(roleId) {
+    if (!roleId) return null;
+    try {
+      const res = await apiClient.get(`/career/roles/${roleId}/roadmap`);
+      if (res.data?.success && res.data.data) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.warn(`[careerService] Fallback for role roadmap (${roleId}):`, err.message);
+    }
+    const r = localGetRoleById(roleId);
+    return r ? { roleId: r.id, roleTitle: r.title, roadmap: r.roadmap } : null;
+  },
+
+  /**
+   * Get projects for a role
+   */
+  async getRoleProjects(roleId) {
+    if (!roleId) return null;
+    try {
+      const res = await apiClient.get(`/career/roles/${roleId}/projects`);
+      if (res.data?.success && res.data.data) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.warn(`[careerService] Fallback for role projects (${roleId}):`, err.message);
+    }
+    const r = localGetRoleById(roleId);
+    return r ? { roleId: r.id, roleTitle: r.title, projects: r.projects } : null;
+  },
+
+  /**
+   * Submit student's skill assessment
+   */
+  async submitAssessment(assessmentData) {
+    try {
+      const res = await apiClient.post('/career/assessments', assessmentData);
+      if (res.data?.success) {
+        return res.data;
+      }
+    } catch (err) {
+      console.warn('[careerService] Assessment save error:', err.message);
+    }
+    return { success: true, saved: false };
+  },
+
+  /**
+   * Retrieve student's skill assessments
+   */
+  async getAssessments() {
+    try {
+      const res = await apiClient.get('/career/assessments');
+      if (res.data?.success && Array.isArray(res.data.data)) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.warn('[careerService] Assessment fetch error:', err.message);
+    }
+    return [];
+  },
+
+  /**
    * Get available tags
    */
   async getTags() {
@@ -280,6 +417,100 @@ export const careerService = {
       }
     } catch (err) {}
     return ROLE_TAGS;
+  },
+
+  // -------------------------------------------------------------
+  // Location-Based IT Company Explorer Methods
+  // -------------------------------------------------------------
+
+  /**
+   * Search IT companies by location with comprehensive multi-criteria filters
+   */
+  async searchCompaniesByLocation(params = {}) {
+    try {
+      const res = await apiClient.get('/career/companies/location', { params });
+      if (res.data?.success && res.data?.data) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.error('[careerService] Error searching companies by location:', err);
+      throw err;
+    }
+    return {
+      companies: [],
+      pagination: { total: 0, page: 1, limit: 12, totalPages: 0 },
+      targetCoords: null,
+      providerInfo: { isLive: false }
+    };
+  },
+
+  /**
+   * Fetch company location metadata (cities with counts, domains, types, stats)
+   */
+  async getCompanyLocationMetadata() {
+    try {
+      const res = await apiClient.get('/career/companies/locations/meta');
+      if (res.data?.success && res.data?.data) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.warn('[careerService] Metadata fetch error:', err.message);
+    }
+    return {
+      cities: [],
+      domains: [],
+      companyTypes: [],
+      experienceLevels: [],
+      workModes: [],
+      stats: {},
+      popularLocations: []
+    };
+  },
+
+  /**
+   * Fetch complete company details with all verified offices, tech stacks, and career openings
+   */
+  async getCompanyLocationDetails(id, coords = null) {
+    if (!id) return null;
+    try {
+      const params = {};
+      if (coords?.lat && coords?.lng) {
+        params.lat = coords.lat;
+        params.lng = coords.lng;
+      }
+      const res = await apiClient.get(`/career/companies/${id}`, { params });
+      if (res.data?.success && res.data?.data) {
+        return res.data.data;
+      }
+    } catch (err) {
+      console.error(`[careerService] Error fetching company details for ${id}:`, err);
+      throw err;
+    }
+    return null;
+  },
+
+  /**
+   * Admin: Add new office location
+   */
+  async adminAddOffice(companyId, officeData) {
+    const res = await apiClient.post(`/career/companies/admin/${companyId}/offices`, officeData);
+    return res.data;
+  },
+
+  /**
+   * Admin: Update company metadata & tech domains
+   */
+  async adminUpdateCompany(companyId, companyData) {
+    const res = await apiClient.put(`/career/companies/admin/${companyId}`, companyData);
+    return res.data;
+  },
+
+  /**
+   * Admin: Toggle company/office verification or hiring status
+   */
+  async adminToggleOfficeStatus(target, id, field = 'verify') {
+    const res = await apiClient.patch(`/career/companies/admin/${target}/${id}/status`, { field });
+    return res.data;
   },
 };
 

@@ -131,8 +131,8 @@ const Login = () => {
           <div className="bg-white rounded-3xl border border-slate-200/70 p-8 shadow-xl/10">
             {/* Header Desk Welcome */}
             <div className="mb-6">
-              <h2 className="text-2xl font-black text-slate-900">Sign In</h2>
-              <p className="text-slate-400 text-sm mt-1">Access your student portal account</p>
+              <h2 className="text-2xl font-bold text-slate-900">Sign In</h2>
+              <p className="text-slate-500 text-sm mt-1">Access your student portal account</p>
             </div>
 
             {error && (
@@ -147,7 +147,7 @@ const Login = () => {
             <form onSubmit={submit} className="space-y-5">
               {/* Roll Number Input */}
               <div className="space-y-1.5 group">
-                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest block transition-colors group-focus-within:text-black">Roll Number</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block transition-colors group-focus-within:text-black">Roll Number</label>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-black">
                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +155,7 @@ const Login = () => {
                     </svg>
                   </span>
                   <input
-                    className="w-full rounded-2xl border border-slate-200 pl-12 pr-4 py-3.5 text-sm font-bold text-slate-800 placeholder-slate-400 bg-slate-50/50 focus:bg-white focus:border-black focus:ring-4 focus:ring-black/5 outline-none transition-all duration-200"
+                    className="w-full rounded-2xl border border-slate-200 pl-12 pr-4 py-3.5 text-base font-semibold text-slate-800 placeholder-slate-400 bg-slate-50/50 focus:bg-white focus:border-black focus:ring-4 focus:ring-black/5 outline-none transition-all duration-200"
                     placeholder="Enter Roll Number"
                     value={rollNumber}
                     onChange={(e) => setRollNumber(e.target.value)}
@@ -167,7 +167,7 @@ const Login = () => {
 
               {/* Password Input */}
               <div className="space-y-1.5 group">
-                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest block transition-colors group-focus-within:text-black">Password</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block transition-colors group-focus-within:text-black">Password</label>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-black">
                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -175,7 +175,7 @@ const Login = () => {
                     </svg>
                   </span>
                   <input
-                    className="w-full rounded-2xl border border-slate-200 pl-12 pr-4 py-3.5 text-sm font-bold text-slate-800 placeholder-slate-400 bg-slate-50/50 focus:bg-white focus:border-black focus:ring-4 focus:ring-black/5 outline-none transition-all duration-200"
+                    className="w-full rounded-2xl border border-slate-200 pl-12 pr-4 py-3.5 text-base font-semibold text-slate-800 placeholder-slate-400 bg-slate-50/50 focus:bg-white focus:border-black focus:ring-4 focus:ring-black/5 outline-none transition-all duration-200"
                     type="password"
                     placeholder="Enter Password"
                     value={password}
@@ -190,7 +190,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-2xl bg-black hover:bg-neutral-900 active:scale-[0.99] disabled:opacity-75 disabled:active:scale-100 disabled:cursor-not-allowed py-4 text-sm font-bold text-white shadow-xl shadow-black/10 hover:shadow-black/20 hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                  className="w-full rounded-2xl bg-black hover:bg-neutral-900 active:scale-[0.99] disabled:opacity-75 disabled:active:scale-100 disabled:cursor-not-allowed py-3.5 text-base font-bold text-white shadow-xl shadow-black/10 hover:shadow-black/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Sign In
                 </button>
@@ -200,7 +200,7 @@ const Login = () => {
 
           {/* Helper details */}
           <div className="text-center">
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">
+            <p className="text-sm text-slate-500 font-semibold tracking-wide">
               Palette Production Academy Assessment Portal
             </p>
           </div>

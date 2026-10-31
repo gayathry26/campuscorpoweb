@@ -21,10 +21,10 @@ const ALL_PAGES = [
   { path: '/policies', label: 'Placement Policies', category: 'Governance & Institutional' },
   { path: '/reports', label: 'NIRF / NAAC Reports', category: 'Governance & Institutional' },
   { path: '/finance', label: 'Budget & Finance', category: 'Governance & Institutional' },
-  { path: '/alumni', label: 'Alumni Network', category: 'Community & Support' },
   { path: '/grievances', label: 'Grievance Desk', category: 'Community & Support' },
-  { path: '/ai-assistant', label: 'AI Career Assistant', category: 'Intelligence & Tools' },
+  { path: '/lms', label: 'Learning Management System (LMS)', category: 'LMS & Academics' },
   { path: '/admin', label: 'Admin & DB Registry', category: 'System Administration' },
+  { path: '/admin/academics', label: 'Department & Academic Management', category: 'System Administration' },
   { path: '/settings', label: 'Settings & Themes', category: 'System Administration' },
 ];
 
@@ -60,9 +60,8 @@ const DEFAULT_PERMISSIONS = {
     '/policies',
     '/reports',
     '/finance',
-    '/alumni',
     '/grievances',
-    '/ai-assistant',
+    '/lms',
     '/settings',
   ],
   STUDENT: [
@@ -80,9 +79,8 @@ const DEFAULT_PERMISSIONS = {
     '/internships',
     '/offers',
     '/policies',
-    '/alumni',
     '/grievances',
-    '/ai-assistant',
+    '/lms',
     '/settings',
   ],
   FACULTY_COORDINATOR: [
@@ -102,9 +100,8 @@ const DEFAULT_PERMISSIONS = {
     '/offers',
     '/policies',
     '/reports',
-    '/alumni',
+    '/lms',
     '/grievances',
-    '/ai-assistant',
     '/settings',
   ],
   RECRUITER: [
@@ -139,11 +136,9 @@ const DEFAULT_PERMISSIONS = {
   ALUMNI: [
     '/domains',
     '/compare',
-    '/alumni',
     '/jobs',
     '/policies',
     '/grievances',
-    '/ai-assistant',
     '/settings',
   ],
 };
@@ -163,7 +158,10 @@ async function getRolePermissions(req, res, next) {
           const parsed = typeof row.allowed_pages === 'string'
             ? JSON.parse(row.allowed_pages)
             : row.allowed_pages;
-          permissions[row.role_name] = Array.isArray(parsed) ? parsed : [];
+          const filteredPages = (Array.isArray(parsed) ? parsed : []).filter(
+            (p) => p !== '/alumni' && p !== '/ai-assistant'
+          );
+          permissions[row.role_name] = filteredPages;
         } catch (e) {
           console.warn(`[Permissions] Error parsing allowed_pages for ${row.role_name}:`, e.message);
         }

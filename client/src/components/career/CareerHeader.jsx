@@ -17,6 +17,7 @@ export function CareerHeader({
   onSearchChange,
   comparedRoleIds = [],
   onOpenMyFit,
+  stats = {},
 }) {
   const navigate = useNavigate();
 
@@ -77,22 +78,30 @@ export function CareerHeader({
       {/* Main Title & Description */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div className="max-w-3xl space-y-1.5">
-          <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight flex items-center gap-2.5">
-            <span>Discover Your Career Path</span>
-          </h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-2.5">
+              <span>Explore IT Career Domains</span>
+            </h1>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary text-primary-foreground shadow-2xs">
+              {stats?.totalDomains || 38} Domains
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary text-foreground border border-border/80 shadow-2xs">
+              {stats?.totalRoles || 114} Roles
+            </span>
+          </div>
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Explore high-growth IT engineering domains, benchmark salary expectations, inspect progressive 6-stage roadmaps, and match your skills directly to placement rubrics.
+            Discover technology careers, explore required skills, and build your career roadmap.
           </p>
         </div>
 
-        {/* Prominent Search Bar */}
+        {/* Prominent Global Search Bar */}
         <div className="relative w-full lg:w-96 shrink-0">
           <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search roles, skills, or domains..."
+            placeholder="Search domains, roles, tech, or skills..."
             className="w-full pl-9 pr-9 py-2.5 rounded-xl text-xs sm:text-sm bg-card text-foreground border border-border shadow-xs focus:outline-none focus:ring-2 focus:ring-foreground/20 focus:border-foreground transition-all placeholder:text-muted-foreground"
           />
           {searchQuery && (

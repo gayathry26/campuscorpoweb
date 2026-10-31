@@ -561,7 +561,7 @@ const AttemptDetail = () => {
                     `}
                 </style>
                 <div className="border-b-4 border-slate-900 pb-4 mb-8">
-                        <h1 className="text-3xl font-black uppercase tracking-tight">Palette Production Student Evaluation Report</h1>
+                        <h1 className="text-2xl font-bold uppercase tracking-tight">Palette Production Student Evaluation Report</h1>
                         <p className="text-slate-500 font-bold mt-1">Official Technical Analysis & Proctoring Audit</p>
                     </div>
 

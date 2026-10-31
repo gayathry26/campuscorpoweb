@@ -113,7 +113,7 @@ export function SingleRoleShowcase({
 
         {/* Title & Scope */}
         <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+          <h2 className="text-2xl font-bold text-foreground tracking-tight">
             {title}
           </h2>
           <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-medium">

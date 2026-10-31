@@ -38,12 +38,16 @@ import {
   GraduationCap,
   Code2,
   Terminal,
+  Megaphone,
 } from 'lucide-react';
 import lmsService from '../../../services/lmsService';
 import { useToast } from '../../../context/ToastContext';
+import { useAuth } from '../../../context/AuthContext';
 
 export function FacultyViews({ activeSection, onSelectSection }) {
   const { showToast } = useToast();
+  const { user } = useAuth();
+  const isAdmin = user?.roleName === 'ADMIN' || user?.roleName === 'SUPER_ADMIN';
 
   // Core data states
   const [dashboardData, setDashboardData] = useState(null);
@@ -68,6 +72,29 @@ export function FacultyViews({ activeSection, onSelectSection }) {
   const [gradingStatusFilter, setGradingStatusFilter] = useState('ALL');
   const [selectedCourseIdFilter, setSelectedCourseIdFilter] = useState('');
   const [assessmentTypeFilter, setAssessmentTypeFilter] = useState('ALL');
+
+  // Class Advisor & Academic Mappings state
+  const [advisorData, setAdvisorData] = useState(null);
+  const [academicMappings, setAcademicMappings] = useState(null);
+  const [mappingDept, setMappingDept] = useState('CSE');
+  const [mappingSem, setMappingSem] = useState('5');
+  const [advisorAnnouncementForm, setAdvisorAnnouncementForm] = useState({ title: '', content: '', priority: 'URGENT' });
+  const [assignFacultyForm, setAssignFacultyForm] = useState({ courseId: '', facultyId: '', roleType: 'PRIMARY_FACULTY', courseCode: '', courseTitle: '' });
+  const [classAdvisorForm, setClassAdvisorForm] = useState({ academicStructureId: '', facultyId: '', currentAdvisor: '', className: '' });
+  const [adminCourseForm, setAdminCourseForm] = useState({
+    courseCode: '',
+    title: '',
+    description: '',
+    category: 'Core Engineering',
+    departmentCode: 'CSE',
+    academicYear: '2026-2027',
+    semester: 5,
+    className: 'CSE-A',
+    section: 'A',
+    subjectType: 'THEORY',
+    credits: 4,
+    facultyId: '',
+  });
 
   // Modals
   const [activeModal, setActiveModal] = useState(null); // 'create-course' | 'upload-resource' | 'create-quiz' | 'quiz-attempts' | 'create-assignment' | 'grade-submission' | 'create-path' | 'schedule-live' | 'live-attendance' | 'create-announcement' | 'issue-cert' | 'view-students'
@@ -225,6 +252,24 @@ export function FacultyViews({ activeSection, onSelectSection }) {
       setCertificates(certList);
       setAnnouncements(annList);
       setReports(rep);
+
+      // Fetch Class Advisor data
+      try {
+        const adv = await lmsService.getClassAdvisorOverview();
+        setAdvisorData(adv);
+      } catch (err) {
+        console.warn('Class advisor data fetch:', err);
+      }
+
+      // Fetch Academic Mappings if Admin
+      if (isAdmin) {
+        try {
+          const mapData = await lmsService.getAcademicMappings({ departmentCode: mappingDept, semester: mappingSem });
+          setAcademicMappings(mapData);
+        } catch (err) {
+          console.warn('Academic mappings fetch:', err);
+        }
+      }
     } catch (err) {
       console.warn('Error loading faculty LMS data:', err);
     } finally {
@@ -235,6 +280,141 @@ export function FacultyViews({ activeSection, onSelectSection }) {
   useEffect(() => {
     loadAllFacultyData();
   }, []);
+
+  // Sync academic mappings when department or semester filter changes
+  useEffect(() => {
+    if (isAdmin) {
+      lmsService.getAcademicMappings({ departmentCode: mappingDept, semester: mappingSem })
+        .then(setAcademicMappings)
+        .catch(console.warn);
+    }
+  }, [mappingDept, mappingSem, isAdmin]);
+
+  // Handle Class Advisor Announcement
+  const handlePostAdvisorAnnouncement = async (e) => {
+    e.preventDefault();
+    if (!advisorAnnouncementForm.title.trim() || !advisorAnnouncementForm.content.trim()) {
+      showToast('Please provide both title and content for the class advisory.', 'warning');
+      return;
+    }
+    try {
+      setSubmitting(true);
+      await lmsService.postAdvisorAnnouncement(advisorAnnouncementForm);
+      showToast('Class advisory broadcasted successfully to all section students!', 'success');
+      setActiveModal(null);
+      setAdvisorAnnouncementForm({ title: '', content: '', priority: 'URGENT' });
+      const adv = await lmsService.getClassAdvisorOverview();
+      setAdvisorData(adv);
+    } catch (err) {
+      showToast('Error broadcasting advisory: ' + (err.response?.data?.message || err.message), 'error');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Handle Faculty Assignment (Admin)
+  const handleAssignFaculty = async (e) => {
+    e.preventDefault();
+    if (!assignFacultyForm.courseId || !assignFacultyForm.facultyId) {
+      showToast('Please select both course and faculty member.', 'warning');
+      return;
+    }
+    try {
+      setSubmitting(true);
+      const res = await lmsService.assignFacultyToCourse({
+        courseId: assignFacultyForm.courseId,
+        facultyId: assignFacultyForm.facultyId,
+        roleType: assignFacultyForm.roleType,
+      });
+      showToast(res.message || 'Faculty assigned successfully! Immediate authorization active.', 'success');
+      setActiveModal(null);
+      const mapData = await lmsService.getAcademicMappings({ departmentCode: mappingDept, semester: mappingSem });
+      setAcademicMappings(mapData);
+      loadAllFacultyData();
+    } catch (err) {
+      showToast('Error assigning faculty: ' + (err.response?.data?.message || err.message), 'error');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Handle Faculty Removal (Admin)
+  const handleRemoveFaculty = async (courseId, facultyId, courseCode) => {
+    if (!confirm(`Are you sure you want to revoke faculty teaching access for ${courseCode}? Note: Course materials, quizzes, and student submissions will remain 100% safely preserved.`)) {
+      return;
+    }
+    try {
+      const res = await lmsService.removeFacultyFromCourse({ courseId, facultyId });
+      showToast(res.message || 'Faculty access revoked. Historical records safely preserved.', 'info');
+      const mapData = await lmsService.getAcademicMappings({ departmentCode: mappingDept, semester: mappingSem });
+      setAcademicMappings(mapData);
+      loadAllFacultyData();
+    } catch (err) {
+      showToast('Error removing faculty: ' + (err.response?.data?.message || err.message), 'error');
+    }
+  };
+
+  // Handle Class Advisor Update (Admin)
+  const handleUpdateClassAdvisor = async (e) => {
+    e.preventDefault();
+    if (!classAdvisorForm.academicStructureId || !classAdvisorForm.facultyId) {
+      showToast('Please select a faculty member to appoint as Class Advisor.', 'warning');
+      return;
+    }
+    try {
+      setSubmitting(true);
+      const res = await lmsService.updateClassAdvisor({
+        academicStructureId: classAdvisorForm.academicStructureId,
+        facultyId: classAdvisorForm.facultyId,
+      });
+      showToast(res.message || 'Class advisor appointed successfully!', 'success');
+      setActiveModal(null);
+      const mapData = await lmsService.getAcademicMappings({ departmentCode: mappingDept, semester: mappingSem });
+      setAcademicMappings(mapData);
+      const adv = await lmsService.getClassAdvisorOverview();
+      setAdvisorData(adv);
+    } catch (err) {
+      showToast('Error updating class advisor: ' + (err.response?.data?.message || err.message), 'error');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Handle Admin Course Creation
+  const handleCreateAdminCourse = async (e) => {
+    e.preventDefault();
+    if (!adminCourseForm.courseCode.trim() || !adminCourseForm.title.trim() || !adminCourseForm.facultyId) {
+      showToast('Please fill in Course Code, Title, and select a Primary Faculty.', 'warning');
+      return;
+    }
+    try {
+      setSubmitting(true);
+      const res = await lmsService.createAdminCourse(adminCourseForm);
+      showToast(res.message || 'Semester subject created and mapped successfully!', 'success');
+      setActiveModal(null);
+      setAdminCourseForm({
+        courseCode: '',
+        title: '',
+        description: '',
+        category: 'Core Engineering',
+        departmentCode: mappingDept,
+        academicYear: '2026-2027',
+        semester: parseInt(mappingSem, 10),
+        className: `${mappingDept}-A`,
+        section: 'A',
+        subjectType: 'THEORY',
+        credits: 4,
+        facultyId: '',
+      });
+      const mapData = await lmsService.getAcademicMappings({ departmentCode: mappingDept, semester: mappingSem });
+      setAcademicMappings(mapData);
+      loadAllFacultyData();
+    } catch (err) {
+      showToast('Error creating subject: ' + (err.response?.data?.message || err.message), 'error');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   // Update resource list when course filter changes
   useEffect(() => {
@@ -699,6 +879,39 @@ export function FacultyViews({ activeSection, onSelectSection }) {
   // 1. Dashboard Overview
   const renderDashboard = () => (
     <div className="space-y-6">
+      {/* Class Advisor Quick Access Card */}
+      {dashboardData?.classAdvisorInfo && (
+        <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 rounded-2xl border border-blue-500/20 p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Users className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500 text-white uppercase tracking-wider">
+                  Class Advisor
+                </span>
+                <span className="text-sm font-bold text-foreground">
+                  {dashboardData.classAdvisorInfo.dept_code} Semester {dashboardData.classAdvisorInfo.semester} ({dashboardData.classAdvisorInfo.class_name} - Section {dashboardData.classAdvisorInfo.section})
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                You are the appointed Class Advisor for {dashboardData.classAdvisorInfo.class_student_count || 0} students. You have oversight over class attendance, overall progress, and section advisories.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => onSelectSection('class-advisor')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-xs cursor-pointer whitespace-nowrap active:scale-95"
+          >
+            <Users className="w-4 h-4" />
+            <span>Open Class Advisor Hub</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
         <div className="bg-card rounded-2xl border border-border p-4 shadow-xs space-y-1">
@@ -1848,10 +2061,510 @@ export function FacultyViews({ activeSection, onSelectSection }) {
     </div>
   );
 
+  // 13. Class Advisor Hub
+  const renderClassAdvisorHub = () => {
+    if (!advisorData?.isAdvisor) {
+      return (
+        <div className="bg-card rounded-2xl border border-border p-8 text-center space-y-4 shadow-xs max-w-2xl mx-auto my-8">
+          <div className="w-16 h-16 rounded-2xl bg-secondary text-muted-foreground flex items-center justify-center mx-auto">
+            <Users className="w-8 h-8" />
+          </div>
+          <div className="space-y-1.5">
+            <h3 className="text-lg font-bold text-foreground">Class Advisor Hub</h3>
+            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+              Your faculty account is not currently appointed as a Class Advisor for any active section. Academic administrators can assign class advisors from the Course & Faculty Permissions tab.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onSelectSection('faculty-dashboard')}
+            className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80 text-foreground cursor-pointer"
+          >
+            Return to Faculty Overview
+          </button>
+        </div>
+      );
+    }
+
+    const { classInfo = {}, courses: advCourses = [], students: advStudents = [] } = advisorData;
+    const atRiskStudents = advStudents.filter(s => (s.active_backlogs > 0) || (s.cgpa && s.cgpa < 6.5));
+
+    return (
+      <div className="space-y-6">
+        {/* Class Banner Card */}
+        <div className="bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-primary/10 rounded-2xl border border-blue-500/20 p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md">
+              <Users className="w-7 h-7" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-600 text-white uppercase tracking-wider">
+                  Official Class Advisor
+                </span>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground border border-border">
+                  Academic Year: {classInfo.academicYear}
+                </span>
+              </div>
+              <h2 className="text-xl font-bold text-foreground mt-1">
+                {classInfo.departmentCode} Semester {classInfo.semester} — Class {classInfo.className} (Section {classInfo.section})
+              </h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Authorized class-wide academic oversight, attendance verification, subject monitoring, and section advisories.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActiveModal('advisor-announcement')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-xs cursor-pointer whitespace-nowrap active:scale-95"
+          >
+            <Megaphone className="w-4 h-4" />
+            <span>Broadcast Class Advisory</span>
+          </button>
+        </div>
+
+        {/* 4 Key Metrics */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          <div className="bg-card rounded-2xl border border-border p-4 shadow-xs space-y-1">
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Enrolled Students</span>
+            <p className="text-2xl font-black text-foreground">{classInfo.totalStudents || advStudents.length}</p>
+            <span className="text-[10px] text-blue-600 font-semibold">Active Cohort Roster</span>
+          </div>
+          <div className="bg-card rounded-2xl border border-border p-4 shadow-xs space-y-1">
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Semester Subjects</span>
+            <p className="text-2xl font-black text-foreground">{advCourses.length}</p>
+            <span className="text-[10px] text-purple-600 font-semibold">Curriculum Mapped</span>
+          </div>
+          <div className="bg-card rounded-2xl border border-border p-4 shadow-xs space-y-1">
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Class Attendance</span>
+            <p className="text-2xl font-black text-emerald-600">{classInfo.avgAttendancePct || 92}%</p>
+            <span className="text-[10px] text-emerald-600 font-semibold">Live Sessions Verified</span>
+          </div>
+          <div className="bg-card rounded-2xl border border-border p-4 shadow-xs space-y-1">
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Academic Risk Alerts</span>
+            <p className="text-2xl font-black text-amber-600">{atRiskStudents.length}</p>
+            <span className="text-[10px] text-amber-600 font-semibold">Backlog / Low CGPA</span>
+          </div>
+        </div>
+
+        {/* Semester Subjects Oversight */}
+        <div className="bg-card rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 className="text-base font-bold text-foreground">Semester {classInfo.semester} Curriculum & Subject Faculty</h3>
+              <p className="text-xs text-muted-foreground">Class advisors have read-only academic oversight. Subject materials and quizzes are managed by the assigned faculty.</p>
+            </div>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground border border-border">
+              {advCourses.length} Assigned Subjects
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {advCourses.map((c) => (
+              <div key={c.id} className="bg-secondary/40 rounded-xl border border-border p-4 space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
+                      {c.course_code}
+                    </span>
+                    <h4 className="text-sm font-bold text-foreground mt-1 line-clamp-1">{c.title}</h4>
+                  </div>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                    {c.credits || 4} Credits
+                  </span>
+                </div>
+
+                <div className="space-y-1.5 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1.5">
+                    <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="font-semibold text-foreground">Faculty: {c.faculty_first} {c.faculty_last}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[11px]">
+                    <span className="text-muted-foreground">{c.faculty_email}</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border text-center text-[10px]">
+                  <div>
+                    <span className="text-muted-foreground">Materials</span>
+                    <p className="font-bold text-foreground">{c.resource_count || 0}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Quizzes</span>
+                    <p className="font-bold text-foreground">{c.quiz_count || 0}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Assignments</span>
+                    <p className="font-bold text-foreground">{c.assignment_count || 0}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-[10px] mb-1">
+                    <span className="text-muted-foreground">Average Class Progress</span>
+                    <span className="font-bold text-foreground">{c.avg_progress || 0}%</span>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden">
+                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${c.avg_progress || 0}%` }} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Students Roster & Academic Status */}
+        <div className="bg-card rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 className="text-base font-bold text-foreground">Class Cohort Roster ({advStudents.length} Students)</h3>
+              <p className="text-xs text-muted-foreground">Individual academic progress, CGPA, backlogs, and status.</p>
+            </div>
+            {atRiskStudents.length > 0 && (
+              <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/20 flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5" />
+                {atRiskStudents.length} Student(s) Require Academic Attention
+              </span>
+            )}
+          </div>
+
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-xs text-left">
+              <thead className="bg-muted/50 text-muted-foreground font-bold uppercase tracking-wider text-[10px] border-b border-border">
+                <tr>
+                  <th className="px-4 py-3">Register No</th>
+                  <th className="px-4 py-3">Student Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3 text-center">CGPA</th>
+                  <th className="px-4 py-3 text-center">Backlogs</th>
+                  <th className="px-4 py-3 text-center">Enrolled Subjects</th>
+                  <th className="px-4 py-3">Avg Progress</th>
+                  <th className="px-4 py-3 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {advStudents.map((s) => {
+                  const hasBacklog = s.active_backlogs > 0;
+                  return (
+                    <tr key={s.student_id} className="hover:bg-muted/30 transition-colors">
+                      <td className="px-4 py-3 font-mono font-bold text-foreground">{s.register_number}</td>
+                      <td className="px-4 py-3 font-semibold text-foreground">{s.first_name} {s.last_name}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{s.email}</td>
+                      <td className="px-4 py-3 text-center font-bold text-foreground">{s.cgpa || '8.2'}</td>
+                      <td className="px-4 py-3 text-center">
+                        {hasBacklog ? (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-600 border border-rose-500/20">
+                            {s.active_backlogs} Backlog(s)
+                          </span>
+                        ) : (
+                          <span className="text-emerald-600 font-bold">0</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-center font-semibold text-foreground">{s.enrolled_subjects || advCourses.length}</td>
+                      <td className="px-4 py-3">
+                        <div className="w-24">
+                          <div className="flex justify-between text-[10px] mb-0.5">
+                            <span className="font-bold">{s.avg_semester_progress || 40}%</span>
+                          </div>
+                          <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden">
+                            <div className="h-full bg-primary rounded-full" style={{ width: `${s.avg_semester_progress || 40}%` }} />
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        {hasBacklog ? (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20">
+                            Academic Review
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+                            Good Standing
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // 14. Course & Faculty Permissions Governance (Admin Interface)
+  const renderFacultyMappings = () => {
+    const structures = academicMappings?.academicStructures || [];
+    const mappingCourses = academicMappings?.courses || [];
+    const availableFaculty = academicMappings?.facultyList || [];
+
+    // Current structure for mappingDept and mappingSem
+    const currentStructure = structures.find(
+      s => s.dept_code === mappingDept && Number(s.semester) === Number(mappingSem)
+    ) || structures[0];
+
+    return (
+      <div className="space-y-6">
+        {/* Header and Filter Controls */}
+        <div className="bg-card rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-primary" />
+                <h2 className="text-lg font-bold text-foreground">Semester Course & Faculty Permission Governance</h2>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Configure faculty course mappings, appoint class advisors, and manage access per academic semester. Changes take effect immediately with full server-side authorization and zero content loss.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setAdminCourseForm({
+                    courseCode: '',
+                    title: '',
+                    description: '',
+                    category: 'Core Engineering',
+                    departmentCode: mappingDept,
+                    academicYear: '2026-2027',
+                    semester: parseInt(mappingSem, 10),
+                    className: `${mappingDept}-A`,
+                    section: 'A',
+                    subjectType: 'THEORY',
+                    credits: 4,
+                    facultyId: availableFaculty[0]?.id || '',
+                  });
+                  setActiveModal('create-admin-course');
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-xs cursor-pointer active:scale-95"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Semester Subject</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Department & Semester Filter Pills */}
+          <div className="pt-3 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
+                <Filter className="w-3.5 h-3.5" />
+                <span>Department:</span>
+              </div>
+              {['CSE', 'ECE', 'MECH', 'CIVIL', 'IT', 'ROBOTICS'].map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setMappingDept(d)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    mappingDept === d
+                      ? 'bg-foreground text-background shadow-xs'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border'
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-muted-foreground">Semester:</span>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                  <button
+                    key={sem}
+                    type="button"
+                    onClick={() => setMappingSem(sem.toString())}
+                    className={`w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center transition-all cursor-pointer ${
+                      Number(mappingSem) === sem
+                        ? 'bg-primary text-primary-foreground shadow-xs'
+                        : 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border'
+                    }`}
+                  >
+                    {sem}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Academic Structure & Class Advisor Banner */}
+        <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-primary/10 rounded-2xl border border-emerald-500/20 p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <UserCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white uppercase tracking-wider">
+                  Academic Structure
+                </span>
+                <span className="text-sm font-bold text-foreground">
+                  {mappingDept} Semester {mappingSem} ({currentStructure?.class_name || `${mappingDept}-A`} - Section {currentStructure?.section || 'A'})
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Appointed Class Advisor:{' '}
+                <span className="font-bold text-foreground">
+                  {currentStructure?.advisor_first
+                    ? `${currentStructure.advisor_first} ${currentStructure.advisor_last} (${currentStructure.advisor_email})`
+                    : currentStructure?.class_advisor_name || 'Not appointed'}
+                </span>
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (currentStructure) {
+                setClassAdvisorForm({
+                  academicStructureId: currentStructure.id,
+                  facultyId: currentStructure.class_advisor_id || availableFaculty[0]?.id || '',
+                  currentAdvisor: currentStructure.class_advisor_name || 'None',
+                  className: `${currentStructure.dept_code} Sem ${currentStructure.semester} (${currentStructure.class_name})`,
+                });
+                setActiveModal('update-class-advisor');
+              }
+            }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs cursor-pointer whitespace-nowrap active:scale-95"
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>Appoint / Change Class Advisor</span>
+          </button>
+        </div>
+
+        {/* Subjects & Faculty Assignment Table */}
+        <div className="bg-card rounded-2xl border border-border p-5 shadow-xs space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 className="text-base font-bold text-foreground">
+                Semester {mappingSem} Subjects & Faculty Permissions ({mappingCourses.length} Subjects)
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Assign primary subject faculty or co-faculty. Unassigning immediately revokes access without deleting any study materials, quizzes, or student marks.
+              </p>
+            </div>
+          </div>
+
+          {mappingCourses.length === 0 ? (
+            <div className="p-8 text-center border border-dashed border-border rounded-xl space-y-3">
+              <BookOpen className="w-8 h-8 text-muted-foreground mx-auto" />
+              <p className="text-xs text-muted-foreground">No courses found for {mappingDept} Semester {mappingSem}. Click "Add Semester Subject" to create one.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto rounded-xl border border-border">
+              <table className="w-full text-xs text-left">
+                <thead className="bg-muted/50 text-muted-foreground font-bold uppercase tracking-wider text-[10px] border-b border-border">
+                  <tr>
+                    <th className="px-4 py-3">Course Code</th>
+                    <th className="px-4 py-3">Subject Title</th>
+                    <th className="px-4 py-3">Type & Credits</th>
+                    <th className="px-4 py-3">Assigned Primary Faculty</th>
+                    <th className="px-4 py-3 text-center">Materials / Quizzes</th>
+                    <th className="px-4 py-3 text-center">Enrolled</th>
+                    <th className="px-4 py-3 text-right">Access Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {mappingCourses.map((c) => (
+                    <tr key={c.id} className="hover:bg-muted/30 transition-colors">
+                      <td className="px-4 py-3 font-mono font-bold text-foreground">{c.course_code}</td>
+                      <td className="px-4 py-3 font-semibold text-foreground">
+                        <div>{c.title}</div>
+                        <span className="text-[10px] text-muted-foreground">{c.category || 'Core'}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary text-secondary-foreground border border-border">
+                          {c.subject_type || 'THEORY'} • {c.credits || 4} Cr
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs shrink-0">
+                            {c.instructor_first?.[0] || 'F'}
+                          </div>
+                          <div>
+                            <div className="font-bold text-foreground">{c.instructor_first} {c.instructor_last}</div>
+                            <div className="text-[10px] text-muted-foreground">{c.instructor_email}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="font-bold text-foreground">{c.resource_count || 0} mat</span> / <span className="font-bold text-purple-600">{c.quiz_count || 0} quiz</span>
+                      </td>
+                      <td className="px-4 py-3 text-center font-bold text-foreground">{c.enrolled_count || 0}</td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAssignFacultyForm({
+                                courseId: c.id,
+                                facultyId: c.instructor_id || availableFaculty[0]?.id || '',
+                                roleType: 'PRIMARY_FACULTY',
+                                courseCode: c.course_code,
+                                courseTitle: c.title,
+                              });
+                              setActiveModal('assign-faculty');
+                            }}
+                            className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-secondary hover:bg-secondary/80 text-foreground border border-border cursor-pointer active:scale-95"
+                          >
+                            Reassign Faculty
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFaculty(c.id, c.instructor_id, c.course_code)}
+                            title="Revoke faculty access while safely keeping all course materials and marks"
+                            className="p-1 rounded-lg hover:bg-rose-500/10 text-rose-500 cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Department Faculty Pool Card */}
+        <div className="bg-card rounded-2xl border border-border p-5 shadow-xs space-y-3">
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-bold text-foreground">Available Department Faculty ({availableFaculty.length} Instructors)</h4>
+            <span className="text-[10px] text-muted-foreground">Certified Teaching Faculty</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
+            {availableFaculty.map((f) => (
+              <div key={f.id} className="p-2.5 rounded-xl bg-secondary/30 border border-border flex items-center justify-between text-xs">
+                <div>
+                  <div className="font-bold text-foreground">{f.first_name} {f.last_name}</div>
+                  <div className="text-[10px] text-muted-foreground">{f.email}</div>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary shrink-0">
+                  {f.assigned_course_count || 0} subjects
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Section Selector Map
   const sectionContent = {
     'faculty-dashboard': renderDashboard(),
     'overview': renderDashboard(),
+    'class-advisor': renderClassAdvisorHub(),
+    'advisor-hub': renderClassAdvisorHub(),
+    'faculty-mappings': renderFacultyMappings(),
+    'admin-academics': renderFacultyMappings(),
     'manage-courses': renderMyCourses(),
     'courses': renderMyCourses(),
     'manage-materials': renderManageMaterials(),
@@ -3168,6 +3881,304 @@ export function FacultyViews({ activeSection, onSelectSection }) {
                 <button type="button" onClick={() => setActiveModal(null)} className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80">Cancel</button>
                 <button type="submit" disabled={submitting} className="px-4 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90">
                   {submitting ? 'Creating...' : 'Create Learning Path'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* ==================================================== */}
+      {/* MODAL: Assign / Reassign Faculty */}
+      {/* ==================================================== */}
+      {activeModal === 'assign-faculty' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-card text-card-foreground rounded-2xl border border-border p-6 max-w-lg w-full space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <div>
+                <h3 className="text-base font-bold text-foreground">Assign Faculty Permission</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{assignFacultyForm.courseCode}: {assignFacultyForm.courseTitle}</p>
+              </div>
+              <button type="button" onClick={() => setActiveModal(null)} className="p-1 rounded-lg hover:bg-secondary cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <form onSubmit={handleAssignFaculty} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Select Teaching Faculty *</label>
+                <select
+                  required
+                  value={assignFacultyForm.facultyId}
+                  onChange={(e) => setAssignFacultyForm({ ...assignFacultyForm, facultyId: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                >
+                  <option value="">-- Choose Faculty Member --</option>
+                  {(academicMappings?.facultyList || []).map((f) => (
+                    <option key={f.id} value={f.id}>
+                      {f.first_name} {f.last_name} ({f.email}) — {f.assigned_course_count || 0} subjects currently assigned
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Teaching Role Type *</label>
+                <select
+                  value={assignFacultyForm.roleType}
+                  onChange={(e) => setAssignFacultyForm({ ...assignFacultyForm, roleType: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                >
+                  <option value="PRIMARY_FACULTY">Primary Subject Faculty (Course Leader)</option>
+                  <option value="CO_FACULTY">Co-Faculty (Secondary Instructor)</option>
+                  <option value="LAB_INSTRUCTOR">Laboratory Practical Instructor</option>
+                </select>
+              </div>
+
+              <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-600 space-y-1">
+                <div className="font-bold flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Immediate Server-Side Authorization</span>
+                </div>
+                <p className="text-[11px] leading-relaxed">
+                  The selected faculty member will immediately gain access to upload materials, create quizzes, schedule live sessions, and grade student submissions for this subject. Existing syllabus and student marks are completely preserved.
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-border">
+                <button type="button" onClick={() => setActiveModal(null)} className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80">Cancel</button>
+                <button type="submit" disabled={submitting} className="px-4 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90">
+                  {submitting ? 'Assigning...' : 'Confirm Faculty Assignment'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ==================================================== */}
+      {/* MODAL: Appoint / Change Class Advisor */}
+      {/* ==================================================== */}
+      {activeModal === 'update-class-advisor' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-card text-card-foreground rounded-2xl border border-border p-6 max-w-lg w-full space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <div>
+                <h3 className="text-base font-bold text-foreground">Appoint Class Advisor</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{classAdvisorForm.className}</p>
+              </div>
+              <button type="button" onClick={() => setActiveModal(null)} className="p-1 rounded-lg hover:bg-secondary cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <form onSubmit={handleUpdateClassAdvisor} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Select Faculty Member for Class Advisor *</label>
+                <select
+                  required
+                  value={classAdvisorForm.facultyId}
+                  onChange={(e) => setClassAdvisorForm({ ...classAdvisorForm, facultyId: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                >
+                  <option value="">-- Choose Faculty Member --</option>
+                  {(academicMappings?.facultyList || []).map((f) => (
+                    <option key={f.id} value={f.id}>
+                      {f.first_name} {f.last_name} ({f.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-600 space-y-1">
+                <div className="font-bold flex items-center gap-1.5">
+                  <UserCheck className="w-4 h-4" />
+                  <span>Class Advisor Permissions Scope</span>
+                </div>
+                <p className="text-[11px] leading-relaxed">
+                  The Class Advisor gains authorized class-wide academic oversight, live session attendance verification, and section-targeted advisory broadcasts, without granting editing permissions to other subjects' private materials or quizzes.
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-border">
+                <button type="button" onClick={() => setActiveModal(null)} className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80">Cancel</button>
+                <button type="submit" disabled={submitting} className="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700">
+                  {submitting ? 'Appointing...' : 'Appoint Class Advisor'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ==================================================== */}
+      {/* MODAL: Class Advisor Broadcast Announcement */}
+      {/* ==================================================== */}
+      {activeModal === 'advisor-announcement' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-card text-card-foreground rounded-2xl border border-border p-6 max-w-lg w-full space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <div>
+                <h3 className="text-base font-bold text-foreground">Broadcast Class Advisory</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">Targeted to students in your assigned class and section</p>
+              </div>
+              <button type="button" onClick={() => setActiveModal(null)} className="p-1 rounded-lg hover:bg-secondary cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <form onSubmit={handlePostAdvisorAnnouncement} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Advisory Subject / Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Mid-Term Review Meeting & Attendance Notice"
+                  value={advisorAnnouncementForm.title}
+                  onChange={(e) => setAdvisorAnnouncementForm({ ...advisorAnnouncementForm, title: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Advisory Notice Content *</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Detail instructions, meeting links, or mandatory semester academic instructions..."
+                  value={advisorAnnouncementForm.content}
+                  onChange={(e) => setAdvisorAnnouncementForm({ ...advisorAnnouncementForm, content: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Notice Priority</label>
+                <select
+                  value={advisorAnnouncementForm.priority}
+                  onChange={(e) => setAdvisorAnnouncementForm({ ...advisorAnnouncementForm, priority: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                >
+                  <option value="URGENT">URGENT (Sends Immediate High-Priority Alert)</option>
+                  <option value="HIGH">HIGH (Class Important Announcement)</option>
+                  <option value="NORMAL">NORMAL (General Section Update)</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-border">
+                <button type="button" onClick={() => setActiveModal(null)} className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80">Cancel</button>
+                <button type="submit" disabled={submitting} className="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700">
+                  {submitting ? 'Broadcasting...' : 'Broadcast Advisory'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ==================================================== */}
+      {/* MODAL: Admin Create Semester Subject */}
+      {/* ==================================================== */}
+      {activeModal === 'create-admin-course' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-card text-card-foreground rounded-2xl border border-border p-6 max-w-lg w-full space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <div>
+                <h3 className="text-base font-bold text-foreground">Add New Semester Subject</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{mappingDept} — Semester {mappingSem} Curriculum</p>
+              </div>
+              <button type="button" onClick={() => setActiveModal(null)} className="p-1 rounded-lg hover:bg-secondary cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <form onSubmit={handleCreateAdminCourse} className="space-y-3.5">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-foreground">Course Code *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. CS508"
+                    value={adminCourseForm.courseCode}
+                    onChange={(e) => setAdminCourseForm({ ...adminCourseForm, courseCode: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground uppercase"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-foreground">Credits *</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="6"
+                    value={adminCourseForm.credits}
+                    onChange={(e) => setAdminCourseForm({ ...adminCourseForm, credits: parseInt(e.target.value, 10) })}
+                    className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-foreground">Subject Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Artificial Intelligence & Heuristic Search"
+                  value={adminCourseForm.title}
+                  onChange={(e) => setAdminCourseForm({ ...adminCourseForm, title: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-foreground">Subject Type</label>
+                  <select
+                    value={adminCourseForm.subjectType}
+                    onChange={(e) => setAdminCourseForm({ ...adminCourseForm, subjectType: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                  >
+                    <option value="THEORY">Theory (Lecture)</option>
+                    <option value="LABORATORY">Laboratory / Practical</option>
+                    <option value="PROJECT">Project / Seminar</option>
+                    <option value="ELECTIVE">Professional Elective</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-foreground">Category</label>
+                  <select
+                    value={adminCourseForm.category}
+                    onChange={(e) => setAdminCourseForm({ ...adminCourseForm, category: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                  >
+                    <option value="Core Engineering">Core Engineering</option>
+                    <option value="Advanced Systems">Advanced Systems</option>
+                    <option value="Data Science & AI">Data Science & AI</option>
+                    <option value="Software Systems">Software Systems</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-foreground">Assign Primary Teaching Faculty *</label>
+                <select
+                  required
+                  value={adminCourseForm.facultyId}
+                  onChange={(e) => setAdminCourseForm({ ...adminCourseForm, facultyId: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
+                >
+                  <option value="">-- Select Faculty Member --</option>
+                  {(academicMappings?.facultyList || []).map((f) => (
+                    <option key={f.id} value={f.id}>
+                      {f.first_name} {f.last_name} ({f.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-muted/60 text-[11px] text-muted-foreground">
+                <span className="font-semibold text-foreground">Auto-Enrollment Active:</span> All registered students of {mappingDept} Semester {mappingSem} will be automatically enrolled and can immediately view this subject and its study materials.
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-border">
+                <button type="button" onClick={() => setActiveModal(null)} className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80">Cancel</button>
+                <button type="submit" disabled={submitting} className="px-4 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90">
+                  {submitting ? 'Creating Subject...' : 'Create & Map Subject'}
                 </button>
               </div>
             </form>

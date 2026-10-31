@@ -307,6 +307,43 @@ export const lmsService = {
     const res = await apiClient.get('/lms/reports');
     return res.data?.data;
   },
+
+  // 17. Class Advisor Hub
+  async getClassAdvisorOverview() {
+    const res = await apiClient.get('/lms/advisor/class-overview');
+    return res.data;
+  },
+
+  async postAdvisorAnnouncement(data) {
+    const res = await apiClient.post('/lms/advisor/announcement', data);
+    return res.data;
+  },
+
+  // 18. Admin Academic & Faculty Permission Management
+  async getAcademicMappings(params = {}) {
+    const res = await apiClient.get('/lms/admin/academic-mappings', { params });
+    return res.data?.data;
+  },
+
+  async assignFacultyToCourse(data) {
+    const res = await apiClient.post('/lms/admin/assign-faculty', data);
+    return res.data;
+  },
+
+  async removeFacultyFromCourse(data) {
+    const res = await apiClient.post('/lms/admin/remove-faculty', data);
+    return res.data;
+  },
+
+  async updateClassAdvisor(data) {
+    const res = await apiClient.post('/lms/admin/update-class-advisor', data);
+    return res.data;
+  },
+
+  async createAdminCourse(data) {
+    const res = await apiClient.post('/lms/admin/courses', data);
+    return res.data;
+  },
 };
 
 export default lmsService;

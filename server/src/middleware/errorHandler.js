@@ -4,8 +4,13 @@
 function errorHandler(err, req, res, next) {
   console.error(`[SERVER ERROR] ${req.method} ${req.originalUrl}:`, err);
 
-  const statusCode = err.status || err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
+  let statusCode = err.status || err.statusCode || 500;
+  let message = err.message || 'Internal Server Error';
+
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    statusCode = 413;
+    message = 'File size exceeds maximum allowed limit (15MB).';
+  }
 
   res.status(statusCode).json({
     success: false,

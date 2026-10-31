@@ -57,50 +57,50 @@ export function ApplicantReviewModal({
       title={`Candidate Review: ${applicant.first_name} ${applicant.last_name}`}
       maxWidth="max-w-2xl"
     >
-      <form onSubmit={handleSubmit} className="space-y-4 text-xs max-h-[75vh] overflow-y-auto pr-1">
+      <form onSubmit={handleSubmit} className="space-y-4 text-sm max-h-[75vh] overflow-y-auto pr-1">
         {/* Candidate Profile Summary */}
         <div className="p-3.5 bg-secondary rounded-xl border border-border space-y-2">
           <div className="flex items-center justify-between pb-1.5 border-b border-border">
             <div>
-              <span className="font-bold text-foreground text-sm">
+              <span className="font-bold text-foreground text-base">
                 {applicant.first_name} {applicant.last_name}
               </span>
-              <span className="font-mono text-muted-foreground ml-2">({applicant.register_number})</span>
+              <span className="font-mono text-muted-foreground ml-2 text-sm">({applicant.register_number})</span>
             </div>
             <div className="flex items-center gap-1.5">
               <StatusBadge status={applicant.application_status} />
-              <span className="text-[10px] font-bold text-foreground bg-card px-2 py-0.5 rounded border border-border">
+              <span className="text-xs font-bold text-foreground bg-card px-2 py-0.5 rounded border border-border">
                 {applicant.eligibility_status || 'ELIGIBLE'}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-1">
             <div>
-              <span className="text-muted-foreground block text-[10px]">Department & Batch</span>
-              <strong className="text-foreground">
+              <span className="text-muted-foreground block text-xs">Department & Batch</span>
+              <strong className="text-foreground text-sm">
                 {applicant.department_code} • {applicant.academic_year || applicant.batch}
               </strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Current CGPA</span>
-              <strong className="text-foreground font-bold">{applicant.cgpa}</strong>
+              <span className="text-muted-foreground block text-xs">Current CGPA</span>
+              <strong className="text-foreground font-bold text-sm">{applicant.cgpa}</strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Active Backlogs</span>
-              <strong className="text-foreground font-bold">
+              <span className="text-muted-foreground block text-xs">Active Backlogs</span>
+              <strong className="text-foreground font-bold text-sm">
                 {applicant.active_backlogs || 0} Backlog(s)
               </strong>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px]">Applied Date</span>
-              <strong className="text-foreground">
+              <span className="text-muted-foreground block text-xs">Applied Date</span>
+              <strong className="text-foreground text-sm">
                 {applicant.applied_at ? new Date(applicant.applied_at).toLocaleDateString() : 'N/A'}
               </strong>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 pt-1.5 text-[11px] text-muted-foreground border-t border-border">
+          <div className="flex items-center gap-4 pt-1.5 text-xs text-muted-foreground border-t border-border">
             <span>Email: <strong className="text-foreground">{applicant.email}</strong></span>
             <span>Phone: <strong className="text-foreground">{applicant.phone || 'N/A'}</strong></span>
           </div>

@@ -7,6 +7,7 @@ export const ALL_PAGES = [
   { path: '/domains', label: 'Explore Career Domains', category: 'Career Exploration' },
   { path: '/compare', label: 'Compare Career Roles', category: 'Career Exploration' },
   { path: '/skill-analyzer', label: 'Skill Analyzer', category: 'Career Exploration' },
+  { path: '/career-explorer/companies', label: 'IT Companies by Location', category: 'Career Exploration' },
   { path: '/students', label: 'Students Roster', category: 'Student Management' },
   { path: '/profile', label: 'My Student Profile', category: 'Student Management' },
   { path: '/companies', label: 'Placement Companies', category: 'Recruitment & Drives' },
@@ -22,12 +23,11 @@ export const ALL_PAGES = [
   { path: '/policies', label: 'Placement Policies', category: 'Governance & Institutional' },
   { path: '/reports', label: 'NIRF / NAAC Reports', category: 'Governance & Institutional' },
   { path: '/finance', label: 'Budget & Finance', category: 'Governance & Institutional' },
-  { path: '/alumni', label: 'Alumni Network', category: 'Community & Support' },
   { path: '/grievances', label: 'Grievance Desk', category: 'Community & Support' },
   { path: '/lms', label: 'Learning Management System (LMS)', category: 'LMS & Academics' },
   { path: '/resume-analyzer', label: 'Resume Analyzer (Mistral 7B)', category: 'Placement Preparation' },
-  { path: '/ai-assistant', label: 'AI Career Assistant', category: 'Intelligence & Tools' },
   { path: '/admin', label: 'Admin & DB Registry', category: 'System Administration' },
+  { path: '/admin/academics', label: 'Department & Academic Management', category: 'System Administration' },
   { path: '/settings', label: 'Settings & Themes', category: 'System Administration' },
 ];
 
@@ -62,11 +62,9 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/policies',
     '/reports',
     '/finance',
-    '/alumni',
     '/grievances',
     '/lms',
     '/resume-analyzer',
-    '/ai-assistant',
     '/settings',
   ],
   STUDENT: [
@@ -87,9 +85,7 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/policies',
     '/lms',
     '/resume-analyzer',
-    '/alumni',
     '/grievances',
-    '/ai-assistant',
     '/settings',
   ],
   FACULTY_COORDINATOR: [
@@ -111,9 +107,7 @@ const DEFAULT_ROLE_PERMISSIONS = {
     '/policies',
     '/reports',
     '/lms',
-    '/alumni',
     '/grievances',
-    '/ai-assistant',
     '/settings',
   ],
   RECRUITER: [
@@ -149,11 +143,9 @@ const DEFAULT_ROLE_PERMISSIONS = {
   ALUMNI: [
     '/domains',
     '/compare',
-    '/alumni',
     '/jobs',
     '/policies',
     '/grievances',
-    '/ai-assistant',
     '/settings',
   ],
 };
@@ -166,6 +158,11 @@ export function PermissionProvider({ children }) {
       const saved = localStorage.getItem('uniserve_role_permissions');
       if (saved) {
         const parsed = JSON.parse(saved);
+        for (const r in parsed) {
+          if (Array.isArray(parsed[r])) {
+            parsed[r] = parsed[r].filter(p => p !== '/alumni' && p !== '/ai-assistant');
+          }
+        }
         parsed.SUPER_ADMIN = ALL_PAGES.map((p) => p.path);
         delete parsed.ADMIN; // Ensure legacy ADMIN is removed
         return parsed;
@@ -185,6 +182,11 @@ export function PermissionProvider({ children }) {
       const res = await apiClient.get('/permissions');
       if (res.data?.success && res.data?.permissions) {
         const perms = res.data.permissions;
+        for (const r in perms) {
+          if (Array.isArray(perms[r])) {
+            perms[r] = perms[r].filter(p => p !== '/alumni' && p !== '/ai-assistant');
+          }
+        }
         perms.SUPER_ADMIN = ALL_PAGES.map((p) => p.path);
         delete perms.ADMIN;
         setRolePermissionsState(perms);

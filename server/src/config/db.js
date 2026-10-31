@@ -114,8 +114,19 @@ async function checkDatabaseHealth() {
     health.commonDb.error = err.message;
   }
 
+  // Fetch all active departments dynamically from registry
+  let deptList = [];
+  try {
+    const [rows] = await commonPool.query('SELECT dept_code, database_name FROM department_databases WHERE is_active = 1');
+    deptList = rows;
+  } catch (e) {
+    deptList = Object.entries(defaultDeptDatabaseMap).map(([code, db]) => ({ dept_code: code, database_name: db }));
+  }
+
   // Test department databases
-  for (const [deptCode, dbName] of Object.entries(defaultDeptDatabaseMap)) {
+  for (const dept of deptList) {
+    const deptCode = dept.dept_code;
+    const dbName = dept.database_name;
     const startDept = Date.now();
     try {
       const pool = await getDepartmentPool(deptCode);
@@ -137,11 +148,45 @@ async function checkDatabaseHealth() {
   return health;
 }
 
+/**
+ * Invalidate or close a specific department pool (e.g. after schema change or re-provision)
+ */
+async function invalidateDepartmentPool(departmentCode) {
+  if (!departmentCode) return;
+  const deptKey = departmentCode.toUpperCase();
+  if (departmentPools.has(deptKey)) {
+    const pool = departmentPools.get(deptKey);
+    departmentPools.delete(deptKey);
+    try {
+      await pool.end();
+    } catch (e) {}
+  }
+}
+
+/**
+ * Fetch all active registered department codes
+ */
+async function getAllActiveDepartments() {
+  try {
+    const [rows] = await commonPool.query('SELECT dept_code, dept_name, database_name FROM department_databases WHERE is_active = 1');
+    return rows;
+  } catch (err) {
+    return Object.entries(defaultDeptDatabaseMap).map(([code, db]) => ({
+      dept_code: code,
+      dept_name: code,
+      database_name: db,
+    }));
+  }
+}
+
 module.exports = {
   commonPool,
   getDepartmentPool,
+  invalidateDepartmentPool,
+  getAllActiveDepartments,
   queryCommon,
   queryDept,
   checkDatabaseHealth,
   defaultDeptDatabaseMap,
 };
+

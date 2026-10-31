@@ -33,8 +33,11 @@ const userPrefCtrl = require('../controllers/userPreferencesController');
 const skillAnalyzerCtrl = require('../controllers/skillAnalyzerController');
 const careerExplorerCtrl = require('../controllers/careerExplorerController');
 const lmsCtrl = require('../controllers/lmsController');
+const deptAdminCtrl = require('../controllers/departmentAdminController');
+const companyLocationCtrl = require('../controllers/companyLocationController');
 const { handleMaterialUpload, handleAssignmentUpload } = require('../middleware/lmsUpload.middleware');
 const { handlePolicyUpload } = require('../middleware/policyUpload.middleware');
+const { handleImportUpload } = require('../middleware/importUpload.middleware');
 const resumeAnalyzerRoutes = require('./resumeAnalyzer.routes');
 
 // 1. Authentication & Role Switcher
@@ -188,11 +191,41 @@ router.get('/reports/nirf', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN'
 router.get('/reports/export-csv', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'MANAGEMENT']), reportCtrl.exportPlacementDataCsv);
 
 // 19. Administration & Multi-DB Registry
-router.get('/admin/users', authenticateToken, authorize(['ADMIN']), adminCtrl.getAllUsers);
-router.put('/admin/users/:id', authenticateToken, authorize(['ADMIN']), adminCtrl.updateUserStatus);
-router.get('/admin/department-databases', authenticateToken, authorize(['ADMIN', 'TPO_OFFICER', 'MANAGEMENT']), adminCtrl.getDepartmentDatabases);
-router.put('/admin/department-databases/:id', authenticateToken, authorize(['ADMIN']), adminCtrl.updateDepartmentDatabase);
-router.get('/admin/audit-logs', authenticateToken, authorize(['ADMIN', 'MANAGEMENT']), adminCtrl.getAuditLogs);
+router.get('/admin/users', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), adminCtrl.getAllUsers);
+router.put('/admin/users/:id', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), adminCtrl.updateUserStatus);
+router.get('/admin/department-databases', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN', 'TPO_OFFICER', 'MANAGEMENT']), adminCtrl.getDepartmentDatabases);
+router.put('/admin/department-databases/:id', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), adminCtrl.updateDepartmentDatabase);
+router.get('/admin/audit-logs', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), adminCtrl.getAuditLogs);
+
+// 19b. Department & Academic Management & Bulk Data Import
+// Department Management
+router.get('/admin/departments', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN', 'TPO_OFFICER', 'MANAGEMENT']), deptAdminCtrl.getDepartments);
+router.get('/admin/departments/:deptCode', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.getDepartmentByCode);
+router.post('/admin/departments', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.createDepartment);
+router.put('/admin/departments/:deptCode', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.updateDepartment);
+router.post('/admin/departments/:deptCode/provision', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.provisionDepartmentDb);
+router.get('/admin/departments/:deptCode/verify', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.verifyDepartmentDb);
+
+// Academic Structure Management
+router.get('/admin/academics', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN', 'TPO_OFFICER', 'MANAGEMENT', 'FACULTY_COORDINATOR']), deptAdminCtrl.getAcademicStructures);
+router.post('/admin/academics', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.createAcademicStructure);
+router.put('/admin/academics/:id', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.updateAcademicStructure);
+router.delete('/admin/academics/:id', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.deleteAcademicStructure);
+
+// Bulk Data Import
+router.get('/admin/imports/template', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.downloadTemplate);
+router.post('/admin/imports/preview', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), handleImportUpload, deptAdminCtrl.previewAndValidateImport);
+router.post('/admin/imports/confirm', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.confirmImport);
+router.get('/admin/imports/history', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.getImportHistory);
+router.get('/admin/imports/error-report/:jobId', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.downloadErrorReport);
+
+// Dedicated Tenant Database Status Dashboard
+router.get('/admin/database-status', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), deptAdminCtrl.getDatabaseStatus);
+
+// Multi-step Wizard Persistent Drafts
+router.get('/admin/wizard-drafts/:wizardType', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.getWizardDraft);
+router.put('/admin/wizard-drafts/:wizardType', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.saveWizardDraft);
+router.delete('/admin/wizard-drafts/:wizardType', authenticateToken, authorize(['ADMIN', 'SUPER_ADMIN']), deptAdminCtrl.clearWizardDraft);
 
 // 20. AI Assistance (Powered by Mistral 7B Instruct GGUF & Live Database RAG)
 router.get('/ai/status', authenticateToken, aiCtrl.getAiStatus);
@@ -227,9 +260,31 @@ router.get('/career/domains/:domainSlug/roles/:roleSlug', careerExplorerCtrl.get
 router.get('/career/stats', careerExplorerCtrl.getCareerStats);
 router.get('/career/roles', careerExplorerCtrl.getRoles);
 router.get('/career/roles/:id', careerExplorerCtrl.getRoleById);
+router.get('/career/roles/:id/skills', careerExplorerCtrl.getRoleSkills);
+router.get('/career/roles/:id/roadmap', careerExplorerCtrl.getRoleRoadmap);
+router.get('/career/roles/:id/projects', careerExplorerCtrl.getRoleProjects);
 router.get('/career/roles/:id/fit', optionalAuthenticateToken, careerExplorerCtrl.getRoleFit);
+router.post('/career/roles/:id/favorite', optionalAuthenticateToken, careerExplorerCtrl.toggleFavoriteRole);
+router.get('/career/favorites', optionalAuthenticateToken, careerExplorerCtrl.getFavoriteRoles);
 router.get('/career/compare', careerExplorerCtrl.compareRoles);
 router.get('/career/tags', careerExplorerCtrl.getRoleTags);
+router.post('/career/assessments', optionalAuthenticateToken, careerExplorerCtrl.submitAssessment);
+router.get('/career/assessments', optionalAuthenticateToken, careerExplorerCtrl.getAssessments);
+
+// Admin Catalogue Management
+router.post('/career/admin/domains', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminSaveDomain);
+router.put('/career/admin/domains/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminSaveDomain);
+router.post('/career/admin/roles', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminSaveRole);
+router.put('/career/admin/roles/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminSaveRole);
+router.delete('/career/admin/roles/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminDeleteRole);
+
+// 21d. IT Companies by Location (Career Explorer Location Intelligence)
+router.get('/career/companies/location', companyLocationCtrl.searchLocationCompanies);
+router.get('/career/companies/locations/meta', companyLocationCtrl.getLocationMetadata);
+router.get('/career/companies/:id', companyLocationCtrl.getCompanyDetails);
+router.post('/career/companies/admin/:company_id/offices', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), companyLocationCtrl.adminAddOffice);
+router.put('/career/companies/admin/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), companyLocationCtrl.adminUpdateCompany);
+router.patch('/career/companies/admin/:target/:id/status', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), companyLocationCtrl.adminToggleStatus);
 
 // 22. Role-Based LMS (Learning Management System)
 // Dashboard & Metrics
@@ -310,6 +365,17 @@ router.get('/lms/support', authenticateToken, lmsCtrl.getSupportTickets);
 router.post('/lms/support', authenticateToken, lmsCtrl.createSupportTicket);
 router.get('/lms/announcements', authenticateToken, lmsCtrl.getAnnouncements);
 router.post('/lms/announcements', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.createAnnouncement);
+
+// Class Advisor Specific Routes
+router.get('/lms/advisor/class-overview', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.getClassAdvisorOverview);
+router.post('/lms/advisor/announcement', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.postAdvisorAnnouncement);
+
+// Admin Academic & Faculty Permission Management Routes
+router.get('/lms/admin/academic-mappings', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR']), lmsCtrl.getAcademicMappings);
+router.post('/lms/admin/assign-faculty', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), lmsCtrl.assignFacultyToCourse);
+router.post('/lms/admin/remove-faculty', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), lmsCtrl.removeFacultyFromCourse);
+router.post('/lms/admin/update-class-advisor', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), lmsCtrl.updateClassAdvisor);
+router.post('/lms/admin/courses', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), lmsCtrl.createAdminCourse);
 
 // Resume Analyzer (Local Mistral 7B Inference)
 router.use('/resume-analyzer', resumeAnalyzerRoutes);

@@ -33,11 +33,11 @@ export function UniserveLoader({
 
       {/* Brand Wordmark & Title */}
       <div className="space-y-1.5 mb-6">
-        <h1 className="text-2xl font-black tracking-wider text-white flex items-center justify-center gap-1">
+        <h1 className="text-2xl font-bold tracking-wider text-white flex items-center justify-center gap-1">
           <span>{title}</span>
           <span className="w-1.5 h-1.5 rounded-full inline-block ml-1 bg-white" />
         </h1>
-        <p className="text-xs font-medium text-neutral-400 tracking-wide">
+        <p className="text-sm font-medium text-neutral-400 tracking-wide">
           {subtitle}
         </p>
       </div>
@@ -54,7 +54,7 @@ export function UniserveLoader({
       </div>
 
       {/* Dynamic Status Text */}
-      <div className="flex items-center gap-2 text-[11px] font-semibold text-neutral-400">
+      <div className="flex items-center gap-2 text-sm font-semibold text-neutral-400">
         <span className="w-1.5 h-1.5 rounded-full animate-ping bg-neutral-400" />
         <span>{status}</span>
       </div>

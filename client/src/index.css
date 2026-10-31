@@ -59,6 +59,33 @@
   --success: #171717;
   --warning: #525252;
   --danger: #171717;
+
+  /* CampusCorp Global Typography Scale Tokens */
+  --font-family-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-size-page-title: 1.5625rem; /* 25px (target: 24-26px, weight: 700) */
+  --font-size-section-heading: 1.25rem; /* 20px (target: 19-21px, weight: 600) */
+  --font-size-card-heading: 1.0625rem; /* 17px (target: 16-18px, weight: 600) */
+  --font-size-user-name: 1.1875rem; /* 19px (target: 18-20px, weight: 700) */
+  --font-size-body: 0.875rem; /* 14px (target: 14px, weight: 400) */
+  --font-size-nav: 0.84375rem; /* 13.5px (target: 13-14px, weight: 500) */
+  --font-size-form-label: 0.84375rem; /* 13.5px (target: 13-14px, weight: 600) */
+  --font-size-input: 0.875rem; /* 14px (target: 14px) */
+  --font-size-button: 0.84375rem; /* 13.5px (target: 13-14px) */
+  --font-size-table: 0.84375rem; /* 13.5px (target: 13-14px) */
+  --font-size-desc: 0.78125rem; /* 12.5px (target: 12-13px) */
+  --font-size-badge: 0.71875rem; /* 11.5px (target: 11-12px) */
+  --font-size-metadata: 0.75rem; /* 12px (target: 12px) */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
 }
 
 .dark {
@@ -149,6 +176,47 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-family-primary);
+}
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Badges & micro labels: 11-12px */
+  --text-2xs: 0.71875rem; /* 11.5px */
+  --text-2xs--line-height: 1rem;
+
+  /* Descriptions, helper text, secondary metadata: 12-13px */
+  --text-xs: 0.78125rem; /* 12.5px */
+  --text-xs--line-height: 1.15rem;
+
+  /* Sidebar navigation, form labels, buttons, table headers & content: 13-14px */
+  --text-sm: 0.84375rem; /* 13.5px */
+  --text-sm--line-height: 1.3rem;
+
+  /* Body text, inputs, dropdowns: 14px */
+  --text-base: 0.875rem; /* 14px */
+  --text-base--line-height: 1.45rem;
+
+  /* Card headings: 16-18px */
+  --text-lg: 1.0625rem; /* 17px */
+  --text-lg--line-height: 1.5rem;
+
+  /* Section headings, user names: 19-21px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-xl--line-height: 1.65rem;
+
+  /* Main page titles: 24-26px */
+  --text-2xl: 1.5625rem; /* 25px */
+  --text-2xl--line-height: 1.95rem;
+
+  /* Accent titles & hero metrics */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-3xl--line-height: 2.25rem;
+
+  --text-4xl: 2.25rem; /* 36px */
+  --text-4xl--line-height: 2.6rem;
 }
 
 @layer base {
@@ -156,12 +224,126 @@
     border-color: var(--border);
   }
 
+  html {
+    font-family: var(--font-family-primary);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-normal);
     margin: 0;
     min-height: 100vh;
   }
+
+  h1 {
+    font-size: var(--font-size-page-title);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.015em;
+  }
+
+  h2 {
+    font-size: var(--font-size-section-heading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: var(--font-size-card-heading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+    letter-spacing: -0.005em;
+  }
+
+  p {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-normal);
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: var(--font-size-input);
+    line-height: 1.45;
+  }
+
+  label {
+    font-size: var(--font-size-form-label);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+  }
+
+  table {
+    font-size: var(--font-size-table);
+    line-height: 1.4;
+  }
+
+  th {
+    font-size: var(--font-size-table);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  td {
+    font-size: var(--font-size-table);
+  }
+}
+
+/* Micro-typography normalization */
+.text-\[9px\],
+.text-\[10px\] {
+  font-size: 0.71875rem !important; /* 11.5px (target: 11-12px) */
+  line-height: 1rem !important;
+}
+
+.text-\[11px\] {
+  font-size: 0.75rem !important; /* 12px (target: 12px) */
+  line-height: 1.125rem !important;
+}
+
+/* Reusable Typography System Classes */
+.page-title {
+  font-size: var(--font-size-page-title) !important;
+  font-weight: var(--font-weight-bold) !important;
+  line-height: var(--line-height-tight) !important;
+  letter-spacing: -0.015em;
+}
+
+.section-heading {
+  font-size: var(--font-size-section-heading) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  line-height: var(--line-height-snug) !important;
+  letter-spacing: -0.01em;
+}
+
+.card-heading {
+  font-size: var(--font-size-card-heading) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  line-height: var(--line-height-snug) !important;
+  letter-spacing: -0.005em;
+}
+
+.subtext-desc {
+  font-size: var(--font-size-desc);
+  line-height: var(--line-height-relaxed);
+  color: var(--muted-foreground);
+}
+
+.table-header-text {
+  font-size: var(--font-size-table);
+  font-weight: var(--font-weight-semibold);
+}
+
+.table-cell-text {
+  font-size: var(--font-size-table);
 }
 
 /* Strict Black-and-White Action Utilities */
@@ -261,21 +443,99 @@
   border-color: var(--border) !important;
 }
 
-/* Monochrome Overrides for Legacy Color Classes */
-.bg-blue-600, .bg-blue-700, .bg-indigo-600, .bg-indigo-700, .bg-purple-600, .bg-emerald-600 {
-  background-color: #171717 !important;
-  color: #fafafa !important;
+/* Semantic Status Utilities with Accessible Contrast */
+.text-emerald-status {
+  color: #059669;
 }
-.dark .bg-blue-600, .dark .bg-blue-700, .dark .bg-indigo-600, .dark .bg-indigo-700, .dark .bg-purple-600, .dark .bg-emerald-600 {
-  background-color: #fafafa !important;
-  color: #0a0a0a !important;
+.dark .text-emerald-status {
+  color: #34d399;
+}
+.bg-emerald-status {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.25);
+}
+.dark .bg-emerald-status {
+  background-color: rgba(16, 185, 129, 0.18);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.3);
 }
 
-.text-blue-600, .text-blue-700, .text-indigo-600, .text-purple-600, .text-emerald-600, .text-amber-600, .text-amber-700 {
-  color: #0a0a0a !important;
+.text-amber-status {
+  color: #d97706;
 }
-.dark .text-blue-600, .dark .text-blue-700, .dark .text-indigo-600, .dark .text-purple-600, .dark .text-emerald-600, .dark .text-amber-600, .dark .text-amber-700 {
-  color: #fafafa !important;
+.dark .text-amber-status {
+  color: #fbbf24;
+}
+.bg-amber-status {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.25);
+}
+.dark .bg-amber-status {
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.text-rose-status {
+  color: #dc2626;
+}
+.dark .text-rose-status {
+  color: #f87171;
+}
+.bg-rose-status {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+.dark .bg-rose-status {
+  background-color: rgba(239, 68, 68, 0.18);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.text-blue-status {
+  color: #2563eb;
+}
+.dark .text-blue-status {
+  color: #60a5fa;
+}
+.bg-blue-status {
+  background-color: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+  border-color: rgba(37, 99, 235, 0.25);
+}
+.dark .bg-blue-status {
+  background-color: rgba(37, 99, 235, 0.18);
+  color: #60a5fa;
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* Accessible Focus States */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Responsive Table Wrapper Utility */
+.table-responsive-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+}
+
+/* Reduced Motion Preference Respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Custom Scrollbar */

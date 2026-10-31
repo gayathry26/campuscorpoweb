@@ -113,6 +113,7 @@ export function Domains() {
         onSearchChange={setSearchQuery}
         comparedRoleIds={comparedRoleIds}
         onOpenMyFit={handleOpenMyFitDefault}
+        stats={statsData}
       />
 
       {/* SECTION B: Career Overview Statistics Cards */}
@@ -133,43 +134,38 @@ export function Domains() {
         onClose={() => setFitModalRole(null)}
       />
 
-      {/* Floating Compare Tray (when roles are selected in compare queue) */}
+      {/* ================= COMPACT COMPARISON INDICATOR ================= */}
       {comparedRoleIds.length > 0 && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 max-w-md w-[calc(100%-2rem)] animate-in slide-in-from-bottom-5 duration-200">
-          <div className="bg-foreground text-background rounded-2xl p-3 shadow-2xl border border-background/20 flex items-center justify-between gap-3 backdrop-blur-md">
-            <div className="flex items-center gap-2.5 pl-1 truncate">
-              <span className="w-5 h-5 rounded-md bg-background text-foreground flex items-center justify-center text-xs font-black shrink-0">
+        <div className="fixed bottom-5 right-5 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
+          <div className="bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] rounded-full px-3.5 py-2 shadow-2xl border border-neutral-700/60 dark:border-neutral-200/60 flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md">
+            <div className="flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
                 {comparedRoleIds.length}
               </span>
-              <div className="truncate">
-                <p className="text-xs font-bold leading-tight truncate">
-                  {comparedRoleIds.length === 1
-                    ? '1 role selected for comparison'
-                    : `${comparedRoleIds.length} roles selected for comparison`}
-                </p>
-                <p className="text-[10px] opacity-75 truncate">
-                  Matrix comparison across responsibilities & skills
-                </p>
-              </div>
+              <span className="font-bold text-xs">
+                {comparedRoleIds.length === 1 ? '1 role' : `${comparedRoleIds.length} roles`} selected
+              </span>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => setComparedRoleIds([])}
-                className="text-[11px] font-semibold opacity-75 hover:opacity-100 px-2 py-1 transition-opacity cursor-pointer"
-              >
-                Clear
-              </button>
-              <button
-                type="button"
-                onClick={handleGoToCompare}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-background text-foreground hover:opacity-90 transition-all cursor-pointer shadow-xs active:scale-95"
-              >
-                <span>Compare Now</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <div className="h-3.5 w-px bg-white/20 dark:bg-black/20" />
+
+            <button
+              type="button"
+              onClick={handleGoToCompare}
+              className="inline-flex items-center gap-1 font-bold text-xs text-purple-300 dark:text-purple-700 hover:underline cursor-pointer"
+            >
+              <span>Compare</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setComparedRoleIds([])}
+              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer ml-0.5"
+              title="Clear comparison"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       )}

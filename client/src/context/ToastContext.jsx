@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from 'lucide-react';
+import { toastVariants } from '../utils/motion';
 
 const ToastContext = createContext(null);
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
+  const shouldReduceMotion = useReducedMotion();
 
   const removeToast = useCallback((id) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -30,48 +33,54 @@ export function ToastProvider({ children }) {
       {/* Toast Notification Container */}
       <div
         aria-live="polite"
-        className="fixed bottom-5 right-5 z-[9999] flex flex-col gap-2 max-w-md w-full px-4 sm:px-0 pointer-events-none transition-all"
+        className="fixed bottom-5 right-5 z-[9999] flex flex-col gap-2 max-w-md w-full px-4 sm:px-0 pointer-events-none"
       >
-        {toasts.map((toast) => {
-          let Icon = Info;
-          let colorStyle = 'border-border bg-card text-card-foreground shadow-lg';
-          let iconColor = 'text-foreground';
+        <AnimatePresence mode="popLayout">
+          {toasts.map((toast) => {
+            let Icon = Info;
+            let colorStyle = 'border-border bg-card text-card-foreground shadow-lg';
+            let iconColor = 'text-foreground';
 
-          if (toast.type === 'success') {
-            Icon = CheckCircle2;
-            colorStyle = 'border-emerald-500/40 bg-card text-card-foreground shadow-lg dark:border-emerald-500/30';
-            iconColor = 'text-emerald-600 dark:text-emerald-400';
-          } else if (toast.type === 'error') {
-            Icon = AlertCircle;
-            colorStyle = 'border-red-500/40 bg-card text-card-foreground shadow-lg dark:border-red-500/30';
-            iconColor = 'text-red-600 dark:text-red-400';
-          } else if (toast.type === 'warning') {
-            Icon = AlertTriangle;
-            colorStyle = 'border-amber-500/40 bg-card text-card-foreground shadow-lg dark:border-amber-500/30';
-            iconColor = 'text-amber-600 dark:text-amber-400';
-          }
+            if (toast.type === 'success') {
+              Icon = CheckCircle2;
+              colorStyle = 'border-emerald-500/40 bg-card text-card-foreground shadow-lg dark:border-emerald-500/30';
+              iconColor = 'text-emerald-600 dark:text-emerald-400';
+            } else if (toast.type === 'error') {
+              Icon = AlertCircle;
+              colorStyle = 'border-red-500/40 bg-card text-card-foreground shadow-lg dark:border-red-500/30';
+              iconColor = 'text-red-600 dark:text-red-400';
+            } else if (toast.type === 'warning') {
+              Icon = AlertTriangle;
+              colorStyle = 'border-amber-500/40 bg-card text-card-foreground shadow-lg dark:border-amber-500/30';
+              iconColor = 'text-amber-600 dark:text-amber-400';
+            }
 
-          return (
-            <div
-              key={toast.id}
-              className={`pointer-events-auto flex items-start gap-3 p-3.5 rounded-xl border ${colorStyle} backdrop-blur-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-2`}
-              role="alert"
-            >
-              <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${iconColor}`} />
-              <div className="flex-1 text-xs font-medium leading-relaxed break-words">
-                {toast.message}
-              </div>
-              <button
-                type="button"
-                onClick={() => removeToast(toast.id)}
-                className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors cursor-pointer shrink-0"
-                aria-label="Dismiss toast"
+            return (
+              <motion.div
+                key={toast.id}
+                layout
+                initial={shouldReduceMotion ? { opacity: 0 } : toastVariants.initial}
+                animate={shouldReduceMotion ? { opacity: 1 } : toastVariants.animate}
+                exit={shouldReduceMotion ? { opacity: 0 } : toastVariants.exit}
+                className={`pointer-events-auto flex items-start gap-3 p-3.5 rounded-xl border ${colorStyle} backdrop-blur-md`}
+                role="alert"
               >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          );
-        })}
+                <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${iconColor}`} />
+                <div className="flex-1 text-sm font-medium leading-relaxed break-words">
+                  {toast.message}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeToast(toast.id)}
+                  className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors cursor-pointer shrink-0"
+                  aria-label="Dismiss toast"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
     </ToastContext.Provider>
   );

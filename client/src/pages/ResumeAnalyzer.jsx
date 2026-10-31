@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import resumeAnalyzerService from '../services/resumeAnalyzerService';
@@ -31,14 +32,22 @@ import {
 export function ResumeAnalyzer() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const [searchParams] = useSearchParams();
+  const targetRoleQuery = searchParams.get('targetRole') || searchParams.get('role');
 
   // State
   const [roles, setRoles] = useState(IT_ROLES);
   const [placementJobs, setPlacementJobs] = useState([]);
-  const [selectedRoleId, setSelectedRoleId] = useState(IT_ROLES[0]?.id || 'frontend-developer');
+  const [selectedRoleId, setSelectedRoleId] = useState(targetRoleQuery || IT_ROLES[0]?.id || 'frontend-developer');
   const [selectedJobId, setSelectedJobId] = useState('');
   const [customJobDesc, setCustomJobDesc] = useState('');
   const [showCustomDesc, setShowCustomDesc] = useState(false);
+
+  useEffect(() => {
+    if (targetRoleQuery) {
+      setSelectedRoleId(targetRoleQuery);
+    }
+  }, [targetRoleQuery]);
 
   const [file, setFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
@@ -215,24 +224,24 @@ export function ResumeAnalyzer() {
             </div>
             <div>
               <div className="flex items-center gap-2.5">
-                <h1 className="text-xl font-bold tracking-tight text-foreground">
+                <h1 className="text-2xl font-bold tracking-tight text-foreground">
                   Mistral 7B Resume Analyzer
                 </h1>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
+                <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
                   Local AI Inference
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-sm text-muted-foreground mt-0.5">
                 Targeted ATS parsing, semantic skill verification, and metric-driven feedback powered by local Mistral 7B Instruct v0.1.
               </p>
             </div>
           </div>
 
           {/* Model Status Pill */}
-          <div className="flex items-center gap-2 text-xs bg-muted/50 px-3.5 py-2 rounded-xl border border-border self-start md:self-auto shrink-0">
+          <div className="flex items-center gap-2 text-sm bg-muted/50 px-3.5 py-2 rounded-xl border border-border self-start md:self-auto shrink-0">
             <Cpu className="w-4 h-4 text-primary" />
             <div className="flex flex-col">
-              <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Engine Status</span>
+              <span className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Engine Status</span>
               <div className="flex items-center gap-1.5 font-semibold text-foreground">
                 <span className={`w-2 h-2 rounded-full ${aiHealth?.model_loaded ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
                 <span>{aiHealth?.model_loaded ? 'Mistral 7B Resident (Ready)' : 'AI Service Initializing...'}</span>
@@ -242,7 +251,7 @@ export function ResumeAnalyzer() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="mt-5 pt-3 border-t border-border flex items-center gap-2 text-xs">
+        <div className="mt-5 pt-3 border-t border-border flex items-center gap-2 text-sm">
           <button
             type="button"
             onClick={() => setActiveTab('analyzer')}
@@ -264,7 +273,7 @@ export function ResumeAnalyzer() {
             }`}
           >
             <span>Analysis History</span>
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-secondary text-secondary-foreground border border-border font-bold">
+            <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-secondary-foreground border border-border font-bold">
               {history.length}
             </span>
           </button>
@@ -276,14 +285,14 @@ export function ResumeAnalyzer() {
           {/* Left Column: Upload & Role Configuration (Sticky) */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto pr-1">
             <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-5">
-              <div className="flex items-center gap-2 font-semibold text-sm border-b border-border pb-3">
+              <div className="flex items-center gap-2 font-semibold text-base border-b border-border pb-3">
                 <Layers className="w-4 h-4 text-primary" />
                 <span>Step 1: Choose Target Role & Criteria</span>
               </div>
 
               {/* Target Job Role Dropdown */}
               <div>
-                <label className="block text-xs font-semibold text-foreground mb-1.5">
+                <label className="block text-sm font-semibold text-foreground mb-1.5">
                   Target Career Role <span className="text-destructive">*</span>
                 </label>
                 <select
@@ -292,13 +301,13 @@ export function ResumeAnalyzer() {
                     setSelectedRoleId(e.target.value);
                     setError('');
                   }}
-                  className="w-full text-xs rounded-xl border border-border bg-background px-3 py-2.5 font-medium text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary cursor-pointer"
+                  className="w-full text-sm rounded-xl border border-border bg-background px-3 py-2.5 font-medium text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary cursor-pointer"
                 >
                   {roles.length === 0 ? (
                     <option value="" disabled>Loading career roles...</option>
                   ) : (
                     Object.entries(
-                      roles.reduce((acc, r) => {
+                       roles.reduce((acc, r) => {
                         const cat = r.category || 'General IT Roles';
                         if (!acc[cat]) acc[cat] = [];
                         acc[cat].push(r);
@@ -317,10 +326,10 @@ export function ResumeAnalyzer() {
                 </select>
                 {selectedRole && (
                   <div className="mt-2 space-y-1">
-                    <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">
+                    <span className="inline-block px-2 py-0.5 rounded-md text-xs font-bold bg-primary/10 text-primary border border-primary/20">
                       {selectedRole.category}
                     </span>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    <p className="text-xs text-muted-foreground leading-relaxed">
                       {selectedRole.shortDescription}
                     </p>
                   </div>
@@ -329,21 +338,21 @@ export function ResumeAnalyzer() {
 
               {/* Technical Skills Preview */}
               {selectedRole?.technicalSkills?.length > 0 && (
-                <div className="p-3 rounded-xl bg-muted/40 border border-border text-xs space-y-1.5">
-                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+                <div className="p-3 rounded-xl bg-muted/40 border border-border text-sm space-y-1.5">
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                     Core Target Skills for {selectedRole.title}:
                   </span>
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {selectedRole.technicalSkills.slice(0, 6).map((skill, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 rounded-md text-[10px] bg-secondary text-secondary-foreground border border-border font-medium"
+                        className="px-2 py-0.5 rounded-md text-xs bg-secondary text-secondary-foreground border border-border font-medium"
                       >
                         {skill}
                       </span>
                     ))}
                     {selectedRole.technicalSkills.length > 6 && (
-                      <span className="text-[10px] text-muted-foreground font-semibold px-1 py-0.5">
+                      <span className="text-xs text-muted-foreground font-semibold px-1 py-0.5">
                         +{selectedRole.technicalSkills.length - 6} more
                       </span>
                     )}
@@ -354,13 +363,13 @@ export function ResumeAnalyzer() {
               {/* Optional Placement Opening Link */}
               {placementJobs.length > 0 && (
                 <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">
+                  <label className="block text-sm font-semibold text-foreground mb-1.5">
                     Match Against Active Campus Opening (Optional)
                   </label>
                   <select
                     value={selectedJobId}
                     onChange={(e) => setSelectedJobId(e.target.value)}
-                    className="w-full text-xs rounded-xl border border-border bg-background px-3 py-2 text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary"
+                    className="w-full text-sm rounded-xl border border-border bg-background px-3 py-2 text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary"
                   >
                     <option value="">-- General Industry Standards for Role --</option>
                     {placementJobs.map((j) => (
@@ -377,9 +386,9 @@ export function ResumeAnalyzer() {
                 <button
                   type="button"
                   onClick={() => setShowCustomDesc(!showCustomDesc)}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer"
+                  className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground cursor-pointer"
                 >
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showCustomDesc ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 transition-transform ${showCustomDesc ? 'rotate-180' : ''}`} />
                   <span>{showCustomDesc ? 'Hide custom job description' : 'Paste custom job description or requirements'}</span>
                 </button>
 
@@ -389,7 +398,7 @@ export function ResumeAnalyzer() {
                     value={customJobDesc}
                     onChange={(e) => setCustomJobDesc(e.target.value)}
                     placeholder="Paste specific JD requirements, preferred frameworks, minimum qualifications, or team tech stack..."
-                    className="w-full mt-2 text-xs rounded-xl border border-border bg-background p-3 text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary resize-y"
+                    className="w-full mt-2 text-sm rounded-xl border border-border bg-background p-3 text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary resize-y"
                   />
                 )}
               </div>
@@ -397,7 +406,7 @@ export function ResumeAnalyzer() {
 
             {/* Document Upload Zone */}
             <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-4">
-              <div className="flex items-center gap-2 font-semibold text-sm border-b border-border pb-3">
+              <div className="flex items-center gap-2 font-semibold text-base border-b border-border pb-3">
                 <Upload className="w-4 h-4 text-primary" />
                 <span>Step 2: Upload Resume (PDF / DOCX)</span>
               </div>
@@ -429,10 +438,10 @@ export function ResumeAnalyzer() {
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-foreground truncate max-w-xs mx-auto">
+                      <p className="text-sm font-bold text-foreground truncate max-w-xs mx-auto">
                         {file.name}
                       </p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">
+                      <p className="text-xs text-muted-foreground mt-0.5">
                         {(file.size / 1024).toFixed(1)} KB • Click or drop new file to replace
                       </p>
                     </div>
@@ -443,10 +452,10 @@ export function ResumeAnalyzer() {
                       <Upload className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-foreground">
+                      <p className="text-sm font-semibold text-foreground">
                         Drag and drop your resume here, or <span className="text-primary underline">browse</span>
                       </p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">
+                      <p className="text-xs text-muted-foreground mt-0.5">
                         Supports digital PDF and Word DOCX (Max 5MB)
                       </p>
                     </div>
@@ -455,7 +464,7 @@ export function ResumeAnalyzer() {
               </div>
 
               {error && (
-                <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-2">
+                <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{error}</span>
                 </div>
@@ -466,7 +475,7 @@ export function ResumeAnalyzer() {
                 type="button"
                 disabled={!file || analyzing}
                 onClick={handleAnalyze}
-                className="w-full py-3 px-4 rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 px-4 rounded-xl text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {analyzing ? (
                   <>
@@ -486,7 +495,7 @@ export function ResumeAnalyzer() {
                   <div className="w-full bg-border rounded-full h-1.5 overflow-hidden">
                     <div className="bg-primary h-full rounded-full animate-pulse w-3/4" />
                   </div>
-                  <p className="text-[11px] font-medium text-muted-foreground animate-pulse">
+                  <p className="text-xs font-medium text-muted-foreground animate-pulse">
                     {analysisStage || 'Processing with local Mistral 7B AI...'}
                   </p>
                 </div>
@@ -502,13 +511,13 @@ export function ResumeAnalyzer() {
                 <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                      <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                         Analysis Summary Report
                       </span>
-                      <h2 className="text-lg font-bold text-foreground">
+                      <h2 className="text-xl font-bold text-foreground">
                         {activeAnalysis.roleTitle}
                       </h2>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         File: {activeAnalysis.originalFilename} • Evaluated via Mistral 7B Instruct v0.1
                       </p>
                     </div>
@@ -517,7 +526,7 @@ export function ResumeAnalyzer() {
                       <button
                         type="button"
                         onClick={handlePrint}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-xs font-semibold text-foreground hover:bg-muted cursor-pointer transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-sm font-semibold text-foreground hover:bg-muted cursor-pointer transition-colors"
                       >
                         <Download className="w-3.5 h-3.5" />
                         <span>Print Report</span>
@@ -535,11 +544,11 @@ export function ResumeAnalyzer() {
                         </span>
                       </div>
                       <div>
-                        <div className="flex items-center gap-1 text-xs font-bold text-foreground">
+                        <div className="flex items-center gap-1 text-sm font-bold text-foreground">
                           <span>Overall Quality Score</span>
                           <span className="text-muted-foreground">/ 100</span>
                         </div>
-                        <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
+                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
                           Assesses structural formatting, quantifiable metrics, clarity, and ATS readability.
                         </p>
                       </div>
@@ -553,13 +562,13 @@ export function ResumeAnalyzer() {
                         </span>
                       </div>
                       <div>
-                        <div className="flex items-center gap-1 text-xs font-bold text-foreground">
+                        <div className="flex items-center gap-1 text-sm font-bold text-foreground">
                           <span>Role Match Alignment</span>
-                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                          <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                             {(activeAnalysis.jobMatchScore || activeAnalysis.analysis?.jobMatchScore) >= 75 ? 'Competitive Match' : 'Optimization Needed'}
                           </span>
                         </div>
-                        <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
+                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
                           Measures demonstrated competencies versus target requirements for {activeAnalysis.roleTitle}.
                         </p>
                       </div>
@@ -567,7 +576,7 @@ export function ResumeAnalyzer() {
                   </div>
 
                   {/* Executive Summary */}
-                  <div className="p-4 rounded-xl bg-secondary/40 border border-border text-xs leading-relaxed text-foreground">
+                  <div className="p-4 rounded-xl bg-secondary/40 border border-border text-sm leading-relaxed text-foreground">
                     <span className="font-bold block text-foreground mb-1">Executive Summary:</span>
                     <p>{activeAnalysis.analysis?.summary}</p>
                   </div>
@@ -576,11 +585,11 @@ export function ResumeAnalyzer() {
                 {/* Key Strengths */}
                 {activeAnalysis.analysis?.strengths?.length > 0 && (
                   <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-                    <div className="flex items-center gap-2 font-bold text-xs text-foreground">
+                    <div className="flex items-center gap-2 font-bold text-sm text-foreground">
                       <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                       <span>Standout Resume Strengths</span>
                     </div>
-                    <ul className="space-y-2 text-xs text-muted-foreground">
+                    <ul className="space-y-2 text-sm text-muted-foreground">
                       {activeAnalysis.analysis.strengths.map((str, idx) => (
                         <li key={idx} className="flex items-start gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
@@ -595,15 +604,15 @@ export function ResumeAnalyzer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Matched Skills */}
                   <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-                    <div className="flex items-center gap-2 font-bold text-xs text-emerald-600 dark:text-emerald-400">
+                    <div className="flex items-center gap-2 font-bold text-sm text-emerald-600 dark:text-emerald-400">
                       <Award className="w-4 h-4" />
                       <span>Matched Skills ({activeAnalysis.analysis?.matchedSkills?.length || 0})</span>
                     </div>
                     <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
                       {activeAnalysis.analysis?.matchedSkills?.map((s, idx) => (
-                        <div key={idx} className="p-2.5 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-xs">
+                        <div key={idx} className="p-2.5 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-sm">
                           <span className="font-bold text-foreground block">{s.skill}</span>
-                          <span className="text-[11px] text-muted-foreground mt-0.5 block italic">
+                          <span className="text-xs text-muted-foreground mt-0.5 block italic">
                             "{s.evidence}"
                           </span>
                         </div>
@@ -613,21 +622,21 @@ export function ResumeAnalyzer() {
 
                   {/* Missing or Weak Skills */}
                   <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-                    <div className="flex items-center gap-2 font-bold text-xs text-amber-600 dark:text-amber-400">
+                    <div className="flex items-center gap-2 font-bold text-sm text-amber-600 dark:text-amber-400">
                       <Zap className="w-4 h-4" />
                       <span>Missing / Weak Skills ({activeAnalysis.analysis?.missingOrWeakSkills?.length || 0})</span>
                     </div>
                     <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
                       {activeAnalysis.analysis?.missingOrWeakSkills?.map((s, idx) => (
-                        <div key={idx} className="p-2.5 rounded-xl bg-amber-500/5 border border-amber-500/20 text-xs space-y-1">
+                        <div key={idx} className="p-2.5 rounded-xl bg-amber-500/5 border border-amber-500/20 text-sm space-y-1">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-foreground">{s.skill}</span>
-                            <span className="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                            <span className="px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400">
                               {s.priority} priority
                             </span>
                           </div>
-                          <p className="text-[11px] text-muted-foreground">{s.reason}</p>
-                          <p className="text-[11px] text-foreground font-medium bg-background/50 p-1.5 rounded-md">
+                          <p className="text-xs text-muted-foreground">{s.reason}</p>
+                          <p className="text-xs text-foreground font-medium bg-background/50 p-2 rounded-md">
                             💡 Tip: {s.suggestion}
                           </p>
                         </div>
@@ -639,22 +648,22 @@ export function ResumeAnalyzer() {
                 {/* Section-Wise Feedback */}
                 {activeAnalysis.analysis?.sectionFeedback?.length > 0 && (
                   <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-4">
-                    <div className="flex items-center gap-2 font-bold text-xs text-foreground">
+                    <div className="flex items-center gap-2 font-bold text-sm text-foreground">
                       <BookOpen className="w-4 h-4 text-primary" />
                       <span>Section-Wise ATS Quality Analysis</span>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3">
                       {activeAnalysis.analysis.sectionFeedback.map((sec, idx) => (
-                        <div key={idx} className="p-3.5 rounded-xl bg-muted/20 border border-border text-xs space-y-1.5">
+                        <div key={idx} className="p-3.5 rounded-xl bg-muted/20 border border-border text-sm space-y-1.5">
                           <div className="flex items-center justify-between">
-                            <span className="font-bold text-foreground text-sm">{sec.section}</span>
-                            <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground border border-border">
+                            <span className="font-bold text-foreground text-base">{sec.section}</span>
+                            <span className="font-mono text-xs font-bold px-2.5 py-0.5 rounded-md bg-secondary text-secondary-foreground border border-border">
                               Score: {sec.score}/100
                             </span>
                           </div>
                           <p className="text-muted-foreground leading-relaxed">{sec.feedback}</p>
-                          <p className="text-foreground font-medium text-[11px] bg-background/60 p-2 rounded-lg border border-border/60">
+                          <p className="text-foreground font-medium text-xs bg-background/60 p-2 rounded-lg border border-border/60">
                             <strong>Recommendation:</strong> {sec.suggestion}
                           </p>
                         </div>
@@ -666,7 +675,7 @@ export function ResumeAnalyzer() {
                 {/* ATS Keyword Suggestions */}
                 {activeAnalysis.analysis?.keywordSuggestions?.length > 0 && (
                   <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-                    <span className="text-xs font-bold text-foreground block">
+                    <span className="text-sm font-bold text-foreground block">
                       Recommended ATS Keywords to Embed:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -685,14 +694,14 @@ export function ResumeAnalyzer() {
                 {/* Priority Action Plan */}
                 {activeAnalysis.analysis?.actionPlan?.length > 0 && (
                   <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-                    <div className="flex items-center gap-2 font-bold text-xs text-foreground">
+                    <div className="flex items-center gap-2 font-bold text-sm text-foreground">
                       <ShieldCheck className="w-4 h-4 text-primary" />
                       <span>Immediate Action Plan</span>
                     </div>
                     <div className="space-y-2">
                       {activeAnalysis.analysis.actionPlan.map((act, idx) => (
-                        <div key={idx} className="flex items-start gap-2.5 text-xs">
-                          <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-bold text-[10px]">
+                        <div key={idx} className="flex items-start gap-2.5 text-sm">
+                          <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-bold text-xs">
                             {idx + 1}
                           </span>
                           <span className="leading-relaxed text-foreground">{act}</span>
@@ -708,24 +717,24 @@ export function ResumeAnalyzer() {
                 <div className="w-14 h-14 rounded-2xl bg-muted text-muted-foreground flex items-center justify-center mb-4">
                   <FileSearch className="w-7 h-7" />
                 </div>
-                <h3 className="text-base font-bold text-foreground mb-1">
+                <h3 className="text-lg font-bold text-foreground mb-1">
                   Ready to Evaluate Your Resume
                 </h3>
-                <p className="text-xs text-muted-foreground max-w-sm mb-6 leading-relaxed">
+                <p className="text-sm text-muted-foreground max-w-sm mb-6 leading-relaxed">
                   Select your desired job role, upload your resume, and let Mistral 7B analyze your ATS compatibility and technical positioning.
                 </p>
-                <div className="grid grid-cols-3 gap-3 max-w-md w-full text-center text-xs">
+                <div className="grid grid-cols-3 gap-3 max-w-md w-full text-center text-sm">
                   <div className="p-3 rounded-xl bg-muted/40 border border-border">
                     <span className="font-bold block text-foreground">ATS Score</span>
-                    <span className="text-[10px] text-muted-foreground">Readability check</span>
+                    <span className="text-xs text-muted-foreground">Readability check</span>
                   </div>
                   <div className="p-3 rounded-xl bg-muted/40 border border-border">
                     <span className="font-bold block text-foreground">Skill Matching</span>
-                    <span className="text-[10px] text-muted-foreground">Evidence quotes</span>
+                    <span className="text-xs text-muted-foreground">Evidence quotes</span>
                   </div>
                   <div className="p-3 rounded-xl bg-muted/40 border border-border">
                     <span className="font-bold block text-foreground">Gap Analysis</span>
-                    <span className="text-[10px] text-muted-foreground">Actionable tips</span>
+                    <span className="text-xs text-muted-foreground">Actionable tips</span>
                   </div>
                 </div>
               </div>
@@ -737,15 +746,15 @@ export function ResumeAnalyzer() {
         <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-border pb-4">
             <div>
-              <h2 className="text-base font-bold text-foreground">Past Resume Evaluations</h2>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <h2 className="text-xl font-bold text-foreground">Past Resume Evaluations</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">
                 Saved scans for {user?.first_name || 'Student'}. Compare your score progression across target roles.
               </p>
             </div>
             <button
               type="button"
               onClick={fetchHistory}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-xs font-semibold text-foreground hover:bg-muted cursor-pointer transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-sm font-semibold text-foreground hover:bg-muted cursor-pointer transition-colors"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Refresh</span>
@@ -753,11 +762,11 @@ export function ResumeAnalyzer() {
           </div>
 
           {loadingHistory ? (
-            <div className="py-12 text-center text-xs text-muted-foreground">
+            <div className="py-12 text-center text-sm text-muted-foreground">
               Loading past analyses...
             </div>
           ) : history.length === 0 ? (
-            <div className="py-12 text-center text-xs text-muted-foreground space-y-2">
+            <div className="py-12 text-center text-sm text-muted-foreground space-y-2">
               <Clock className="w-8 h-8 text-muted-foreground mx-auto opacity-50" />
               <p>No previous resume analyses recorded.</p>
               <button
@@ -781,12 +790,12 @@ export function ResumeAnalyzer() {
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-foreground">{item.roleTitle}</span>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
+                      <span className="font-bold text-base text-foreground">{item.roleTitle}</span>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
                         {item.fileFormat}
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                       {item.originalFilename} • {new Date(item.createdAt).toLocaleDateString()} at{' '}
                       {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
@@ -795,14 +804,14 @@ export function ResumeAnalyzer() {
                   <div className="flex items-center gap-4 self-end sm:self-auto">
                     <div className="text-right">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-muted-foreground">Quality:</span>
-                        <span className="font-mono text-xs font-bold text-foreground">
+                        <span className="text-sm font-semibold text-muted-foreground">Quality:</span>
+                        <span className="font-mono text-sm font-bold text-foreground">
                           {item.overallScore}/100
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-muted-foreground">Role Match:</span>
-                        <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="text-sm font-semibold text-muted-foreground">Role Match:</span>
+                        <span className="font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">
                           {item.jobMatchScore}%
                         </span>
                       </div>

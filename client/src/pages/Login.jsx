@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import { UniserveLoader } from '../components/UniserveLoader';
 import {
-  GraduationCap,
   Lock,
   User,
-  ArrowRight,
-  ShieldCheck,
-  ShieldAlert,
-  Building2,
-  BookOpen,
-  Briefcase,
   Sparkles,
-  Database,
-  CheckCircle2,
+  Briefcase,
   Eye,
   EyeOff,
 } from 'lucide-react';
 
 export function Login({ portal = 'student' }) {
   const { login } = useAuth();
-  const { currentTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const shouldReduceMotion = useReducedMotion();
 
   // Determine portal from prop or pathname
   const currentPortal = (() => {
@@ -36,163 +28,31 @@ export function Login({ portal = 'student' }) {
     return 'student';
   })();
 
-  // Portal configuration metadata
+  // Portal configuration metadata for default credentials & routing
   const portalConfigs = {
     superadmin: {
-      key: 'superadmin',
-      title: 'Super Administrator Portal',
-      badge: 'Master Super Admin (All Pages)',
-      tagline: 'Absolute institutional authority with access to all pages and permissions.',
-      description:
-        'Master root control console with permissions to configure page visibility checkboxes per user type, manage database tenants, and inspect institutional audits.',
-      defaultUsername: 'superadmin',
-      defaultPassword: 'Password@123',
+      defaultUsername: 'admin@college.edu',
+      defaultPassword: 'Password123!',
       redirectPath: '/settings',
-      features: [
-        {
-          title: 'Unrestricted Page Access',
-          desc: 'Automatic bypass and full visibility across all 20 CampusCorp modules and management screens.',
-          icon: ShieldAlert,
-        },
-        {
-          title: 'User Role Permissions Matrix',
-          desc: 'Grant or revoke module checkboxes per user role in Settings with instant live sync.',
-          icon: CheckCircle2,
-        },
-        {
-          title: 'Multi-Tenant DB Governance',
-          desc: 'Manage centralized schema synchronization across isolated departmental databases.',
-          icon: Database,
-        },
-        {
-          title: 'Global Audit Logs',
-          desc: 'Real-time cryptographic monitoring of institutional logins and grade modifications.',
-          icon: Sparkles,
-        },
-      ],
-      stats: [
-        { label: 'Role Authority', value: 'Root Super' },
-        { label: 'Page Access', value: '100% (All)' },
-        { label: 'Active Clusters', value: '6 Depts' },
-        { label: 'Security Level', value: 'Tier 4' },
-      ],
+      label: 'Super Admin',
     },
     student: {
-      key: 'student',
-      title: 'Student Placement Portal',
-      badge: 'Student Direct Access',
-      tagline: 'Launch your high-impact corporate career through CampusCorp.',
-      description:
-        'Unified career management ecosystem connecting undergraduate & postgraduate students with elite global recruiters, mock assessments, and automated eligibility clearance.',
       defaultUsername: 'student.cse1@college.edu',
-      defaultPassword: 'Password@123',
+      defaultPassword: 'Password123!',
       redirectPath: '/profile',
-      features: [
-        {
-          title: 'Direct Campus Drives',
-          desc: '1-click applications to Tier-1 product & service leaders with automated CGPA verification.',
-          icon: Briefcase,
-        },
-        {
-          title: 'AI Career Intelligence',
-          desc: 'Instant resume scoring, real-time skill matching, and tailored interview readiness.',
-          icon: Sparkles,
-        },
-        {
-          title: 'Isolated Department Sync',
-          desc: 'Seamless academic sync across departmental databases with tamper-proof records.',
-          icon: Database,
-        },
-        {
-          title: 'Verified Digital Offers',
-          desc: 'Instant PPO tracking, verified digital appointment letters, and joining roadmaps.',
-          icon: GraduationCap,
-        },
-      ],
-      stats: [
-        { label: 'Placement Rate', value: '94.8%' },
-        { label: 'Top Recruiters', value: '250+' },
-        { label: 'Highest Package', value: '₹45 LPA' },
-        { label: 'Verified Students', value: '12K+' },
-      ],
+      label: 'Student',
     },
     placement: {
-      key: 'placement',
-      title: 'Placement Officer (TPO) Portal',
-      badge: 'Training & Placement Office',
-      tagline: 'End-to-end recruitment drive orchestration & institutional governance.',
-      description:
-        'Comprehensive multi-tier management console for Placement Officers to coordinate corporate recruitment rounds, shortlisting, and regulatory compliance.',
       defaultUsername: 'tpo@college.edu',
-      defaultPassword: 'Password@123',
+      defaultPassword: 'Password123!',
       redirectPath: '/',
-      features: [
-        {
-          title: 'Drive Scheduling & Tiers',
-          desc: 'Orchestrate Dream, Super Dream, and Core placement rounds with customizable rules.',
-          icon: Briefcase,
-        },
-        {
-          title: 'NIRF / NAAC Analytics',
-          desc: 'Automated institutional report generation with department-wise placement metrics.',
-          icon: ShieldCheck,
-        },
-        {
-          title: 'Eligibility Rule Engine',
-          desc: 'Filter candidates by historical backlogs, department cutoffs, and attendance.',
-          icon: CheckCircle2,
-        },
-        {
-          title: 'Corporate Relationships',
-          desc: 'Manage enterprise recruiters, slot schedules, and multi-campus pooled drives.',
-          icon: Building2,
-        },
-      ],
-      stats: [
-        { label: 'Active Drives', value: '48+' },
-        { label: 'Corporate Partners', value: '280+' },
-        { label: 'Total Offers', value: '1,420' },
-        { label: 'NIRF Ranking', value: 'Top 25' },
-      ],
+      label: 'Placement Officer',
     },
     staff: {
-      key: 'staff',
-      title: 'Staff & Faculty Portal',
-      badge: 'Faculty Placement Coordinator',
-      tagline: 'Academic department placement tracking & student clearance.',
-      description:
-        'Dedicated workspace for department heads and faculty coordinators to monitor batch-level performance, approve training attendance, and mentor students.',
       defaultUsername: 'hod.cse@college.edu',
-      defaultPassword: 'Password@123',
+      defaultPassword: 'Password123!',
       redirectPath: '/students',
-      features: [
-        {
-          title: 'Department Roster',
-          desc: 'Track placed vs unplaced student distribution across all academic sections.',
-          icon: BookOpen,
-        },
-        {
-          title: 'Attendance Clearance',
-          desc: 'Verify mandatory pre-placement training hours and corporate workshops.',
-          icon: CheckCircle2,
-        },
-        {
-          title: 'Assessment Endorsements',
-          desc: 'Review student performance in internal programming sprints and viva slots.',
-          icon: Sparkles,
-        },
-        {
-          title: 'Internship & PPO Approvals',
-          desc: 'Approve semester-long industry internships and academic credit conversions.',
-          icon: GraduationCap,
-        },
-      ],
-      stats: [
-        { label: 'Eligible Students', value: '420' },
-        { label: 'Batch Placed', value: '88.5%' },
-        { label: 'Active Interns', value: '115' },
-        { label: 'Dept Rank', value: '#1 CSE' },
-      ],
+      label: 'Faculty',
     },
   };
 
@@ -212,11 +72,11 @@ export function Login({ portal = 'student' }) {
     setError('');
   }, [currentPortal]);
 
-  // Brief pre-login loader effect using logo.jpeg
+  // Brief pre-login loader effect
   useEffect(() => {
     const timer = setTimeout(() => {
       setInitialLoading(false);
-    }, 700);
+    }, 600);
     return () => clearTimeout(timer);
   }, [currentPortal]);
 
@@ -243,246 +103,166 @@ export function Login({ portal = 'student' }) {
     return (
       <UniserveLoader
         title="CampusCorp"
-        subtitle={config.title}
-        status={loading ? 'Authenticating with CampusCorp Secure Gate...' : 'Loading CampusCorp Portal...'}
+        subtitle="IT Career Hub"
+        status={loading ? 'Authenticating with CampusCorp...' : 'Loading CampusCorp...'}
       />
     );
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-slate-950 font-sans text-slate-100 overflow-x-hidden">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden w-full flex flex-col lg:flex-row bg-[#0a0f1d] font-sans antialiased">
       {/* ========================================================================= */}
-      {/* LEFT SEGMENT: The Details                                                 */}
+      {/* LEFT PANEL: Clean Dark Brand & Minimal Value Proposition                  */}
       {/* ========================================================================= */}
-      <div className="w-full lg:w-1/2 xl:w-7/12 relative flex flex-col justify-between p-6 sm:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-slate-800/80 overflow-hidden bg-slate-950">
-        {/* Dynamic Background Glow using Active Theme */}
-        <div
-          className="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-3xl opacity-30 pointer-events-none"
-          style={{ background: currentTheme.glow }}
-        />
-        <div
-          className="absolute bottom-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-20 pointer-events-none"
-          style={{ background: currentTheme.primary }}
-        />
+      <div className="w-full lg:w-[54%] lg:h-full relative flex flex-col justify-between p-6 sm:p-10 lg:p-14 bg-[#0a0f1d] text-slate-100 overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-800/60">
+        {/* Subtle Ambient Backlight */}
+        <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
 
-        {/* Top Header: Brand Logo & Portal Badge */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-white dark:bg-black p-1 shadow-xl flex items-center justify-center border border-slate-200 dark:border-neutral-800 overflow-hidden">
-              <img
-                src="/logo-light.jpeg"
-                alt="CampusCorp Logo"
-                className="w-full h-full object-contain dark:hidden"
-              />
-              <img
-                src="/logo-dark.jpeg"
-                alt="CampusCorp Logo"
-                className="w-full h-full object-contain hidden dark:block"
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xl font-black tracking-wider text-white">
-                  CampusCorp
-                </span>
-                <span
-                  className="w-2 h-2 rounded-full inline-block"
-                  style={{ backgroundColor: currentTheme.accent }}
-                />
-              </div>
-              <p className="text-[11px] font-semibold text-slate-400 tracking-wide">
-                IT Career Hub & Placement Governance
-              </p>
-            </div>
-          </div>
-
-          {/* Active Portal Badge */}
-          <span
-            className="px-3 py-1 rounded-full text-[11px] font-bold border backdrop-blur-md shadow-xs"
-            style={{
-              backgroundColor: currentTheme.primaryLight,
-              color: currentTheme.primaryText,
-              borderColor: currentTheme.primaryBorder,
-            }}
-          >
-            {config.badge}
-          </span>
-        </div>
-
-        {/* Center: Hero Information & Features */}
-        <div className="relative z-10 my-auto py-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-300 font-medium mb-4">
-            <span
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: currentTheme.primary }}
+        {/* Top: CampusCorp Brand & Logo */}
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-sm flex items-center justify-center border border-slate-800 overflow-hidden shrink-0">
+            <img
+              src="/logo-light.jpeg"
+              alt="CampusCorp Logo"
+              className="w-full h-full object-contain"
             />
-            <span>Institutional Unified Multi-Database Architecture</span>
           </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
-            {config.title}
-          </h2>
-
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mb-8">
-            {config.description}
-          </p>
-
-          {/* 4 Feature Highlights Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
-            {config.features.map((f, i) => {
-              const Icon = f.icon;
-              return (
-                <div
-                  key={i}
-                  className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-all hover:bg-slate-900/90 backdrop-blur-sm"
-                >
-                  <div className="flex items-center gap-2.5 mb-1.5">
-                    <div
-                      className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                      style={{
-                        backgroundColor: currentTheme.primaryLight,
-                        color: currentTheme.primaryText,
-                      }}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <h3 className="text-xs font-bold text-slate-100">
-                      {f.title}
-                    </h3>
-                  </div>
-                  <p className="text-[11px] text-slate-400 leading-snug">
-                    {f.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Metric Statistics Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60">
-            {config.stats.map((s, idx) => (
-              <div key={idx} className="text-left">
-                <div
-                  className="text-lg sm:text-xl font-black tracking-tight"
-                  style={{ color: currentTheme.accent }}
-                >
-                  {s.value}
-                </div>
-                <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
-                  {s.label}
-                </div>
-              </div>
-            ))}
+          <div className="flex items-center gap-2">
+            <span className="text-[24px] font-bold tracking-tight text-white">
+              CampusCorp
+            </span>
+            <span className="w-2 h-2 rounded-full inline-block bg-indigo-500" />
           </div>
         </div>
 
-        {/* Bottom: Fast Route Switcher Navigation */}
-        <div className="relative z-10 pt-6 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-slate-400">
-            <span className="font-semibold text-[11px] uppercase tracking-wider">
-              CampusCorp Routes:
-            </span>
-            <div className="flex flex-wrap items-center gap-1.5">
-              <Link
-                to="/superadmin"
-                className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
-                  currentPortal === 'superadmin'
-                    ? 'bg-neutral-200 text-neutral-900 font-black shadow-xs'
-                    : 'bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700'
-                }`}
-              >
-                👑 Super Admin
-              </Link>
-              <Link
-                to="/login"
-                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
-                  currentPortal === 'student'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                Direct / Student
-              </Link>
-              <Link
-                to="/placement"
-                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
-                  currentPortal === 'placement'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                /placement
-              </Link>
-              <Link
-                to="/staff"
-                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
-                  currentPortal === 'staff'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                /staff
-              </Link>
-              <Link
-                to="/admin"
-                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
-                  currentPortal === 'admin'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                /admin
-              </Link>
-            </div>
+        {/* Center: Headline, Description & 2 Minimal Feature Highlights */}
+        <div className="relative z-10 my-auto py-8 sm:py-12 max-w-lg space-y-6">
+          <div className="space-y-3">
+            <h1 className="text-[30px] sm:text-[31px] lg:text-[32px] font-bold tracking-tight text-white leading-tight">
+              Your Career. Your Future.
+            </h1>
+            <p className="text-[14.5px] font-normal text-slate-400 leading-relaxed">
+              One platform for learning, placements, and career growth.
+            </p>
           </div>
 
-          <div className="text-[11px] text-slate-500 font-medium">
-            CampusCorp IT Career Hub
+          {/* 2 Compact Feature Highlights */}
+          <div className="space-y-3 pt-2">
+            <div className="flex items-center gap-3 text-slate-300">
+              <div className="w-8 h-8 rounded-lg bg-slate-900/90 border border-slate-800/80 flex items-center justify-center text-indigo-400 shrink-0 shadow-2xs">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <span className="text-[14px] font-medium text-slate-200">
+                AI-Powered Career Insights
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 text-slate-300">
+              <div className="w-8 h-8 rounded-lg bg-slate-900/90 border border-slate-800/80 flex items-center justify-center text-indigo-400 shrink-0 shadow-2xs">
+                <Briefcase className="w-4 h-4" />
+              </div>
+              <span className="text-[14px] font-medium text-slate-200">
+                Placement & Application Tracking
+              </span>
+            </div>
           </div>
+        </div>
+
+        {/* Bottom: Minimal Portal Switcher & Copyright */}
+        <div className="relative z-10 pt-4 flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-slate-500 border-t border-slate-800/60">
+          <div className="flex items-center gap-1.5 text-[12.5px]">
+            <span className="text-slate-400 font-medium">Portals:</span>
+            <Link
+              to="/login"
+              className={`px-2.5 py-1 rounded-md text-[12.5px] transition-colors ${
+                currentPortal === 'student'
+                  ? 'text-white bg-slate-800 font-semibold'
+                  : 'text-slate-400 hover:text-white font-normal'
+              }`}
+            >
+              Student
+            </Link>
+            <Link
+              to="/placement"
+              className={`px-2.5 py-1 rounded-md text-[12.5px] transition-colors ${
+                currentPortal === 'placement'
+                  ? 'text-white bg-slate-800 font-semibold'
+                  : 'text-slate-400 hover:text-white font-normal'
+              }`}
+            >
+              TPO
+            </Link>
+            <Link
+              to="/staff"
+              className={`px-2.5 py-1 rounded-md text-[12.5px] transition-colors ${
+                currentPortal === 'staff'
+                  ? 'text-white bg-slate-800 font-semibold'
+                  : 'text-slate-400 hover:text-white font-normal'
+              }`}
+            >
+              Faculty
+            </Link>
+            <Link
+              to="/superadmin"
+              className={`px-2.5 py-1 rounded-md text-[12.5px] transition-colors ${
+                currentPortal === 'superadmin'
+                  ? 'text-white bg-slate-800 font-semibold'
+                  : 'text-slate-400 hover:text-white font-normal'
+              }`}
+            >
+              Admin
+            </Link>
+          </div>
+          <span className="text-[12px] text-slate-500">&copy; {new Date().getFullYear()} CampusCorp</span>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* RIGHT SEGMENT: User Name and Password - NOTHING ELSE                      */}
+      {/* RIGHT PANEL: Focused Clean White Login Form                               */}
       {/* ========================================================================= */}
-      <div className="w-full lg:w-1/2 xl:w-5/12 bg-card text-card-foreground border-l border-border flex flex-col justify-center items-center p-6 sm:p-12 lg:p-16 transition-colors">
-        <div className="w-full max-w-sm">
+      <div className="w-full lg:w-[46%] lg:h-full bg-white text-slate-900 flex flex-col justify-center items-center p-6 sm:p-12 lg:p-14">
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+          animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="w-full max-w-[400px]"
+        >
           {/* Header */}
-          <div className="mb-8 text-center sm:text-left">
-            <span
-              className="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-md mb-2 border border-border"
-              style={{
-                backgroundColor: currentTheme.primaryLight,
-                color: currentTheme.primaryText,
-              }}
-            >
-              Secure Portal Authentication
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-              Sign In
-            </h1>
-            <p className="mt-1.5 text-xs text-muted-foreground">
-              Enter your username and password to proceed.
+          <div className="mb-6 text-left">
+            <h2 className="text-[24px] font-semibold text-slate-900 tracking-tight">
+              Welcome back
+            </h2>
+            <p className="mt-1 text-[13.5px] text-slate-500">
+              Sign in to continue to CampusCorp.
             </p>
           </div>
 
           {/* Error Message */}
-          {error && (
-            <div className="mb-5 p-3 rounded-xl bg-destructive/10 text-destructive text-xs border border-destructive/30 font-medium flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-destructive shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
+                animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+                exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
+                transition={{ duration: 0.15 }}
+                className="mb-4 p-3 rounded-xl bg-red-50 text-red-700 text-[13.5px] border border-red-200 font-medium flex items-center gap-2"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Form: Username and Password ONLY */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* User Name */}
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-[13.5px] font-semibold text-slate-700 mb-1.5">
                 User Name
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -492,18 +272,18 @@ export function Login({ portal = 'student' }) {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username or University Email"
                   autoComplete="username"
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-input text-xs font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all bg-background"
+                  className="w-full h-11 pl-10 pr-3.5 rounded-xl border border-slate-200 text-[14.5px] font-normal text-slate-900 placeholder:text-[13.5px] placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900/10 transition-all bg-white"
                 />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-[13.5px] font-semibold text-slate-700 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -513,12 +293,13 @@ export function Login({ portal = 'student' }) {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter Password"
                   autoComplete="current-password"
-                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-input text-xs font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all bg-background"
+                  className="w-full h-11 pl-10 pr-10 rounded-xl border border-slate-200 text-[14.5px] font-normal text-slate-900 placeholder:text-[13.5px] placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900/10 transition-all bg-white"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -531,17 +312,18 @@ export function Login({ portal = 'student' }) {
 
             {/* Sign In Button */}
             <div className="pt-2">
-              <button
+              <motion.button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 rounded-xl text-[#fafafa] dark:text-[#0a0a0a] font-bold text-xs flex items-center justify-center gap-2 shadow-xs hover:shadow-md transition-all cursor-pointer active:scale-[0.99] disabled:opacity-70 bg-[#171717] hover:bg-[#262626] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5]"
+                whileHover={shouldReduceMotion ? false : { scale: 1.01 }}
+                whileTap={shouldReduceMotion ? false : { scale: 0.98 }}
+                className="w-full h-11 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-[14px] flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer disabled:opacity-70"
               >
-                <span>Sign In to CampusCorp</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+                <span>{loading ? 'Signing in...' : 'Sign In'}</span>
+              </motion.button>
             </div>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

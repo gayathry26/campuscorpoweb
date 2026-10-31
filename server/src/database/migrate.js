@@ -585,6 +585,13 @@ async function runMigrations() {
       console.warn('runPlacementPolicyMigration warning:', e.message);
     }
 
+    try {
+      const { runMigration: runCompanyLocationsMigration } = require('./company_locations_migration');
+      await runCompanyLocationsMigration();
+    } catch (e) {
+      console.warn('runCompanyLocationsMigration warning:', e.message);
+    }
+
     console.log('\n================================================================');
     console.log('✅ [MIGRATION COMPLETE] All Common and Department databases ready!');
     console.log('================================================================\n');

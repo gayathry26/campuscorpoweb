@@ -15,7 +15,7 @@ export default function BankData() {
         <div className="bg-neutral-100 dark:bg-neutral-900 border border-border text-foreground px-6 py-8 sm:p-10">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">Account Statement</h1>
+              <h1 className="text-2xl font-bold text-white tracking-tight">Account Statement</h1>
               <p className="mt-2 text-muted-foreground font-medium">Account Holder: Hari</p>
             </div>
             <div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">

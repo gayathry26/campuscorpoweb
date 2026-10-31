@@ -148,17 +148,17 @@ export function CompareRoles() {
               <span className="p-1.5 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-foreground">
                 <GitCompare className="w-4 h-4" />
               </span>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Side-by-Side Career Intelligence
               </span>
               {isSqlConnected && (
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   SQL Database
                 </span>
               )}
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Compare Career Roles
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
@@ -169,7 +169,7 @@ export function CompareRoles() {
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
               to="/domains"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold border border-border bg-card hover:bg-secondary text-foreground transition-all cursor-pointer shadow-xs active:scale-95"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold border border-border bg-card hover:bg-secondary text-foreground transition-all cursor-pointer shadow-xs active:scale-95"
             >
               <Compass className="w-4 h-4" />
               <span>Explore All Domains</span>
@@ -198,46 +198,46 @@ export function CompareRoles() {
           </div>
 
           <div className="space-y-2 max-w-md mx-auto">
-            <h3 className="text-lg font-bold text-foreground">
+            <h3 className="text-xl font-bold text-foreground">
               Select Careers to Compare
             </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Choose up to 4 different IT career paths to analyze their differences in daily responsibilities, technical stacks, average salaries, project milestones, and learning curves.
             </p>
           </div>
 
           {/* Quick preset comparisons */}
           <div className="pt-2 border-t border-border/60">
-            <p className="text-xs font-semibold text-foreground mb-3 flex items-center justify-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
+            <p className="text-sm font-semibold text-foreground mb-3 flex items-center justify-center gap-1.5">
+              <Sparkles className="w-4 h-4" />
               <span>Or choose a popular career comparison:</span>
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['frontend-developer', 'backend-developer'])}
-                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 Frontend vs Backend Developer
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['data-analyst', 'data-scientist'])}
-                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 Data Analyst vs Data Scientist
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['cybersecurity-analyst', 'cloud-engineer'])}
-                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 Cybersecurity vs Cloud Engineer
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['ui-ux-designer', 'frontend-developer'])}
-                className="px-3.5 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 UI/UX Designer vs Frontend
               </button>

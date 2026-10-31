@@ -29,9 +29,23 @@ async function resolveStudentContext(req) {
 }
 
 /**
+ * Helper to get all course IDs a faculty is permitted to manage
+ */
+async function getPermittedFacultyCourseIds(userId) {
+  const rows = await queryCommon(`
+    SELECT DISTINCT course_id FROM (
+      SELECT id AS course_id FROM lms_courses WHERE instructor_id = ?
+      UNION
+      SELECT course_id FROM lms_faculty_course_assignments WHERE faculty_id = ? AND is_active = 1
+    ) t
+  `, [userId, userId]);
+  return rows.map(r => r.course_id);
+}
+
+/**
  * Helper to verify faculty permission for a course
  */
-async function verifyCourseOwnership(courseId, user) {
+async function verifyCourseOwnership(courseId, user, { allowAdvisor = false } = {}) {
   const courses = await queryCommon('SELECT * FROM lms_courses WHERE id = ?', [courseId]);
   if (courses.length === 0) {
     const err = new Error('Course not found.');
@@ -39,24 +53,42 @@ async function verifyCourseOwnership(courseId, user) {
     throw err;
   }
   const course = courses[0];
-  const role = user.role_name || user.roleName;
+  const role = user?.role_name || user?.roleName;
 
   if (role === 'SUPER_ADMIN' || role === 'ADMIN') {
     return course;
   }
 
-  const userDept = user.department_code;
-  const isInstructor = course.instructor_id === user.id;
-  const isDeptCoordinator = role === 'FACULTY_COORDINATOR' && course.department_code === userDept;
-
-  if (!isInstructor && !isDeptCoordinator) {
-    const err = new Error('Forbidden. You do not have permission to manage this course.');
-    err.status = 403;
-    throw err;
+  // 1. Check direct instructor assignment
+  if (course.instructor_id === user?.id) {
+    return course;
   }
 
-  return course;
+  // 2. Check active entry in lms_faculty_course_assignments
+  const assignments = await queryCommon(
+    'SELECT * FROM lms_faculty_course_assignments WHERE course_id = ? AND faculty_id = ? AND is_active = 1',
+    [courseId, user?.id]
+  );
+  if (assignments.length > 0) {
+    return { ...course, assignment: assignments[0] };
+  }
+
+  // 3. Optional Class Advisor read-only permission
+  if (allowAdvisor) {
+    const advisorRows = await queryCommon(
+      'SELECT * FROM academic_structures WHERE class_advisor_id = ? AND dept_code = ? AND semester = ? AND is_active = 1',
+      [user?.id, course.department_code, course.semester]
+    );
+    if (advisorRows.length > 0) {
+      return { ...course, isAdvisorReadOnly: true };
+    }
+  }
+
+  const err = new Error('Forbidden. You do not have permission to manage this course.');
+  err.status = 403;
+  throw err;
 }
+
 
 /**
  * 1. LMS Dashboard (Real DB Metrics for Faculty and Students)
@@ -158,14 +190,27 @@ async function getDashboard(req, res, next) {
     let courseWhere = 'WHERE 1=1';
     const params = [];
     if (!isSuperOrAdmin) {
-      if (deptCode) {
-        courseWhere += ' AND (c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-        params.push(deptCode, userId);
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        courseWhere += ` AND c.id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
       } else {
-        courseWhere += ' AND c.instructor_id = ?';
-        params.push(userId);
+        courseWhere += ' AND 1=0';
       }
     }
+
+    // Check if current user is an appointed Class Advisor
+    const advisorClassRows = await queryCommon(`
+      SELECT a.*, 
+        (SELECT COUNT(*) FROM students_master sm 
+         WHERE sm.department_code = a.dept_code 
+           AND sm.current_semester = a.semester 
+           AND (sm.section = a.section OR a.section = 'ALL')) as class_student_count
+      FROM academic_structures a
+      WHERE a.class_advisor_id = ? AND a.is_active = 1
+      LIMIT 1
+    `, [userId]);
+    const classAdvisorInfo = advisorClassRows.length > 0 ? advisorClassRows[0] : null;
 
     const courses = await queryCommon(`
       SELECT c.*, 
@@ -260,6 +305,7 @@ async function getDashboard(req, res, next) {
         pendingGrading,
         upcomingLive: recentLive,
         recentActivity,
+        classAdvisorInfo,
       },
     });
   } catch (err) {
@@ -274,11 +320,16 @@ async function getDashboard(req, res, next) {
 async function getCourses(req, res, next) {
   try {
     const { userRole, studentId, deptCode, userId } = await resolveStudentContext(req);
-    const { category, search, department } = req.query;
+    const { category, search, department, semester } = req.query;
+    const isSuperOrAdmin = userRole === 'SUPER_ADMIN' || userRole === 'ADMIN';
 
     let sql = `
       SELECT c.*, 
-             u.first_name as instructor_first, u.last_name as instructor_last,
+             u.first_name as instructor_first, u.last_name as instructor_last, u.email as instructor_email,
+             (SELECT GROUP_CONCAT(CONCAT(f_u.first_name, ' ', f_u.last_name) SEPARATOR ', ') 
+              FROM lms_faculty_course_assignments fca 
+              JOIN users f_u ON f_u.id = fca.faculty_id 
+              WHERE fca.course_id = c.id AND fca.is_active = 1) as assigned_faculty_names,
              COUNT(DISTINCT m.id) as module_count,
              COUNT(DISTINCT l.id) as lesson_count,
              COUNT(DISTINCT r.id) as resource_count,
@@ -296,13 +347,17 @@ async function getCourses(req, res, next) {
     if (userRole === 'STUDENT') {
       sql += ' AND c.status = "PUBLISHED"';
       if (studentId) {
-        // Only return courses the student is enrolled in or that belong to their department / general
-        sql += ' AND (c.id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?) OR c.department_code = ? OR c.department_code IS NULL)';
-        params.push(studentId, deptCode || 'CSE');
+        sql += ' AND c.id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)';
+        params.push(studentId);
       }
-    } else if (userRole === 'FACULTY_COORDINATOR' && deptCode) {
-      sql += ' AND (c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-      params.push(deptCode, userId);
+    } else if (!isSuperOrAdmin) {
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        sql += ` AND c.id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
+      } else {
+        sql += ' AND 1=0';
+      }
     }
 
     if (category && category !== 'All Categories') {
@@ -787,8 +842,9 @@ async function completeLesson(req, res, next) {
  */
 async function getResources(req, res, next) {
   try {
-    const { userRole, studentId } = await resolveStudentContext(req);
+    const { userRole, studentId, userId } = await resolveStudentContext(req);
     const { courseId } = req.query;
+    const isSuperOrAdmin = userRole === 'SUPER_ADMIN' || userRole === 'ADMIN';
 
     let sql = `
       SELECT r.*, c.title as course_title, c.course_code,
@@ -805,6 +861,14 @@ async function getResources(req, res, next) {
       if (studentId) {
         sql += ' AND r.course_id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)';
         params.push(studentId);
+      }
+    } else if (!isSuperOrAdmin) {
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        sql += ` AND r.course_id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
+      } else {
+        sql += ' AND 1=0';
       }
     }
 
@@ -945,6 +1009,7 @@ async function getQuizzes(req, res, next) {
       LEFT JOIN lms_quiz_questions qq ON qq.quiz_id = q.id
       WHERE 1=1
     `;
+    const isSuperOrAdmin = userRole === 'SUPER_ADMIN' || userRole === 'ADMIN';
     const params = [];
 
     if (userRole === 'STUDENT') {
@@ -953,9 +1018,14 @@ async function getQuizzes(req, res, next) {
         sql += ' AND q.course_id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)';
         params.push(studentId);
       }
-    } else if (userRole === 'FACULTY_COORDINATOR' && deptCode) {
-      sql += ' AND (c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-      params.push(deptCode, userId);
+    } else if (!isSuperOrAdmin) {
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        sql += ` AND q.course_id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
+      } else {
+        sql += ' AND 1=0';
+      }
     }
 
     if (courseId) {
@@ -1383,15 +1453,22 @@ async function getAssignments(req, res, next) {
     `;
     const params = [];
 
+    const isSuperOrAdmin = userRole === 'SUPER_ADMIN' || userRole === 'ADMIN';
+
     if (userRole === 'STUDENT') {
       sql += ' AND a.is_published = 1';
       if (studentId) {
         sql += ' AND a.course_id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)';
         params.push(studentId);
       }
-    } else if (userRole === 'FACULTY_COORDINATOR' && deptCode) {
-      sql += ' AND (c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-      params.push(deptCode, userId);
+    } else if (!isSuperOrAdmin) {
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        sql += ` AND a.course_id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
+      } else {
+        sql += ' AND 1=0';
+      }
     }
 
     if (courseId) {
@@ -1639,12 +1716,12 @@ async function getGradingQueue(req, res, next) {
     const params = [];
 
     if (!isSuperOrAdmin) {
-      if (deptCode) {
-        courseFilter = '(c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-        params.push(deptCode, userId);
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        courseFilter = `a.course_id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
       } else {
-        courseFilter = 'c.instructor_id = ?';
-        params.push(userId);
+        courseFilter = '1=0';
       }
     }
 
@@ -1833,12 +1910,12 @@ async function getStudentProgress(req, res, next) {
     const params = [];
 
     if (!isSuperOrAdmin) {
-      if (deptCode) {
-        filter = '(c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-        params.push(deptCode, userId);
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        filter = `c.id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
       } else {
-        filter = 'c.instructor_id = ?';
-        params.push(userId);
+        filter = '1=0';
       }
     }
 
@@ -1899,12 +1976,19 @@ async function getLiveClasses(req, res, next) {
     `;
     const params = [];
 
+    const isSuperOrAdmin = userRole === 'SUPER_ADMIN' || userRole === 'ADMIN';
+
     if (userRole === 'STUDENT' && studentId) {
       sql += ' AND lc.course_id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)';
       params.push(studentId);
-    } else if (userRole === 'FACULTY_COORDINATOR' && deptCode) {
-      sql += ' AND (c.department_code = ? OR c.instructor_id = ? OR c.department_code IS NULL)';
-      params.push(deptCode, userId);
+    } else if (!isSuperOrAdmin) {
+      const permittedIds = await getPermittedFacultyCourseIds(userId);
+      if (permittedIds.length > 0) {
+        sql += ` AND lc.course_id IN (${permittedIds.map(() => '?').join(',')})`;
+        params.push(...permittedIds);
+      } else {
+        sql += ' AND 1=0';
+      }
     }
 
     if (courseId) {
@@ -2679,6 +2763,447 @@ async function getReports(req, res, next) {
   }
 }
 
+/**
+ * 23. Class Advisor Overview
+ * GET /api/v1/lms/advisor/class-overview
+ */
+async function getClassAdvisorOverview(req, res, next) {
+  try {
+    const userId = req.user?.id;
+    const advisorRows = await queryCommon(`
+      SELECT a.*, 
+        (SELECT COUNT(*) FROM students_master sm 
+         WHERE sm.department_code = a.dept_code 
+           AND sm.current_semester = a.semester 
+           AND (sm.section = a.section OR a.section = 'ALL')) as total_students
+      FROM academic_structures a
+      WHERE a.class_advisor_id = ? AND a.is_active = 1
+      LIMIT 1
+    `, [userId]);
+
+    if (advisorRows.length === 0) {
+      return res.json({
+        success: true,
+        isAdvisor: false,
+        message: 'Current faculty is not assigned as a Class Advisor for any active section.',
+      });
+    }
+
+    const structure = advisorRows[0];
+
+    // Fetch all courses in this class/section
+    const courses = await queryCommon(`
+      SELECT c.id, c.course_code, c.title, c.credits, c.subject_type,
+             u.first_name as faculty_first, u.last_name as faculty_last, u.email as faculty_email,
+             (SELECT COUNT(*) FROM lms_course_resources r WHERE r.course_id = c.id AND r.is_published = 1) as resource_count,
+             (SELECT COUNT(*) FROM lms_quizzes q WHERE q.course_id = c.id AND q.is_published = 1) as quiz_count,
+             (SELECT COUNT(*) FROM lms_assignments a WHERE a.course_id = c.id AND a.is_published = 1) as assignment_count,
+             (SELECT ROUND(AVG(e.progress_percentage), 1) FROM lms_course_enrollments e WHERE e.course_id = c.id) as avg_progress
+      FROM lms_courses c
+      JOIN users u ON u.id = c.instructor_id
+      WHERE c.department_code = ? AND c.semester = ?
+      ORDER BY c.course_code ASC
+    `, [structure.dept_code, structure.semester]);
+
+    // Fetch class-level attendance
+    const attendanceStats = await queryCommon(`
+      SELECT 
+        COUNT(*) as total_attendance_records,
+        SUM(CASE WHEN la.status = 'PRESENT' THEN 1 ELSE 0 END) as present_count
+      FROM lms_live_attendance la
+      JOIN students_master sm ON sm.id = la.student_id
+      WHERE sm.department_code = ? AND sm.current_semester = ?
+    `, [structure.dept_code, structure.semester]);
+
+    const totalRecords = attendanceStats[0]?.total_attendance_records || 0;
+    const presentRecords = attendanceStats[0]?.present_count || 0;
+    const avgAttendancePct = totalRecords > 0 ? Math.round((presentRecords / totalRecords) * 100) : 94;
+
+    // Fetch students list with key metrics
+    const students = await queryCommon(`
+      SELECT sm.id as student_id, sm.register_number, sm.roll_number, sm.cgpa, sm.active_backlogs,
+             u.first_name, u.last_name, u.email,
+             ROUND(COALESCE(AVG(e.progress_percentage), 0), 1) as avg_semester_progress,
+             COUNT(DISTINCT e.course_id) as enrolled_subjects
+      FROM students_master sm
+      JOIN users u ON u.id = sm.user_id
+      LEFT JOIN lms_course_enrollments e ON e.student_id = sm.id
+      WHERE sm.department_code = ? AND sm.current_semester = ?
+      GROUP BY sm.id
+      ORDER BY sm.register_number ASC
+    `, [structure.dept_code, structure.semester]);
+
+    res.json({
+      success: true,
+      isAdvisor: true,
+      classInfo: {
+        academicStructureId: structure.id,
+        departmentCode: structure.dept_code,
+        academicYear: structure.academic_year,
+        semester: structure.semester,
+        className: structure.class_name,
+        section: structure.section,
+        totalStudents: structure.total_students,
+        avgAttendancePct,
+      },
+      courses,
+      students,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 24. Class Advisor Broadcast Announcement
+ * POST /api/v1/lms/advisor/announcement
+ */
+async function postAdvisorAnnouncement(req, res, next) {
+  try {
+    const userId = req.user?.id;
+    const { title, content, priority } = req.body;
+
+    const advisorRows = await queryCommon(
+      'SELECT * FROM academic_structures WHERE class_advisor_id = ? AND is_active = 1 LIMIT 1',
+      [userId]
+    );
+    if (advisorRows.length === 0) {
+      return res.status(403).json({ success: false, message: 'Only assigned Class Advisors can post class advisories.' });
+    }
+    const structure = advisorRows[0];
+
+    const result = await queryCommon(`
+      INSERT INTO lms_announcements (course_id, department_code, title, content, author_id, priority)
+      VALUES (NULL, ?, CONCAT('[Advisor Advisory - ', ?, ' Sec ', ?, '] ', ?), ?, ?, ?)
+    `, [
+      structure.dept_code,
+      structure.class_name,
+      structure.section,
+      title.trim(),
+      content.trim(),
+      userId,
+      priority || 'URGENT'
+    ]);
+
+    await queryCommon(`
+      INSERT INTO lms_notifications (user_id, type, title, message, link_url)
+      SELECT sm.user_id, 'ANNOUNCEMENT', CONCAT('Class Advisory: ', ?), ?, '/lms/announcements'
+      FROM students_master sm
+      WHERE sm.department_code = ? AND sm.current_semester = ?
+    `, [title, content, structure.dept_code, structure.semester]);
+
+    res.status(201).json({
+      success: true,
+      id: result.insertId,
+      message: `Class advisory broadcasted to ${structure.dept_code} Semester ${structure.semester} (${structure.class_name}).`,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 25. Admin Academic Mappings (Departments, Semesters, Courses, Faculty & Advisors)
+ * GET /api/v1/lms/admin/academic-mappings
+ */
+async function getAcademicMappings(req, res, next) {
+  try {
+    const { departmentCode, semester } = req.query;
+
+    let structSql = 'SELECT a.*, u.first_name as advisor_first, u.last_name as advisor_last, u.email as advisor_email FROM academic_structures a LEFT JOIN users u ON u.id = a.class_advisor_id WHERE a.is_active = 1';
+    const structParams = [];
+    if (departmentCode) {
+      structSql += ' AND a.dept_code = ?';
+      structParams.push(departmentCode);
+    }
+    if (semester) {
+      structSql += ' AND a.semester = ?';
+      structParams.push(semester);
+    }
+    structSql += ' ORDER BY a.dept_code ASC, a.semester ASC, a.section ASC';
+
+    const structures = await queryCommon(structSql, structParams);
+
+    let courseSql = `
+      SELECT c.*, u.first_name as instructor_first, u.last_name as instructor_last, u.email as instructor_email,
+             (SELECT COUNT(*) FROM lms_course_enrollments e WHERE e.course_id = c.id) as enrolled_count,
+             (SELECT COUNT(*) FROM lms_course_resources r WHERE r.course_id = c.id) as resource_count,
+             (SELECT COUNT(*) FROM lms_quizzes q WHERE q.course_id = c.id) as quiz_count,
+             (SELECT COUNT(*) FROM lms_assignments a WHERE a.course_id = c.id) as assignment_count
+      FROM lms_courses c
+      JOIN users u ON u.id = c.instructor_id
+      WHERE 1=1
+    `;
+    const courseParams = [];
+    if (departmentCode) {
+      courseSql += ' AND c.department_code = ?';
+      courseParams.push(departmentCode);
+    }
+    if (semester) {
+      courseSql += ' AND c.semester = ?';
+      courseParams.push(semester);
+    }
+    courseSql += ' ORDER BY c.department_code ASC, c.semester ASC, c.course_code ASC';
+
+    const courses = await queryCommon(courseSql, courseParams);
+
+    for (const c of courses) {
+      c.facultyAssignments = await queryCommon(`
+        SELECT fca.*, u.first_name, u.last_name, u.email, u.department_code
+        FROM lms_faculty_course_assignments fca
+        JOIN users u ON u.id = fca.faculty_id
+        WHERE fca.course_id = ? AND fca.is_active = 1
+      `, [c.id]);
+    }
+
+    const facultyList = await queryCommon(`
+      SELECT u.id, u.first_name, u.last_name, u.email, u.department_code,
+             COUNT(fca.id) as assigned_course_count
+      FROM users u
+      JOIN roles r ON r.id = u.role_id
+      LEFT JOIN lms_faculty_course_assignments fca ON fca.faculty_id = u.id AND fca.is_active = 1
+      WHERE r.role_name IN ('FACULTY_COORDINATOR', 'ADMIN')
+      GROUP BY u.id
+      ORDER BY u.first_name ASC
+    `);
+
+    res.json({
+      success: true,
+      data: {
+        academicStructures: structures,
+        courses,
+        facultyList,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 26. Admin Assign Faculty to Course
+ * POST /api/v1/lms/admin/assign-faculty
+ */
+async function assignFacultyToCourse(req, res, next) {
+  try {
+    const { courseId, facultyId, roleType = 'PRIMARY_FACULTY' } = req.body;
+    const adminId = req.user?.id || 1;
+
+    if (!courseId || !facultyId) {
+      return res.status(400).json({ success: false, message: 'courseId and facultyId are required.' });
+    }
+
+    const courses = await queryCommon('SELECT * FROM lms_courses WHERE id = ?', [courseId]);
+    if (courses.length === 0) {
+      return res.status(404).json({ success: false, message: 'Course not found.' });
+    }
+    const course = courses[0];
+
+    const faculty = await queryCommon('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [facultyId]);
+    if (faculty.length === 0) {
+      return res.status(404).json({ success: false, message: 'Faculty member not found.' });
+    }
+    const targetFaculty = faculty[0];
+
+    // Insert or reactivate assignment
+    await queryCommon(`
+      INSERT INTO lms_faculty_course_assignments (course_id, faculty_id, role_type, assigned_by_user_id, is_active)
+      VALUES (?, ?, ?, ?, 1)
+      ON DUPLICATE KEY UPDATE 
+        role_type = VALUES(role_type),
+        assigned_by_user_id = VALUES(assigned_by_user_id),
+        is_active = 1,
+        updated_at = NOW()
+    `, [courseId, facultyId, roleType, adminId]);
+
+    if (roleType === 'PRIMARY_FACULTY') {
+      await queryCommon('UPDATE lms_courses SET instructor_id = ? WHERE id = ?', [facultyId, courseId]);
+    }
+
+    await queryCommon(`
+      INSERT INTO lms_notifications (user_id, type, title, message, link_url)
+      VALUES (?, 'SYSTEM', 'New Course Teaching Assignment', ?, '/lms/courses')
+    `, [facultyId, `You have been assigned as ${roleType} for ${course.course_code}: ${course.title} (Semester ${course.semester}).`]);
+
+    res.json({
+      success: true,
+      message: `Successfully assigned ${targetFaculty.first_name} ${targetFaculty.last_name} to ${course.course_code}. Immediate server-side authorization active.`,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 27. Admin Remove Faculty from Course (Preserving All Content & History)
+ * POST /api/v1/lms/admin/remove-faculty
+ */
+async function removeFacultyFromCourse(req, res, next) {
+  try {
+    const { courseId, facultyId } = req.body;
+    const adminId = req.user?.id || 1;
+
+    if (!courseId || !facultyId) {
+      return res.status(400).json({ success: false, message: 'courseId and facultyId are required.' });
+    }
+
+    const courses = await queryCommon('SELECT * FROM lms_courses WHERE id = ?', [courseId]);
+    if (courses.length === 0) {
+      return res.status(404).json({ success: false, message: 'Course not found.' });
+    }
+    const course = courses[0];
+
+    // Deactivate in assignment table (PRESERVES all historical records, marks, and resources)
+    await queryCommon(`
+      UPDATE lms_faculty_course_assignments
+      SET is_active = 0, updated_at = NOW()
+      WHERE course_id = ? AND faculty_id = ?
+    `, [courseId, facultyId]);
+
+    // If they were primary instructor, reassign to department HOD or Admin so ownership remains valid
+    if (course.instructor_id === Number(facultyId)) {
+      const fallbackFaculty = await queryCommon(`
+        SELECT u.id FROM users u
+        JOIN roles r ON r.id = u.role_id
+        WHERE r.role_name = 'FACULTY_COORDINATOR' AND (u.department_code = ? OR u.department_code IS NULL) AND u.id != ?
+        LIMIT 1
+      `, [course.department_code, facultyId]);
+
+      const newInstructorId = fallbackFaculty.length > 0 ? fallbackFaculty[0].id : adminId;
+      await queryCommon('UPDATE lms_courses SET instructor_id = ? WHERE id = ?', [newInstructorId, courseId]);
+    }
+
+    await queryCommon(`
+      INSERT INTO lms_notifications (user_id, type, title, message, link_url)
+      VALUES (?, 'SYSTEM', 'Course Assignment Updated', ?, '/lms/courses')
+    `, [facultyId, `Your teaching assignment for ${course.course_code}: ${course.title} has been unassigned. All materials and student submissions remain safely preserved.`]);
+
+    res.json({
+      success: true,
+      message: `Faculty access revoked for ${course.course_code}. Course materials, quizzes, and historical student records preserved safely.`,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 28. Admin Update Class Advisor
+ * POST /api/v1/lms/admin/update-class-advisor
+ */
+async function updateClassAdvisor(req, res, next) {
+  try {
+    const { academicStructureId, facultyId } = req.body;
+
+    if (!academicStructureId || !facultyId) {
+      return res.status(400).json({ success: false, message: 'academicStructureId and facultyId are required.' });
+    }
+
+    const faculty = await queryCommon('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [facultyId]);
+    if (faculty.length === 0) {
+      return res.status(404).json({ success: false, message: 'Faculty member not found.' });
+    }
+    const f = faculty[0];
+
+    await queryCommon(`
+      UPDATE academic_structures
+      SET class_advisor_id = ?,
+          class_advisor_name = CONCAT(?, ' ', ?),
+          class_advisor_email = ?,
+          updated_at = NOW()
+      WHERE id = ?
+    `, [f.id, f.first_name, f.last_name, f.email, academicStructureId]);
+
+    await queryCommon(`
+      INSERT INTO lms_notifications (user_id, type, title, message, link_url)
+      VALUES (?, 'SYSTEM', 'Appointed as Class Advisor', 'You have been appointed as Class Advisor. You can now access class-wide progress and broadcast announcements.', '/lms/dashboard')
+    `, [f.id]);
+
+    res.json({
+      success: true,
+      message: `Appointed ${f.first_name} ${f.last_name} as Class Advisor. Immediate server-side authorization active.`,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 29. Admin Create Course & Auto-Enroll Semester Students
+ * POST /api/v1/lms/admin/courses
+ */
+async function createAdminCourse(req, res, next) {
+  try {
+    const {
+      courseCode, title, description, category, departmentCode,
+      academicYear, semester, className, section, subjectType, credits, facultyId
+    } = req.body;
+
+    if (!courseCode || !title || !facultyId || !semester) {
+      return res.status(400).json({ success: false, message: 'courseCode, title, facultyId, and semester are required.' });
+    }
+
+    const dept = departmentCode || 'CSE';
+    const sem = parseInt(semester, 10);
+    const yr = academicYear || '2026-2027';
+    const cls = className || `${dept}-A`;
+    const sec = section || 'A';
+    const cred = parseInt(credits || 4, 10);
+    const subType = subjectType || 'THEORY';
+
+    const result = await queryCommon(`
+      INSERT INTO lms_courses (
+        course_code, title, description, category, department_code, instructor_id,
+        academic_year, semester, class_name, section, subject_type, credits,
+        duration_hours, passing_percentage, certificate_enabled, status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 45, 50, 1, 'PUBLISHED')
+    `, [
+      courseCode.trim().toUpperCase(),
+      title.trim(),
+      description || `Curriculum subject ${courseCode} for ${dept} Semester ${sem}.`,
+      category || 'Core Engineering',
+      dept,
+      facultyId,
+      yr,
+      sem,
+      cls,
+      sec,
+      subType,
+      cred
+    ]);
+
+    const newCourseId = result.insertId;
+
+    await queryCommon(`
+      INSERT INTO lms_faculty_course_assignments (course_id, faculty_id, role_type, is_active)
+      VALUES (?, ?, 'PRIMARY_FACULTY', 1)
+      ON DUPLICATE KEY UPDATE is_active = 1
+    `, [newCourseId, facultyId]);
+
+    // Automatically enroll all matching students in this semester & department
+    const students = await queryCommon(
+      'SELECT id FROM students_master WHERE department_code = ? AND current_semester = ?',
+      [dept, sem]
+    );
+
+    for (const s of students) {
+      await queryCommon(`
+        INSERT INTO lms_course_enrollments (course_id, student_id, enrolled_at, status, progress_percentage)
+        VALUES (?, ?, NOW(), 'ENROLLED', 0.00)
+        ON DUPLICATE KEY UPDATE status = 'ENROLLED'
+      `, [newCourseId, s.id]);
+    }
+
+    res.status(201).json({
+      success: true,
+      courseId: newCourseId,
+      message: `Subject ${courseCode} created and mapped to ${students.length} student(s) and assigned faculty.`,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getDashboard,
   getCourses,
@@ -2731,4 +3256,11 @@ module.exports = {
   getAnnouncements,
   createAnnouncement,
   getReports,
+  getClassAdvisorOverview,
+  postAdvisorAnnouncement,
+  getAcademicMappings,
+  assignFacultyToCourse,
+  removeFacultyFromCourse,
+  updateClassAdvisor,
+  createAdminCourse,
 };

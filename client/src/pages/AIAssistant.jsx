@@ -191,7 +191,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                 <span>MySQL RAG Context</span>
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">
               AI Career Assistant & Knowledge Engine
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
@@ -200,49 +200,49 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
           </div>
 
           {/* Tab Selector */}
-          <div className="flex flex-wrap gap-1.5 p-1 bg-secondary rounded-xl border border-border text-xs font-bold">
+          <div className="flex flex-wrap gap-1.5 p-1 bg-secondary rounded-xl border border-border text-sm font-semibold">
             <button
               onClick={() => setActiveTab('chat')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'chat'
-                  ? 'bg-card text-foreground shadow-xs border border-border'
+                  ? 'bg-card text-foreground shadow-xs border border-border font-bold'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Database className="w-3.5 h-3.5 text-foreground" />
+              <Database className="w-4 h-4 text-foreground" />
               <span>DB Career Q&A</span>
             </button>
             <button
               onClick={() => setActiveTab('resume')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'resume'
-                  ? 'bg-card text-foreground shadow-xs border border-border'
+                  ? 'bg-card text-foreground shadow-xs border border-border font-bold'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <FileText className="w-3.5 h-3.5 text-foreground" />
+              <FileText className="w-4 h-4 text-foreground" />
               <span>ATS Resume</span>
             </button>
             <button
               onClick={() => setActiveTab('match')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'match'
-                  ? 'bg-card text-foreground shadow-xs border border-border'
+                  ? 'bg-card text-foreground shadow-xs border border-border font-bold'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Briefcase className="w-3.5 h-3.5 text-foreground" />
+              <Briefcase className="w-4 h-4 text-foreground" />
               <span>Job Fit</span>
             </button>
             <button
               onClick={() => setActiveTab('interview')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'interview'
-                  ? 'bg-card text-foreground shadow-xs border border-border'
+                  ? 'bg-card text-foreground shadow-xs border border-border font-bold'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <MessageSquare className="w-3.5 h-3.5 text-foreground" />
+              <MessageSquare className="w-4 h-4 text-foreground" />
               <span>Interview Coach</span>
             </button>
           </div>
@@ -250,7 +250,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
       </div>
 
       {/* Governance Banner */}
-      <div className="p-3 bg-secondary border border-border rounded-xl text-xs text-foreground flex items-start gap-2.5">
+      <div className="p-3.5 bg-secondary border border-border rounded-xl text-sm text-foreground flex items-start gap-2.5">
         <BrainCircuit className="w-4 h-4 text-foreground shrink-0 mt-0.5" />
         <div>
           <strong className="font-bold">Neural Engine Governance:</strong> Powered directly by{' '}
@@ -267,22 +267,22 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
           <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto pr-1">
             <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-border">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-secondary text-foreground flex items-center justify-center font-bold">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-secondary text-foreground flex items-center justify-center font-bold">
                     <Database className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-foreground">Ask the Database Assistant</h3>
-                    <p className="text-[11px] text-muted-foreground">Grounded in live MySQL placement data</p>
+                    <h3 className="text-sm font-bold text-foreground">Ask the Database Assistant</h3>
+                    <p className="text-xs text-muted-foreground">Grounded in live MySQL placement data</p>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded-md bg-secondary text-foreground text-[10px] font-bold border border-border">
+                <span className="px-2.5 py-1 rounded-md bg-secondary text-foreground text-xs font-bold border border-border">
                   Mistral 7B Live
                 </span>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-foreground mb-1.5">
+                <label className="block text-sm font-semibold text-foreground mb-1.5">
                   Your Placement Question
                 </label>
                 <textarea
@@ -296,14 +296,14 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                     }
                   }}
                   placeholder="e.g., What are the highest paying companies active right now? What are the placement policies for Dream offers?"
-                  className="w-full p-3 rounded-xl border border-border text-xs font-medium text-foreground placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 bg-secondary hover:bg-card transition-all leading-relaxed"
+                  className="w-full p-3 rounded-xl border border-border text-sm font-medium text-foreground placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 bg-secondary hover:bg-card transition-all leading-relaxed"
                 ></textarea>
               </div>
 
               <button
                 onClick={() => handleSendChat()}
                 disabled={chatLoading || !chatQuestion.trim()}
-                className="w-full py-2.5 px-4 rounded-xl text-white text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed active:scale-98"
+                className="w-full py-2.5 px-4 rounded-xl text-white text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed active:scale-98"
                 style={{ backgroundColor: currentTheme.primary }}
               >
                 {chatLoading ? (
@@ -313,7 +313,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                   </>
                 ) : (
                   <>
-                    <Send className="w-3.5 h-3.5" />
+                    <Send className="w-4 h-4" />
                     <span>Ask AI Assistant Grounded in DB</span>
                   </>
                 )}
@@ -322,11 +322,11 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
 
             {/* Quick Sample Questions Card */}
             <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 shadow-xs space-y-3">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+              <div className="flex items-center gap-1.5 text-sm font-bold text-foreground">
                 <Lightbulb className="w-4 h-4 text-foreground" />
                 <span>Instant Database Prompts</span>
               </div>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 Click any prompt below to query live database context with Mistral 7B:
               </p>
 
@@ -336,7 +336,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                     key={idx}
                     onClick={() => handleSendChat(q)}
                     disabled={chatLoading}
-                    className="w-full text-left p-2.5 rounded-xl border border-border hover:border-border hover:bg-secondary text-[11px] font-medium text-foreground transition-all cursor-pointer flex items-center justify-between gap-2 group"
+                    className="w-full text-left p-3 rounded-xl border border-border hover:border-neutral-400 dark:hover:border-neutral-600 hover:bg-secondary text-xs font-medium text-foreground transition-all cursor-pointer flex items-center justify-between gap-2 group"
                   >
                     <span className="group-hover:text-foreground leading-snug">{q}</span>
                     <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground shrink-0" />
@@ -351,20 +351,20 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
             <div className="bg-card text-card-foreground rounded-2xl border border-border p-5 sm:p-6 shadow-xs space-y-4 min-h-[420px]">
               <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]"></div>
-                  <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]"></div>
+                  <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
                     Responses from Mistral 7B Neural Engine
                   </h3>
                 </div>
-                <span className="text-[10px] font-semibold text-muted-foreground">
+                <span className="text-xs font-semibold text-muted-foreground">
                   {chatHistory.length} query record(s)
                 </span>
               </div>
 
               {chatLoading && (
                 <div className="p-4 rounded-xl bg-secondary border border-border animate-pulse space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-bold text-foreground">
-                    <span className="w-2 h-2 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] animate-ping"></span>
+                  <div className="flex items-center gap-2 text-sm font-bold text-foreground">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] animate-ping"></span>
                     <span>Consulting MySQL database & generating Mistral 7B response...</span>
                   </div>
                   <div className="h-2.5 bg-secondary text-foreground rounded-full w-3/4"></div>
@@ -379,33 +379,33 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                   className="p-4 sm:p-5 rounded-2xl border border-border bg-secondary space-y-3 transition-all hover:bg-secondary"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-2">
-                      <div className="w-6 h-6 rounded-lg bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white flex items-center justify-center text-[10px] font-extrabold shrink-0 mt-0.5">
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white flex items-center justify-center text-xs font-extrabold shrink-0 mt-0.5">
                         Q
                       </div>
-                      <p className="text-xs font-bold text-foreground leading-snug">
+                      <p className="text-sm font-bold text-foreground leading-snug">
                         {item.question}
                       </p>
                     </div>
-                    <span className="text-[10px] font-medium text-muted-foreground shrink-0">
+                    <span className="text-xs font-medium text-muted-foreground shrink-0">
                       {item.timestamp}
                     </span>
                   </div>
 
-                  <div className="pl-8 space-y-2.5">
-                    <div className="text-xs text-foreground leading-relaxed whitespace-pre-line font-normal">
+                  <div className="pl-9 space-y-2.5">
+                    <div className="text-sm text-foreground leading-relaxed whitespace-pre-line font-normal">
                       {item.answer}
                     </div>
 
-                    <div className="pt-2 border-t border-border flex flex-wrap items-center justify-between gap-2 text-[10px]">
+                    <div className="pt-2 border-t border-border flex flex-wrap items-center justify-between gap-2 text-xs">
                       <div className="flex flex-wrap items-center gap-2 text-muted-foreground font-semibold">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-foreground font-mono font-bold border border-border">
-                          <Cpu className="w-2.5 h-2.5" />
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-foreground font-mono font-bold border border-border text-xs">
+                          <Cpu className="w-3 h-3" />
                           {item.model}
                         </span>
                         {item.sourcesSummary && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                            <Database className="w-2.5 h-2.5" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-foreground border border-border text-xs">
+                            <Database className="w-3 h-3" />
                             <span>{item.sourcesSummary.database} Ground-Truth</span>
                           </span>
                         )}
@@ -413,16 +413,16 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
 
                       <button
                         onClick={() => copyToClipboard(item.answer, item.id)}
-                        className="text-muted-foreground hover:text-foreground flex items-center gap-1 font-semibold transition-colors cursor-pointer"
+                        className="text-muted-foreground hover:text-foreground flex items-center gap-1 font-semibold transition-colors cursor-pointer text-xs"
                       >
                         {copiedId === item.id ? (
                           <>
-                            <Check className="w-3 h-3 text-foreground" />
+                            <Check className="w-3.5 h-3.5 text-foreground" />
                             <span className="text-foreground font-bold">Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-3 h-3" />
+                            <Copy className="w-3.5 h-3.5" />
                             <span>Copy Answer</span>
                           </>
                         )}
@@ -545,7 +545,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                 <div className="p-4 bg-secondary rounded-xl border border-border flex items-center justify-between">
                   <div>
                     <span className="text-[11px] text-foreground font-semibold uppercase">Profile Match Fitness</span>
-                    <div className="text-3xl font-extrabold text-foreground mt-0.5">{matchResult.matchPercentage}%</div>
+                    <div className="text-xl sm:text-2xl font-bold text-foreground mt-0.5">{matchResult.matchPercentage}%</div>
                   </div>
                   <span className="font-bold text-xs bg-secondary text-foreground px-3 py-1.5 rounded-lg border border-border">
                     {matchResult.placementReadiness}
@@ -625,7 +625,7 @@ As a result, query latency dropped from 1200ms to 45ms, and the system handled o
                 <div className="p-4 bg-secondary rounded-xl border border-border flex items-center justify-between">
                   <div>
                     <span className="text-[11px] text-foreground font-semibold uppercase">Response Score</span>
-                    <div className="text-3xl font-extrabold text-foreground mt-0.5">{interviewResult.score}/10.0</div>
+                    <div className="text-xl sm:text-2xl font-bold text-foreground mt-0.5">{interviewResult.score}/10.0</div>
                   </div>
                   <span className="font-bold text-xs bg-secondary text-foreground px-3 py-1.5 rounded-lg border border-border">
                     High Confidence
