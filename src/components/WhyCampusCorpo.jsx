@@ -7,100 +7,94 @@ import {
   Zap, 
   ShieldCheck, 
   FileSpreadsheet,
-  Sparkles,
-  ArrowRight
+  Sparkles
 } from 'lucide-react';
-import { fadeUp, staggerContainer, cardReveal, standardViewport } from '../utils/animations';
+import { fadeUp, staggerContainer, standardViewport } from '../utils/animations';
 
 export default function WhyCampusCorpo({ onOpenDemo }) {
   const benefits = [
     {
-      title: 'Connected Campus Data',
-      desc: 'Brings admissions, semester coursework, faculty mentor notes, and placement drives into a unified institutional record.',
+      title: 'Unified Campus Data',
+      desc: 'Everything connected in one place.',
       icon: Database
     },
     {
-      title: 'Better Accreditation Reporting',
-      desc: 'Maintains auditable attendance logs, academic milestone histories, and verified placement conversions for NAAC, NBA, and NIRF audits.',
+      title: 'Audit-Ready Records',
+      desc: 'Organized academic and placement records.',
       icon: FileCheck
     },
     {
-      title: 'Verified Skill Development',
-      desc: 'Evaluates real programming proficiency and mock interview articulation rather than relying only on written theory grades.',
+      title: 'Verified Skills',
+      desc: 'Measure practical student capabilities.',
       icon: Code2
     },
     {
-      title: 'Faster Placement Operations',
-      desc: 'Automates student eligibility filtering, test slotting, recruiter round tracking, and offer letter generation in minutes.',
+      title: 'Faster Placements',
+      desc: 'Simplify recruitment workflows.',
       icon: Zap
     },
     {
-      title: 'Role-Based Access Control',
-      desc: 'Ensures strict data isolation and permission boundaries between campus leadership, HODs, faculty members, and students.',
+      title: 'Secure Access',
+      desc: 'Role-based permissions and data control.',
       icon: ShieldCheck
     },
     {
-      title: 'Reduced Spreadsheet Dependency',
-      desc: 'Replaces prone-to-error manual Excel trackers with validated digital databases and automated export pipelines.',
+      title: 'Less Manual Work',
+      desc: 'Reduce spreadsheets and repetitive tasks.',
       icon: FileSpreadsheet
     }
   ];
 
   return (
-    <section id="why-us" className="py-20 md:py-24 bg-white border-b border-neutral-200">
+    <section id="why-us" className="py-16 md:py-20 bg-white border-b border-neutral-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
+        {/* Centered Section Header */}
         <motion.div 
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={standardViewport}
-          className="text-center max-w-3xl mx-auto mb-14"
+          className="text-center max-w-2xl mx-auto mb-12 md:mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-300 bg-neutral-50 text-xs font-semibold text-neutral-800 shadow-2xs mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-800 shadow-2xs mb-3.5">
             <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
-            <span>Institutional Advantages</span>
+            <span>Platform Advantages</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-[30px] font-bold text-neutral-950 tracking-tight leading-[1.24]">
-            Why Higher Education Institutions Choose CampusCorpo
+          <h2 className="text-2xl sm:text-3xl md:text-[32px] font-bold text-neutral-950 tracking-tight leading-tight">
+            Why Institutions Choose CampusCorpo
           </h2>
-          <p className="mt-3 text-base text-neutral-600 leading-relaxed font-normal">
-            Designed specifically for engineering colleges, polytechnics, and universities seeking structured academic governance.
+          <p className="mt-2.5 text-base sm:text-[17px] text-neutral-600 font-normal leading-relaxed">
+            One connected platform. Better campus operations.
           </p>
         </motion.div>
 
-        {/* 6 Benefits Grid with Staggered Entrance */}
+        {/* Minimal 3-Column × 2-Row Grid */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={standardViewport}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-9 sm:gap-y-11 max-w-6xl mx-auto"
         >
-          {benefits.map((b, idx) => {
+          {benefits.map((b) => {
             const Icon = b.icon;
             return (
               <motion.div
                 key={b.title}
-                variants={cardReveal}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="bg-neutral-50 rounded-2xl border border-neutral-200 p-6 hover:border-neutral-950 hover:bg-white hover:shadow-md transition-all flex flex-col justify-between group"
+                variants={fadeUp}
+                className="flex items-start gap-4 group"
               >
+                <div className="h-10 w-10 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-950 shrink-0 group-hover:bg-neutral-950 group-hover:text-white transition-colors duration-200">
+                  <Icon className="w-5 h-5" />
+                </div>
                 <div>
-                  <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center text-neutral-950 mb-4 shadow-2xs group-hover:bg-neutral-950 group-hover:text-white transition-colors">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg sm:text-[19px] font-semibold text-neutral-950 mb-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-neutral-950 leading-snug">
                     {b.title}
                   </h3>
-                  <p className="text-[15px] sm:text-base text-neutral-700 leading-relaxed font-normal">
+                  <p className="mt-1 text-sm sm:text-[15px] text-neutral-600 leading-relaxed font-normal">
                     {b.desc}
                   </p>
-                </div>
-
-                <div className="mt-6 pt-3 border-t border-neutral-200/60 text-xs font-semibold text-neutral-500">
-                  BENEFIT 0{idx + 1}
                 </div>
               </motion.div>
             );
