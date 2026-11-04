@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #111827;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 1rem; /* 16px standard body */
+    line-height: 1.625; /* 1.5 - 1.65 range */
+    color: #374151; /* text-neutral-700 for comfortable contrast */
+    letter-spacing: -0.011em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #030712; /* text-neutral-950 for clear visual hierarchy */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+}
+
+/* CampusCorpo Standard Typography Utility Classes */
+@layer components {
+  /* 1. Main Page Headings (36–42px) */
+  .heading-page {
+    @apply text-3xl sm:text-4xl lg:text-[40px] font-bold text-neutral-950 tracking-tight leading-[1.18];
+  }
+
+  /* 2. Section Headings (28–32px) */
+  .heading-section {
+    @apply text-2xl sm:text-3xl md:text-[30px] font-bold text-neutral-950 tracking-tight leading-[1.24];
+  }
+
+  /* 3. Module Headings (22–24px) */
+  .heading-module {
+    @apply text-xl sm:text-2xl md:text-[23px] font-semibold text-neutral-950 tracking-tight leading-[1.3];
+  }
+
+  /* 4. Card Headings (18–20px) */
+  .heading-card {
+    @apply text-lg sm:text-[19px] font-semibold text-neutral-950 leading-[1.38];
+  }
+
+  /* 5. Body Text (16px, 1.5–1.65 line-height) */
+  .body-text {
+    @apply text-base text-neutral-700 leading-relaxed font-normal;
+  }
+
+  /* 6. Secondary Descriptions (14px, 1.5 line-height) */
+  .body-secondary {
+    @apply text-sm text-neutral-600 leading-normal font-normal;
+  }
+
+  /* 7. Form Labels and Metadata (13–14px) */
+  .label-standard {
+    @apply text-[13px] sm:text-sm font-medium text-neutral-700 leading-normal;
+  }
+
+  /* 8. Navigation (14–15px) */
+  .nav-item {
+    @apply text-[14px] sm:text-[15px] font-medium text-neutral-700 hover:text-neutral-950 transition-colors;
+  }
+
+  /* 9. Dashboard Metrics (28–32px) */
+  .metric-value {
+    @apply text-2xl sm:text-[30px] font-bold text-neutral-950 tracking-tight leading-none;
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Focus outline accessibility */
+*:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}

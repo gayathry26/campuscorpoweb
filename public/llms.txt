@@ -1,0 +1,25 @@
+# CampusCorpo (https://campuscorpo.com)
+
+> CampusCorpo is a complete campus-to-career management platform that connects institutional administration, placement operations, student development, faculty coordination and career opportunities through one integrated ecosystem.
+
+## Core Platform Modules
+
+- [Platform Overview](https://campuscorpo.com/platform): Complete campus architecture unifying administration, academics, and corporate recruitment.
+- [Placement Management](https://campuscorpo.com/solutions/placement-management): Automate eligibility filtering, drive creation, recruiter scheduling, and CTC conversion analytics.
+- [Student Management](https://campuscorpo.com/solutions/student-management): Centralized 360° student records, semester progression, verified coding benchmarks, and tier classification.
+- [Faculty Management](https://campuscorpo.com/solutions/faculty-management): Course code allocations, class advisor mentorship logs, and syllabus milestone sync.
+- [Administration & RBAC](https://campuscorpo.com/solutions/administration): Multi-department governance, Excel/CSV/JSON bulk data ingestion, and role permissions.
+- [Semester LMS](https://campuscorpo.com/solutions/lms): Structured classrooms mapping course codes to allocated faculty (e.g. 7 subjects + 1 advisor = 8 assigned faculty).
+- [Programming Assessment Engine](https://campuscorpo.com/features/programming-assessment): Online coding challenges, multi-language execution, automated test cases, and anti-cheating navigation locks.
+- [Mock Interview Platform](https://campuscorpo.com/features/mock-interviews): Technical and HR interview simulations with candidate transcription and 4-point rubric scoring.
+- [IT Company Explorer](https://campuscorpo.com/company-explorer): Verified technology companies and official career links across Chennai, Coimbatore, Bengaluru, Hyderabad, and Pune.
+- [16 IT Career Domains](https://campuscorpo.com/career-explorer): Comprehensive career taxonomy covering 16 IT sectors, target roles, technical skills, developer toolchains, and roadmaps.
+
+## Official Contact & Verification
+
+- Brand Name: CampusCorpo
+- Official Domain: https://campuscorpo.com
+- Business Email: info@campuscorpo.com
+- Phone: +91 90800 07926
+- Headquarters: Tirupur, Tamil Nadu, India
+
