@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
@@ -21,8 +21,25 @@ import { PREMIUM_EASE } from '../utils/animations';
 
 export default function CareerExplorerPage({ onOpenDemo }) {
   const seo = routesSEO.careerExplorer;
-  const [selectedDomainId, setSelectedDomainId] = useState('software-dev');
+  const [searchParams] = useSearchParams();
+  const domainFromUrl = searchParams.get('domain');
+
+  const [selectedDomainId, setSelectedDomainId] = useState(() => {
+    if (domainFromUrl && itDomainsData.some((d) => d.id === domainFromUrl)) {
+      return domainFromUrl;
+    }
+    return 'software-dev';
+  });
+
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Sync selected domain if query parameter changes
+  useEffect(() => {
+    const d = searchParams.get('domain');
+    if (d && itDomainsData.some((item) => item.id === d)) {
+      setSelectedDomainId(d);
+    }
+  }, [searchParams]);
 
   const filteredDomains = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();

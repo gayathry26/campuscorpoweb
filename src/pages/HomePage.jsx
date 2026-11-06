@@ -1,7 +1,7 @@
 import React from 'react';
 import SEOHead from '../components/SEOHead';
 import AnimatedPageWrapper from '../components/AnimatedPageWrapper';
-import Hero from '../components/Hero';
+import HeroSection from '../components/HeroSection';
 import InstitutionalPlatformSection from '../components/InstitutionalPlatformSection';
 import TechnicalCapabilitiesSection from '../components/TechnicalCapabilitiesSection';
 import ConnectedEcosystemFlow from '../components/ConnectedEcosystemFlow';
@@ -25,7 +25,7 @@ export default function HomePage({ onOpenDemo }) {
       />
 
       {/* Section 1: Hero */}
-      <Hero onOpenDemo={onOpenDemo} />
+      <HeroSection onOpenDemo={onOpenDemo} />
 
       {/* Section 2: Institutional Platform (5 Core Modules) */}
       <InstitutionalPlatformSection />
@@ -36,8 +36,8 @@ export default function HomePage({ onOpenDemo }) {
       {/* Section 4: Connected Campus Ecosystem (8-Step Lifecycle) */}
       <ConnectedEcosystemFlow />
 
-      {/* Section 5: Career & Company Discovery (Balanced 2-Card Previews) */}
-      <CompanyCareerDiscovery />
+      {/* Section 5: Career & Company Discovery (Hokaido-Style Horizontal Experience) */}
+      <CompanyCareerDiscovery onOpenDemo={onOpenDemo} />
 
       {/* Section 6: Why CampusCorpo? (6 Verified Benefits) */}
       <WhyCampusCorpo onOpenDemo={onOpenDemo} />

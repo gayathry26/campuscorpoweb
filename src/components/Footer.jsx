@@ -10,7 +10,7 @@ const iconMap = {
   Github
 };
 
-export default function Footer() {
+export default function Footer({ onReplayIntro }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -182,6 +182,16 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-6">
+            {onReplayIntro && (
+              <button
+                type="button"
+                onClick={onReplayIntro}
+                className="hover:text-neutral-300 transition-colors cursor-pointer text-xs font-normal"
+                aria-label="Replay Cinematic Opening Intro"
+              >
+                Replay Intro
+              </button>
+            )}
             <Link to="/about" className="hover:text-neutral-300 transition-colors">About Us</Link>
             <Link to="/contact" className="hover:text-neutral-300 transition-colors">Contact</Link>
             <button

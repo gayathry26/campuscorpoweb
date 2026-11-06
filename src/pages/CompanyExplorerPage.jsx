@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ArrowUpRight, Building2, MapPin, X } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
@@ -14,8 +14,25 @@ const CITIES = ['All', 'Chennai', 'Coimbatore', 'Bengaluru', 'Hyderabad', 'Pune'
 
 export default function CompanyExplorerPage({ onOpenDemo }) {
   const seo = routesSEO.companyExplorer;
-  const [selectedCity, setSelectedCity] = useState('All');
+  const [searchParams] = useSearchParams();
+  const cityFromUrl = searchParams.get('city');
+
+  const [selectedCity, setSelectedCity] = useState(() => {
+    if (cityFromUrl && CITIES.includes(cityFromUrl)) {
+      return cityFromUrl;
+    }
+    return 'All';
+  });
+
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Sync selected city if query parameter changes
+  useEffect(() => {
+    const c = searchParams.get('city');
+    if (c && CITIES.includes(c)) {
+      setSelectedCity(c);
+    }
+  }, [searchParams]);
 
   const filteredCompanies = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
