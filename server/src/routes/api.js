@@ -294,6 +294,8 @@ router.patch('/career/companies/admin/:target/:id/status', authenticateToken, au
 // 21e. GitHub Repository Scanner & Portfolio Code Quality Engine
 router.post('/github/scan-repo', optionalAuthenticateToken, githubScanCtrl.scanRepo);
 router.post('/github/scan', optionalAuthenticateToken, githubScanCtrl.scanRepo);
+router.get('/github/scan-stream', optionalAuthenticateToken, githubScanCtrl.scanRepoLiveStream);
+router.get('/github/user-repos/:username', optionalAuthenticateToken, githubScanCtrl.getUserRepositories);
 router.post('/github/verify-and-import-skills', authenticateToken, githubScanCtrl.verifyAndImportSkills);
 
 // 22. Role-Based LMS (Learning Management System)
