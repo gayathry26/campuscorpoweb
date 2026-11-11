@@ -6,7 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { StatusBadge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { Clock, Video, User, Star, Sparkles, ArrowRight } from 'lucide-react';
+import { Clock, Video, User, Star, Sparkles, ArrowRight, Share2, Copy } from 'lucide-react';
 
 export function Interviews() {
   const { user } = useAuth();
@@ -146,7 +146,7 @@ export function Interviews() {
                 <div className="p-3.5 bg-secondary rounded-lg text-sm space-y-2 border border-border">
                   <div className="flex items-center gap-2 text-foreground">
                     <Clock className="w-4 h-4 text-muted-foreground" />
-                    <span>Slot: <strong className="font-mono">{iv.scheduled_slot}</strong></span>
+                    <span>Slot: <strong className="font-mono">{iv.scheduled_slot ? new Date(iv.scheduled_slot).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'Flexible'}</strong></span>
                   </div>
                   <div className="flex items-center gap-2 text-foreground">
                     <Video className="w-4 h-4 text-muted-foreground" />
@@ -173,13 +173,29 @@ export function Interviews() {
 
                 {/* Actions: Join Call & Evaluate */}
                 <div className="pt-2 border-t border-border flex items-center justify-between gap-2">
-                  <Link
-                    to={`/interview/room/${meetingCode}`}
-                    className="px-4 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-lg text-sm font-semibold flex items-center gap-1.5 transition-opacity shadow-xs"
-                  >
-                    <Video className="w-4 h-4" />
-                    <span>Join Video Call</span>
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      to={`/interview/room/${meetingCode}`}
+                      className="px-3.5 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-lg text-sm font-semibold flex items-center gap-1.5 transition-opacity shadow-xs"
+                    >
+                      <Video className="w-4 h-4" />
+                      <span>Join Call</span>
+                    </Link>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const fullUrl = `${window.location.origin}/interview/room/${meetingCode}`;
+                        navigator.clipboard.writeText(fullUrl);
+                        showToast(`Interview link copied: ${meetingCode}`, 'success');
+                      }}
+                      className="px-3 py-2 bg-secondary text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors"
+                      title="Copy Shareable Interview Link"
+                    >
+                      <Share2 className="w-3.5 h-3.5 text-primary" />
+                      <span>Share Link</span>
+                    </button>
+                  </div>
 
                   {['TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'FACULTY_COORDINATOR', 'STAFF', 'RECRUITER'].includes(role) && iv.status !== 'COMPLETED' && (
                     <button

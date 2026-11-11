@@ -8,7 +8,11 @@ import {
   CheckCircle2,
   HelpCircle,
   ExternalLink,
+  RotateCcw,
+  Star,
+  Zap,
 } from 'lucide-react';
+import githubScannerService from '../../services/githubScannerService';
 
 export function ProficiencyModal({
   isOpen,
@@ -27,14 +31,33 @@ export function ProficiencyModal({
   const [evidenceUrl, setEvidenceUrl] = useState(
     skill.evidenceUrl || ''
   );
+  const [scanningRepo, setScanningRepo] = useState(false);
+  const [repoScanInfo, setRepoScanInfo] = useState(null);
+  const [scanError, setScanError] = useState(null);
 
   useEffect(() => {
     if (skill) {
       setProficiencyLevel(skill.proficiencyLevel || 'INTERMEDIATE');
       setEvidenceType(skill.evidenceType || 'NONE');
       setEvidenceUrl(skill.evidenceUrl || '');
+      setRepoScanInfo(null);
+      setScanError(null);
     }
   }, [skill]);
+
+  const handleScanRepo = async () => {
+    if (!evidenceUrl || !evidenceUrl.trim()) return;
+    setScanningRepo(true);
+    setScanError(null);
+    try {
+      const data = await githubScannerService.scanRepository(evidenceUrl.trim());
+      setRepoScanInfo(data);
+    } catch (err) {
+      setScanError(err.response?.data?.message || err.message);
+    } finally {
+      setScanningRepo(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,6 +66,7 @@ export function ProficiencyModal({
       proficiencyLevel,
       evidenceType,
       evidenceUrl: evidenceUrl.trim(),
+      isVerified: Boolean(repoScanInfo || skill.isVerified),
     });
     onClose();
   };
@@ -209,7 +233,10 @@ export function ProficiencyModal({
                   <input
                     type="url"
                     value={evidenceUrl}
-                    onChange={(e) => setEvidenceUrl(e.target.value)}
+                    onChange={(e) => {
+                      setEvidenceUrl(e.target.value);
+                      setRepoScanInfo(null);
+                    }}
                     placeholder={
                       evidenceType === 'GITHUB'
                         ? 'https://github.com/username/project'
@@ -229,6 +256,58 @@ export function ProficiencyModal({
                     </a>
                   )}
                 </div>
+
+                {/* GitHub Scan & Verification Button */}
+                {evidenceType === 'GITHUB' && (
+                  <div className="space-y-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={handleScanRepo}
+                      disabled={scanningRepo || !evidenceUrl.trim()}
+                      className="w-full py-1.5 px-3 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90 flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 cursor-pointer"
+                    >
+                      {scanningRepo ? (
+                        <>
+                          <RotateCcw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Scanning Repository...</span>
+                        </>
+                      ) : repoScanInfo ? (
+                        <>
+                          <ShieldCheck className="w-3.5 h-3.5" />
+                          <span>Scan Again</span>
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="w-3.5 h-3.5 fill-current" />
+                          <span>Scan & Verify GitHub Repository</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Scan Success Preview */}
+                    {repoScanInfo && (
+                      <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 text-[11px] space-y-1">
+                        <div className="flex items-center justify-between font-bold">
+                          <span className="flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                            Repository Verified ({repoScanInfo.repository?.fullName})
+                          </span>
+                          <span>Score: {repoScanInfo.codeQuality?.score}/100</span>
+                        </div>
+                        <p className="text-[10px] opacity-80 font-mono">
+                          Language: {repoScanInfo.languages?.primaryLanguage} • Stars: {repoScanInfo.repository?.stars} • Default: {repoScanInfo.repository?.defaultBranch}
+                        </p>
+                      </div>
+                    )}
+
+                    {scanError && (
+                      <p className="text-[10px] text-red-500 font-semibold">
+                        Scan Notice: {scanError}
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 <p className="text-[10px] text-muted-foreground">
                   Adding verified evidence grants a +10% to +15% confidence bonus during deterministic role scoring.
                 </p>

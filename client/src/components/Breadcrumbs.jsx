@@ -7,6 +7,7 @@ const ROUTE_LABELS = {
   'domains': 'Career Domains',
   'compare': 'Compare Roles',
   'skill-analyzer': 'Skill Analyzer',
+  'github-scanner': 'GitHub Repository Scanner',
   'career-explorer': 'Career Explorer',
   'companies': 'Hiring Companies',
   'jobs': 'Jobs & Openings',

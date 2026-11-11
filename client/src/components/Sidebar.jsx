@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Compass,
   GitCompare,
+  GitBranch,
   Layers,
   Cpu,
   ChevronDown,
@@ -51,6 +52,7 @@ export function Sidebar() {
     location.pathname.startsWith('/domains') ||
     location.pathname.startsWith('/compare') ||
     location.pathname.startsWith('/skill-analyzer') ||
+    location.pathname.startsWith('/github-scanner') ||
     location.pathname.startsWith('/role-analyzer') ||
     location.pathname.startsWith('/career-explorer');
 
@@ -153,6 +155,7 @@ export function Sidebar() {
     { to: '/career-explorer/companies', label: 'IT Companies by Location', icon: MapPin },
     { to: '/compare', label: 'Compare Career Roles', icon: GitCompare },
     { to: '/skill-analyzer', label: 'Industry Skill Analyzer', icon: Layers },
+    { to: '/github-scanner', label: 'GitHub Repo Scanner', icon: GitBranch },
     { to: '/role-analyzer', label: 'Role Requirement Engine', icon: Cpu },
   ];
 

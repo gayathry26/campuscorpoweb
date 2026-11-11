@@ -93,7 +93,10 @@ export function Login({ portal = 'student' }) {
     setLoading(false);
 
     if (res.success) {
-      navigate(config.redirectPath);
+      const destination = location.state?.from?.pathname
+        ? `${location.state.from.pathname}${location.state.from.search || ''}`
+        : config.redirectPath;
+      navigate(destination, { replace: true });
     } else {
       setError(res.message || 'Invalid username or password.');
     }

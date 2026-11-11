@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { apiFetch, getSessionUser } from '../services/api';
 import { useProctor, ProctorHUD } from '../components/ExamProctor';
 import CodeEditor, { extractCodeFromQuestion } from '../components/CodeEditor';
 import ExamRules from './ExamRules';
+import { ShieldCheck, ArrowRight, Lock, CheckCircle2, AlertTriangle, UserCheck } from 'lucide-react';
 
 const ExamScreen = ({
   initialPhase,
@@ -13,20 +15,66 @@ const ExamScreen = ({
   selectedTestId: propTestId
 }) => {
   const { user: authUser } = useAuth();
+  const { currentTheme, isDark } = useTheme();
   const sessionUser = getSessionUser();
-  const user = authUser ? {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
+  const styles = useMemo(() => getExamStyles(isDark), [isDark]);
+
+  // Support guest candidate info if opened via shared public link
+  const [guestCandidate, setGuestCandidate] = useState(() => {
+    try {
+      const saved = localStorage.getItem('placement_guest_candidate');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const [checkinForm, setCheckinForm] = useState({
+    name: '',
+    rollNumber: '',
+    email: '',
+    department: 'Computer Science & Engineering',
+  });
+
+  const activeUser = authUser ? {
     ...authUser,
     id: authUser.id || 1,
     name: `${authUser.firstName || ''} ${authUser.lastName || ''}`.trim() || authUser.name || 'Candidate',
     roll_number: authUser.registerNumber || authUser.rollNumber || '2023CSE001',
     department: authUser.departmentCode || 'CSE',
-    role: (authUser.roleName || 'STUDENT').toLowerCase()
-  } : (sessionUser || { name: 'Student Candidate', roll_number: '2023CSE001', department: 'CSE', role: 'student' });
+    email: authUser.email || '',
+    role: (authUser.roleName || 'STUDENT').toLowerCase(),
+    isGuest: false
+  } : (sessionUser ? {
+    ...sessionUser,
+    isGuest: false
+  } : (guestCandidate ? {
+    ...guestCandidate,
+    isGuest: true
+  } : null));
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const selectedTestId = propTestId || location.state?.test_id;
-  const [phase, setPhase] = useState(autoStart || initialPhase === 'exam' ? 'exam' : 'rules'); // rules | exam | techSelect | result
+  const user = activeUser || {
+    name: 'Candidate',
+    roll_number: 'CANDIDATE-TEMP',
+    department: 'Engineering',
+    role: 'student',
+    isGuest: true
+  };
+
+  const searchParams = new URLSearchParams(location.search);
+  const queryTestId = searchParams.get('testId') || searchParams.get('id');
+  const routeTestId = params.testId;
+  const selectedTestId = propTestId || routeTestId || queryTestId || location.state?.test_id || 1;
+
+  // If candidate is not authenticated and hasn't checked in, prompt checkin gate
+  const [phase, setPhase] = useState(() => {
+    if (autoStart || initialPhase === 'exam') return 'exam';
+    if (!activeUser) return 'checkin';
+    return initialPhase || 'rules';
+  });
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [attempt, setAttempt] = useState(null);
@@ -87,6 +135,9 @@ const ExamScreen = ({
           attemptId: attempt?.attemptId,
           answers: payload,
           violations: violationCount ?? proctor?.violations ?? 0,
+          candidateName: user.name,
+          rollNumber: user.roll_number,
+          email: user.email,
           ipAddress: proctor?.ipAddress,
           networkStats: proctor?.networkStats,
           attentionScore: proctor?.attentionScore,
@@ -279,7 +330,41 @@ const ExamScreen = ({
     }
   }, [attempt, examPhase, phase]);
 
-  const activeTest = subjects.find(s => s.test_id === selectedTestId) || subjects[0];
+  const activeTest = subjects.find(s =>
+    String(s.test_id) === String(selectedTestId) ||
+    String(s.id) === String(selectedTestId) ||
+    String(s.code_id) === String(selectedTestId) ||
+    String(s.test_id) === String(selectedTestId).replace(/^code_/, '').replace(/^quiz_/, '') ||
+    String(s.id) === String(selectedTestId).replace(/^code_/, '').replace(/^quiz_/, '')
+  ) || subjects[0] || {
+    id: selectedTestId,
+    test_id: selectedTestId,
+    name: 'National Campus CodeSprint 2026-27',
+    subject: 'Data Structures & Algorithms',
+    question_count: 25,
+    duration_minutes: 60
+  };
+
+  const handleCheckinSubmit = (e) => {
+    e.preventDefault();
+    if (!checkinForm.name.trim() || !checkinForm.rollNumber.trim()) return;
+
+    const guestData = {
+      name: checkinForm.name.trim(),
+      roll_number: checkinForm.rollNumber.trim().toUpperCase(),
+      email: checkinForm.email.trim(),
+      department: checkinForm.department.trim() || 'Computer Science & Engineering',
+      role: 'student',
+      isGuest: true
+    };
+
+    try {
+      localStorage.setItem('placement_guest_candidate', JSON.stringify(guestData));
+    } catch (err) {}
+
+    setGuestCandidate(guestData);
+    setPhase('rules');
+  };
 
   const startExam = async (chosenTech) => {
     try {
@@ -289,14 +374,16 @@ const ExamScreen = ({
       }
       proctor.enterFullscreen();
 
+      const rawId = String(selectedTestId).replace(/^code_/, '').replace(/^quiz_/, '');
       const testSubject = activeTest?.subject || 'DSA';
       let data = null;
       try {
         data = await apiFetch('/api/student/quiz/attempts/start', {
           method: 'POST',
           body: JSON.stringify({
+            testId: rawId,
             subject: testSubject,
-            duration_minutes: 60
+            duration_minutes: activeTest?.duration_minutes || activeTest?.duration || 60
           })
         });
       } catch (e) {
@@ -472,6 +559,140 @@ const ExamScreen = ({
       });
     }
   }, [q?.id]);
+
+  // ─── CANDIDATE CHECK-IN GATE (FOR GUEST / SHARED LINK ACCESS) ───
+  if (phase === 'checkin') {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4 sm:p-6 font-sans relative overflow-hidden">
+        {/* Ambient Theme Glow Accent */}
+        <div
+          className="absolute -top-32 -right-32 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none"
+          style={{ background: currentTheme?.glow || 'rgba(0,0,0,0.08)' }}
+        />
+
+        <div className="w-full max-w-xl bg-card text-card-foreground rounded-3xl border border-border shadow-xl p-6 sm:p-8 space-y-6 relative z-10">
+          <div className="text-center space-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-card p-2 shadow-xs flex items-center justify-center mx-auto mb-2 border border-border overflow-hidden">
+              <img src="/logo-light.jpeg" alt="CampusCorp Logo" className="w-full h-full object-contain dark:hidden" />
+              <img src="/logo-dark.jpeg" alt="CampusCorp Logo" className="w-full h-full object-contain hidden dark:block" />
+            </div>
+
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-1 border"
+              style={{
+                backgroundColor: currentTheme?.primaryLight,
+                color: currentTheme?.primaryText,
+                borderColor: currentTheme?.primaryBorder,
+              }}
+            >
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              CampusCorp Proctored Assessment Gate
+            </span>
+
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+              {activeTest?.name || 'Institutional Examination'}
+            </h1>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
+              Please enter your candidate credentials below to enter the examination environment.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-secondary border border-border flex items-center justify-between text-xs sm:text-sm">
+            <div>
+              <span className="text-muted-foreground block text-[11px] uppercase tracking-wider font-bold">Subject / Module</span>
+              <span className="font-semibold text-foreground">{activeTest?.subject || 'Engineering & CodeSprint'}</span>
+            </div>
+            <div className="text-right">
+              <span className="text-muted-foreground block text-[11px] uppercase tracking-wider font-bold">Duration</span>
+              <span className="font-semibold text-foreground">{activeTest?.duration_minutes || activeTest?.duration || 60} Minutes</span>
+            </div>
+          </div>
+
+          <form onSubmit={handleCheckinSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                Candidate Full Name *
+              </label>
+              <input
+                type="text"
+                required
+                value={checkinForm.name}
+                onChange={(e) => setCheckinForm({ ...checkinForm, name: e.target.value })}
+                placeholder="e.g. Aditya Varma"
+                className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-border text-sm font-medium transition-all"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                  Registration / Roll No *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={checkinForm.rollNumber}
+                  onChange={(e) => setCheckinForm({ ...checkinForm, rollNumber: e.target.value })}
+                  placeholder="e.g. 2024CS108"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-border text-sm font-medium transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={checkinForm.email}
+                  onChange={(e) => setCheckinForm({ ...checkinForm, email: e.target.value })}
+                  placeholder="e.g. candidate@university.edu"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-border text-sm font-medium transition-all"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                Department / Program
+              </label>
+              <input
+                type="text"
+                value={checkinForm.department}
+                onChange={(e) => setCheckinForm({ ...checkinForm, department: e.target.value })}
+                placeholder="e.g. Computer Science & Engineering"
+                className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-border text-sm font-medium transition-all"
+              />
+            </div>
+
+            <div className="pt-2">
+              <button
+                type="submit"
+                className="w-full py-3.5 px-6 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
+                style={{
+                  backgroundColor: currentTheme?.primary || '#171717',
+                  color: isDark ? '#0a0a0a' : '#ffffff',
+                }}
+              >
+                <span>Proceed to Examination Instructions & Rules</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </form>
+
+          <div className="text-center pt-2 border-t border-border">
+            <Link
+              to="/login"
+              className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Already registered with an institutional account? Log in here
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // ─── RULES PHASE ───
   if (phase === 'rules') {
@@ -750,7 +971,7 @@ const ExamScreen = ({
     (q?.subject || '').toLowerCase().includes('iot');
   const { text: qText, code: qCode, language: qLang } = extractCodeFromQuestion(q?.question || '');
 
-  const watermarkTextStr = `CAMPUSSCORP PROCTORED EXAM • ${user?.roll_number || 'STUDENT'} • ${user?.name || 'CANDIDATE'} • CONFIDENTIAL`;
+  const watermarkTextStr = `CAMPUSCORP PROCTORED EXAM • ${user?.roll_number || 'STUDENT'} • ${user?.name || 'CANDIDATE'} • CONFIDENTIAL • ${proctor?.ipAddress || '127.0.0.1'}`;
 
   return (
     <div style={styles.examContainer}>
@@ -800,22 +1021,67 @@ const ExamScreen = ({
         </div>
       )}
 
-      {/* Fullscreen Lost — Force Re-entry */}
-      {proctor.fullscreenLost && !proctor.frozen && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(15, 23, 42, 0.96)', zIndex: 9998, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', textAlign: 'center', padding: 24, backdropFilter: 'blur(10px)' }}>
-          <div style={{ width: 68, height: 68, borderRadius: '50%', background: '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#d97706' }}>
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+      {/* Fullscreen Lost / Windowed — Force Fullscreen Lock */}
+      {(!proctor.isFullscreen || proctor.fullscreenLost) && !proctor.frozen && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#0a0f1d', zIndex: 999999, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', textAlign: 'center', padding: 24, userSelect: 'none' }}>
+          <div style={{ width: 76, height: 76, borderRadius: '50%', background: 'rgba(239, 68, 68, 0.15)', border: '2px solid rgba(239, 68, 68, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px', color: '#ef4444', boxShadow: '0 0 30px rgba(239, 68, 68, 0.3)' }}>
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           </div>
-          <h2 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 900, marginBottom: 8 }}>FULLSCREEN REQUIRED</h2>
-          <p style={{ color: '#cbd5e1', fontSize: '0.95rem', maxWidth: 480, lineHeight: 1.6, marginBottom: 24 }}>
-            Mandatory fullscreen mode is enforced during examinations. Exiting fullscreen mode triggers a proctoring violation.<br />
-            <strong>Current Strikes: {proctor.violations} / {proctor.maxViolations}</strong>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 14px', borderRadius: 20, background: 'rgba(239, 68, 68, 0.2)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#f87171', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444', display: 'inline-block' }} />
+            Security Perimeter Active
+          </div>
+          <h2 style={{ color: '#fff', fontSize: '1.9rem', fontWeight: 900, marginBottom: 8, letterSpacing: '-0.02em' }}>MANDATORY FULLSCREEN LOCK</h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.98rem', maxWidth: 500, lineHeight: 1.6, marginBottom: 20 }}>
+            Mandatory fullscreen mode is enforced during examinations. Exam content is locked and obscured.<br />
+            <strong style={{ color: '#f59e0b', display: 'inline-block', marginTop: 6 }}>Current Strikes: {proctor.violations} / {proctor.maxViolations} Recorded</strong>
           </p>
+
+          <div style={{ display: 'flex', gap: 8, marginBottom: 26 }}>
+            {Array.from({ length: proctor.maxViolations }).map((_, idx) => (
+              <div
+                key={idx}
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: '50%',
+                  background: idx < proctor.violations ? '#ef4444' : 'rgba(255, 255, 255, 0.1)',
+                  border: idx < proctor.violations ? '2px solid #f87171' : '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: idx < proctor.violations ? '0 0 8px #ef4444' : 'none'
+                }}
+              />
+            ))}
+          </div>
+
           <button
             onClick={() => proctor.forceFullscreen()}
-            style={{ padding: '16px 48px', borderRadius: 14, background: '#2563eb', color: '#fff', fontWeight: 800, fontSize: '1rem', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(37, 99, 235, 0.4)', transition: 'transform 0.15s ease' }}
+            style={{ padding: '16px 48px', borderRadius: 14, background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', fontWeight: 800, fontSize: '1rem', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(37, 99, 235, 0.4)', transition: 'transform 0.15s ease', display: 'flex', alignItems: 'center', gap: 10 }}
           >
-            Resume Fullscreen Examination
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            <span>Resume Fullscreen Examination</span>
+          </button>
+        </div>
+      )}
+
+      {/* Focus Lost Modal */}
+      {proctor.focusLostAlert && !proctor.frozen && proctor.isFullscreen && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(15, 23, 42, 0.96)', zIndex: 999998, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', textAlign: 'center', padding: 24, userSelect: 'none' }}>
+          <div style={{ width: 68, height: 68, borderRadius: '50%', background: '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#d97706' }}>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <h2 style={{ color: '#f59e0b', fontSize: '1.75rem', fontWeight: 900, marginBottom: 8 }}>FOCUS LOSS RECORDED</h2>
+          <p style={{ color: '#cbd5e1', fontSize: '0.95rem', maxWidth: 480, lineHeight: 1.6, marginBottom: 24 }}>
+            Active window focus was lost (tab switched, minimized, or application changed). A strike has been logged against your test.<br />
+            <strong>Strikes: {proctor.violations} / {proctor.maxViolations}</strong>
+          </p>
+          <button
+            onClick={() => {
+              proctor.setFocusLostAlert?.(false);
+              window.focus();
+            }}
+            style={{ padding: '14px 40px', borderRadius: 12, background: '#d97706', color: '#fff', fontWeight: 800, fontSize: '0.95rem', border: 'none', cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)' }}
+          >
+            Resume Active Examination Focus
           </button>
         </div>
       )}
@@ -882,8 +1148,8 @@ const ExamScreen = ({
           )}
           <img src="/logo-light.jpeg" alt="CampusCorp Logo" style={{ ...styles.logo, background: '#fff', objectFit: 'contain', padding: '2px', borderRadius: '8px' }} />
           <div>
-            <p style={{ color: '#0f172a', fontWeight: 800, fontSize: '0.9rem' }}>CAMPUSSCORP CodeSprint LMS</p>
-            <p style={{ color: '#64748b', fontSize: '0.72rem' }}>{user?.name} • {user?.department}</p>
+            <p style={{ color: isDark ? '#fafafa' : '#0f172a', fontWeight: 800, fontSize: '0.9rem' }}>CampusCorp CodeSprint LMS</p>
+            <p style={{ color: isDark ? '#a1a1a1' : '#64748b', fontSize: '0.72rem' }}>{user?.name} • {user?.department}</p>
           </div>
         </div>
         <div style={styles.topCenter}>
@@ -895,6 +1161,31 @@ const ExamScreen = ({
           </div>
         </div>
         <div style={styles.topRight}>
+          <button
+            type="button"
+            onClick={() => {
+              const shareUrl = `${window.location.origin}/exam?testId=${selectedTestId}&subject=${encodeURIComponent(activeTest?.subject || activeTest?.title || 'DSA')}`;
+              navigator.clipboard.writeText(shareUrl);
+              proctor.showWarning ? proctor.showWarning('Exam invitation link copied to clipboard!', 'info') : alert('Exam link copied: ' + shareUrl);
+            }}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 8,
+              background: isDark ? '#262626' : '#f1f5f9',
+              color: isDark ? '#fafafa' : '#0f172a',
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              border: isDark ? '1px solid #333' : '1px solid #cbd5e1',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5
+            }}
+            title="Copy shareable link for this examination"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+            <span>Share Link</span>
+          </button>
           <div style={styles.violationBadge}>
             <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b' }}>STRIKES</span>
             <span style={{ color: proctor.violations > 0 ? '#ef4444' : '#10b981', fontWeight: 800, fontSize: '0.78rem' }}>
@@ -1891,11 +2182,11 @@ const ExamScreen = ({
   );
 };
 
-const styles = {
-  loadingScreen: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' },
-  spinner: { width: 40, height: 40, border: '3px solid #e2e8f0', borderTopColor: '#0f172a', borderRadius: '50%', animation: 'spin 0.8s linear infinite' },
-  backBtn: { marginTop: 16, padding: '10px 20px', borderRadius: 10, background: '#fff', border: '1px solid #e2e8f0', color: '#0f172a', cursor: 'pointer', fontWeight: 600 },
-  examContainer: { minHeight: '100vh', background: '#f8fafc', fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", position: 'relative', overflow: 'hidden' },
+const getExamStyles = (isDark = false) => ({
+  loadingScreen: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: isDark ? '#0a0a0a' : '#f8fafc' },
+  spinner: { width: 40, height: 40, border: isDark ? '3px solid #262626' : '3px solid #e2e8f0', borderTopColor: isDark ? '#fafafa' : '#0f172a', borderRadius: '50%', animation: 'spin 0.8s linear infinite' },
+  backBtn: { marginTop: 16, padding: '10px 20px', borderRadius: 10, background: isDark ? '#171717' : '#fff', border: isDark ? '1px solid #262626' : '1px solid #e2e8f0', color: isDark ? '#fafafa' : '#0f172a', cursor: 'pointer', fontWeight: 600 },
+  examContainer: { minHeight: '100vh', background: isDark ? '#0a0a0a' : '#f8fafc', color: isDark ? '#fafafa' : '#0f172a', fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif", position: 'relative', overflow: 'hidden' },
   watermarkOverlay: {
     position: 'fixed',
     top: 0,
@@ -1908,63 +2199,63 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     alignContent: 'space-around',
-    opacity: 0.30,
+    opacity: isDark ? 0.12 : 0.16,
     overflow: 'hidden',
     userSelect: 'none'
   },
   watermarkText: {
-    fontSize: '0.85rem',
-    fontWeight: 900,
+    fontSize: '0.82rem',
+    fontWeight: 800,
     transform: 'rotate(-25deg)',
     margin: '35px',
     whiteSpace: 'nowrap',
-    color: '#090d16',
+    color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(15,23,42,0.35)',
     letterSpacing: '0.08rem',
     fontFamily: 'monospace'
   },
-  warningBanner: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '10px 20px', background: '#1e293b', color: '#fff', textAlign: 'center', fontWeight: 700, fontSize: '0.85rem', animation: 'slideDown 0.3s ease' },
-  topBar: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', borderBottom: '1px solid #e2e8f0', background: '#ffffff', position: 'sticky', top: 0, zIndex: 50 },
+  warningBanner: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '10px 20px', background: isDark ? '#262626' : '#1e293b', color: '#fff', textAlign: 'center', fontWeight: 700, fontSize: '0.85rem', animation: 'slideDown 0.3s ease' },
+  topBar: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', borderBottom: isDark ? '1px solid #262626' : '1px solid #e5e5e5', background: isDark ? '#171717' : '#ffffff', position: 'sticky', top: 0, zIndex: 50 },
   topLeft: { display: 'flex', alignItems: 'center', gap: 10 },
-  logo: { width: 36, height: 36, borderRadius: 10, background: '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: '#fff', fontSize: '0.85rem' },
+  logo: { width: 36, height: 36, borderRadius: 10, background: isDark ? '#262626' : '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: '#fff', fontSize: '0.85rem' },
   topCenter: { position: 'absolute', left: '50%', transform: 'translateX(-50%)' },
-  timerBox: { padding: '8px 24px', borderRadius: 12, border: '2px solid', background: '#f8fafc' },
+  timerBox: { padding: '8px 24px', borderRadius: 12, border: '2px solid', background: isDark ? '#262626' : '#f8fafc' },
   topRight: { display: 'flex', alignItems: 'center', gap: 10 },
-  violationBadge: { display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', borderRadius: 8, background: '#f1f5f9', border: '1px solid #e2e8f0' },
-  submitBtn: { padding: '8px 18px', borderRadius: 10, background: '#1e293b', color: '#fff', fontWeight: 700, fontSize: '0.82rem', border: 'none', cursor: 'pointer', boxShadow: 'none' },
-  progressTrack: { height: 3, background: '#e2e8f0' },
-  progressFill: { height: '100%', background: '#334155', transition: 'width 0.5s ease', borderRadius: 2 },
-  mainGrid: {}, // managed by css class
-  threeColGrid: {}, // managed by css class
+  violationBadge: { display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', borderRadius: 8, background: isDark ? '#262626' : '#f1f5f9', border: isDark ? '1px solid #333' : '1px solid #e2e8f0' },
+  submitBtn: { padding: '8px 18px', borderRadius: 10, background: isDark ? '#fafafa' : '#171717', color: isDark ? '#0a0a0a' : '#fff', fontWeight: 700, fontSize: '0.82rem', border: 'none', cursor: 'pointer', boxShadow: 'none' },
+  progressTrack: { height: 3, background: isDark ? '#262626' : '#e2e8f0' },
+  progressFill: { height: '100%', background: isDark ? '#fafafa' : '#171717', transition: 'width 0.5s ease', borderRadius: 2 },
+  mainGrid: {},
+  threeColGrid: {},
   leftColQuestion: { display: 'flex', flexDirection: 'column', gap: 16, overflowY: 'auto', maxHeight: 'calc(100vh - 92px)' },
   centerColAnswer: { display: 'flex', flexDirection: 'column', gap: 16, minHeight: 'calc(100vh - 92px)' },
   rightColData: { display: 'flex', flexDirection: 'column', gap: 16, overflowY: 'auto', maxHeight: 'calc(100vh - 92px)' },
   questionArea: { padding: 20, overflowY: 'auto' },
-  questionCard: { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 18, padding: 24, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' },
+  questionCard: { background: isDark ? '#171717' : '#ffffff', border: isDark ? '1px solid #262626' : '1px solid #e5e5e5', borderRadius: 18, padding: 24, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' },
   questionHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  qNumber: { color: '#0f172a', fontWeight: 800, fontSize: '0.85rem' },
+  qNumber: { color: isDark ? '#fafafa' : '#0f172a', fontWeight: 800, fontSize: '0.85rem' },
   markBtn: { padding: '6px 14px', borderRadius: 8, border: '1px solid', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' },
-  questionText: { color: '#1e293b', fontSize: '1rem', lineHeight: 1.7, marginBottom: 20, fontWeight: 500, whiteSpace: 'pre-wrap' },
+  questionText: { color: isDark ? '#e5e5e5' : '#1e293b', fontSize: '1rem', lineHeight: 1.7, marginBottom: 20, fontWeight: 500, whiteSpace: 'pre-wrap' },
   optionsGrid: { display: 'grid', gap: 10 },
   optionLabel: { display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderRadius: 14, border: '1px solid', cursor: 'pointer', transition: 'all 0.2s ease' },
   radioCircle: { width: 20, height: 20, borderRadius: '50%', border: '2px solid', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.2s' },
   optionKey: { width: 28, height: 28, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.78rem', flexShrink: 0 },
   navRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 24, gap: 10 },
-  navBtn: { padding: '10px 22px', borderRadius: 12, border: '1px solid #e2e8f0', background: '#f8fafc', color: '#0f172a', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' },
-  clearBtn: { padding: '10px 18px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' },
-  paletteSide: { borderLeft: '1px solid #e2e8f0', padding: 16, display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', maxHeight: 'calc(100vh - 60px)', position: 'sticky', top: 60, background: '#f8fafc' },
-  paletteCard: { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 14, padding: 16 },
+  navBtn: { padding: '10px 22px', borderRadius: 12, border: isDark ? '1px solid #262626' : '1px solid #e2e8f0', background: isDark ? '#262626' : '#f8fafc', color: isDark ? '#fafafa' : '#0f172a', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' },
+  clearBtn: { padding: '10px 18px', borderRadius: 10, border: isDark ? '1px solid #262626' : '1px solid #e2e8f0', background: isDark ? '#171717' : '#fff', color: isDark ? '#a1a1a1' : '#64748b', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' },
+  paletteSide: { borderLeft: isDark ? '1px solid #262626' : '1px solid #e2e8f0', padding: 16, display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', maxHeight: 'calc(100vh - 60px)', position: 'sticky', top: 60, background: isDark ? '#121212' : '#f8fafc' },
+  paletteCard: { background: isDark ? '#171717' : '#ffffff', border: isDark ? '1px solid #262626' : '1px solid #e5e5e5', borderRadius: 14, padding: 16 },
   legend: { display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 14 },
-  legendItem: { display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.7rem', color: '#64748b' },
+  legendItem: { display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.7rem', color: isDark ? '#a1a1a1' : '#64748b' },
   dot: { width: 8, height: 8, borderRadius: '50%' },
   paletteGrid: { display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 },
   paletteBtn: { width: '100%', aspectRatio: '1', borderRadius: 8, border: '1px solid', fontSize: '0.75rem', cursor: 'pointer', transition: 'all 0.15s' },
   miniStat: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  resultScreen: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', padding: 20, fontFamily: "'Inter', system-ui, sans-serif" },
-  resultCard: { width: '100%', maxWidth: 500, background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 24, padding: 32, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' },
-  statBox: { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: 16, textAlign: 'center' },
-  statLabel: { color: '#64748b', fontSize: '0.75rem', fontWeight: 600, marginBottom: 6 },
-  statValue: { color: '#0f172a', fontSize: '1.3rem', fontWeight: 900 },
-  doneBtn: { width: '100%', padding: '14px', borderRadius: 14, background: '#1e293b', color: '#fff', fontWeight: 800, fontSize: '0.9rem', border: 'none', cursor: 'pointer', boxShadow: 'none' }
-};
+  resultScreen: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: isDark ? '#0a0a0a' : '#f8fafc', padding: 20, fontFamily: "'Inter', system-ui, sans-serif" },
+  resultCard: { width: '100%', maxWidth: 500, background: isDark ? '#171717' : '#ffffff', border: isDark ? '1px solid #262626' : '1px solid #e2e8f0', borderRadius: 24, padding: 32, boxShadow: '0 4px 6px rgba(0,0,0,0.05)', color: isDark ? '#fafafa' : '#0a0a0a' },
+  statBox: { background: isDark ? '#262626' : '#f8fafc', border: isDark ? '1px solid #333' : '1px solid #e2e8f0', borderRadius: 14, padding: 16, textAlign: 'center' },
+  statLabel: { color: isDark ? '#a1a1a1' : '#64748b', fontSize: '0.75rem', fontWeight: 600, marginBottom: 6 },
+  statValue: { color: isDark ? '#fafafa' : '#0f172a', fontSize: '1.3rem', fontWeight: 900 },
+  doneBtn: { width: '100%', padding: '14px', borderRadius: 14, background: isDark ? '#fafafa' : '#1e293b', color: isDark ? '#0a0a0a' : '#fff', fontWeight: 800, fontSize: '0.9rem', border: 'none', cursor: 'pointer', boxShadow: 'none' }
+});
 
 export default ExamScreen;

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { ShieldCheck, Clock, CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Clock, CheckCircle2, ArrowRight, ArrowLeft, Share2, Check } from 'lucide-react';
 
 export default function ExamRules({ subject, totalQuestions = 30, duration = 45, onStartExam, onGoBack }) {
   const { currentTheme } = useTheme();
   const [agreed, setAgreed] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const rules = [
     { title: 'Secure Proctored Environment', desc: 'The exam will run securely in this browser with AI proctoring active.' },
@@ -62,6 +63,22 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
               <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               {totalQuestions} Questions (MCQ + Code)
             </span>
+            <button
+              type="button"
+              onClick={() => {
+                const shareUrl = window.location.href.includes('/exam')
+                  ? window.location.href
+                  : `${window.location.origin}/exam?subject=${encodeURIComponent(subject || 'DSA')}`;
+                navigator.clipboard.writeText(shareUrl);
+                setCopiedLink(true);
+                setTimeout(() => setCopiedLink(false), 2500);
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground text-sm font-semibold flex items-center gap-2 border border-border cursor-pointer transition-colors"
+              title="Copy shareable link for this exam"
+            >
+              {copiedLink ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4 text-muted-foreground" />}
+              <span>{copiedLink ? 'Link Copied!' : 'Share Exam Link'}</span>
+            </button>
           </div>
         </div>
 
@@ -131,9 +148,8 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
                 }
                 onStartExam && onStartExam(e);
               }}
-              className="w-full sm:w-auto ml-auto px-6 py-3 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto ml-auto px-6 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
               style={{
-                backgroundColor: currentTheme.primary,
                 boxShadow: agreed ? `0 4px 14px 0 ${currentTheme.glow}` : undefined,
               }}
             >

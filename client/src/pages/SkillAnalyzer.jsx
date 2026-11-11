@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import apiClient from '../api/client';
 import {
@@ -8,6 +8,7 @@ import {
   Cpu,
   Layers,
   GitCompare,
+  GitBranch,
   ShieldCheck,
   RotateCcw,
   Sliders,
@@ -345,6 +346,15 @@ export function SkillAnalyzer() {
 
         {/* Top Actions: Admin & Assessment Shortcuts */}
         <div className="flex items-center gap-2 shrink-0">
+          <Link
+            to="/github-scanner"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-300 hover:bg-blue-500/20 transition-all cursor-pointer shadow-2xs"
+            title="Scan public GitHub repositories and verify portfolio skills"
+          >
+            <GitBranch className="w-4 h-4" />
+            <span>Scan GitHub Repo</span>
+          </Link>
+
           <button
             onClick={() => setIsAssessmentModalOpen(true)}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer shadow-2xs"

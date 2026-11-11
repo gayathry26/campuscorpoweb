@@ -39,7 +39,8 @@ import {
   ExternalLink,
   ThumbsUp,
   SlidersHorizontal,
-  User
+  User,
+  Share2
 } from 'lucide-react';
 
 // Default Fallback STUN Servers
@@ -63,9 +64,23 @@ export function InterviewRoomPage() {
   const canCreate = isPlacement || isTeacher;
   const isStudent = userRole === 'STUDENT';
 
+  // Guest Access State (for shared links opened by non-authenticated candidates/peers)
+  const [guestName, setGuestName] = useState(() => {
+    try {
+      return localStorage.getItem('uniserve_guest_name') || '';
+    } catch (e) {
+      return '';
+    }
+  });
+  const [guestRole, setGuestRole] = useState('STUDENT');
+  const [guestJoined, setGuestJoined] = useState(Boolean(user));
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const guestVideoRef = useRef(null);
+
   // State: Mode & Room
   const [activeRoomCode, setActiveRoomCode] = useState(paramRoomCode || '');
-  const [inCall, setInCall] = useState(Boolean(paramRoomCode));
+  const [inCall, setInCall] = useState(Boolean(paramRoomCode) && Boolean(user));
   const [interviewDetails, setInterviewDetails] = useState(null);
   const [scheduledInterviews, setScheduledInterviews] = useState([]);
   const [loadingSchedule, setLoadingSchedule] = useState(false);
@@ -285,34 +300,41 @@ export function InterviewRoomPage() {
     };
   }, []);
 
-  // Re-attach local stream whenever inCall toggles
+  // Re-attach local stream whenever inCall toggles or guest preview renders
   useEffect(() => {
     if (localVideoRef.current && localStreamRef.current) {
       localVideoRef.current.srcObject = localStreamRef.current;
     }
-  }, [inCall]);
+    if (guestVideoRef.current && localStreamRef.current) {
+      guestVideoRef.current.srcObject = localStreamRef.current;
+    }
+  }, [inCall, guestJoined]);
 
   // 7. WebRTC & Socket.io Signaling Engine
   useEffect(() => {
-    if (!inCall || !activeRoomCode) return;
+    if (!inCall || !activeRoomCode || (!user && !guestJoined)) return;
 
     const currentRoom = activeRoomCode;
     const userName = user
       ? `${user.firstName || user.first_name || ''} ${user.lastName || user.last_name || ''}`.trim() || user.username
-      : 'Participant';
+      : (guestName.trim() || 'Guest Candidate');
+    const effectiveRole = user ? userRole : guestRole;
     const userPayload = {
       id: user?.id || Date.now(),
       name: userName,
-      role: userRole,
-      student_roll: user?.rollNumber || user?.roll_number || ''
+      role: effectiveRole,
+      student_roll: user?.rollNumber || user?.roll_number || 'Candidate'
     };
 
     // Multi-tab fallback channel
     const bc = new BroadcastChannel(`uniserve_meet_${currentRoom}`);
     broadcastChannelRef.current = bc;
 
-    // Connect Socket.io client (dynamically connects to the current single host/port)
-    const socket = io(window.location.origin || 'http://localhost:5000', {
+    // Connect Socket.io client (dynamically connects to port 5000 in dev or current origin)
+    const socketServerUrl = window.location.port === '5173'
+      ? 'http://localhost:5000'
+      : (window.location.origin || 'http://localhost:5000');
+    const socket = io(socketServerUrl, {
       transports: ['websocket', 'polling'],
       reconnectionAttempts: 5,
       timeout: 10000
@@ -449,8 +471,8 @@ export function InterviewRoomPage() {
 
     // Socket Connection Event Handlers
     socket.on('connect', () => {
-      // If student is entering a panel meet, wait in lobby until host admits
-      if (isStudent && !wasAdmitted) {
+      // If candidate is entering a panel meet, wait in lobby until host admits
+      if (effectiveRole === 'STUDENT' && !wasAdmitted) {
         setIsWaitingInLobby(true);
         socket.emit('candidate-waiting', {
           roomId: currentRoom,
@@ -913,6 +935,173 @@ export function InterviewRoomPage() {
     const completed = scheduledInterviews.filter((i) => i.status === 'COMPLETED').length;
     return { total, scheduled, completed };
   }, [scheduledInterviews]);
+
+  // =========================================================================
+  // VIEW: GUEST CHECK-IN & HARDWARE PREVIEW GATE (For candidates opening shared room links)
+  // =========================================================================
+  if (paramRoomCode && !user && !guestJoined) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 font-sans select-none">
+        {/* Toast Notification Banner */}
+        {feedbackToast && (
+          <div
+            className={`fixed top-4 right-4 z-50 px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2 border transition-all ${
+              feedbackToast.type === 'success'
+                ? 'bg-slate-900 text-emerald-400 border-emerald-500/30'
+                : feedbackToast.type === 'error'
+                ? 'bg-slate-900 text-rose-400 border-rose-500/30'
+                : 'bg-slate-900 text-blue-400 border-blue-500/30'
+            }`}
+          >
+            {feedbackToast.type === 'success' && <Check size={14} />}
+            {feedbackToast.type === 'error' && <AlertTriangle size={14} />}
+            {feedbackToast.type === 'info' && <Info size={14} />}
+            <span>{feedbackToast.message}</span>
+          </div>
+        )}
+
+        <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Header */}
+          <div className="flex items-center gap-3 pb-6 border-b border-slate-800">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
+              <Video size={24} />
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-1">
+                <Shield size={12} />
+                <span>Encrypted WebRTC Session</span>
+              </div>
+              <h2 className="text-xl font-bold text-white tracking-tight">Join Virtual Technical Interview</h2>
+              <p className="text-xs text-slate-400">
+                Meeting Room Code: <span className="font-mono text-blue-400 font-bold">{activeRoomCode}</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Video & Hardware Preview */}
+          <div className="my-5 relative rounded-2xl overflow-hidden bg-slate-950 aspect-video border border-slate-800 flex items-center justify-center">
+            <video
+              ref={guestVideoRef}
+              autoPlay
+              playsInline
+              muted
+              className={`w-full h-full object-cover transform -scale-x-100 ${!cameraOn ? 'hidden' : ''}`}
+            />
+            {!cameraOn && (
+              <div className="flex flex-col items-center gap-2 text-slate-500">
+                <VideoOff size={36} />
+                <span className="text-xs font-semibold">Camera is Turned Off</span>
+              </div>
+            )}
+
+            {/* Quick Media Controls Over Video */}
+            <div className="absolute bottom-3 inset-x-0 flex items-center justify-center gap-2.5 z-10">
+              <button
+                type="button"
+                onClick={toggleMic}
+                className={`p-3 rounded-full transition-colors cursor-pointer shadow-md ${
+                  micOn ? 'bg-slate-800/90 text-white hover:bg-slate-700' : 'bg-red-500 text-white hover:bg-red-600'
+                }`}
+                title={micOn ? 'Mute Microphone' : 'Unmute Microphone'}
+              >
+                {micOn ? <Mic size={18} /> : <MicOff size={18} />}
+              </button>
+              <button
+                type="button"
+                onClick={toggleCamera}
+                className={`p-3 rounded-full transition-colors cursor-pointer shadow-md ${
+                  cameraOn ? 'bg-slate-800/90 text-white hover:bg-slate-700' : 'bg-red-500 text-white hover:bg-red-600'
+                }`}
+                title={cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
+              >
+                {cameraOn ? <Video size={18} /> : <VideoOff size={18} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Name & Role Form */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                Your Full Name <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={guestName}
+                onChange={(e) => setGuestName(e.target.value)}
+                placeholder="Enter your name (e.g. Candidate Alex Johnson)"
+                className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && guestName.trim()) {
+                    localStorage.setItem('uniserve_guest_name', guestName.trim());
+                    setGuestJoined(true);
+                    setInCall(true);
+                  }
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                Joining As
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setGuestRole('STUDENT')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+                    guestRole === 'STUDENT'
+                      ? 'bg-blue-600/20 text-blue-400 border-blue-500/50'
+                      : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'
+                  }`}
+                >
+                  Student Candidate
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGuestRole('RECRUITER')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+                    guestRole === 'RECRUITER'
+                      ? 'bg-blue-600/20 text-blue-400 border-blue-500/50'
+                      : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'
+                  }`}
+                >
+                  Guest Interviewer
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (!guestName.trim()) {
+                  showToast('Please enter your full name to join the meeting', 'error');
+                  return;
+                }
+                localStorage.setItem('uniserve_guest_name', guestName.trim());
+                setGuestJoined(true);
+                setInCall(true);
+              }}
+              className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-98"
+            >
+              <span>Join Interview Room Now</span>
+              <ChevronRight size={16} />
+            </button>
+
+            <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-800">
+              <span>Low-latency WebRTC P2P mesh</span>
+              <Link to="/login" className="text-blue-400 hover:underline">
+                CampusCorp Login
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // =========================================================================
   // VIEW A: LOBBY & MANAGEMENT WORKSPACE (When not inside a call)
@@ -1980,11 +2169,12 @@ export function InterviewRoomPage() {
           <span className="font-mono text-white font-semibold">{activeRoomCode}</span>
           <button
             type="button"
-            onClick={() => handleCopyCode()}
-            className="p-1 rounded text-slate-400 hover:text-white hover:bg-white/10 ml-1 transition-colors"
-            title="Copy Meeting Link"
+            onClick={() => setShowShareModal(true)}
+            className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 text-xs font-bold flex items-center gap-1.5 ml-1 transition-colors cursor-pointer border border-blue-500/30"
+            title="Share Meeting Link & Code"
           >
-            {copiedCode ? <CheckCheck size={14} className="text-foreground" /> : <Copy size={14} />}
+            <Share2 size={13} />
+            <span>Share Link</span>
           </button>
         </div>
 
@@ -2099,6 +2289,15 @@ export function InterviewRoomPage() {
 
           <button
             type="button"
+            onClick={() => setShowShareModal(true)}
+            className="w-10 h-10 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            title="Share Meeting Link & Invitation"
+          >
+            <Share2 size={18} />
+          </button>
+
+          <button
+            type="button"
             onClick={() => showToast('End-to-end WebRTC DTLS/SRTP encryption is active.', 'info')}
             className="w-10 h-10 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
             title="Security Architecture"
@@ -2107,6 +2306,111 @@ export function InterviewRoomPage() {
           </button>
         </div>
       </footer>
+
+      {/* Universal Share Meeting Link Modal */}
+      {showShareModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs">
+          <div className="bg-slate-900 border border-slate-800 text-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30">
+                  <Share2 size={20} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-base">Share Interview Invitation</h3>
+                  <p className="text-xs text-slate-400">Invite candidate or external evaluator</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowShareModal(false)}
+                className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white cursor-pointer transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Direct Room Link */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-400">Direct Meeting Link</label>
+              <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-800/80 border border-slate-700">
+                <input
+                  type="text"
+                  readOnly
+                  value={`${window.location.origin}/interview/room/${activeRoomCode}`}
+                  className="bg-transparent text-slate-200 text-xs font-mono flex-1 outline-none px-2 select-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const fullUrl = `${window.location.origin}/interview/room/${activeRoomCode}`;
+                    navigator.clipboard.writeText(fullUrl);
+                    setCopiedLink(true);
+                    showToast('Direct interview link copied!', 'success');
+                    setTimeout(() => setCopiedLink(false), 2500);
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-colors shrink-0"
+                >
+                  {copiedLink ? <Check size={14} /> : <Copy size={14} />}
+                  <span>{copiedLink ? 'Copied' : 'Copy'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Room Code */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-400">Meeting Room Code</label>
+              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 border border-slate-800 font-mono text-sm">
+                <span className="text-blue-400 font-bold tracking-wider">{activeRoomCode}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(activeRoomCode);
+                    showToast(`Room code copied: ${activeRoomCode}`, 'success');
+                  }}
+                  className="text-xs text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                >
+                  <Copy size={13} />
+                  <span>Copy Code</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Universal Access Note */}
+            <div className="p-3.5 rounded-xl bg-blue-600/10 border border-blue-500/20 text-xs text-blue-300 space-y-1.5">
+              <p className="font-bold flex items-center gap-1.5 text-blue-400">
+                <Shield size={14} />
+                <span>Works for anyone right now</span>
+              </p>
+              <p className="text-[11px] leading-relaxed text-blue-200/80">
+                Anyone opening this link can join directly from any browser without needing to log in. Candidates enter the lobby waiting room for host admission.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const inviteText = `CampusCorp Virtual Technical Interview\nTopic: ${interviewDetails?.topic || 'Live Technical Assessment'}\nRoom Code: ${activeRoomCode}\nJoin Link: ${window.location.origin}/interview/room/${activeRoomCode}`;
+                  navigator.clipboard.writeText(inviteText);
+                  showToast('Full invitation copied to clipboard!', 'success');
+                }}
+                className="text-xs text-blue-400 hover:text-blue-300 font-bold cursor-pointer"
+              >
+                Copy Full Invitation Text
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowShareModal(false)}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold cursor-pointer transition-colors"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

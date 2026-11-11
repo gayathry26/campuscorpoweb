@@ -55,7 +55,8 @@ const checkIsFullscreen = () => {
 export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = false }) => {
   const [violations, setViolations] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(initialFullscreen || checkIsFullscreen());
-  const [fullscreenLost, setFullscreenLost] = useState(false);
+  const [fullscreenLost, setFullscreenLost] = useState(() => enabled && !checkIsFullscreen());
+  const [focusLostAlert, setFocusLostAlert] = useState(false);
   const [warning, setWarning] = useState('');
   const [warningSeverity, setWarningSeverity] = useState('warning'); // 'info' | 'warning' | 'critical'
   const [frozen, setFrozen] = useState(false);
@@ -215,6 +216,13 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
   useEffect(() => {
     if (!enabled) return;
 
+    // Immediate check upon enabling
+    const initialFs = checkIsFullscreen();
+    setIsFullscreen(initialFs);
+    if (!initialFs) {
+      setFullscreenLost(true);
+    }
+
     const handleFsChange = () => {
       if (isExitingRef.current) {
         setIsFullscreen(false);
@@ -225,15 +233,12 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
       setIsFullscreen(isFs);
 
       if (!isFs) {
-        // Record violation ONLY if user was previously in fullscreen mode
-        if (hasEnteredFsRef.current) {
-          const now = Date.now();
-          if (now - lastFsLossRef.current > FS_COOLDOWN_MS) {
-            lastFsLossRef.current = now;
-            addViolation('Exited mandatory fullscreen mode', 'high');
-          }
-          setFullscreenLost(true);
+        const now = Date.now();
+        if (now - lastFsLossRef.current > FS_COOLDOWN_MS) {
+          lastFsLossRef.current = now;
+          addViolation('Exited mandatory fullscreen mode', 'high');
         }
+        setFullscreenLost(true);
       } else {
         hasEnteredFsRef.current = true;
         setFullscreenLost(false);
@@ -266,6 +271,7 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
         return;
       }
       lastFocusLossRef.current = now;
+      setFocusLostAlert(true);
       addViolation(reason, 'high');
     };
 
@@ -352,10 +358,11 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
       const isShift = e.shiftKey;
       const isAlt = e.altKey;
 
-      // 1. Critical Developer Tools: F12, Ctrl+Shift+I/J/C/K, Ctrl+U
+      // 1. Critical Developer Tools: F12, Ctrl+Shift+I/J/C/K, Ctrl+U, Meta+Alt+I/J
       if (
         key === 'f12' ||
         (isCtrl && isShift && ['i', 'j', 'c', 'k'].includes(key)) ||
+        (isCtrl && isAlt && ['i', 'j'].includes(key)) ||
         (isCtrl && key === 'u')
       ) {
         e.preventDefault();
@@ -364,33 +371,47 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
         return false;
       }
 
-      // 2. Page Navigation / Refresh: F5, Ctrl+R, Ctrl+W, Alt+Left/Right
+      // 1b. Fullscreen toggle interception: F11
+      if (key === 'f11') {
+        e.preventDefault();
+        e.stopPropagation();
+        showWarning('F11 fullscreen override is disabled. Exclusive proctored mode is active.', 'warning');
+        return false;
+      }
+
+      // 2. Page Navigation / Refresh / New Window: F5, Ctrl+R, Ctrl+Shift+R, Ctrl+W, Ctrl+T, Ctrl+N, Alt+Left/Right
       if (
         key === 'f5' ||
         (isCtrl && key === 'r') ||
+        (isCtrl && isShift && key === 'r') ||
         (isCtrl && key === 'w') ||
+        (isCtrl && (key === 't' || key === 'n' || key === 'h' || key === 'j')) ||
         (isAlt && (key === 'arrowleft' || key === 'arrowright'))
       ) {
         e.preventDefault();
         e.stopPropagation();
         logEvent('KEYBOARD', `Refresh/Navigation shortcut blocked (${key})`);
-        showWarning('Page refresh and navigation are blocked during active exams.', 'warning');
+        showWarning('Page refresh, tabs, and navigation are blocked during active exams.', 'warning');
         return false;
       }
 
-      // 3. Print / Save: Ctrl+P, Ctrl+S
-      if (isCtrl && (key === 'p' || key === 's')) {
+      // 3. Print / Save: Ctrl+P, Ctrl+S, Ctrl+O
+      if (isCtrl && (key === 'p' || key === 's' || key === 'o')) {
         e.preventDefault();
         e.stopPropagation();
         logEvent('KEYBOARD', `Print/Save blocked (${key})`);
+        showWarning('Printing and saving pages are prohibited during exams.', 'warning');
         return false;
       }
 
-      // 4. PrintScreen
-      if (key === 'printscreen') {
+      // 4. PrintScreen & Snipping Tool (Win+Shift+S, Meta+Shift+3/4)
+      if (
+        key === 'printscreen' ||
+        (isShift && (e.metaKey || isCtrl) && (key === 's' || key === '3' || key === '4'))
+      ) {
         e.preventDefault();
         e.stopPropagation();
-        logEvent('KEYBOARD', 'PrintScreen screenshot blocked');
+        logEvent('KEYBOARD', 'Screen capture / Snipping shortcut blocked');
         showWarning('Screen capturing is prohibited. Digital watermark active.', 'critical');
         // Flash screen briefly
         const flash = document.createElement('div');
@@ -412,20 +433,21 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
         return false;
       }
 
-      // 7. Clipboard shortcuts outside editable elements
+      // 7. Clipboard shortcuts outside editable elements & Select All (Ctrl+A)
       const target = e.target;
       const isEditable = target && (
         target.tagName === 'INPUT' ||
         target.tagName === 'TEXTAREA' ||
         target.isContentEditable ||
-        target.dataset?.coding === 'true'
+        target.dataset?.coding === 'true' ||
+        target.closest?.('.monaco-editor')
       );
 
-      if (isCtrl && ['c', 'v', 'x'].includes(key)) {
+      if (isCtrl && ['c', 'v', 'x', 'a'].includes(key)) {
         if (!isEditable) {
           e.preventDefault();
           e.stopPropagation();
-          showWarning('Clipboard actions are restricted to code editor.', 'warning');
+          showWarning('Text selection and clipboard actions are restricted on question text.', 'warning');
           return false;
         }
       }
@@ -464,6 +486,131 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
       document.removeEventListener('drop', noDrag, true);
     };
   }, [enabled, logEvent, showWarning]);
+
+  // ── CLIPBOARD & TEXT SELECTION LOCKDOWN ──
+  useEffect(() => {
+    if (!enabled) return;
+
+    const handleCopy = (e) => {
+      if (isExitingRef.current) return;
+      e.preventDefault();
+      logEvent('CLIPBOARD', 'Copy action blocked');
+      showWarning('Copying exam questions or content is strictly prohibited.', 'warning');
+    };
+
+    const handleCut = (e) => {
+      if (isExitingRef.current) return;
+      e.preventDefault();
+      logEvent('CLIPBOARD', 'Cut action blocked');
+      showWarning('Cut action is disabled during examinations.', 'warning');
+    };
+
+    const handlePaste = (e) => {
+      if (isExitingRef.current) return;
+      const target = e.target;
+      const isCodeEditor = target && (target.dataset?.coding === 'true' || target.closest?.('.monaco-editor') || target.tagName === 'TEXTAREA');
+      if (!isCodeEditor) {
+        e.preventDefault();
+        logEvent('CLIPBOARD', 'Paste action blocked on question field');
+        showWarning('Pasting into question fields is prohibited.', 'warning');
+      } else {
+        const pastedText = e.clipboardData?.getData('text') || '';
+        if (pastedText.length > 300) {
+          logEvent('CLIPBOARD', `Large code snippet pasted (${pastedText.length} chars)`);
+          showWarning('Notice: External code paste was logged for institutional integrity audit.', 'info');
+        }
+      }
+    };
+
+    const handleSelectStart = (e) => {
+      if (isExitingRef.current) return;
+      const target = e.target;
+      const isEditable = target && (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable ||
+        target.dataset?.coding === 'true' ||
+        target.closest?.('.monaco-editor')
+      );
+      if (!isEditable) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('copy', handleCopy, true);
+    document.addEventListener('cut', handleCut, true);
+    document.addEventListener('paste', handlePaste, true);
+    document.addEventListener('selectstart', handleSelectStart, true);
+
+    return () => {
+      document.removeEventListener('copy', handleCopy, true);
+      document.removeEventListener('cut', handleCut, true);
+      document.removeEventListener('paste', handlePaste, true);
+      document.removeEventListener('selectstart', handleSelectStart, true);
+    };
+  }, [enabled, logEvent, showWarning]);
+
+  // ── BROWSER NAVIGATION & BACK BUTTON LOCKDOWN ──
+  useEffect(() => {
+    if (!enabled) return;
+
+    const handleBeforeUnload = (e) => {
+      if (isExitingRef.current) return;
+      e.preventDefault();
+      e.returnValue = 'Examination in progress! Exiting will submit your examination.';
+      return e.returnValue;
+    };
+
+    // Trap history back button
+    window.history.pushState({ proctorExam: true }, '', window.location.href);
+    const handlePopState = () => {
+      if (isExitingRef.current) return;
+      window.history.pushState({ proctorExam: true }, '', window.location.href);
+      addViolation('Browser backward/forward navigation attempt blocked', 'high');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [enabled, addViolation]);
+
+  // ── DEVTOOLS DOCKING / RESIZE DETECTION ──
+  useEffect(() => {
+    if (!enabled) return;
+
+    const checkDevTools = () => {
+      if (isExitingRef.current) return;
+      if (checkIsFullscreen()) {
+        const widthDiff = window.screen.width - window.innerWidth;
+        const heightDiff = window.screen.height - window.innerHeight;
+        if (widthDiff > 180 || heightDiff > 180) {
+          addViolation('Developer Tools docked panel detected', 'critical');
+        }
+      }
+    };
+
+    window.addEventListener('resize', checkDevTools);
+    return () => window.removeEventListener('resize', checkDevTools);
+  }, [enabled, addViolation]);
+
+  // ── VIEWPORT BOUNDARY DETECTION ──
+  useEffect(() => {
+    if (!enabled) return;
+
+    const handleMouseLeave = (e) => {
+      if (isExitingRef.current) return;
+      if (e.clientY <= 0 || e.clientX <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) {
+        showWarning('Notice: Mouse cursor left the examination window bounds.', 'warning');
+      }
+    };
+
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
+    return () => document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
+  }, [enabled, showWarning]);
 
   // ── SINGLE-SESSION ENFORCER (BROADCASTCHANNEL & LOCALSTORAGE) ──
   useEffect(() => {
@@ -637,6 +784,8 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
     violations,
     isFullscreen,
     fullscreenLost,
+    focusLostAlert,
+    setFocusLostAlert,
     warning,
     warningSeverity,
     frozen,
@@ -659,7 +808,7 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
     attentionHistory,
     maxViolations: MAX_VIOLATIONS
   }), [
-    violations, isFullscreen, fullscreenLost, warning, warningSeverity, frozen,
+    violations, isFullscreen, fullscreenLost, focusLostAlert, setFocusLostAlert, warning, warningSeverity, frozen,
     eventLog, networkStats, attentionScore, ipAddress, faceStatus, idleSeconds,
     cameraActive, multiTabBlocked, enterFullscreen, exitFullscreen, forceFullscreen,
     addViolation, recordActivity, trackNavigation, attentionHistory

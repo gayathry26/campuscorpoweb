@@ -233,6 +233,7 @@ export function PermissionProvider({ children }) {
       pagePath.startsWith('/domains') ||
       pagePath.startsWith('/compare') ||
       pagePath.startsWith('/skill-analyzer') ||
+      pagePath.startsWith('/github-scanner') ||
       pagePath.startsWith('/role-analyzer') ||
       pagePath.startsWith('/career-explorer')
     ) {

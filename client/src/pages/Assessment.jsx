@@ -26,6 +26,12 @@ import {
   Filter,
   Calendar,
   CheckCircle,
+  Share2,
+  Copy,
+  ExternalLink,
+  Globe,
+  Lock,
+  X,
 } from 'lucide-react';
 
 // LMS Components & Modules
@@ -52,6 +58,33 @@ export function Assessment() {
   const [loadingAssessments, setLoadingAssessments] = useState(true);
   const [typeFilter, setTypeFilter] = useState('ALL'); // 'ALL' | 'PROGRAMMING' | 'QUIZ'
 
+  // Share Test Link Modal State
+  const [shareModalTest, setShareModalTest] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const getExamLink = (test) => {
+    const origin = window.location.origin;
+    const testParam = test?.id || test?.assessmentId || 1;
+    return `${origin}/exam?testId=${encodeURIComponent(testParam)}`;
+  };
+
+  const handleOpenShareModal = (test) => {
+    setShareModalTest(test);
+    setCopiedLink(false);
+  };
+
+  const handleCopyLink = async (test) => {
+    const link = getExamLink(test);
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopiedLink(true);
+      showToast('Exam link copied to clipboard!', 'success');
+      setTimeout(() => setCopiedLink(false), 3000);
+    } catch (e) {
+      showToast('Could not copy link to clipboard.', 'error');
+    }
+  };
+
   // Past Assessment Attempts
   const [myAttempts, setMyAttempts] = useState([]);
   const [loadingAttempts, setLoadingAttempts] = useState(true);
@@ -73,6 +106,86 @@ if __name__ == '__main__':
     nums = [2, 7, 11, 15]
     print(solve(len(nums), target, nums))
 `);
+
+  const handleLangChange = (newLang) => {
+    setSandboxLang(newLang);
+    if (newLang === 'python') {
+      setSandboxCode(`# Python 3 CampusCorp Assessment Solution
+def solve(n, target, arr):
+    lookup = {}
+    for i, num in enumerate(arr):
+        diff = target - num
+        if diff in lookup:
+            return f"Found target pairs at index: {lookup[diff]} and {i}"
+        lookup[num] = i
+    return "No pair found"
+
+if __name__ == '__main__':
+    target = 9
+    nums = [2, 7, 11, 15]
+    print(solve(len(nums), target, nums))
+`);
+    } else if (newLang === 'javascript') {
+      setSandboxCode(`// JavaScript (Node.js) Assessment Solution
+function solve(target, nums) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i];
+    if (map.has(diff)) {
+      return \`Found target pairs at index: \${map.get(diff)} and \${i}\`;
+    }
+    map.set(nums[i], i);
+  }
+  return "No pair found";
+}
+
+const target = 9;
+const nums = [2, 7, 11, 15];
+console.log(solve(target, nums));
+`);
+    } else if (newLang === 'java') {
+      setSandboxCode(`// Java 21 CampusCorp Assessment Solution
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        int target = 9;
+        int[] nums = {2, 7, 11, 15};
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int diff = target - nums[i];
+            if (map.containsKey(diff)) {
+                System.out.println("Found target pairs at index: " + map.get(diff) + " and " + i);
+                return;
+            }
+            map.put(nums[i], i);
+        }
+        System.out.println("No pair found");
+    }
+}
+`);
+    } else if (newLang === 'c') {
+      setSandboxCode(`// C (GCC) Assessment Solution
+#include <stdio.h>
+
+int main() {
+    printf("Executing C solution on CampusCorp live sandbox runtime.\\n");
+    printf("Status: Online and operational.\\n");
+    return 0;
+}
+`);
+    } else if (newLang === 'cpp') {
+      setSandboxCode(`// C++ (G++) Assessment Solution
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::cout << "Executing C++17 solution on CampusCorp live sandbox runtime." << std::endl;
+    return 0;
+}
+`);
+    }
+  };
   const [sandboxInput, setSandboxInput] = useState('');
   const [sandboxOutput, setSandboxOutput] = useState('');
   const [sandboxRunning, setSandboxRunning] = useState(false);
@@ -217,24 +330,28 @@ if __name__ == '__main__':
   // Run Sandbox code
   const handleRunSandbox = async () => {
     setSandboxRunning(true);
-    setSandboxOutput('Transmitting payload to execution sandbox...');
+    setSandboxOutput('Transmitting payload to live execution sandbox...');
 
     try {
-      const res = await apiClient.post('/assessment/submit', {
-        assessment_id: 1,
-        question_id: 1,
+      const res = await apiClient.post('/assessment/run', {
         language: sandboxLang,
         source_code: sandboxCode,
+        input: sandboxInput,
       });
 
       if (res.data) {
+        const out = res.data.output || (res.data.error ? '' : '(Code executed successfully with zero stdout output)');
+        const err = res.data.error ? `\n\n[Runtime / Stderr]:\n${res.data.error}` : '';
+        const status = res.data.executionStatus || res.data.status || 'ACCEPTED';
+        const time = res.data.executionTimeMs || 0;
+
         setSandboxOutput(
-          `Status: ${res.data.executionStatus}\nScore: ${res.data.score || 25}/25\nPassed Tests: ${res.data.passedTestCases || 0}/${res.data.totalTestCases || 0}\nTime: ${res.data.executionTimeMs || 0}ms\n\n=== Output ===\n${res.data.errorMessage || 'Execution successful with zero runtime errors.'}`
+          `Status: ${status}\nExecution Time: ${time}ms\nSandbox: Ephemeral Process Isolation\n\n=== Terminal Stdout ===\n${out}${err}`
         );
-        showToast(`Code executed: ${res.data.executionStatus}`, res.data.executionStatus === 'ACCEPTED' ? 'success' : 'warning');
+        showToast(`Code executed: ${status}`, status === 'ACCEPTED' ? 'success' : 'warning');
       }
     } catch (err) {
-      const errMsg = err.response?.data?.message || err.message;
+      const errMsg = err.response?.data?.error || err.response?.data?.message || err.message;
       setSandboxOutput(`Execution Error:\n${errMsg}`);
       showToast('Sandbox execution failed: ' + errMsg, 'error');
     } finally {
@@ -284,10 +401,7 @@ if __name__ == '__main__':
       <div className="space-y-4">
         <div className="flex items-center justify-between bg-card text-card-foreground p-4 rounded-2xl border border-border">
           <div className="flex items-center gap-2">
-            <span
-              className="px-2.5 py-1 rounded-md text-xs font-bold text-white"
-              style={{ backgroundColor: currentTheme.primary }}
-            >
+            <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-primary text-primary-foreground">
               LMS Admin Console
             </span>
             <span className="text-xs text-muted-foreground">
@@ -534,13 +648,23 @@ if __name__ == '__main__':
                     <div className="shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-2 border-t sm:border-t-0 pt-3 sm:pt-0 border-border">
                       <button
                         onClick={() => handleStartTest(test)}
-                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer hover:shadow-md active:scale-95"
-                        style={{
-                          backgroundColor: currentTheme.primary,
-                        }}
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer hover:shadow-md hover:opacity-90 active:scale-95"
                       >
                         <Play className="w-4 h-4 fill-current" />
                         <span>{test.type === 'PROGRAMMING' ? 'Start CodeSprint' : 'Start Quiz'}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenShareModal(test);
+                        }}
+                        className="w-full sm:w-auto px-3.5 py-2 rounded-xl border border-border bg-secondary hover:bg-secondary/80 text-foreground text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs hover:border-border/80"
+                        title="Generate and copy shareable exam link"
+                      >
+                        <Share2 className="w-3.5 h-3.5 text-primary" />
+                        <span>Share Link</span>
                       </button>
                     </div>
                   </div>
@@ -618,14 +742,14 @@ if __name__ == '__main__':
               {/* Language Selector */}
               <select
                 value={sandboxLang}
-                onChange={(e) => setSandboxLang(e.target.value)}
+                onChange={(e) => handleLangChange(e.target.value)}
                 className="px-3 py-1.5 rounded-lg border border-border text-sm font-bold text-foreground bg-secondary focus:outline-none cursor-pointer"
               >
-                <option value="python">Python 3</option>
+                <option value="python">Python 3.10</option>
+                <option value="javascript">JavaScript (Node.js)</option>
+                <option value="java">Java 21 (OpenJDK)</option>
                 <option value="c">C (GCC)</option>
                 <option value="cpp">C++ (G++)</option>
-                <option value="java">Java 17</option>
-                <option value="javascript">JavaScript</option>
               </select>
             </div>
 
@@ -665,8 +789,7 @@ if __name__ == '__main__':
               <button
                 onClick={handleRunSandbox}
                 disabled={sandboxRunning}
-                className="w-full py-2.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer active:scale-95 disabled:opacity-60"
-                style={{ backgroundColor: currentTheme.primary }}
+                className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer active:scale-95 disabled:opacity-60 hover:opacity-90"
               >
                 <Play className="w-4 h-4 fill-current" />
                 <span>{sandboxRunning ? 'Executing Code...' : 'Run Code in Sandbox'}</span>
@@ -688,6 +811,109 @@ if __name__ == '__main__':
           </div>
         </div>
       </div>
+
+      {/* Share Exam Link Modal */}
+      {shareModalTest && (
+        <div className="fixed inset-0 z-[1200] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative space-y-5 animate-in fade-in zoom-in-95 duration-150">
+            <button
+              onClick={() => setShareModalTest(null)}
+              className="absolute top-5 right-5 p-2 rounded-full hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
+                style={{
+                  backgroundColor: currentTheme.primaryLight,
+                  color: currentTheme.primary,
+                }}
+              >
+                <Share2 className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-blue-500" />
+                  Public Shareable Exam Link
+                </span>
+                <h3 className="text-lg font-bold text-foreground">
+                  {shareModalTest.title}
+                </h3>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-secondary/60 border border-border space-y-2 text-xs">
+              <div className="flex items-center justify-between text-muted-foreground font-semibold">
+                <span>Format: <strong className="text-foreground">{shareModalTest.type === 'PROGRAMMING' ? 'CodeSprint Live Coding' : 'Curriculum Quiz'}</strong></span>
+                <span>Duration: <strong className="text-foreground">{shareModalTest.duration} Mins</strong></span>
+                <span>Marks: <strong className="text-foreground">{shareModalTest.totalPoints} pts</strong></span>
+              </div>
+              <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold pt-1">
+                <ShieldCheck className="w-4 h-4 shrink-0" />
+                <span>Fullscreen lock & anti-cheat monitoring automatically active on open</span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-foreground uppercase tracking-wider block">
+                Shareable Candidate URL
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={getExamLink(shareModalTest)}
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-secondary border border-border text-foreground font-mono text-xs select-all focus:outline-none"
+                  onClick={(e) => e.target.select()}
+                />
+                <button
+                  type="button"
+                  onClick={() => handleCopyLink(shareModalTest)}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer shrink-0 active:scale-95 ${
+                    copiedLink
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-primary text-primary-foreground hover:opacity-90'
+                  }`}
+                >
+                  {copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-700 dark:text-blue-300 space-y-1">
+              <div className="font-bold flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5" />
+                <span>Works for anyone right now:</span>
+              </div>
+              <p className="text-[11px] leading-relaxed text-blue-800/80 dark:text-blue-200/80">
+                Candidates opening this link in any browser or incognito tab will instantly access the Candidate Gate, review exam instructions, and enter mandatory fullscreen lock upon starting.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
+              <button
+                type="button"
+                onClick={() => setShareModalTest(null)}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-muted-foreground hover:text-foreground bg-secondary hover:bg-secondary/80 cursor-pointer"
+              >
+                Close
+              </button>
+              <a
+                href={getExamLink(shareModalTest)}
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-foreground bg-card hover:bg-secondary border border-border flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              >
+                <span>Test Link in New Tab</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

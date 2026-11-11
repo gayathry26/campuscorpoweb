@@ -104,6 +104,19 @@ const io = new Server(server, {
 
 setupWebRTCSockets(io);
 
+// Error resilience on EADDRINUSE
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.warn(`[PORT CONFLICT] Port ${PORT} is currently in TIME_WAIT/busy. Retrying in 2 seconds...`);
+    setTimeout(() => {
+      server.close();
+      server.listen(PORT);
+    }, 2000);
+  } else {
+    console.error('[SERVER ERROR]', err);
+  }
+});
+
 // Start Server
 if (require.main === module) {
   server.listen(PORT, async () => {

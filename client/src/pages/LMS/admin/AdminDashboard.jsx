@@ -1251,6 +1251,19 @@ const AdminDashboard = ({ section = 'questions' }) => {
                         </td>
                         <td className="p-3 text-right space-x-2">
                           <button
+                            type="button"
+                            onClick={() => {
+                              const link = `${window.location.origin}/exam?testId=${t.id}`;
+                              navigator.clipboard.writeText(link).then(() => {
+                                setMessage(`Exam link for "${t.test_name}" copied to clipboard: ${link}`);
+                              });
+                            }}
+                            className="rounded bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100 transition-all border border-blue-200"
+                            title="Copy shareable link"
+                          >
+                            🔗 Share Link
+                          </button>
+                          <button
                             onClick={() => {
                             setEditingTest(t);
                             setNewTest(t);

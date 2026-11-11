@@ -287,10 +287,105 @@ async function evaluateInterviewAnswer(req, res, next) {
   }
 }
 
+/**
+ * Generate Curated Technical Interview Questions
+ */
+async function generateInterviewQuestions(req, res, next) {
+  try {
+    const { topic = 'General', difficulty = 'intermediate', count = 5 } = req.body;
+    
+    const questionsBank = {
+      'Data Structures and Algorithms': [
+        {
+          id: 1,
+          question: 'How would you detect and remove a cycle in a singly linked list? What is Floyd’s Tortoise and Hare algorithm?',
+          difficulty: 'Intermediate',
+          hint: 'Use two pointers moving at speeds 1x and 2x. When they meet, reset one pointer to head.',
+          sampleAnswerKey: 'Floyd cycle detection algorithm runs in O(N) time and O(1) space. The cycle starting node is found by advancing both pointers at 1x speed after intersection.',
+        },
+        {
+          id: 2,
+          question: 'Explain how a LRU (Least Recently Used) Cache is designed with O(1) get and put operations.',
+          difficulty: 'Hard',
+          hint: 'Combine a Doubly Linked List with a Hash Map.',
+          sampleAnswerKey: 'Hash map maps keys to doubly linked list nodes for O(1) lookup. The doubly linked list maintains recency order with O(1) insertion at head and eviction from tail.',
+        },
+        {
+          id: 3,
+          question: 'What is the difference between Dijkstra’s algorithm and Bellman-Ford algorithm for shortest paths?',
+          difficulty: 'Intermediate',
+          hint: 'Consider edge weights and negative cycle detection.',
+          sampleAnswerKey: 'Dijkstra works with non-negative weights using a priority queue in O((V+E)log V). Bellman-Ford works with negative weights and detects negative cycles in O(V*E).',
+        },
+      ],
+      'System Design and Scalability': [
+        {
+          id: 4,
+          question: 'How would you architect a distributed rate limiter that handles 100,000 requests per second across multiple data centers?',
+          difficulty: 'Hard',
+          hint: 'Consider Token Bucket algorithm with Redis and sliding window counters.',
+          sampleAnswerKey: 'Use Redis cluster with Lua scripts for atomic token bucket evaluation. Employ local in-memory batching or Envoy proxies to reduce central Redis latency.',
+        },
+        {
+          id: 5,
+          question: 'Explain database sharding vs replication. When would you choose horizontal sharding over read replicas?',
+          difficulty: 'Intermediate',
+          hint: 'Replication handles read spikes; sharding handles write volume and storage size limits.',
+          sampleAnswerKey: 'Read replicas duplicate full datasets for read scalability. Horizontal sharding splits rows across distinct database nodes when write throughput or storage exceeds a single machine capacity.',
+        },
+      ],
+      'Full Stack and React/Node': [
+        {
+          id: 6,
+          question: 'Explain the React Fiber reconciliation algorithm and why concurrent rendering prevents main-thread freezing.',
+          difficulty: 'Intermediate',
+          hint: 'Virtual DOM nodes are represented as a linked list of fibers with work priorities.',
+          sampleAnswerKey: 'Fiber breaks rendering work into incremental units that can be paused, aborted, or prioritized, yielding control back to the browser event loop for fluid 60fps animations.',
+        },
+        {
+          id: 7,
+          question: 'How does the Node.js event loop handle asynchronous I/O across timers, pending callbacks, poll, and check phases?',
+          difficulty: 'Intermediate',
+          hint: 'libuv event loop phases with process.nextTick priority.',
+          sampleAnswerKey: 'Node libuv handles non-blocking operations via OS kernel abstractions and thread pools. process.nextTick and microtask queues execute immediately after current operation completes before advancing phases.',
+        },
+      ],
+    };
+
+    const matchedList = questionsBank[topic] || [
+      {
+        id: 10,
+        question: `Could you describe an end-to-end production architecture you implemented with ${topic}?`,
+        difficulty: 'Intermediate',
+        hint: 'Structure answer using STAR: Situation, Task, Action, and Measurable Result.',
+        sampleAnswerKey: 'Discuss requirements, tech stack trade-offs, scalability bottlenecks, deployment automation, and metrics achieved.',
+      },
+      {
+        id: 11,
+        question: 'How do you handle error propagation, logging, and observability in a high-availability environment?',
+        difficulty: 'Intermediate',
+        hint: 'Mention structured JSON logging, distributed tracing (OpenTelemetry), and alerting thresholds.',
+        sampleAnswerKey: 'Centralized observability using Prometheus, Grafana, structured logs with trace IDs, and circuit breakers (e.g. Resilience4j/hystrix).',
+      },
+    ];
+
+    res.json({
+      success: true,
+      topic,
+      difficulty,
+      count: matchedList.length,
+      questions: matchedList,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getAiStatus,
   askDbAssistant,
   parseResume,
   matchJob,
   evaluateInterviewAnswer,
+  generateInterviewQuestions,
 };

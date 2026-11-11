@@ -35,6 +35,7 @@ const careerExplorerCtrl = require('../controllers/careerExplorerController');
 const lmsCtrl = require('../controllers/lmsController');
 const deptAdminCtrl = require('../controllers/departmentAdminController');
 const companyLocationCtrl = require('../controllers/companyLocationController');
+const githubScanCtrl = require('../controllers/githubScannerController');
 const { handleMaterialUpload, handleAssignmentUpload } = require('../middleware/lmsUpload.middleware');
 const { handlePolicyUpload } = require('../middleware/policyUpload.middleware');
 const { handleImportUpload } = require('../middleware/importUpload.middleware');
@@ -126,8 +127,11 @@ router.delete('/videocall/meetings/:id', authenticateToken, authorize(['TPO_OFFI
 
 // 9. Assessment & Coding Execution Platform
 router.get('/assessment/runtime-status', assessCtrl.getRuntimeStatus);
-router.get('/assessment/list', authenticateToken, assessCtrl.getAllAssessments);
-router.get('/assessment/:id', authenticateToken, assessCtrl.getAssessmentById);
+router.post('/assessment/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
+router.post('/student/compiler/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
+router.post('/compiler/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
+router.get('/assessment/list', optionalAuthenticateToken, assessCtrl.getAllAssessments);
+router.get('/assessment/:id', optionalAuthenticateToken, assessCtrl.getAssessmentById);
 router.post('/assessment/submit', authenticateToken, assessCtrl.submitCodeSolution);
 router.get('/assessment/:id/leaderboard', authenticateToken, assessCtrl.getAssessmentLeaderboard);
 router.post('/assessment/create', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'FACULTY_COORDINATOR', 'TPO_OFFICER']), assessCtrl.createCodingAssessment);
@@ -233,6 +237,7 @@ router.post('/ai/ask', authenticateToken, aiCtrl.askDbAssistant);
 router.post('/ai/parse-resume', authenticateToken, aiCtrl.parseResume);
 router.post('/ai/match-job', authenticateToken, aiCtrl.matchJob);
 router.post('/ai/interview-feedback', authenticateToken, aiCtrl.evaluateInterviewAnswer);
+router.post('/ai/interview-questions', optionalAuthenticateToken, aiCtrl.generateInterviewQuestions);
 
 // 21. Skill Analyzer & Career Role Recommendations
 router.get('/skills', skillAnalyzerCtrl.getSkills);
@@ -285,6 +290,11 @@ router.get('/career/companies/:id', companyLocationCtrl.getCompanyDetails);
 router.post('/career/companies/admin/:company_id/offices', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), companyLocationCtrl.adminAddOffice);
 router.put('/career/companies/admin/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), companyLocationCtrl.adminUpdateCompany);
 router.patch('/career/companies/admin/:target/:id/status', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), companyLocationCtrl.adminToggleStatus);
+
+// 21e. GitHub Repository Scanner & Portfolio Code Quality Engine
+router.post('/github/scan-repo', optionalAuthenticateToken, githubScanCtrl.scanRepo);
+router.post('/github/scan', optionalAuthenticateToken, githubScanCtrl.scanRepo);
+router.post('/github/verify-and-import-skills', authenticateToken, githubScanCtrl.verifyAndImportSkills);
 
 // 22. Role-Based LMS (Learning Management System)
 // Dashboard & Metrics

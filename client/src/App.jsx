@@ -38,6 +38,7 @@ import ExamScreen from './pages/LMS/ExamScreen';
 import { LmsPortal } from './pages/LMS/LmsPortal';
 import { ResumeAnalyzer } from './pages/ResumeAnalyzer';
 import { InterviewRoomPage } from './pages/videocall/interview';
+import { GithubRepoScanner } from './pages/career/GithubRepoScanner';
 import { DepartmentAcademicManagement } from './pages/DepartmentAcademicManagement';
 import { CompanyLocationExplorer } from './pages/career/CompanyLocationExplorer';
 import { CompanyLocationDetail } from './pages/career/CompanyLocationDetail';
@@ -53,7 +54,7 @@ function Layout({ children }) {
 
   if (isExam || isVideoCall) {
     return (
-      <div className="min-h-screen bg-[#202124] font-sans w-full p-0 m-0 overflow-hidden">
+      <div className="min-h-screen bg-background text-foreground font-sans w-full p-0 m-0 overflow-hidden transition-colors duration-200">
         {children}
       </div>
     );
@@ -240,6 +241,8 @@ export default function App() {
                   <Route path="/career-explorer/domains" element={<Navigate to="/domains" replace />} />
                   <Route path="/career-explorer/compare" element={<Navigate to="/compare" replace />} />
                   <Route path="/career-explorer/skill-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
+                  <Route path="/github-scanner" element={<ProtectedRoute path="/skill-analyzer"><GithubRepoScanner /></ProtectedRoute>} />
+                  <Route path="/career-explorer/github-scanner" element={<ProtectedRoute path="/skill-analyzer"><GithubRepoScanner /></ProtectedRoute>} />
                   <Route path="/career-explorer/companies" element={<ProtectedRoute path="/career-explorer"><CompanyLocationExplorer /></ProtectedRoute>} />
                   <Route path="/career-explorer/companies/:id" element={<ProtectedRoute path="/career-explorer"><CompanyLocationDetail /></ProtectedRoute>} />
                   <Route path="/companies-by-location" element={<Navigate to="/career-explorer/companies" replace />} />
@@ -257,11 +260,13 @@ export default function App() {
                   <Route path="/applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
                   <Route path="/my-applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
                   <Route path="/assessment" element={<ProtectedRoute path="/assessment"><Assessment /></ProtectedRoute>} />
-                  <Route path="/exam" element={<ProtectedRoute path="/assessment"><ExamScreen /></ProtectedRoute>} />
+                  <Route path="/exam" element={<Layout><ExamScreen /></Layout>} />
+                  <Route path="/exam/:testId" element={<Layout><ExamScreen /></Layout>} />
+                  <Route path="/exam/share/:testId" element={<Layout><ExamScreen /></Layout>} />
                   <Route path="/interviews" element={<ProtectedRoute path="/interviews"><Interviews /></ProtectedRoute>} />
                   <Route path="/videocall/interview" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
-                  <Route path="/videocall/interview/:roomCode" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
-                  <Route path="/interview/room/:roomCode" element={<ProtectedRoute path="/videocall/interview"><InterviewRoomPage /></ProtectedRoute>} />
+                  <Route path="/videocall/interview/:roomCode" element={<Layout><InterviewRoomPage /></Layout>} />
+                  <Route path="/interview/room/:roomCode" element={<Layout><InterviewRoomPage /></Layout>} />
                   <Route path="/resume-analyzer" element={<ProtectedRoute path="/resume-analyzer"><ResumeAnalyzer /></ProtectedRoute>} />
                   <Route path="/training" element={<ProtectedRoute path="/training"><Training /></ProtectedRoute>} />
                   <Route path="/internships" element={<ProtectedRoute path="/internships"><Internships /></ProtectedRoute>} />
