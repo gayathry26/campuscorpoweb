@@ -10,13 +10,10 @@ import {
   Check,
   AlertCircle,
   X,
-  Sparkles,
 } from 'lucide-react';
 import careerService from '../services/careerService';
 import { CompactDomainHeader } from '../components/career/CompactDomainHeader';
 import { CompactRoleCard } from '../components/career/CompactRoleCard';
-import { CompactSalaryRangeChart } from '../components/career/CompactSalaryRangeChart';
-import { DomainSkillInsights } from '../components/career/DomainSkillInsights';
 import VisualCareerRoadmapModal from '../components/career/VisualCareerRoadmapModal';
 import PersonalizedCareerFitModal from '../components/career/PersonalizedCareerFitModal';
 
@@ -55,7 +52,7 @@ export function DomainDetail() {
 
   const [toast, setToast] = useState(null);
 
-  // Fetch Domain Details by Slug on Mount or URL Change
+  // Fetch Domain Details by Slug
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -184,16 +181,16 @@ export function DomainDetail() {
     return list;
   }, [domainData, searchQuery, selectedTag, sortBy]);
 
-  // Loading Skeleton State
+  // Loading Skeleton
   if (loading) {
     return (
       <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 py-6 animate-pulse">
-        <div className="h-6 w-48 bg-secondary rounded-lg" />
-        <div className="h-24 bg-secondary rounded-xl" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="h-44 bg-secondary rounded-xl" />
-          <div className="h-44 bg-secondary rounded-xl" />
-          <div className="h-44 bg-secondary rounded-xl" />
+        <div className="h-6 w-48 bg-neutral-200 dark:bg-neutral-800 rounded-lg" />
+        <div className="h-40 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+          <div className="h-56 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+          <div className="h-56 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+          <div className="h-56 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
         </div>
       </div>
     );
@@ -202,22 +199,22 @@ export function DomainDetail() {
   // Not Found State (Graceful 404 for invalid domain slug)
   if (notFound || !domainData) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16 px-4 space-y-5">
-        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-600 mx-auto flex items-center justify-center">
-          <Compass className="w-8 h-8" />
+      <div className="max-w-2xl mx-auto text-center py-20 px-4 space-y-5">
+        <div className="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 mx-auto flex items-center justify-center">
+          <Compass className="w-7 h-7" />
         </div>
-        <div className="space-y-2">
-          <h2 className="text-2xl font-black text-foreground tracking-tight">
+        <div className="space-y-1.5">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
             Career Domain Not Found
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            We couldn't find a career domain matching <code className="px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-xs">"{slug}"</code>.
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            We couldn't locate a career domain matching <code className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 font-mono text-xs text-neutral-800 dark:text-neutral-200">"{currentSlug}"</code>.
           </p>
         </div>
         <div>
           <Link
             to="/domains"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:opacity-90 transition-all shadow-xs"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-all shadow-xs"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to All Domains</span>
@@ -231,15 +228,15 @@ export function DomainDetail() {
   const hasActiveFilters = searchQuery.trim().length > 0 || Boolean(selectedTag);
 
   return (
-    <div className="space-y-6 pb-20 max-w-7xl mx-auto px-4 sm:px-6">
-      {/* Toast Alert Feedback */}
+    <div className="space-y-8 pb-20 max-w-7xl mx-auto px-4 sm:px-6">
+      {/* Toast Notification */}
       {toast && (
-        <div className="fixed top-20 right-6 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="bg-foreground text-background px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-background/20 backdrop-blur-md">
+        <aside aria-label="Notifications" className="fixed top-20 right-6 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-neutral-700 dark:border-neutral-300">
             {toast.type === 'warning' ? (
               <AlertCircle className="w-4 h-4 text-amber-400 stroke-[2.5]" />
             ) : (
-              <Check className="w-4 h-4 stroke-[2.5]" />
+              <Check className="w-4 h-4 text-emerald-400 dark:text-emerald-600 stroke-[2.5]" />
             )}
             <span>{toast.message}</span>
             <button
@@ -250,10 +247,10 @@ export function DomainDetail() {
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        </aside>
       )}
 
-      {/* ================= COMPACT DOMAIN HEADER ================= */}
+      {/* SECTION 1: Clean Domain Header with Expandable Overview */}
       <CompactDomainHeader
         domain={domain}
         roles={roles}
@@ -262,119 +259,37 @@ export function DomainDetail() {
         onToggleDetails={() => setShowDetails(!showDetails)}
       />
 
-      {/* ================= COLLAPSIBLE DOMAIN DETAILS & INSIGHTS ================= */}
-      {showDetails && (
-        <div className="bg-card border border-border rounded-2xl p-5 sm:p-6 shadow-xs space-y-6 animate-in fade-in-50 duration-200">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <div className="lg:col-span-7 space-y-4">
-              <div className="flex items-center gap-2 pb-2 border-b border-border/80">
-                <Briefcase className="w-4 h-4 text-primary" />
-                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground">
-                  What Professionals in {domain.name} Do
-                </h2>
-              </div>
-              <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed font-medium">
-                {domain.overview || domain.description || domain.shortDescription}
-              </p>
-              {Array.isArray(domain.whatProfessionalsDo) && domain.whatProfessionalsDo.length > 0 && (
-                <div className="space-y-2 pt-1">
-                  {domain.whatProfessionalsDo.map((task, idx) => (
-                    <div
-                      key={idx}
-                      className="p-2.5 rounded-xl bg-secondary/40 border border-border/70 flex items-start gap-2.5 text-xs text-foreground/90 leading-relaxed"
-                    >
-                      <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span>{task}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="lg:col-span-5 space-y-4">
-              {/* Beginner Learning Prerequisites */}
-              {Array.isArray(domain.prerequisites) && domain.prerequisites.length > 0 && (
-                <div className="bg-secondary/30 border border-border/70 rounded-xl p-4 space-y-2.5">
-                  <div className="flex items-center gap-2 pb-1.5 border-b border-border/60">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
-                      Beginner Prerequisites
-                    </h3>
-                  </div>
-                  <div className="space-y-1.5 text-xs text-muted-foreground">
-                    {domain.prerequisites.map((prereq, idx) => (
-                      <div key={idx} className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
-                        <span>{prereq}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Career Progression */}
-              {domain.careerProgression && (
-                <div className="bg-secondary/30 border border-border/70 rounded-xl p-4 space-y-2.5">
-                  <div className="flex items-center gap-2 pb-1.5 border-b border-border/60">
-                    <Compass className="w-3.5 h-3.5 text-primary" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
-                      Career Progression Track
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-1.5 flex-wrap text-xs font-semibold text-foreground">
-                    {domain.careerProgression.split('->').map((step, idx, arr) => (
-                      <React.Fragment key={idx}>
-                        <span className="px-2.5 py-1 rounded-md bg-card border border-border shadow-2xs font-bold text-[11px]">
-                          {step.trim()}
-                        </span>
-                        {idx < arr.length - 1 && (
-                          <ArrowRight className="w-3 h-3 text-muted-foreground shrink-0" />
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Salary Chart & Skill Insights */}
-          <CompactSalaryRangeChart roles={roles} domainName={domain.name} />
-          <DomainSkillInsights roles={roles} domainName={domain.name} />
-        </div>
-      )}
-
-      {/* ================= SEARCH, FILTER, AND SORT TOOLBAR ================= */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      {/* SECTION 2: Search, Filter, and Sort Toolbar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs">
         {/* Search Bar */}
         <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={`Search ${domain.name} roles or skills...`}
-            className="w-full pl-9 pr-8 py-2 rounded-xl text-xs sm:text-sm bg-card text-foreground border border-border/80 focus:outline-hidden focus:ring-1 focus:ring-purple-500/50 transition-all shadow-2xs"
+            placeholder={`Search ${domain?.name || 'domain'} roles or skills...`}
+            className="w-full h-10 pl-10 pr-9 rounded-xl text-xs sm:text-sm bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600/10 transition-all"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5 cursor-pointer"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 p-0.5 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Filter, Sort & Count */}
-        <div className="flex items-center gap-2 flex-wrap justify-between sm:justify-end">
-          {/* Category / Tag Filter Dropdown */}
+        {/* Filter & Sort Controls */}
+        <div className="flex items-center gap-2.5 flex-wrap justify-between sm:justify-end">
+          {/* Category / Tag Filter */}
           {availableTags.length > 0 && (
             <select
               value={selectedTag}
               onChange={(e) => setSelectedTag(e.target.value)}
-              className="px-2.5 py-2 rounded-xl text-xs sm:text-sm font-medium bg-card text-foreground border border-border/80 focus:outline-hidden cursor-pointer shadow-2xs"
+              className="h-10 px-3 rounded-xl text-xs sm:text-sm font-medium bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 cursor-pointer"
             >
               <option value="">All Categories</option>
               {availableTags.map((tag) => (
@@ -385,11 +300,11 @@ export function DomainDetail() {
             </select>
           )}
 
-          {/* Sort Dropdown */}
+          {/* Sort By Dropdown */}
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-2.5 py-2 rounded-xl text-xs sm:text-sm font-medium bg-card text-foreground border border-border/80 focus:outline-hidden cursor-pointer shadow-2xs"
+            className="h-10 px-3 rounded-xl text-xs sm:text-sm font-medium bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 cursor-pointer"
           >
             <option value="alphabetical-asc">Title (A → Z)</option>
             <option value="alphabetical-desc">Title (Z → A)</option>
@@ -406,7 +321,8 @@ export function DomainDetail() {
                 setSearchQuery('');
                 setSelectedTag('');
               }}
-              className="inline-flex items-center gap-1 px-2.5 py-2 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline cursor-pointer"
+              className="inline-flex items-center gap-1.5 h-10 px-3 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 bg-neutral-100 dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 transition-colors cursor-pointer"
+              title="Reset search and filters"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset</span>
@@ -415,24 +331,24 @@ export function DomainDetail() {
         </div>
       </div>
 
-      {/* ================= CAREER ROLES GRID ================= */}
-      <div>
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-border/60">
-          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground">
-            Career Roles ({filteredRoles.length})
+      {/* SECTION 3: Career Roles Grid */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between px-1">
+          <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+            Career Roles in {domain?.name}
           </h2>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
             Showing {filteredRoles.length} of {roles.length} roles
           </span>
         </div>
 
         {filteredRoles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredRoles.map((role) => (
               <CompactRoleCard
                 key={role.id}
                 role={role}
-                domainSlug={slug}
+                domainSlug={currentSlug}
                 onViewRoadmap={(r) => setRoadmapRole(r)}
                 onCheckFit={(r) => setFitModalRole(r)}
                 onToggleCompare={handleToggleCompare}
@@ -442,23 +358,28 @@ export function DomainDetail() {
             ))}
           </div>
         ) : (
-          <div className="p-8 text-center rounded-xl border border-dashed border-border bg-card space-y-2">
-            <Briefcase className="w-8 h-8 text-muted-foreground mx-auto opacity-50" />
-            <h4 className="text-sm font-bold text-foreground">
-              No roles match "{searchQuery}"
-            </h4>
-            <p className="text-xs text-muted-foreground max-w-sm mx-auto">
-              Try adjusting your search terms or clearing category filters.
-            </p>
+          <div className="p-12 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-neutral-100 dark:bg-neutral-800 text-neutral-400 flex items-center justify-center mx-auto">
+              <Briefcase className="w-6 h-6" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-base font-bold text-neutral-900 dark:text-neutral-100">
+                No roles match "{searchQuery}"
+              </h4>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
+                Try searching for another skill, job title, or clearing active category filters.
+              </p>
+            </div>
             <button
               type="button"
               onClick={() => {
                 setSearchQuery('');
                 setSelectedTag('');
               }}
-              className="px-3.5 py-1.5 text-xs font-bold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] rounded-lg hover:opacity-90 mt-1 cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-xl hover:opacity-90 transition-all cursor-pointer shadow-xs inline-flex items-center gap-1.5"
             >
-              Clear Filters
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Clear Filters</span>
             </button>
           </div>
         )}
@@ -480,13 +401,13 @@ export function DomainDetail() {
 
       {/* ================= COMPACT COMPARISON INDICATOR ================= */}
       {comparedRoleIds.length > 0 && (
-        <div className="fixed bottom-5 right-5 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
-          <div className="bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] rounded-full px-3.5 py-2 shadow-2xl border border-neutral-700/60 dark:border-neutral-200/60 flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md">
-            <div className="flex items-center gap-1.5">
+        <aside aria-label="Comparison Tray" className="fixed bottom-6 right-6 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
+          <div className="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 rounded-full px-4 py-2.5 shadow-xl border border-neutral-700/60 dark:border-neutral-200 flex items-center gap-3 text-xs font-semibold backdrop-blur-md">
+            <div className="flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
                 {comparedRoleIds.length}
               </span>
-              <span className="font-bold text-xs">
+              <span>
                 {comparedRoleIds.length === 1 ? '1 role' : `${comparedRoleIds.length} roles`} selected
               </span>
             </div>
@@ -505,13 +426,13 @@ export function DomainDetail() {
             <button
               type="button"
               onClick={() => setComparedRoleIds([])}
-              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer ml-0.5"
+              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer"
               title="Clear comparison"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        </aside>
       )}
     </div>
   );

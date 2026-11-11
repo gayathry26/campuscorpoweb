@@ -4,6 +4,7 @@ const router = express.Router();
 const { authenticateToken, optionalAuthenticateToken } = require('../middleware/auth');
 const { authorize } = require('../middleware/rbac');
 const { enforceDepartmentIsolation } = require('../middleware/deptIsolation');
+const { requireModule } = require('../middleware/moduleEntitlementGuard');
 
 // Controllers
 const authCtrl = require('../controllers/authController');
@@ -36,15 +37,28 @@ const lmsCtrl = require('../controllers/lmsController');
 const deptAdminCtrl = require('../controllers/departmentAdminController');
 const companyLocationCtrl = require('../controllers/companyLocationController');
 const githubScanCtrl = require('../controllers/githubScannerController');
+const collegeAdminCtrl = require('../controllers/collegeAdminController');
 const { handleMaterialUpload, handleAssignmentUpload } = require('../middleware/lmsUpload.middleware');
 const { handlePolicyUpload } = require('../middleware/policyUpload.middleware');
 const { handleImportUpload } = require('../middleware/importUpload.middleware');
 const resumeAnalyzerRoutes = require('./resumeAnalyzer.routes');
 
 // 1. Authentication & Role Switcher
+router.get('/auth/college-info', authCtrl.getPublicCollegeInfo);
+router.get('/auth/colleges/directory', authCtrl.getPublicCollegesDirectory);
 router.post('/auth/login', authCtrl.login);
+router.post('/auth/logout', authenticateToken, authCtrl.logout);
 router.get('/auth/me', authenticateToken, authCtrl.getCurrentUser);
 router.post('/auth/switch-role', authCtrl.quickSwitchDemoRole);
+
+// 1a. College Administrator Multi-Tenant Profile & Metrics
+router.get('/college-admin/profile', authenticateToken, collegeAdminCtrl.getCollegeProfile);
+router.get('/college-admin/metrics', authenticateToken, collegeAdminCtrl.getCollegeMetrics);
+router.get('/college-admin/departments', authenticateToken, collegeAdminCtrl.getDepartments);
+router.post('/college-admin/departments', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), collegeAdminCtrl.createDepartment);
+router.get('/college-admin/settings', authenticateToken, collegeAdminCtrl.getCollegeSettings);
+router.put('/college-admin/settings', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), collegeAdminCtrl.updateCollegeSettings);
+router.post('/college-admin/users/:userId/revoke-sessions', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN']), collegeAdminCtrl.revokeUserSessions);
 
 // 1b. Role Permissions & Dynamic Page Governance (Backend Persistence)
 router.get('/permissions', rolePermCtrl.getRolePermissions);
@@ -65,7 +79,11 @@ router.get('/students/:id', authenticateToken, studentCtrl.getStudentById);
 router.put('/students/:id/profile', authenticateToken, studentCtrl.updateStudentProfile);
 router.post('/students/sync-erp', authenticateToken, studentCtrl.syncFromErp);
 
-// 4. Companies & Placement Drives
+// 4. Companies & Placement Drives (Module: RECRUITMENT)
+router.use('/companies', requireModule('RECRUITMENT'));
+router.use('/jobs', requireModule('RECRUITMENT'));
+router.use('/drives', requireModule('RECRUITMENT'));
+router.use('/applications', requireModule('RECRUITMENT'));
 router.get('/companies', authenticateToken, compCtrl.getAllCompanies);
 router.get('/companies/meta/departments', authenticateToken, compCtrl.getMetadata);
 router.get('/companies/:id', authenticateToken, compCtrl.getCompanyById);
@@ -102,7 +120,10 @@ router.post('/applications/apply', authenticateToken, appCtrl.applyToJob);
 router.post('/applications/:id/withdraw', authenticateToken, appCtrl.withdrawApplication);
 router.put('/applications/:id/status', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'RECRUITER', 'FACULTY_COORDINATOR']), appCtrl.updateApplicationStatus);
 
-// 8. Interviews
+// 8. Interviews (Module: ASSESSMENTS)
+router.use('/interviews', requireModule('ASSESSMENTS'));
+router.use('/mock-interviews', requireModule('ASSESSMENTS'));
+router.use('/videocall', requireModule('ASSESSMENTS'));
 router.get('/interviews', authenticateToken, intCtrl.getInterviews);
 router.post('/interviews/schedule', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'RECRUITER']), intCtrl.scheduleInterview);
 router.put('/interviews/:id/feedback', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'RECRUITER']), intCtrl.submitInterviewFeedback);
@@ -125,7 +146,11 @@ router.put('/videocall/meetings/:id/status', authenticateToken, authorize(['TPO_
 router.put('/videocall/meetings/:id/evaluate', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'FACULTY_COORDINATOR', 'STAFF', 'RECRUITER']), videocallCtrl.evaluateMeeting);
 router.delete('/videocall/meetings/:id', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'FACULTY_COORDINATOR', 'STAFF']), videocallCtrl.deleteMeeting);
 
-// 9. Assessment & Coding Execution Platform
+// 9. Assessment & Coding Execution Platform (Module: ASSESSMENTS)
+router.use('/assessment', requireModule('ASSESSMENTS'));
+router.use('/student/compiler', requireModule('ASSESSMENTS'));
+router.use('/compiler', requireModule('ASSESSMENTS'));
+router.use('/student/quiz', requireModule('ASSESSMENTS'));
 router.get('/assessment/runtime-status', assessCtrl.getRuntimeStatus);
 router.post('/assessment/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
 router.post('/student/compiler/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
@@ -155,12 +180,17 @@ router.post('/training/record-attendance', authenticateToken, authorize(['FACULT
 router.get('/internships', authenticateToken, internCtrl.getInternships);
 router.post('/internships', authenticateToken, internCtrl.createInternship);
 
-// 12. Offers
+// 12. Offers (Module: RECRUITMENT)
+router.use('/offers', requireModule('RECRUITMENT'));
 router.get('/offers', authenticateToken, offerCtrl.getAllOffers);
 router.post('/offers/issue', authenticateToken, authorize(['TPO_OFFICER', 'ADMIN', 'RECRUITER']), offerCtrl.issueOffer);
 router.post('/offers/:id/respond', authenticateToken, offerCtrl.respondToOffer);
 
-// 13. Policy Engine & Document Management System
+// 13. Policy Engine & Document Management System (Module: GOVERNANCE)
+router.use('/policies', requireModule('GOVERNANCE'));
+router.use('/reports', requireModule('GOVERNANCE'));
+router.use('/finance', requireModule('GOVERNANCE'));
+router.use('/grievances', requireModule('GOVERNANCE'));
 router.get('/policies', authenticateToken, policyCtrl.getPolicies);
 router.get('/policies/:id', authenticateToken, policyCtrl.getPolicyById);
 router.post('/policies', authenticateToken, authorize(['FACULTY_COORDINATOR', 'TPO_OFFICER', 'ADMIN', 'SUPER_ADMIN', 'MANAGEMENT']), handlePolicyUpload, policyCtrl.createPolicy);
@@ -240,6 +270,7 @@ router.post('/ai/interview-feedback', authenticateToken, aiCtrl.evaluateIntervie
 router.post('/ai/interview-questions', optionalAuthenticateToken, aiCtrl.generateInterviewQuestions);
 
 // 21. Skill Analyzer & Career Role Recommendations
+router.use('/skill-analyzer', requireModule('SKILL_ANALYZER'));
 router.get('/skills', skillAnalyzerCtrl.getSkills);
 router.get('/skills/categories', skillAnalyzerCtrl.getCategories);
 router.get('/student/skills', authenticateToken, skillAnalyzerCtrl.getStudentSkills);
@@ -259,6 +290,7 @@ router.put('/admin/role-requirements', authenticateToken, authorize(['SUPER_ADMI
 router.post('/admin/verify-skill', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER', 'FACULTY_COORDINATOR']), skillAnalyzerCtrl.verifyStudentSkill);
 
 // 21c. Career Explorer & Role Domain Catalog (Powered by MySQL career_roles & career_domains)
+router.use('/career', requireModule('CAREER_EXPLORER'));
 router.get('/career/domains', careerExplorerCtrl.getDomains);
 router.get('/career/domains/:slug', careerExplorerCtrl.getDomainBySlug);
 router.get('/career/domains/:domainSlug/roles/:roleSlug', careerExplorerCtrl.getRoleByDomainAndRole);
@@ -299,6 +331,7 @@ router.get('/github/user-repos/:username', optionalAuthenticateToken, githubScan
 router.post('/github/verify-and-import-skills', authenticateToken, githubScanCtrl.verifyAndImportSkills);
 
 // 22. Role-Based LMS (Learning Management System)
+router.use('/lms', requireModule('LMS'));
 // Dashboard & Metrics
 router.get('/lms/dashboard', authenticateToken, lmsCtrl.getDashboard);
 

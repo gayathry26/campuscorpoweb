@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 
 export function Navbar() {
-  const { user, switchRole, logout } = useAuth();
+  const { user, college, switchRole, logout } = useAuth();
   const { isDark, toggleDarkMode, notificationsEnabled, placementAlertsEnabled } = usePreferences();
   const { toggleMobileSidebar, mobileSidebarOpen } = useUI();
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
@@ -125,12 +125,21 @@ export function Navbar() {
                   CampusCorp
                   <span className="w-1.5 h-1.5 rounded-full inline-block ml-1 bg-foreground" />
                 </span>
-                <span className="hidden sm:inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
-                  IT Career Hub
-                </span>
+                {college?.code && college.code !== 'CAMPUS_MAIN' ? (
+                  <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <Building2 className="w-3 h-3" />
+                    <span>{college.code}</span>
+                  </span>
+                ) : (
+                  <span className="hidden sm:inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                    IT Career Hub
+                  </span>
+                )}
               </div>
               <p className="text-[11px] text-muted-foreground hidden md:block">
-                Placement & Career Governance Platform
+                {college?.name && college.code !== 'CAMPUS_MAIN'
+                  ? `${college.name}`
+                  : 'Placement & Career Governance Platform'}
               </p>
             </div>
           </Link>

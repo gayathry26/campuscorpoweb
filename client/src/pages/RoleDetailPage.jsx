@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft,
   ChevronRight,
   Briefcase,
-  DollarSign,
   TrendingUp,
   Compass,
   Cpu,
@@ -15,29 +15,19 @@ import {
   Sparkles,
   GitCompare,
   FileSearch,
-  BookOpen,
   ArrowRight,
-  ExternalLink,
   Layers,
   Building2,
-  ShieldCheck,
   Check,
-  Plus,
   AlertCircle,
   X,
-  Code2,
-  Video,
   GraduationCap,
   HelpCircle,
   ChevronDown,
-  ChevronUp,
-  Bookmark,
   Star,
-  FileText,
 } from 'lucide-react';
 import careerService from '../services/careerService';
 import { DOMAIN_ICONS } from '../components/career/InteractiveDomainGrid';
-import { Badge } from '../components/Badge';
 import VisualCareerRoadmapModal from '../components/career/VisualCareerRoadmapModal';
 import PersonalizedCareerFitModal from '../components/career/PersonalizedCareerFitModal';
 import { getRoleById, CAREER_DOMAINS } from '../data/itRoles';
@@ -54,12 +44,13 @@ export function RoleDetailPage() {
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // 2. Modals & Compare States
+  // 2. Interactive & Modal States
   const [roadmapModalOpen, setRoadmapModalOpen] = useState(false);
   const [fitModalOpen, setFitModalOpen] = useState(false);
   const [activeRoadmapStage, setActiveRoadmapStage] = useState(0);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState(null);
 
+  // 3. Comparison Queue State (synced with localStorage)
   const [comparedRoleIds, setComparedRoleIds] = useState(() => {
     try {
       const saved = localStorage.getItem('campuscorp_compare_roles');
@@ -73,7 +64,7 @@ export function RoleDetailPage() {
 
   const [toast, setToast] = useState(null);
 
-  // Fetch Role Details
+  // Fetch Role Specifications
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -106,7 +97,7 @@ export function RoleDetailPage() {
     };
   }, [domainSlug, roleSlug, targetRole]);
 
-  // Check if role is in favourites
+  // Check if role is favorited
   useEffect(() => {
     if (!role?.id) return;
     careerService.getFavorites().then((favs) => {
@@ -124,7 +115,7 @@ export function RoleDetailPage() {
       setToast({
         type: 'success',
         message: res.saved
-          ? `"${role.title}" saved to your favourites!`
+          ? `"${role.title}" saved to your favourites.`
           : `"${role.title}" removed from favourites.`,
       });
     }
@@ -151,7 +142,7 @@ export function RoleDetailPage() {
       if (prev.includes(role.id)) {
         setToast({
           type: 'removed',
-          message: `${role.title} removed from comparison queue`,
+          message: `${role.title} removed from comparison`,
         });
         return prev.filter((id) => id !== role.id);
       }
@@ -178,19 +169,16 @@ export function RoleDetailPage() {
   // Loading Skeleton State
   if (loading) {
     return (
-      <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 py-6 animate-pulse">
-        <div className="h-6 w-64 bg-secondary rounded-lg" />
-        <div className="h-44 bg-secondary rounded-2xl" />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8 space-y-6">
-            <div className="h-64 bg-secondary rounded-2xl" />
-            <div className="h-72 bg-secondary rounded-2xl" />
-          </div>
-          <div className="lg:col-span-4 space-y-6">
-            <div className="h-48 bg-secondary rounded-2xl" />
-            <div className="h-48 bg-secondary rounded-2xl" />
-          </div>
+      <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 py-6 animate-pulse">
+        <div className="h-6 w-64 bg-neutral-200 dark:bg-neutral-800 rounded-lg" />
+        <div className="h-48 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="h-24 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+          <div className="h-24 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+          <div className="h-24 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+          <div className="h-24 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
         </div>
+        <div className="h-64 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
       </div>
     );
   }
@@ -198,37 +186,33 @@ export function RoleDetailPage() {
   // Not Found State
   if (notFound || !role) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16 px-4 space-y-5">
-        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-600 mx-auto flex items-center justify-center">
-          <Briefcase className="w-8 h-8" />
+      <div className="max-w-2xl mx-auto text-center py-20 px-4 space-y-5">
+        <div className="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 mx-auto flex items-center justify-center">
+          <Briefcase className="w-7 h-7" />
         </div>
-        <div className="space-y-2">
-          <h2 className="text-2xl font-black text-foreground tracking-tight">
+        <div className="space-y-1.5">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
             Career Role Not Found
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
             We couldn't locate role specifications for{' '}
-            <code className="px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-xs">
-              "{roleSlug}"
-            </code>{' '}
-            in domain{' '}
-            <code className="px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-xs">
-              "{domainSlug}"
+            <code className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 font-mono text-xs text-neutral-800 dark:text-neutral-200">
+              "{roleSlug || targetRole}"
             </code>
             .
           </p>
         </div>
         <div className="flex items-center justify-center gap-3">
           <Link
-            to={`/domains/${domainSlug}`}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-foreground text-background hover:opacity-90 transition-all shadow-xs"
+            to={domainSlug ? `/domains/${domainSlug}` : '/domains'}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-all shadow-xs"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Domain</span>
           </Link>
           <Link
             to="/domains"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold bg-secondary text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all"
           >
             <span>All Domains</span>
           </Link>
@@ -241,7 +225,6 @@ export function RoleDetailPage() {
     id,
     title,
     category,
-    tags = [],
     shortDescription,
     scope,
     responsibilities = [],
@@ -270,9 +253,9 @@ export function RoleDetailPage() {
 
   const salaryText =
     stats.averageSalary ||
-    (stats.minLpa ? `₹${stats.minLpa} - ₹${stats.maxLpa} LPA` : 'Competitive Rate');
+    (stats.minLpa && stats.maxLpa ? `₹${stats.minLpa} - ₹${stats.maxLpa} LPA` : stats.minLpa ? `From ₹${stats.minLpa} LPA` : 'Competitive');
 
-  // Categorize Technical Skills
+  // Categorize Technical Skills into clean clusters
   const categorizedSkills = {
     'Languages & Core Technologies': [],
     'Frameworks & Libraries': [],
@@ -325,15 +308,15 @@ export function RoleDetailPage() {
   const validSkillGroups = Object.entries(categorizedSkills).filter(([_, items]) => items.length > 0);
 
   return (
-    <div className="space-y-6 pb-24 max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="space-y-8 pb-24 max-w-7xl mx-auto px-4 sm:px-6">
       {/* Toast Alert Feedback */}
       {toast && (
-        <div className="fixed top-20 right-6 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="bg-foreground text-background px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-background/20 backdrop-blur-md">
+        <aside aria-label="Notifications" className="fixed top-20 right-6 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-neutral-700 dark:border-neutral-300">
             {toast.type === 'warning' ? (
               <AlertCircle className="w-4 h-4 text-amber-400 stroke-[2.5]" />
             ) : (
-              <Check className="w-4 h-4 stroke-[2.5]" />
+              <Check className="w-4 h-4 text-emerald-400 dark:text-emerald-600 stroke-[2.5]" />
             )}
             <span>{toast.message}</span>
             <button
@@ -344,1022 +327,718 @@ export function RoleDetailPage() {
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        </aside>
       )}
 
-      {/* SECTION A: Breadcrumb and Top Navigation */}
-      <div className="space-y-3 pt-2">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground flex-wrap">
-            <Link to="/domains" className="hover:text-foreground transition-colors">
-              Career Explorer
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link to="/domains" className="hover:text-foreground transition-colors">
-              Explore Domains
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link
-              to={resolvedDomainSlug ? `/domains/${resolvedDomainSlug}` : '/domains'}
-              className="hover:text-foreground transition-colors font-medium text-foreground/80"
-            >
-              {domainName}
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-foreground font-bold truncate max-w-[200px] sm:max-w-none">
-              {title}
-            </span>
-          </nav>
+      {/* Top Bar: Breadcrumbs & Back Navigation */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 flex-wrap">
+          <Link to="/domains" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
+            Career Explorer
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <Link to="/domains" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
+            Explore Domains
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <Link
+            to={resolvedDomainSlug ? `/domains/${resolvedDomainSlug}` : '/domains'}
+            className="hover:text-neutral-900 dark:hover:text-white transition-colors truncate max-w-[200px]"
+          >
+            {domainName}
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <span className="text-neutral-900 dark:text-white font-semibold truncate max-w-[220px]">
+            {title}
+          </span>
+        </nav>
 
-          {/* Action Buttons: Back to Domain & Compare */}
-          <div className="flex items-center gap-2">
-            <Link
-              to={resolvedDomainSlug ? `/domains/${resolvedDomainSlug}` : '/domains'}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-secondary text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors border border-border/60 shadow-2xs"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to {domainName}</span>
-            </Link>
-
-            <Link
-              to={`/compare${comparedRoleIds.length > 0 ? `?roles=${comparedRoleIds.join(',')}` : ''}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold border border-border bg-card hover:bg-secondary text-foreground transition-colors shadow-2xs"
-            >
-              <GitCompare className="w-4 h-4" />
-              <span>Compare</span>
-              {comparedRoleIds.length > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-xs font-extrabold bg-foreground text-background">
-                  {comparedRoleIds.length}
-                </span>
-              )}
-            </Link>
-          </div>
-        </div>
-
-        {/* HERO ROLE HEADER BANNER */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-card border border-border shadow-xs space-y-6">
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-5">
-            <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-foreground text-background flex items-center justify-center shrink-0 shadow-md">
-                <DomainIcon className="w-7 h-7" />
-              </div>
-
-              <div className="space-y-1.5">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    to={resolvedDomainSlug ? `/domains/${resolvedDomainSlug}` : '/domains'}
-                    className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border/80 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
-                  >
-                    {domainName}
-                  </Link>
-                  {tags.map((t) => (
-                    <Badge key={t} variant={t.toLowerCase()} size="sm">
-                      {t}
-                    </Badge>
-                  ))}
-                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                    • Dedicated Specifications
-                  </span>
-                </div>
-
-                <h1 className="text-2xl font-bold text-foreground tracking-tight">
-                  {title}
-                </h1>
-                <p className="text-xs sm:text-sm text-foreground/80 max-w-3xl leading-relaxed font-medium">
-                  {shortDescription}
-                </p>
-              </div>
-            </div>
-
-            {/* Salary Range Tag */}
-            <div className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-sm font-bold shadow-2xs self-start md:self-auto shrink-0">
-              <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>{salaryText}</span>
-            </div>
-          </div>
-
-          {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 border-t border-border/70">
-            <div className="p-3 rounded-xl bg-secondary/40 border border-border/60">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                Campus Placement Band
-              </span>
-              <span className="text-base font-black text-foreground mt-0.5 block truncate">
-                {salaryText}
-              </span>
-            </div>
-            <div className="p-3 rounded-xl bg-secondary/40 border border-border/60">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                Active Job Openings
-              </span>
-              <span className="text-base font-bold text-foreground mt-0.5 block truncate">
-                {stats.jobOpenings || 'Active Recruiting'}
-              </span>
-            </div>
-            <div className="p-3 rounded-xl bg-secondary/40 border border-border/60">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                Market Growth Rate
-              </span>
-              <span className="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5 block truncate">
-                {stats.growthRate || '+18% YoY'}
-              </span>
-            </div>
-            <div className="p-3 rounded-xl bg-secondary/40 border border-border/60">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                Curriculum Stack
-              </span>
-              <span className="text-base font-bold text-foreground mt-0.5 block truncate">
-                {technicalSkills.length} Skills • {tools.length} Tools
-              </span>
-            </div>
-          </div>
-
-          {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-border/70">
-            {/* 1. Save Role to Favourites */}
-            <button
-              type="button"
-              onClick={handleToggleFavorite}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border transition-all cursor-pointer shadow-2xs ${
-                isFavorite
-                  ? 'bg-amber-500 text-white border-amber-500'
-                  : 'bg-card border-border hover:bg-secondary text-foreground'
-              }`}
-              title={isFavorite ? 'Remove from favourites' : 'Save role to favourites'}
-            >
-              <Star className={`w-4 h-4 ${isFavorite ? 'fill-current' : 'text-amber-500'}`} />
-              <span>{isFavorite ? 'Saved to Favourites' : 'Save to Favourites'}</span>
-            </button>
-
-            {/* 2. Assess My Skills (links directly to Skill Analyzer with preselected role) */}
-            <Link
-              to={`/skill-analyzer?role=${encodeURIComponent(id)}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold bg-primary hover:opacity-90 text-primary-foreground transition-all shadow-xs cursor-pointer active:scale-95"
-            >
-              <Cpu className="w-4 h-4" />
-              <span>Assess My Skills</span>
-            </Link>
-
-            {/* 3. Analyze My Resume for This Role */}
-            <Link
-              to={`/resume-analyzer?targetRole=${encodeURIComponent(id)}`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold bg-purple-600 hover:bg-purple-700 text-white transition-all shadow-xs cursor-pointer active:scale-95"
-            >
-              <FileSearch className="w-4 h-4" />
-              <span>Analyze My Resume</span>
-            </Link>
-
-            {/* 4. Compare Roles */}
-            <button
-              type="button"
-              onClick={handleToggleCompare}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border transition-all cursor-pointer shadow-2xs ${
-                isCompared
-                  ? 'bg-foreground text-background border-foreground'
-                  : 'bg-card border-border hover:bg-secondary text-foreground'
-              }`}
-            >
-              <GitCompare className="w-4 h-4" />
-              <span>{isCompared ? 'In Compare Queue' : 'Compare Role'}</span>
-            </button>
-
-            {/* 5. View Full Roadmap */}
-            <button
-              type="button"
-              onClick={() => setRoadmapModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border border-border bg-card hover:bg-secondary text-foreground transition-all cursor-pointer shadow-2xs"
-            >
-              <Compass className="w-4 h-4 text-muted-foreground" />
-              <span>View Learning Roadmap</span>
-            </button>
-          </div>
-        </div>
+        <Link
+          to={resolvedDomainSlug ? `/domains/${resolvedDomainSlug}` : '/domains'}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-800 shadow-xs"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to {domainName}</span>
+        </Link>
       </div>
 
-      {/* TWO-COLUMN LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* MAIN COLUMN (lg:col-span-8) */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* SECTION B: Role Overview & Scope */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 pb-2 border-b border-border/80">
-              <Briefcase className="w-4 h-4 text-foreground" />
-              <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-                Role Purpose & Engineering Scope
-              </h3>
+      {/* ================= SECTION A: ROLE OVERVIEW ================= */}
+      <section aria-labelledby="role-overview-heading" className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+          <div className="flex items-start gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/50 flex items-center justify-center shrink-0 shadow-xs">
+              <DomainIcon className="w-7 h-7" />
             </div>
-            <div className="space-y-3 text-xs sm:text-sm text-foreground/90 leading-relaxed">
-              <p>
-                As a <strong>{title}</strong> in the <strong>{domainName}</strong> discipline, you are responsible for core architectural solutions, software engineering rigor, and production reliability.
+
+            <div className="space-y-2 max-w-3xl">
+              <div className="flex flex-wrap items-center gap-2">
+                <Link
+                  to={resolvedDomainSlug ? `/domains/${resolvedDomainSlug}` : '/domains'}
+                  className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/60 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors"
+                >
+                  {domainName}
+                </Link>
+                {role.level && (
+                  <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+                    {role.level}
+                  </span>
+                )}
+              </div>
+
+              <h1 id="role-overview-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                {title}
+              </h1>
+
+              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                {shortDescription}
               </p>
-              {scope && (
-                <div className="p-4 rounded-xl bg-secondary/50 border border-border/80 text-xs text-muted-foreground leading-relaxed flex items-start gap-3">
-                  <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-foreground font-semibold block mb-0.5">Industry Mission:</strong>
-                    <span>{scope}</span>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
-          {/* SECTION C: Day-to-Day Responsibilities */}
-          {responsibilities.length > 0 && (
-            <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-border/80">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                  <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                    Primary Day-to-Day Responsibilities
-                  </h3>
-                </div>
-                <span className="text-xs font-semibold text-muted-foreground">
-                  {responsibilities.length} Verified Deliverables
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 gap-2.5">
-                {responsibilities.map((resp, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-xl bg-secondary/30 border border-border/70 flex items-start gap-3 text-sm sm:text-base text-foreground/90 leading-relaxed"
-                  >
-                    <div className="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                      {idx + 1}
-                    </div>
-                    <span>{resp}</span>
-                  </div>
-                ))}
-              </div>
+          {/* Salary Tag */}
+          <div className="self-start md:self-auto shrink-0">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs sm:text-sm font-semibold">
+              <span>Placement Band:</span>
+              <strong className="font-bold">{salaryText}</strong>
             </div>
-          )}
+          </div>
+        </div>
 
-          {/* SECTION D: Required Skills & Competencies */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border/80">
-              <div className="flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                  Required Skills & Competencies
-                </h3>
-              </div>
-              <span className="text-xs font-semibold text-muted-foreground">
-                {technicalSkills.length} Technical • {softSkills.length} Behavioral
-              </span>
+        {/* Clean, Consistent Action Layout */}
+        <div className="pt-4 border-t border-neutral-100 dark:border-neutral-800 flex flex-wrap items-center gap-2.5">
+          {/* 1. Assess My Skills */}
+          <Link
+            to={`/skill-analyzer?role=${encodeURIComponent(id)}`}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-purple-600 hover:bg-purple-700 text-white transition-all shadow-xs cursor-pointer active:scale-98"
+          >
+            <Cpu className="w-4 h-4" />
+            <span>Assess My Skills</span>
+          </Link>
+
+          {/* 2. Analyze My Resume */}
+          <Link
+            to={`/resume-analyzer?targetRole=${encodeURIComponent(id)}`}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl text-xs sm:text-sm font-semibold border border-purple-200 dark:border-purple-800 bg-purple-50/70 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all shadow-xs cursor-pointer active:scale-98"
+          >
+            <FileSearch className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <span>Analyze My Resume</span>
+          </Link>
+
+          {/* 3. Check Career Fit */}
+          <button
+            type="button"
+            onClick={() => setFitModalOpen(true)}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all cursor-pointer shadow-xs"
+          >
+            <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <span>Career Fit Score</span>
+          </button>
+
+          {/* 4. Compare Role */}
+          <button
+            type="button"
+            onClick={handleToggleCompare}
+            className={`inline-flex items-center gap-2 h-10 px-4 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer shadow-xs ${
+              isCompared
+                ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 border-neutral-900 dark:border-white'
+                : 'bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+            }`}
+          >
+            <GitCompare className="w-4 h-4" />
+            <span>{isCompared ? 'In Comparison' : 'Compare Role'}</span>
+          </button>
+
+          {/* 5. Save to Favourites */}
+          <button
+            type="button"
+            onClick={handleToggleFavorite}
+            className={`inline-flex items-center gap-2 h-10 px-4 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer shadow-xs ${
+              isFavorite
+                ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800'
+                : 'bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+            }`}
+            title={isFavorite ? 'Remove from favourites' : 'Save role to favourites'}
+          >
+            <Star className={`w-4 h-4 ${isFavorite ? 'fill-current text-amber-500' : 'text-neutral-400'}`} />
+            <span>{isFavorite ? 'Saved' : 'Save Role'}</span>
+          </button>
+
+          {/* 6. View Learning Roadmap Modal */}
+          <button
+            type="button"
+            onClick={() => setRoadmapModalOpen(true)}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all cursor-pointer shadow-xs ml-auto"
+          >
+            <Compass className="w-4 h-4 text-neutral-500" />
+            <span>View Visual Roadmap</span>
+          </button>
+        </div>
+      </section>
+
+      {/* ================= SECTION B: CAREER INSIGHTS ================= */}
+      <section aria-labelledby="career-insights-heading" className="space-y-3">
+        <h2 id="career-insights-heading" className="sr-only">Career Insights</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 1. Placement Salary Band */}
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-xs space-y-1.5">
+            <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider block">
+              Placement Salary Band
+            </span>
+            <div className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white tracking-tight truncate">
+              {salaryText}
             </div>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Campus recruitment range
+            </p>
+          </div>
 
-            {/* Categorized Clusters */}
-            <div className="space-y-4">
-              {validSkillGroups.map(([groupName, items]) => (
-                <div key={groupName} className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                    {groupName}
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {items.map((skill, sIdx) => (
-                      <span
-                        key={sIdx}
-                        className="px-3 py-1.5 rounded-xl text-sm font-semibold bg-card border border-border text-foreground shadow-2xs hover:border-foreground/30 transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+          {/* 2. Industry Demand */}
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-xs space-y-1.5">
+            <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider block">
+              Industry Demand
+            </span>
+            <div className="text-lg sm:text-xl font-bold text-purple-600 dark:text-purple-400 tracking-tight truncate">
+              {stats.jobOpenings ? `${stats.jobOpenings}` : 'High Demand'}
+            </div>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Actively hiring across drives
+            </p>
+          </div>
+
+          {/* 3. Market Growth */}
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-xs space-y-1.5">
+            <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider block">
+              Market Growth Rate
+            </span>
+            <div className="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400 tracking-tight truncate">
+              {stats.growthRate || '+18% YoY'}
+            </div>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Year-on-year sector expansion
+            </p>
+          </div>
+
+          {/* 4. Required Skill Count */}
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-xs space-y-1.5">
+            <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider block">
+              Required Skill Stack
+            </span>
+            <div className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white tracking-tight truncate">
+              {technicalSkills.length} Skills • {tools.length} Tools
+            </div>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Core production competencies
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= SECTION C: WHAT YOU WILL DO ================= */}
+      <section aria-labelledby="responsibilities-heading" className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-5">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+          <Briefcase className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+          <h2 id="responsibilities-heading" className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white">
+            What You Will Do
+          </h2>
+        </div>
+
+        {scope && (
+          <div className="p-4 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/70 dark:border-purple-800/60 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed flex items-start gap-3">
+            <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-neutral-900 dark:text-white font-semibold block mb-0.5">
+                Engineering Mission:
+              </strong>
+              <span>{scope}</span>
+            </div>
+          </div>
+        )}
+
+        {responsibilities.length > 0 && (
+          <div className="space-y-3 pt-1">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+              Key Responsibilities & Deliverables
+            </h3>
+            <div className="grid grid-cols-1 gap-2.5">
+              {responsibilities.map((resp, idx) => (
+                <div
+                  key={idx}
+                  className="p-3.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 flex items-start gap-3 text-xs sm:text-sm text-neutral-800 dark:text-neutral-200 leading-relaxed"
+                >
+                  <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                    {idx + 1}
                   </div>
+                  <span>{resp}</span>
                 </div>
               ))}
-
-              {/* Soft Skills */}
-              {softSkills.length > 0 && (
-                <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                    Behavioral & Professional Communication Traits
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {softSkills.map((trait, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-3 py-1.5 rounded-xl text-sm font-medium bg-card border border-border text-muted-foreground"
-                      >
-                        {trait}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
+        )}
+      </section>
 
-          {/* SECTION E: Technology Stack and Tools */}
-          {tools.length > 0 && (
-            <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-border/80">
-                <div className="flex items-center gap-2">
-                  <Wrench className="w-5 h-5 text-amber-500" />
-                  <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                    Standard Production Toolchains
-                  </h3>
-                </div>
-                <span className="text-xs font-semibold text-muted-foreground">
-                  {tools.length} Industry Tools
-                </span>
-              </div>
+      {/* ================= SECTION D: SKILLS REQUIRED ================= */}
+      <section aria-labelledby="skills-heading" className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex items-center justify-between pb-2 border-b border-neutral-100 dark:border-neutral-800">
+          <div className="flex items-center gap-2.5">
+            <Cpu className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+            <h2 id="skills-heading" className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white">
+              Skills Required
+            </h2>
+          </div>
+          <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            {technicalSkills.length} Technical • {softSkills.length} Behavioral
+          </span>
+        </div>
 
-              <div className="flex flex-wrap gap-2">
-                {tools.map((tool, idx) => (
-                  <div
-                    key={idx}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-bold bg-secondary text-foreground border border-border shadow-2xs"
+        {/* Categorized Technical Skills */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {validSkillGroups.map(([groupName, items]) => (
+            <div
+              key={groupName}
+              className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-2.5"
+            >
+              <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
+                {groupName}
+              </h3>
+              <div className="flex flex-wrap gap-1.5">
+                {items.map((skill, sIdx) => (
+                  <span
+                    key={sIdx}
+                    className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 shadow-2xs"
                   >
-                    <Wrench className="w-4 h-4 text-muted-foreground" />
-                    <span>{tool}</span>
-                  </div>
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>
-          )}
+          ))}
+        </div>
 
-          {/* SECTION F: Career Readiness Benchmarks */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border/80">
-              <div className="flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                  Career Readiness Benchmarks
-                </h3>
-              </div>
-              <span className="text-xs font-semibold text-muted-foreground">
-                Placement & Eligibility Progression
-              </span>
+        {/* Soft Skills */}
+        {softSkills.length > 0 && (
+          <div className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
+              Professional & Behavioral Soft Skills
+            </h3>
+            <div className="flex flex-wrap gap-1.5">
+              {softSkills.map((trait, tIdx) => (
+                <span
+                  key={tIdx}
+                  className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300"
+                >
+                  {trait}
+                </span>
+              ))}
             </div>
+          </div>
+        )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              {/* 1. Beginner Prerequisites */}
-              <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                  Beginner Prerequisites
+        {/* Industry Toolchains */}
+        {tools.length > 0 && (
+          <div className="space-y-2.5 pt-2 border-t border-neutral-100 dark:border-neutral-800">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400 flex items-center gap-1.5">
+              <Wrench className="w-3.5 h-3.5 text-neutral-400" />
+              <span>Production Tools & Environments</span>
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {tools.map((tool, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200/80 dark:border-neutral-700/80"
+                >
+                  {tool}
                 </span>
-                <div className="space-y-1.5 text-xs text-foreground/90">
-                  {(role.careerReadiness?.prerequisites || [
-                    'Basic programming syntax and logical problem solving',
-                    'Familiarity with version control (Git) and command line tools',
-                    'Foundational computer science coursework'
-                  ]).map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
 
-              {/* 2. Internship & Entry-Level Expected */}
-              <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                  Expected for Entry-Level & Internships
-                </span>
-                <div className="space-y-1.5 text-xs text-foreground/90">
-                  {(role.careerReadiness?.entryLevelExpected || [
-                    'Ability to build functional modules adhering to design patterns',
-                    'Handling API calls, asynchronous states, and input validation',
-                    'Writing clean, documented code and working in Agile sprints'
-                  ]).map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0 mt-1.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      {/* ================= SECTION E: QUALIFICATIONS & LEARNING ================= */}
+      <section aria-labelledby="qualifications-heading" className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+          <GraduationCap className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+          <h2 id="qualifications-heading" className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white">
+            Qualifications & Learning Prerequisites
+          </h2>
+        </div>
 
-              {/* 3. Mid-Level & Senior Additional Skills */}
-              <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block flex items-center gap-1.5">
-                  <TrendingUp className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-                  Mid-Level & Senior Progression Skills
-                </span>
-                <div className="space-y-1.5 text-xs text-foreground/90">
-                  {(role.careerReadiness?.midSeniorExpected || [
-                    'Architecting scalable, fault-tolerant distributed solutions',
-                    'Leading technical root-cause incident post-mortems',
-                    'Mentoring junior engineers and governing architectural standards'
-                  ]).map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0 mt-1.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 1. Beginner Prerequisites */}
+          <div className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-2.5">
+            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 block flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              Beginner Prerequisites
+            </span>
+            <div className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-400">
+              {(role.careerReadiness?.prerequisites || [
+                'Basic programming syntax and logical problem solving',
+                'Familiarity with version control (Git) and command line tools',
+                'Foundational computer science or engineering coursework'
+              ]).map((item, idx) => (
+                <div key={idx} className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
+                  <span>{item}</span>
                 </div>
-              </div>
-
-              {/* 4. Common Knowledge Gaps to Address */}
-              <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/20 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 block flex items-center gap-1.5">
-                  <AlertCircle className="w-3.5 h-3.5 text-amber-500" />
-                  Common Knowledge Gaps to Work On
-                </span>
-                <div className="space-y-1.5 text-xs text-foreground/90">
-                  {(role.careerReadiness?.gaps || [
-                    'Relying solely on high-level libraries without understanding underlying system mechanics',
-                    'Neglecting automated test coverage (unit, integration, load)',
-                    'Overlooking security vulnerabilities and edge case boundaries'
-                  ]).map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* SECTION E: Recommended Portfolio Capstones */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border/80">
-              <div className="flex items-center gap-2">
-                <FolderGit2 className="w-5 h-5 text-foreground" />
-                <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                  Recommended Portfolio Capstones
-                </h3>
-              </div>
-              <span className="text-xs font-semibold text-muted-foreground">
-                Verifiable Proof of Work
-              </span>
+          {/* 2. Expected for Entry-Level & Internships */}
+          <div className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-2.5">
+            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 block flex items-center gap-1.5">
+              <Briefcase className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+              Expected for Campus Placement
+            </span>
+            <div className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-400">
+              {(role.careerReadiness?.entryLevelExpected || [
+                'Ability to build functional modules adhering to standard patterns',
+                'Handling API calls, asynchronous states, and input validation',
+                'Writing clean, documented code and working in Agile team sprints'
+              ]).map((item, idx) => (
+                <div key={idx} className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-600 shrink-0 mt-1.5" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Recommended Certifications */}
+        {certifications.length > 0 && (
+          <div className="space-y-3 pt-2 border-t border-neutral-100 dark:border-neutral-800">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400 flex items-center gap-1.5">
+              <Award className="w-3.5 h-3.5 text-amber-500" />
+              <span>Recommended Industry Certifications</span>
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {certifications.map((cert, cIdx) => (
+                <div
+                  key={cIdx}
+                  className="p-3.5 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-1"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="font-semibold text-xs text-neutral-900 dark:text-neutral-100 leading-snug">
+                      {cert.name}
+                    </span>
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shrink-0 ${
+                        cert.type === 'FREE'
+                          ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                          : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300'
+                      }`}
+                    >
+                      {cert.type}
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-neutral-500 dark:text-neutral-400 block">
+                    {cert.provider}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ================= SECTION F: CAREER ROADMAP & PROJECTS ================= */}
+      <section aria-labelledby="roadmap-heading" className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+          <div className="flex items-center gap-2.5">
+            <Compass className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+            <h2 id="roadmap-heading" className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white">
+              Career Roadmap & Practical Capstones
+            </h2>
+          </div>
+          <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            Beginner → Intermediate → Advanced
+          </span>
+        </div>
+
+        {/* Interactive Progressive Stages */}
+        {roadmap.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-2 border-b border-neutral-100 dark:border-neutral-800 pb-3">
+              {roadmap.map((stg, sIndex) => (
+                <button
+                  key={sIndex}
+                  type="button"
+                  onClick={() => setActiveRoadmapStage(sIndex)}
+                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    activeRoadmapStage === sIndex
+                      ? 'bg-purple-600 text-white shadow-xs'
+                      : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
+                  }`}
+                >
+                  Stage {sIndex + 1}: {stg.title || stg.stage}
+                </button>
+              ))}
             </div>
 
-            <p className="text-sm text-muted-foreground">
-              Build and showcase these production-grade projects on GitHub to substantiate your resume during campus interview screening:
-            </p>
-
             {(() => {
-              const renderProjectItems = (projData, fallbackTitle) => {
-                const items = Array.isArray(projData)
-                  ? projData
-                  : projData
-                  ? [projData]
-                  : [fallbackTitle];
-
-                return items.map((p, idx) => {
-                  if (typeof p === 'string') {
-                    return (
-                      <div key={idx} className="text-sm font-semibold text-foreground leading-relaxed p-3 rounded-lg bg-card border border-border/60">
-                        {p}
-                      </div>
-                    );
-                  }
-                  return (
-                    <div key={idx} className="p-3.5 rounded-lg bg-card border border-border/60 space-y-2">
-                      <div className="font-bold text-sm text-foreground leading-snug">
-                        {p.title || p.name || fallbackTitle}
-                      </div>
-                      {p.description && (
-                        <p className="text-xs text-muted-foreground leading-relaxed">
-                          {p.description}
-                        </p>
-                      )}
-                      {Array.isArray(p.tech) && p.tech.length > 0 && (
-                        <div className="space-y-1 pt-1">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
-                            Technologies to Use:
-                          </span>
-                          <div className="flex flex-wrap gap-1">
-                            {p.tech.map((t, tidx) => (
-                              <span key={tidx} className="px-1.5 py-0.5 rounded text-[11px] font-medium bg-secondary text-foreground border border-border/70">
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {Array.isArray(p.skills) && p.skills.length > 0 && (
-                        <div className="space-y-1 pt-1 border-t border-border/40">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
-                            Skills Demonstrated:
-                          </span>
-                          <div className="flex flex-wrap gap-1">
-                            {p.skills.map((s, sidx) => (
-                              <span key={sidx} className="px-1.5 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
-                                {s}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                });
-              };
-
+              const currentStage = roadmap[activeRoadmapStage] || roadmap[0];
               return (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                  {/* Beginner */}
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2.5 flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 inline-block">
-                        Beginner Project
-                      </span>
-                      <div className="space-y-2">
-                        {renderProjectItems(projects.beginner, 'Foundational Domain Portfolio & Utility')}
-                      </div>
-                    </div>
+                <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200/80 dark:border-neutral-700/80 space-y-4 animate-in fade-in-50 duration-150">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 block mb-0.5">
+                      Stage 0{activeRoadmapStage + 1}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
+                      {currentStage.title || currentStage.stage}
+                    </h3>
+                    {currentStage.description && (
+                      <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
+                        {currentStage.description}
+                      </p>
+                    )}
                   </div>
 
-                  {/* Intermediate */}
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2.5 flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20 inline-block">
-                        Intermediate Framework
-                      </span>
-                      <div className="space-y-2">
-                        {renderProjectItems(projects.intermediate, 'End-to-End Enterprise Architecture Project')}
+                  {/* Stage Skills & Tools */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {currentStage.skills && currentStage.skills.length > 0 && (
+                      <div className="space-y-1.5">
+                        <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">
+                          Target Competencies
+                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {currentStage.skills.map((sk, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200"
+                            >
+                              {sk}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    )}
 
-                  {/* Advanced */}
-                  <div className="p-4 rounded-xl bg-secondary/30 border border-border/70 space-y-2.5 flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 inline-block">
-                        Advanced / Distributed
-                      </span>
-                      <div className="space-y-2">
-                        {renderProjectItems(projects.advanced, 'Full Scalable Cloud & Distributed Capstone')}
+                    {currentStage.tools && currentStage.tools.length > 0 && (
+                      <div className="space-y-1.5">
+                        <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">
+                          Toolchains
+                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {currentStage.tools.map((tl, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200"
+                            >
+                              {tl}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               );
             })()}
           </div>
+        )}
 
-          {/* SECTION F: Related Career Opportunities & Cross-Domain Pathways */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border/80">
-              <div className="flex items-center gap-2">
-                <Layers className="w-5 h-5 text-sky-600 dark:text-sky-400" />
-                <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                  Related Career Opportunities & Pathways
-                </h3>
-              </div>
-              <span className="text-xs font-semibold text-muted-foreground">
-                Skill Overlaps & Lateral Growth
-              </span>
-            </div>
-
-            <p className="text-sm text-muted-foreground">
-              Explore roles sharing core competencies, cross-domain specializations, and potential career progression routes:
-            </p>
-
-            {/* Similar & Skill-Sharing Roles */}
-            <div className="space-y-2.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                Roles That Share Skills & Core Competencies
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {(relatedRoles.length > 0
-                  ? relatedRoles
-                  : ['full-stack-developer', 'backend-developer', 'cloud-engineer']
-                ).map((rId, idx) => {
-                  const relRole = getRoleById(rId);
-                  const relTitle = relRole?.title || rId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                  const relCat = relRole?.category || domainName;
-                  const relSlug = relRole?.id || rId;
-
-                  return (
-                    <Link
-                      key={idx}
-                      to={`/career-explorer/roles/${relSlug}`}
-                      className="p-3.5 rounded-xl bg-secondary/30 hover:bg-secondary/70 border border-border/80 transition-all group flex flex-col justify-between"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between gap-1 mb-1">
-                          <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1">
-                            {relTitle}
-                          </span>
-                          <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
-                        </div>
-                        <span className="text-[11px] text-muted-foreground line-clamp-1">
-                          {relCat}
-                        </span>
-                      </div>
-                      <div className="mt-2.5 pt-2 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground">
-                        <span>{relRole?.level || 'Entry-Level'}</span>
-                        <span className="text-primary font-semibold">Explore Role →</span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Alternative Technology Domains */}
-            {domain?.relatedDomains && domain.relatedDomains.length > 0 && (
-              <div className="space-y-2 pt-2 border-t border-border/60">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                  Alternative & Adjacent Technology Domains
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {domain.relatedDomains.map((domSlug, idx) => {
-                    const domObj = CAREER_DOMAINS.find(d => d.id === domSlug);
-                    const domTitle = domObj?.name || domSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-
-                    return (
-                      <Link
-                        key={idx}
-                        to={`/career-explorer/domains/${domSlug}`}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary/70 hover:bg-secondary text-foreground border border-border/70 transition-colors"
-                      >
-                        <span>{domTitle}</span>
-                        <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+        {/* Recommended Capstone Projects */}
+        <div className="space-y-4 pt-2">
+          <div className="flex items-center gap-2">
+            <FolderGit2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
+              Recommended Practical Capstones (Proof of Work)
+            </h3>
           </div>
 
-          {/* SECTION G: Structured Career Preparation Roadmap */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-border/80">
-              <div className="flex items-center gap-2">
-                <Compass className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                  Placement Preparation Roadmap
-                </h3>
-              </div>
-              <span className="text-xs font-semibold text-muted-foreground">
-                {roadmap.length > 0 ? `${roadmap.length} Progressive Stages` : '5 Verified Milestones'}
-              </span>
-            </div>
-
-            {roadmap.length > 0 ? (
-              <div className="space-y-4">
-                {/* Stage Navigator Tabs */}
-                <div className="flex flex-wrap gap-1.5 border-b border-border pb-3">
-                  {roadmap.map((stg, sIndex) => (
-                    <button
-                      key={sIndex}
-                      type="button"
-                      onClick={() => setActiveRoadmapStage(sIndex)}
-                      className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                        activeRoadmapStage === sIndex
-                          ? 'bg-foreground text-background shadow-xs'
-                          : 'bg-secondary text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      Stage {sIndex + 1}: {stg.title || stg.stage}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Selected Stage Detail Card */}
-                {(() => {
-                  const currentStage = roadmap[activeRoadmapStage] || roadmap[0];
-                  return (
-                    <div className="p-5 rounded-2xl bg-secondary/30 border border-border space-y-4 animate-in fade-in-50 duration-150">
-                      <div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 block mb-1">
-                          Stage 0{activeRoadmapStage + 1}
-                        </span>
-                        <h4 className="text-lg font-black text-foreground">
-                          {currentStage.title || currentStage.stage}
-                        </h4>
-                        {currentStage.description && (
-                          <p className="text-sm text-muted-foreground mt-0.5">
-                            {currentStage.description}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Skills & Tools */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {currentStage.skills && currentStage.skills.length > 0 && (
-                          <div className="space-y-1.5">
-                            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                              Target Competencies
-                            </span>
-                            <div className="flex flex-wrap gap-1">
-                              {currentStage.skills.map((sk, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold bg-card border border-border text-foreground"
-                                >
-                                  {sk}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {currentStage.tools && currentStage.tools.length > 0 && (
-                          <div className="space-y-1.5">
-                            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                              Toolchains
-                            </span>
-                            <div className="flex flex-wrap gap-1">
-                              {currentStage.tools.map((tl, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold bg-card border border-border text-foreground"
-                                >
-                                  {tl}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Learning Activities */}
-                      {currentStage.learningActivities && currentStage.learningActivities.length > 0 && (
-                        <div className="space-y-1.5 pt-2 border-t border-border/60">
-                          <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                            Actionable Milestone Objectives
-                          </span>
-                          <ul className="space-y-1.5 text-sm text-foreground/90">
-                            {currentStage.learningActivities.map((act, idx) => (
-                              <li key={idx} className="flex items-start gap-2">
-                                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                                <span>{act}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })()}
-              </div>
-            ) : (
-              /* Fallback Standard Roadmap */
-              <div className="space-y-3">
-                {[
-                  { n: '01', t: 'CS Foundations & Algorithmic Core', d: 'Master data structures, memory layout, and Git version control.' },
-                  { n: '02', t: 'Core Domain Frameworks & Protocols', d: 'Construct full-stack modules and configure cloud databases.' },
-                  { n: '03', t: 'Scalable Capstone Engineering', d: 'Deploy containerized services with automated CI/CD pipelines.' },
-                  { n: '04', t: 'Resume ATS Alignment & Proof of Work', d: 'Synthesize quantified bullet points using the Google XYZ formula.' },
-                  { n: '05', t: 'Live Technical & Behavioral Mock Rounds', d: 'Simulate high-frequency company interview questions.' },
-                ].map((s) => (
-                  <div key={s.n} className="p-3.5 rounded-xl bg-secondary/30 border border-border/70 flex items-start gap-3">
-                    <span className="w-7 h-7 rounded-lg bg-foreground text-background font-black text-xs flex items-center justify-center shrink-0">
-                      {s.n}
-                    </span>
-                    <div>
-                      <h4 className="text-sm font-bold text-foreground">{s.t}</h4>
-                      <p className="text-xs text-muted-foreground">{s.d}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* SECTION H: Interview Questions & Screening Prep */}
-          {interviewQuestions.length > 0 && (
-            <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-border/80">
-                <div className="flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-sky-500" />
-                  <h3 className="text-base font-bold uppercase tracking-wider text-foreground">
-                    High-Frequency Campus Interview Questions
-                  </h3>
-                </div>
-                <span className="text-xs font-semibold text-muted-foreground">
-                  {interviewQuestions.length} Questions
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Beginner */}
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 inline-block">
+                  Beginner Capstone
                 </span>
-              </div>
-
-              <div className="space-y-2.5">
-                {interviewQuestions.map((q, qIdx) => {
-                  const isExpanded = expandedFaqIndex === qIdx;
-                  return (
-                    <div
-                      key={qIdx}
-                      className="rounded-xl border border-border bg-secondary/30 overflow-hidden transition-colors"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setExpandedFaqIndex(isExpanded ? null : qIdx)}
-                        className="w-full text-left p-3.5 text-sm font-bold text-foreground flex items-center justify-between gap-3 cursor-pointer hover:bg-secondary/60"
-                      >
-                        <span className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-full bg-secondary text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
-                            Q{qIdx + 1}
-                          </span>
-                          <span>{q.question || q}</span>
-                        </span>
-                        {isExpanded ? (
-                          <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
-                        ) : (
-                          <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />
-                        )}
-                      </button>
-
-                      {isExpanded && q.answer && (
-                        <div className="px-4 pb-4 pt-1 text-sm text-muted-foreground border-t border-border/60 bg-card leading-relaxed">
-                          <strong className="text-foreground block mb-1 font-semibold">Evaluation Rubric / Answer Hint:</strong>
-                          <span>{q.answer}</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                <h4 className="text-sm font-bold text-neutral-900 dark:text-white leading-snug">
+                  {(projects.beginner && projects.beginner[0]?.title) || (typeof projects.beginner?.[0] === 'string' ? projects.beginner[0] : 'Foundational Portfolio App')}
+                </h4>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  {(projects.beginner && projects.beginner[0]?.description) || 'Build and deploy a functional end-to-end utility applying domain fundamentals.'}
+                </p>
               </div>
             </div>
-          )}
+
+            {/* Intermediate */}
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/60 inline-block">
+                  Intermediate Project
+                </span>
+                <h4 className="text-sm font-bold text-neutral-900 dark:text-white leading-snug">
+                  {(projects.intermediate && projects.intermediate[0]?.title) || (typeof projects.intermediate?.[0] === 'string' ? projects.intermediate[0] : 'Production Enterprise Application')}
+                </h4>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  {(projects.intermediate && projects.intermediate[0]?.description) || 'Incorporate asynchronous APIs, authentication, testing, and responsive UI components.'}
+                </p>
+              </div>
+            </div>
+
+            {/* Advanced */}
+            <div className="p-5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 border border-sky-200/80 dark:border-sky-800/60 inline-block">
+                  Advanced Scalable System
+                </span>
+                <h4 className="text-sm font-bold text-neutral-900 dark:text-white leading-snug">
+                  {(projects.advanced && projects.advanced[0]?.title) || (typeof projects.advanced?.[0] === 'string' ? projects.advanced[0] : 'Distributed Cloud-Native Architecture')}
+                </h4>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  {(projects.advanced && projects.advanced[0]?.description) || 'Architect distributed caching, CI/CD pipelines, containerized orchestration, and analytics.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= SECTION G: INDUSTRY OPPORTUNITIES ================= */}
+      <section aria-labelledby="opportunities-heading" className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+          <Building2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+          <h2 id="opportunities-heading" className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white">
+            Industry Opportunities & Career Pathways
+          </h2>
         </div>
 
-        {/* SIDEBAR COLUMN (lg:col-span-4) */}
-        <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-20">
-          {/* Card 1: Salary Benchmark Card */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border/80">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Placement Economics</span>
-              </span>
-              <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
-                Verified Band
-              </span>
+        {/* Hiring Companies */}
+        {topHiringCompanies.length > 0 && (
+          <div className="space-y-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
+              Prominent IT Recruiters Hiring for This Role
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {topHiringCompanies.map((comp, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200/80 dark:border-neutral-700/80"
+                >
+                  <Building2 className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>{comp}</span>
+                </span>
+              ))}
             </div>
-
-            <div className="space-y-1">
-              <div className="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400 tracking-tight">
-                {salaryText}
-              </div>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Campus placement recruitment compensation band for entry to junior {title} roles.
-              </p>
-            </div>
-
-            {stats.minLpa && stats.maxLpa && (
-              <div className="p-3 rounded-xl bg-secondary/50 border border-border/60 space-y-1.5 text-xs sm:text-sm">
-                <div className="flex justify-between items-center text-muted-foreground">
-                  <span>Baseline Campus Offer:</span>
-                  <strong className="text-foreground">₹{stats.minLpa} LPA</strong>
-                </div>
-                <div className="flex justify-between items-center text-muted-foreground">
-                  <span>Super Dream / Ceiling Offer:</span>
-                  <strong className="text-emerald-600 dark:text-emerald-400">₹{stats.maxLpa} LPA</strong>
-                </div>
-              </div>
-            )}
           </div>
+        )}
 
-          {/* Card 2: Quick Action Center */}
-          <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground block pb-2 border-b border-border/80">
-              CampusCorp Action Hub
-            </span>
+        {/* Related Career Roles */}
+        <div className="space-y-3 pt-2 border-t border-neutral-100 dark:border-neutral-800">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
+            Similar & Cross-Domain Career Roles
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            {(relatedRoles.length > 0
+              ? relatedRoles
+              : ['full-stack-developer', 'backend-developer', 'cloud-engineer']
+            ).map((rId, idx) => {
+              const relRole = getRoleById(rId);
+              const relTitle = relRole?.title || rId.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+              const relCat = relRole?.category || domainName;
+              const relSlug = relRole?.id || rId;
+
+              return (
+                <Link
+                  key={idx}
+                  to={`/career-explorer/roles/${relSlug}`}
+                  className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 hover:bg-neutral-100 dark:hover:bg-neutral-800 border border-neutral-200/70 dark:border-neutral-700/60 transition-all group flex flex-col justify-between space-y-2"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <span className="text-xs sm:text-sm font-bold text-neutral-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-1">
+                        {relTitle}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-purple-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </div>
+                    <span className="text-[11px] text-neutral-500 dark:text-neutral-400 line-clamp-1">
+                      {relCat}
+                    </span>
+                  </div>
+                  <div className="pt-2 border-t border-neutral-200/50 dark:border-neutral-700/50 flex items-center justify-between text-[11px]">
+                    <span className="text-neutral-500 dark:text-neutral-400">{relRole?.level || 'Entry-Level'}</span>
+                    <span className="text-purple-600 dark:text-purple-400 font-semibold">View Role →</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Collapsible Campus Interview Questions Accordion */}
+        {interviewQuestions.length > 0 && (
+          <div className="space-y-3 pt-3 border-t border-neutral-100 dark:border-neutral-800">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400 flex items-center gap-1.5">
+                <HelpCircle className="w-3.5 h-3.5 text-neutral-400" />
+                <span>Frequently Asked Campus Interview Questions</span>
+              </h3>
+              <span className="text-xs text-neutral-400">
+                {interviewQuestions.length} Questions
+              </span>
+            </div>
 
             <div className="space-y-2">
-              <button
-                type="button"
-                onClick={() => setFitModalOpen(true)}
-                className="w-full py-2.5 px-3 rounded-xl text-sm font-bold bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs active:scale-98"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Check My Career Fit</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleToggleCompare}
-                className={`w-full py-2.5 px-3 rounded-xl text-sm font-bold border flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs ${
-                  isCompared
-                    ? 'bg-foreground text-background border-foreground'
-                    : 'bg-secondary text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 border-border'
-                }`}
-              >
-                <GitCompare className="w-4 h-4" />
-                <span>{isCompared ? 'Role Queued in Comparison' : 'Add to Compare Queue'}</span>
-              </button>
-
-              <Link
-                to={`/resume-analyzer?targetRole=${encodeURIComponent(id)}`}
-                className="w-full py-2.5 px-3 rounded-xl text-sm font-semibold bg-card hover:bg-secondary text-foreground border border-border flex items-center justify-between transition-colors shadow-2xs"
-              >
-                <span className="flex items-center gap-2">
-                  <FileSearch className="w-4 h-4 text-foreground" />
-                  <span>ATS Resume Evaluation</span>
-                </span>
-                <ArrowRight className="w-4 h-4 text-muted-foreground" />
-              </Link>
-
-              <Link
-                to={`/skill-analyzer?role=${encodeURIComponent(id)}`}
-                className="w-full py-2.5 px-3 rounded-xl text-sm font-semibold bg-card hover:bg-secondary text-foreground border border-border flex items-center justify-between transition-colors shadow-2xs"
-              >
-                <span className="flex items-center gap-2">
-                  <Cpu className="w-4 h-4 text-foreground" />
-                  <span>Verify Skill Gaps</span>
-                </span>
-                <ArrowRight className="w-4 h-4 text-muted-foreground" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 3: Industry Credentials & Certifications */}
-          {certifications.length > 0 && (
-            <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-border/80">
-                <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                  <Award className="w-4 h-4 text-amber-500" />
-                  <span>Recognized Certifications</span>
-                </span>
-                <span className="text-xs font-bold text-muted-foreground">
-                  {certifications.length} Credentials
-                </span>
-              </div>
-
-              <div className="space-y-2">
-                {certifications.map((cert, cIdx) => (
+              {interviewQuestions.map((q, qIdx) => {
+                const isExpanded = expandedFaqIndex === qIdx;
+                return (
                   <div
-                    key={cIdx}
-                    className="p-3 rounded-xl bg-secondary/30 border border-border/70 space-y-1 text-sm"
+                    key={qIdx}
+                    className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800/40 overflow-hidden transition-colors"
                   >
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="font-semibold text-foreground leading-snug">{cert.name}</span>
-                      <span
-                        className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded shrink-0 ${
-                          cert.type === 'FREE'
-                            ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20'
-                            : 'bg-secondary text-muted-foreground border border-border'
-                        }`}
-                      >
-                        {cert.type}
+                    <button
+                      type="button"
+                      onClick={() => setExpandedFaqIndex(isExpanded ? null : qIdx)}
+                      className="w-full text-left p-3.5 text-xs sm:text-sm font-semibold text-neutral-800 dark:text-neutral-200 flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-800/80 transition-colors"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 flex items-center justify-center text-[10px] font-bold shrink-0">
+                          Q{qIdx + 1}
+                        </span>
+                        <span>{q.question || q}</span>
                       </span>
-                    </div>
-                    <span className="text-xs text-muted-foreground block">{cert.provider}</span>
+                      <ChevronDown
+                        className={`w-4 h-4 text-neutral-400 shrink-0 transition-transform duration-200 ${
+                          isExpanded ? 'rotate-180 text-purple-600' : ''
+                        }`}
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isExpanded && q.answer && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.18, ease: 'easeOut' }}
+                          className="px-4 pb-4 pt-1 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 border-t border-neutral-200/80 dark:border-neutral-700/80 bg-white dark:bg-neutral-900 leading-relaxed"
+                        >
+                          <strong className="text-neutral-900 dark:text-white block mb-1 font-semibold">
+                            Evaluation Hint / Expected Approach:
+                          </strong>
+                          <span>{q.answer}</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Card 4: Verified Recruiters in Campus Drives */}
-          {topHiringCompanies.length > 0 && (
-            <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5 pb-2 border-b border-border/80">
-                <Building2 className="w-4 h-4 text-foreground" />
-                <span>Recruiters for {title}</span>
-              </span>
-
-              <div className="flex flex-wrap gap-1.5">
-                {topHiringCompanies.map((comp, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold bg-secondary text-foreground border border-border"
-                  >
-                    <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
-                    <span>{comp}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Card 5: CampusCorp LMS Integration */}
-          <div className="p-4 rounded-2xl bg-secondary/40 border border-border/80 space-y-2.5 text-sm">
-            <div className="flex items-center gap-2 text-foreground font-bold">
-              <GraduationCap className="w-4 h-4" />
-              <span>CampusCorp Learning Integration</span>
-            </div>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              Enrolled students can track course credits, solve proctored compiler challenges, and practice live mock video rounds.
-            </p>
-            <div className="grid grid-cols-2 gap-2 pt-1">
-              <Link
-                to="/lms"
-                className="p-2.5 rounded-lg bg-card border border-border text-center font-bold text-xs sm:text-sm hover:bg-secondary text-foreground"
-              >
-                LMS Masterclass
-              </Link>
-              <Link
-                to="/assessment"
-                className="p-2.5 rounded-lg bg-card border border-border text-center font-bold text-xs sm:text-sm hover:bg-secondary text-foreground"
-              >
-                Code Sandbox
-              </Link>
+                );
+              })}
             </div>
           </div>
-        </div>
-      </div>
+        )}
+      </section>
 
       {/* ================= COMPACT COMPARISON INDICATOR ================= */}
       {comparedRoleIds.length > 0 && (
-        <div className="fixed bottom-5 right-5 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
-          <div className="bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] rounded-full px-3.5 py-2 shadow-2xl border border-neutral-700/60 dark:border-neutral-200/60 flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md">
-            <div className="flex items-center gap-1.5">
+        <aside aria-label="Comparison Tray" className="fixed bottom-6 right-6 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
+          <div className="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 rounded-full px-4 py-2.5 shadow-xl border border-neutral-700/60 dark:border-neutral-200 flex items-center gap-3 text-xs font-semibold backdrop-blur-md">
+            <div className="flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
                 {comparedRoleIds.length}
               </span>
-              <span className="font-bold text-xs">
+              <span>
                 {comparedRoleIds.length === 1 ? '1 role' : `${comparedRoleIds.length} roles`} selected
               </span>
             </div>
@@ -1378,13 +1057,13 @@ export function RoleDetailPage() {
             <button
               type="button"
               onClick={() => setComparedRoleIds([])}
-              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer ml-0.5"
+              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer"
               title="Clear comparison"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        </aside>
       )}
 
       {/* Modals */}

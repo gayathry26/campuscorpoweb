@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft,
   ChevronRight,
   Briefcase,
-  DollarSign,
   Layers,
   ChevronDown,
+  Sparkles,
+  Compass,
+  Check,
 } from 'lucide-react';
 import { DOMAIN_ICONS } from './InteractiveDomainGrid';
 
@@ -18,102 +21,76 @@ export function CompactDomainHeader({
   onToggleDetails,
 }) {
   const DomainIcon = DOMAIN_ICONS[domain?.name] || Layers;
-
-  // Extract real salary range if available
-  let minLpa = stats?.minLpa;
-  let maxLpa = stats?.maxLpa;
-  if ((!minLpa || !maxLpa) && roles.length > 0) {
-    let min = Infinity;
-    let max = 0;
-    roles.forEach((r) => {
-      const s = r.stats || {};
-      if (typeof s.minLpa === 'number' && s.minLpa < min) min = s.minLpa;
-      if (typeof s.maxLpa === 'number' && s.maxLpa > max) max = s.maxLpa;
-    });
-    if (min !== Infinity) minLpa = min;
-    if (max > 0) maxLpa = max;
-  }
-
   const coreTech = domain?.coreTechnologies || [];
   const displayTech = coreTech.slice(0, 6);
 
   return (
     <div className="space-y-4 pt-1">
-      {/* Top Bar: Breadcrumb & Back Button */}
+      {/* Top Bar: Breadcrumbs & Back Navigation */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-          <Link to="/domains" className="hover:text-foreground transition-colors">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 flex-wrap">
+          <Link to="/domains" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
             Career Explorer
           </Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <Link to="/domains" className="hover:text-foreground transition-colors">
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <Link to="/domains" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
             Explore Domains
           </Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-foreground font-bold">{domain?.name}</span>
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <span className="text-neutral-900 dark:text-white font-semibold truncate max-w-[240px] sm:max-w-none">
+            {domain?.name}
+          </span>
         </nav>
 
         <Link
           to="/domains"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors border border-border/80 shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-800 shadow-xs"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Domains</span>
         </Link>
       </div>
 
-      {/* Compact Domain Overview Banner */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-card border border-border shadow-xs space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-start gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs">
-              <DomainIcon className="w-5 h-5" />
+      {/* Main Domain Hero Card */}
+      <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 sm:p-7 shadow-xs space-y-5">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-5">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/50 flex items-center justify-center shrink-0 shadow-xs">
+              <DomainIcon className="w-6 h-6" />
             </div>
-            <div className="space-y-1">
-              <h1 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
-                {domain?.name}
-              </h1>
-              <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed line-clamp-2">
-                {domain?.shortDescription || domain?.description || 'Explore specialized career roles, salary benchmarks, and core skills in this domain.'}
+            <div className="space-y-1.5 max-w-3xl">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                  {domain?.name}
+                </h1>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
+                  {roles.length} {roles.length === 1 ? 'Career Role' : 'Career Roles'}
+                </span>
+              </div>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                {domain?.shortDescription || domain?.description || 'Explore career paths, verified salary bands, and essential skills in this technology domain.'}
               </p>
             </div>
           </div>
-
-          {/* Quick Metrics Badges */}
-          <div className="flex flex-wrap items-center gap-2 shrink-0">
-            {/* Roles Count Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary text-xs font-bold text-foreground border border-border/70">
-              <Briefcase className="w-3.5 h-3.5 text-muted-foreground" />
-              <span>{roles.length} {roles.length === 1 ? 'Career Role' : 'Career Roles'}</span>
-            </div>
-
-            {/* Verified Salary Spread */}
-            {minLpa && maxLpa && minLpa !== Infinity ? (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                <DollarSign className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>₹{minLpa} - ₹{maxLpa} LPA</span>
-              </div>
-            ) : null}
-          </div>
         </div>
 
-        {/* Core Technologies & Collapsible Details Toggle */}
-        <div className="pt-3 border-t border-border/60 flex flex-wrap items-center justify-between gap-3">
+        {/* Essential Technologies & Learn More Toggle */}
+        <div className="pt-4 border-t border-neutral-100 dark:border-neutral-800 flex flex-wrap items-center justify-between gap-3">
           {displayTech.length > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-xs font-semibold text-muted-foreground mr-1">
+              <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mr-1">
                 Core Technologies:
               </span>
               {displayTech.map((tech, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 rounded-md text-xs font-medium bg-secondary text-foreground/90 border border-border/60"
+                  className="px-2.5 py-1 rounded-lg text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200/80 dark:border-neutral-700/80"
                 >
                   {tech}
                 </span>
               ))}
               {coreTech.length > displayTech.length && (
-                <span className="text-[11px] font-semibold text-muted-foreground">
+                <span className="text-xs font-medium text-neutral-400 px-1.5">
                   +{coreTech.length - displayTech.length} more
                 </span>
               )}
@@ -124,13 +101,105 @@ export function CompactDomainHeader({
             <button
               type="button"
               onClick={onToggleDetails}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors ml-auto cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors ml-auto cursor-pointer"
             >
-              <span>{showDetails ? 'Hide Domain Overview & Details' : 'Domain Overview & Learning Details'}</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showDetails ? 'rotate-180' : ''}`} />
+              <span>{showDetails ? 'Hide Domain Overview' : 'Learn About This Domain'}</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                  showDetails ? 'rotate-180' : ''
+                }`}
+              />
             </button>
           )}
         </div>
+
+        {/* Expandable "Learn About This Domain" Section */}
+        <AnimatePresence>
+          {showDetails && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              className="overflow-hidden pt-4 border-t border-neutral-100 dark:border-neutral-800 space-y-5"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Left: What Professionals Do */}
+                <div className="lg:col-span-7 space-y-3">
+                  <div className="flex items-center gap-2 pb-1 border-b border-neutral-100 dark:border-neutral-800">
+                    <Briefcase className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                      What Professionals in This Domain Do
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    {domain.overview || domain.description || domain.shortDescription}
+                  </p>
+                  {Array.isArray(domain.whatProfessionalsDo) && domain.whatProfessionalsDo.length > 0 && (
+                    <div className="space-y-2 pt-1">
+                      {domain.whatProfessionalsDo.map((task, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 flex items-start gap-2.5 text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed"
+                        >
+                          <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <span>{task}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Right: Prerequisites & Career Progression */}
+                <div className="lg:col-span-5 space-y-4">
+                  {/* Beginner Prerequisites */}
+                  {Array.isArray(domain.prerequisites) && domain.prerequisites.length > 0 && (
+                    <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 rounded-xl p-4 space-y-2.5">
+                      <div className="flex items-center gap-2 pb-1.5 border-b border-neutral-200/60 dark:border-neutral-700/60">
+                        <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                          Beginner Prerequisites
+                        </h4>
+                      </div>
+                      <div className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-400">
+                        {domain.prerequisites.map((prereq, idx) => (
+                          <div key={idx} className="flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400 shrink-0 mt-1.5" />
+                            <span>{prereq}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Career Progression Track */}
+                  {domain.careerProgression && (
+                    <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 rounded-xl p-4 space-y-2.5">
+                      <div className="flex items-center gap-2 pb-1.5 border-b border-neutral-200/60 dark:border-neutral-700/60">
+                        <Compass className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                          Career Progression Track
+                        </h4>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-wrap text-xs font-semibold text-neutral-800 dark:text-neutral-200">
+                        {domain.careerProgression.split('->').map((step, idx, arr) => (
+                          <React.Fragment key={idx}>
+                            <span className="px-2.5 py-1 rounded-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 text-xs font-medium">
+                              {step.trim()}
+                            </span>
+                            {idx < arr.length - 1 && (
+                              <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

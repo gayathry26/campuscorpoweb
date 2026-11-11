@@ -1,5 +1,13 @@
 const { queryCommon } = require('../config/db');
+const { queryTenant } = require('../config/tenantConnectionManager');
 const { logAuditEvent } = require('../services/auditService');
+
+function getDbExecutor(req) {
+  if (req && req.tenant && req.tenant.dbName) {
+    return (sql, params) => queryTenant(req.tenant.dbName, sql, params);
+  }
+  return queryCommon;
+}
 
 // Master list of all CampusCorp application pages
 const ALL_PAGES = [
@@ -148,7 +156,8 @@ const DEFAULT_PERMISSIONS = {
  */
 async function getRolePermissions(req, res, next) {
   try {
-    const rows = await queryCommon('SELECT role_name, allowed_pages FROM role_permissions');
+    const dbQuery = getDbExecutor(req);
+    const rows = await dbQuery('SELECT role_name, allowed_pages FROM role_permissions');
 
     const permissions = { ...DEFAULT_PERMISSIONS };
 
@@ -209,7 +218,8 @@ async function getCurrentUserPermissions(req, res, next) {
     let allowedPages = DEFAULT_PERMISSIONS[roleName] || [];
 
     try {
-      const rows = await queryCommon(
+      const dbQuery = getDbExecutor(req);
+      const rows = await dbQuery(
         'SELECT allowed_pages FROM role_permissions WHERE role_name = ?',
         [roleName]
       );
@@ -250,6 +260,7 @@ async function updateRolePermissions(req, res, next) {
     }
 
     const { roleName, allowedPages, permissions } = req.body;
+    const dbQuery = getDbExecutor(req);
 
     // Support either single role update or batch update
     if (permissions && typeof permissions === 'object') {
@@ -257,7 +268,7 @@ async function updateRolePermissions(req, res, next) {
         if (rName === 'SUPER_ADMIN') continue; // SUPER_ADMIN always keeps all pages
 
         const pagesJson = JSON.stringify(Array.isArray(pages) ? pages : []);
-        await queryCommon(
+        await dbQuery(
           `INSERT INTO role_permissions (role_name, allowed_pages)
            VALUES (?, ?)
            ON DUPLICATE KEY UPDATE allowed_pages = VALUES(allowed_pages)`,
@@ -267,7 +278,7 @@ async function updateRolePermissions(req, res, next) {
     } else if (roleName && Array.isArray(allowedPages)) {
       if (roleName !== 'SUPER_ADMIN') {
         const pagesJson = JSON.stringify(allowedPages);
-        await queryCommon(
+        await dbQuery(
           `INSERT INTO role_permissions (role_name, allowed_pages)
            VALUES (?, ?)
            ON DUPLICATE KEY UPDATE allowed_pages = VALUES(allowed_pages)`,
@@ -292,7 +303,7 @@ async function updateRolePermissions(req, res, next) {
     }
 
     // Return the updated full permissions matrix
-    const rows = await queryCommon('SELECT role_name, allowed_pages FROM role_permissions');
+    const rows = await dbQuery('SELECT role_name, allowed_pages FROM role_permissions');
     const updated = { ...DEFAULT_PERMISSIONS };
     for (const row of rows) {
       try {
@@ -329,8 +340,10 @@ async function resetRolePermissions(req, res, next) {
       });
     }
 
+    const dbQuery = getDbExecutor(req);
+
     for (const [rName, pages] of Object.entries(DEFAULT_PERMISSIONS)) {
-      await queryCommon(
+      await dbQuery(
         `INSERT INTO role_permissions (role_name, allowed_pages)
          VALUES (?, ?)
          ON DUPLICATE KEY UPDATE allowed_pages = VALUES(allowed_pages)`,

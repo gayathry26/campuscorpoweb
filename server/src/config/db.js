@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 const path = require('path');
+const { getTenantStorage, queryTenant } = require('./tenantConnectionManager');
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -80,19 +81,43 @@ async function getDepartmentPool(departmentCode) {
 }
 
 /**
- * Execute query against common institutional database ('lms')
+ * Execute query against common institutional database ('lms') or tenant-isolated database
  */
 async function queryCommon(sql, params = []) {
-  const [results] = await commonPool.execute(sql, params);
+  try {
+    const req = getTenantStorage()?.getStore();
+    const tenantDbName = req?.tenant?.databaseName;
+    const defaultDbName = process.env.DB_COMMON_NAME || 'lms';
+
+    if (tenantDbName && tenantDbName !== defaultDbName) {
+      return await queryTenant(tenantDbName, sql, params);
+    }
+  } catch (tenantErr) {
+    // If tenant resolution fails or outside request context, fallback to common pool
+  }
+
+  const [results] = await commonPool.query(sql, params);
   return results;
 }
 
 /**
- * Execute query against department database
+ * Execute query against department database or tenant-isolated database
  */
 async function queryDept(departmentCode, sql, params = []) {
+  try {
+    const req = getTenantStorage()?.getStore();
+    const tenantDbName = req?.tenant?.databaseName;
+    const defaultDbName = process.env.DB_COMMON_NAME || 'lms';
+
+    if (tenantDbName && tenantDbName !== defaultDbName) {
+      return await queryTenant(tenantDbName, sql, params);
+    }
+  } catch (tenantErr) {
+    // Fallback to department pool
+  }
+
   const pool = await getDepartmentPool(departmentCode);
-  const [results] = await pool.execute(sql, params);
+  const [results] = await pool.query(sql, params);
   return results;
 }
 

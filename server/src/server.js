@@ -9,9 +9,12 @@ const fs = require('fs');
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const { checkDatabaseHealth } = require('./config/db');
+const { checkPlatformHealth } = require('./config/platformDb');
 const { detectCompilers } = require('./services/compilerService');
 const { ensureAiDaemonRunning } = require('./services/aiDaemonManager');
 const apiRoutes = require('./routes/api');
+const platformRoutes = require('./routes/platformApi');
+const { attachTenantContext } = require('./middleware/tenantContext');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -44,13 +47,15 @@ if (fs.existsSync(clientDistPath)) {
 // System Health Endpoint
 app.get('/api/v1/health', async (req, res) => {
   const dbHealth = await checkDatabaseHealth();
+  const platformDbHealth = await checkPlatformHealth();
   const compilerHealth = await detectCompilers();
 
   res.json({
     status: 'UP',
-    system: 'College Placement Management System (LMS)',
-    version: '1.0.0',
+    system: 'CampusCorp SaaS & College Governance Platform',
+    version: '2.0.0',
     timestamp: new Date().toISOString(),
+    platformDatabase: platformDbHealth,
     databases: dbHealth,
     compilers: compilerHealth,
   });
@@ -69,8 +74,11 @@ app.get('/api-docs/json', (req, res) => {
   });
 });
 
-// Mount Main API Routes
-app.use('/api/v1', apiRoutes);
+// Mount Platform Super Admin API Routes
+app.use('/api/v1/platform', platformRoutes);
+
+// Mount Main API Routes with Tenant Context Resolution
+app.use('/api/v1', attachTenantContext, apiRoutes);
 
 // 404 Handler for undefined API routes
 app.use('/api', (req, res) => {
@@ -124,6 +132,7 @@ if (require.main === module) {
     console.log(`🚀 [UNIFIED SINGLE PORT] http://localhost:${PORT}`);
     console.log(`💻 [REACT FRONTEND UI]  http://localhost:${PORT}`);
     console.log(`🔌 [REST MASTER API]   http://localhost:${PORT}/api/v1`);
+    console.log(`🌐 [PLATFORM ADMIN API] http://localhost:${PORT}/api/v1/platform`);
     console.log(`📡 [WEBRTC SIGNALING]  ws://localhost:${PORT}`);
     console.log(`🏥 [SYSTEM HEALTH]     http://localhost:${PORT}/api/v1/health`);
     console.log('================================================================');

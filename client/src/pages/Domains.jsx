@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Compass,
   ArrowRight,
-  GitCompare,
-  Check,
   X,
-  AlertCircle,
-  Layers,
 } from 'lucide-react';
 import {
   IT_ROLES,
@@ -17,7 +12,6 @@ import careerService from '../services/careerService';
 
 // Components for Main Domain Discovery Page
 import { CareerHeader } from '../components/career/CareerHeader';
-import { CareerMetricsCards } from '../components/career/CareerMetricsCards';
 import { InteractiveDomainGrid } from '../components/career/InteractiveDomainGrid';
 import PersonalizedCareerFitModal from '../components/career/PersonalizedCareerFitModal';
 
@@ -30,10 +24,6 @@ export function Domains() {
   const [statsData, setStatsData] = useState({
     totalRoles: IT_ROLES.length,
     totalDomains: DOMAIN_CATEGORIES.length - 1,
-    rolesWithSalary: IT_ROLES.length,
-    rolesWithSkills: IT_ROLES.length,
-    minLpa: 4.5,
-    maxLpa: 26.0,
   });
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -74,7 +64,7 @@ export function Domains() {
           setStatsData(statsRes.data);
         }
       } catch (err) {
-        console.warn('Error loading dashboard data:', err);
+        console.warn('Error loading domain data:', err);
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -106,8 +96,8 @@ export function Domains() {
   };
 
   return (
-    <div className="space-y-6 pb-20 max-w-7xl mx-auto px-4 sm:px-6">
-      {/* SECTION A: Career Explorer Discovery Header */}
+    <div className="space-y-8 pb-20 max-w-7xl mx-auto px-4 sm:px-6">
+      {/* SECTION 1: Clean Domain Discovery Header */}
       <CareerHeader
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -116,10 +106,7 @@ export function Domains() {
         stats={statsData}
       />
 
-      {/* SECTION B: Career Overview Statistics Cards */}
-      <CareerMetricsCards stats={statsData} loading={loading} />
-
-      {/* SECTION C: All Career Domain Cards in a Visual Grid (Clicking navigates to /domains/:slug) */}
+      {/* SECTION 2: Minimalist Domain Cards Grid with Filters */}
       <InteractiveDomainGrid
         domains={domainsList}
         allRoles={allRoles}
@@ -136,13 +123,13 @@ export function Domains() {
 
       {/* ================= COMPACT COMPARISON INDICATOR ================= */}
       {comparedRoleIds.length > 0 && (
-        <div className="fixed bottom-5 right-5 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
-          <div className="bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] rounded-full px-3.5 py-2 shadow-2xl border border-neutral-700/60 dark:border-neutral-200/60 flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md">
-            <div className="flex items-center gap-1.5">
+        <aside aria-label="Comparison Tray" className="fixed bottom-6 right-6 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
+          <div className="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 rounded-full px-4 py-2.5 shadow-xl border border-neutral-700/60 dark:border-neutral-200 flex items-center gap-3 text-xs font-semibold backdrop-blur-md">
+            <div className="flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
                 {comparedRoleIds.length}
               </span>
-              <span className="font-bold text-xs">
+              <span>
                 {comparedRoleIds.length === 1 ? '1 role' : `${comparedRoleIds.length} roles`} selected
               </span>
             </div>
@@ -161,13 +148,13 @@ export function Domains() {
             <button
               type="button"
               onClick={() => setComparedRoleIds([])}
-              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer ml-0.5"
+              className="p-0.5 rounded-full opacity-70 hover:opacity-100 hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer"
               title="Clear comparison"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        </aside>
       )}
     </div>
   );

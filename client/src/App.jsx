@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { PlatformAuthProvider, usePlatformAuth } from './context/PlatformAuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { PermissionProvider, usePermissions } from './context/PermissionContext';
 import { ToastProvider } from './context/ToastContext';
@@ -28,6 +29,7 @@ import { Reports } from './pages/Reports';
 import { Finance } from './pages/Finance';
 import { Grievances } from './pages/Grievances';
 import { Admin } from './pages/Admin';
+import { CollegeAdminDashboard } from './pages/CollegeAdminDashboard';
 import { Settings } from './pages/Settings';
 import { Domains } from './pages/Domains';
 import { DomainDetail } from './pages/DomainDetail';
@@ -42,6 +44,21 @@ import { GithubRepoScanner } from './pages/career/GithubRepoScanner';
 import { DepartmentAcademicManagement } from './pages/DepartmentAcademicManagement';
 import { CompanyLocationExplorer } from './pages/career/CompanyLocationExplorer';
 import { CompanyLocationDetail } from './pages/career/CompanyLocationDetail';
+
+// Platform Super Admin (SaaS Governance) Pages
+import { PlatformLogin } from './pages/platform/PlatformLogin';
+import { PlatformAdminLayout } from './pages/platform/PlatformAdminLayout';
+import { PlatformOverview } from './pages/platform/PlatformOverview';
+import { CollegeManagement } from './pages/platform/CollegeManagement';
+import { CollegeProvisionWizard } from './pages/platform/CollegeProvisionWizard';
+import { DatabaseRegistry } from './pages/platform/DatabaseRegistry';
+import { ModuleEntitlements } from './pages/platform/ModuleEntitlements';
+import { SubscriptionManagement } from './pages/platform/SubscriptionManagement';
+import { PlatformAuditLogs } from './pages/platform/PlatformAuditLogs';
+import { PlatformSettings } from './pages/platform/PlatformSettings';
+import { UserAccessManagement } from './pages/platform/UserAccessManagement';
+import { SystemMonitoring } from './pages/platform/SystemMonitoring';
+
 import { UIProvider } from './context/UIContext';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Breadcrumbs } from './components/Breadcrumbs';
@@ -76,8 +93,53 @@ function Layout({ children }) {
   );
 }
 
+// Route-to-Module Mapping for Institutional Entitlement Enforcement
+function getRequiredModuleForPath(pathname) {
+  const p = (pathname || '').toLowerCase();
+  if (p.startsWith('/lms')) return 'LMS';
+  if (
+    p.startsWith('/domains') ||
+    p.startsWith('/compare') ||
+    p.startsWith('/skill-analyzer') ||
+    p.startsWith('/career-explorer') ||
+    p.startsWith('/github-scanner') ||
+    p.startsWith('/role-analyzer')
+  ) {
+    return 'CAREER_EXPLORER';
+  }
+  if (
+    p.startsWith('/companies') ||
+    p.startsWith('/jobs') ||
+    p.startsWith('/drives') ||
+    p.startsWith('/applications') ||
+    p.startsWith('/my-applications') ||
+    p.startsWith('/offers')
+  ) {
+    return 'RECRUITMENT';
+  }
+  if (
+    p.startsWith('/assessment') ||
+    p.startsWith('/exam') ||
+    p.startsWith('/interviews') ||
+    p.startsWith('/videocall') ||
+    p.startsWith('/resume-analyzer')
+  ) {
+    return 'ASSESSMENTS';
+  }
+  if (
+    p.startsWith('/policies') ||
+    p.startsWith('/reports') ||
+    p.startsWith('/finance') ||
+    p.startsWith('/grievances')
+  ) {
+    return 'GOVERNANCE';
+  }
+  return null;
+}
+
+// Global Protected Route with Modular SaaS Entitlement & RBAC Enforcement
 function ProtectedRoute({ children, path }) {
-  const { user, loading } = useAuth();
+  const { user, loading, isModuleEnabled } = useAuth();
   const { canAccessPage } = usePermissions();
   const location = useLocation();
   const currentPath = path || location.pathname;
@@ -87,6 +149,15 @@ function ProtectedRoute({ children, path }) {
   }
   if (!user) return <Navigate to="/login" replace />;
 
+  // 1. INSTITUTIONAL MODULE ENTITLEMENT CHECK
+  // If a module is disabled by Platform Super Admin for this college, it MUST NOT exist
+  const requiredModule = getRequiredModuleForPath(currentPath);
+  if (requiredModule && isModuleEnabled && !isModuleEnabled(requiredModule)) {
+    // Silent redirection: Never show disabled badges or deactivated screens
+    return <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/'} replace />;
+  }
+
+  // 2. ROLE-BASED ACCESS CONTROL (RBAC) CHECK
   // Super Admin & Admin ALWAYS have master access to all pages!
   // For other users, only ticked checkbox pages are allowed!
   if (user.roleName !== 'SUPER_ADMIN' && user.roleName !== 'ADMIN' && !canAccessPage(user.roleName, currentPath)) {
@@ -115,6 +186,21 @@ function ProtectedRoute({ children, path }) {
   }
 
   return <Layout>{children}</Layout>;
+}
+
+// Global Platform Super Admin Route Guard
+function ProtectedPlatformRoute({ children }) {
+  const { isAuthenticated, loading } = usePlatformAuth();
+
+  if (loading) {
+    return <UniserveLoader title="CampusCorp SaaS Hub" subtitle="Platform Super Admin Gateway" status="Connecting to Central Cluster..." />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/platform-admin/login" replace />;
+  }
+
+  return <PlatformAdminLayout>{children}</PlatformAdminLayout>;
 }
 
 // Dedicated Route Handlers per User Prompt Requirements:
@@ -208,15 +294,29 @@ function StaffRoute() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider>
-        <PermissionProvider>
-          <ToastProvider>
-            <BrowserRouter>
-              <UIProvider>
-                <ScrollToTop />
-                <Routes>
-                  {/* Direct Login and Specified Routes */}
+    <PlatformAuthProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <PermissionProvider>
+            <ToastProvider>
+              <BrowserRouter>
+                <UIProvider>
+                  <ScrollToTop />
+                  <Routes>
+                    {/* Level 1: Global Platform Super Admin Routes */}
+                    <Route path="/platform-admin/login" element={<PlatformLogin />} />
+                    <Route path="/platform-admin" element={<ProtectedPlatformRoute><PlatformOverview /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/colleges" element={<ProtectedPlatformRoute><CollegeManagement /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/provision" element={<ProtectedPlatformRoute><CollegeProvisionWizard /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/databases" element={<ProtectedPlatformRoute><DatabaseRegistry /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/modules" element={<ProtectedPlatformRoute><ModuleEntitlements /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/subscriptions" element={<ProtectedPlatformRoute><SubscriptionManagement /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/users" element={<ProtectedPlatformRoute><UserAccessManagement /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/monitoring" element={<ProtectedPlatformRoute><SystemMonitoring /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/audit-logs" element={<ProtectedPlatformRoute><PlatformAuditLogs /></ProtectedPlatformRoute>} />
+                    <Route path="/platform-admin/settings" element={<ProtectedPlatformRoute><PlatformSettings /></ProtectedPlatformRoute>} />
+
+                    {/* Direct Login and Specified Routes */}
                   <Route path="/" element={<DirectRoute />} />
                   <Route path="/login" element={<Login portal="student" />} />
                   <Route path="/superadmin" element={<SuperAdminRoute />} />
@@ -279,6 +379,7 @@ export default function App() {
                   <Route path="/ai-assistant" element={<Navigate to="/" replace />} />
                   <Route path="/admin/academics" element={<ProtectedRoute path="/admin/academics"><DepartmentAcademicManagement /></ProtectedRoute>} />
                   <Route path="/admin/departments" element={<ProtectedRoute path="/admin/academics"><DepartmentAcademicManagement /></ProtectedRoute>} />
+                  <Route path="/college-admin" element={<ProtectedRoute path="/admin"><CollegeAdminDashboard /></ProtectedRoute>} />
 
                   {/* Fallback */}
                   <Route path="*" element={<Navigate to="/" replace />} />
@@ -289,5 +390,6 @@ export default function App() {
         </PermissionProvider>
       </ThemeProvider>
     </AuthProvider>
+  </PlatformAuthProvider>
   );
 }

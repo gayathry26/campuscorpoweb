@@ -5,6 +5,14 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [college, setCollege] = useState(() => {
+    try {
+      const saved = localStorage.getItem('placement_college');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,8 +25,17 @@ export function AuthProvider({ children }) {
         const parsed = JSON.parse(savedUser);
         setUser(parsed);
 
-        // Verify token with backend; auto-heal if token expired
-        apiClient.get('/auth/me').catch(async (err) => {
+        // Verify token with backend & synchronize fresh module entitlements
+        apiClient.get('/auth/me').then((res) => {
+          if (res.data?.college) {
+            localStorage.setItem('placement_college', JSON.stringify(res.data.college));
+            setCollege(res.data.college);
+          }
+          if (res.data?.user) {
+            localStorage.setItem('placement_user', JSON.stringify(res.data.user));
+            setUser(res.data.user);
+          }
+        }).catch(async (err) => {
           if (err.response?.status === 401 || err.response?.status === 403) {
             try {
               const res = await apiClient.post('/auth/switch-role', {
@@ -28,12 +45,18 @@ export function AuthProvider({ children }) {
                 localStorage.setItem('placement_token', res.data.token);
                 localStorage.setItem('placement_user', JSON.stringify(res.data.user));
                 setUser(res.data.user);
+                if (res.data?.college) {
+                  localStorage.setItem('placement_college', JSON.stringify(res.data.college));
+                  setCollege(res.data.college);
+                }
               }
             } catch (e) {
               if (!savedToken.startsWith('offline_demo_token_')) {
                 localStorage.removeItem('placement_token');
                 localStorage.removeItem('placement_user');
+                localStorage.removeItem('placement_college');
                 setUser(null);
+                setCollege(null);
               }
             }
           }
@@ -41,7 +64,9 @@ export function AuthProvider({ children }) {
       } catch (e) {
         localStorage.removeItem('placement_user');
         localStorage.removeItem('placement_token');
+        localStorage.removeItem('placement_college');
         setUser(null);
+        setCollege(null);
       }
     } else {
       setUser(null);
@@ -53,17 +78,52 @@ export function AuthProvider({ children }) {
     return () => clearTimeout(timer);
   }, []);
 
-  const login = async (emailOrUsername, password) => {
+  // Immediate Configuration Synchronization (sync on focus, custom event, or interval)
+  const refreshEntitlements = async () => {
+    const token = localStorage.getItem('placement_token');
+    if (!token) return;
+    try {
+      const res = await apiClient.get('/auth/me');
+      if (res.data?.college) {
+        localStorage.setItem('placement_college', JSON.stringify(res.data.college));
+        setCollege(res.data.college);
+      }
+      if (res.data?.user) {
+        localStorage.setItem('placement_user', JSON.stringify(res.data.user));
+        setUser(res.data.user);
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    const handleSync = () => refreshEntitlements();
+    window.addEventListener('focus', handleSync);
+    window.addEventListener('campuscorp:sync_entitlements', handleSync);
+    const interval = setInterval(refreshEntitlements, 8000); // 8-second background entitlement polling
+
+    return () => {
+      window.removeEventListener('focus', handleSync);
+      window.removeEventListener('campuscorp:sync_entitlements', handleSync);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const login = async (emailOrUsername, password, collegeCode = null) => {
     try {
       const res = await apiClient.post('/auth/login', {
         email: emailOrUsername,
         password,
+        collegeCode: collegeCode || undefined,
       });
-      const { token, user: userData } = res.data;
+      const { token, user: userData, college: collegeData } = res.data;
       localStorage.setItem('placement_token', token);
       localStorage.setItem('placement_user', JSON.stringify(userData));
       setUser(userData);
-      return { success: true, user: userData };
+      if (collegeData) {
+        localStorage.setItem('placement_college', JSON.stringify(collegeData));
+        setCollege(collegeData);
+      }
+      return { success: true, user: userData, college: collegeData };
     } catch (err) {
       // Fallback for demo users in case of network or offline server conditions
       if (!err.response || err.response.status >= 500) {
@@ -133,11 +193,15 @@ export function AuthProvider({ children }) {
   const switchRole = async (targetRole) => {
     try {
       const res = await apiClient.post('/auth/switch-role', { targetRole });
-      const { token, user: userData } = res.data;
+      const { token, user: userData, college: collegeData } = res.data;
       localStorage.setItem('placement_token', token);
       localStorage.setItem('placement_user', JSON.stringify(userData));
       setUser(userData);
-      return { success: true, user: userData };
+      if (collegeData) {
+        localStorage.setItem('placement_college', JSON.stringify(collegeData));
+        setCollege(collegeData);
+      }
+      return { success: true, user: userData, college: collegeData };
     } catch (err) {
       return {
         success: false,
@@ -146,14 +210,26 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('placement_token');
-    localStorage.removeItem('placement_user');
-    setUser(null);
+  const logout = async () => {
+    try {
+      await apiClient.post('/auth/logout').catch(() => {});
+    } finally {
+      localStorage.removeItem('placement_token');
+      localStorage.removeItem('placement_user');
+      localStorage.removeItem('placement_college');
+      setUser(null);
+      setCollege(null);
+    }
+  };
+
+  const isModuleEnabled = (moduleKey) => {
+    if (!college || !college.modules) return true;
+    const key = String(moduleKey).toUpperCase();
+    return college.modules[key] !== false;
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, switchRole, logout }}>
+    <AuthContext.Provider value={{ user, college, loading, login, switchRole, logout, isModuleEnabled, refreshEntitlements }}>
       {children}
     </AuthContext.Provider>
   );

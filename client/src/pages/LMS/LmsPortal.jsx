@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
 import { StudentViews } from './components/StudentViews';
@@ -30,11 +30,16 @@ import {
 } from 'lucide-react';
 
 export function LmsPortal() {
-  const { user } = useAuth();
+  const { user, college, isModuleEnabled } = useAuth();
   const { section } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
+
+  if (!isModuleEnabled('LMS')) {
+    // When disabled, the module must not exist in this college's portal: silent redirect
+    return <Navigate to={user?.roleName === 'STUDENT' ? '/profile' : '/'} replace />;
+  }
 
   const isStudent = user?.roleName === 'STUDENT';
 

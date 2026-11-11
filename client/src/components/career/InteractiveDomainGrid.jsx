@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import {
   Layout,
   Server,
@@ -41,16 +42,11 @@ import {
   ArrowRight,
   Filter,
   Check,
-  X,
   RotateCcw,
-  SlidersHorizontal,
-  ChevronDown,
-  PieChart,
 } from 'lucide-react';
 import { CAREER_FAMILIES, CAREER_LEVELS } from '../../data/masterCareerDomains';
 
 export const DOMAIN_ICONS = {
-  // Exact names
   'Web Development & Frontend Engineering': Layout,
   'Backend & API Development': Server,
   'Full-Stack & Enterprise Software': Layers,
@@ -99,13 +95,9 @@ export const DOMAIN_ICONS = {
   'Emerging Technologies': Boxes,
   'Testing & Quality Assurance': CheckSquare,
   'Business Analysis': Briefcase,
-  'Product Management': CompassIcon,
+  'Product Management': Briefcase,
   Networking: Network,
 };
-
-function CompassIcon(props) {
-  return <Briefcase {...props} />;
-}
 
 export function InteractiveDomainGrid({
   domains = [],
@@ -113,30 +105,24 @@ export function InteractiveDomainGrid({
   searchQuery = '',
   totalRolesCount = 0,
 }) {
-  const navigate = useNavigate();
-
   // Filter States
   const [selectedFamily, setSelectedFamily] = useState('All Families');
   const [selectedLevel, setSelectedLevel] = useState('All Levels');
   const [selectedSkill, setSelectedSkill] = useState('');
   const [beginnerOnly, setBeginnerOnly] = useState(false);
   const [sortBy, setSortBy] = useState('name-asc');
-  const [showInsights, setShowInsights] = useState(true);
 
-  // Map sample role names for each domain
+  // Map sample role names for search matching
   const sampleRolesMap = useMemo(() => {
     const map = {};
     allRoles.forEach((role) => {
       const cat = role.category;
       if (!map[cat]) map[cat] = [];
-      if (map[cat].length < 3) {
-        map[cat].push(role.title);
-      }
-      // Also map via domainIds
+      if (map[cat].length < 4) map[cat].push(role.title);
       if (Array.isArray(role.domainIds)) {
         role.domainIds.forEach((dId) => {
           if (!map[dId]) map[dId] = [];
-          if (map[dId].length < 3 && !map[dId].includes(role.title)) {
+          if (map[dId].length < 4 && !map[dId].includes(role.title)) {
             map[dId].push(role.title);
           }
         });
@@ -145,41 +131,13 @@ export function InteractiveDomainGrid({
     return map;
   }, [allRoles]);
 
-  // Family role count distribution for compact insight chart
-  const familyDistribution = useMemo(() => {
-    const counts = {};
-    CAREER_FAMILIES.filter((f) => f !== 'All Families').forEach((f) => {
-      counts[f] = 0;
-    });
-
-    domains.forEach((d) => {
-      const fam = d.family || 'Software & Web Engineering';
-      if (counts[fam] !== undefined) {
-        counts[fam] += d.roleCount || 0;
-      } else {
-        counts[fam] = d.roleCount || 0;
-      }
-    });
-
-    const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
-    return Object.entries(counts).map(([family, count]) => ({
-      family,
-      count,
-      percentage: Math.round((count / total) * 100),
-    }));
-  }, [domains]);
-
-  const maxRoleCount = useMemo(() => {
-    return Math.max(...domains.map((d) => d.roleCount || 0), 1);
-  }, [domains]);
-
   // Combined Filtering
   const filteredDomains = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
     const skillQ = selectedSkill.toLowerCase().trim();
 
     let list = domains.filter((d) => {
-      // 1. Search Query
+      // 1. Search Query (name, description, overview, core technologies, sample roles)
       if (q) {
         const nameMatch = d.name.toLowerCase().includes(q);
         const descMatch = (d.shortDescription || d.description || '').toLowerCase().includes(q);
@@ -274,75 +232,20 @@ export function InteractiveDomainGrid({
 
   return (
     <div className="space-y-6">
-      {/* ================= OPTIONAL VISUAL INSIGHTS ================= */}
-      {/* Compact chart showing role distribution across Career Families */}
-      {showInsights && (
-        <div className="bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-xs space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <PieChart className="w-4 h-4 text-primary" />
-              <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground">
-                Career Family Distribution (Actual Catalogue Data)
-              </h3>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowInsights(false)}
-              className="text-xs text-muted-foreground hover:text-foreground cursor-pointer"
-            >
-              Hide Insights
-            </button>
-          </div>
-
-          <p className="text-xs text-muted-foreground">
-            Distribution of {totalRolesCount || allRoles.length} documented IT roles across {domains.length} technology disciplines:
-          </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
-            {familyDistribution.map((item) => {
-              const isSelected = selectedFamily === item.family;
-              return (
-                <button
-                  key={item.family}
-                  type="button"
-                  onClick={() =>
-                    setSelectedFamily(isSelected ? 'All Families' : item.family)
-                  }
-                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-foreground text-background border-foreground shadow-xs'
-                      : 'bg-secondary/40 border-border/80 hover:bg-secondary text-foreground'
-                  }`}
-                  title={`Filter by ${item.family}`}
-                >
-                  <span className="text-[10px] font-bold block truncate opacity-75">
-                    {item.family.split('&')[0].trim()}
-                  </span>
-                  <div className="flex items-baseline justify-between gap-1 mt-1">
-                    <span className="text-base font-black">{item.count}</span>
-                    <span className="text-[10px] opacity-75">{item.percentage}%</span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* ================= SECTION 2: FUNCTIONAL FILTER TOOLBAR ================= */}
-      <div className="bg-card border border-border rounded-2xl p-4 shadow-xs space-y-3">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-          {/* Filter Dropdowns Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 flex-1">
-            {/* 1. Career Family Filter */}
+      {/* ================= FILTER TOOLBAR ================= */}
+      <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 sm:p-5 shadow-xs">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
+          {/* Dropdown Filters Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 flex-1">
+            {/* Career Family Filter */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <label className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                 Career Family
               </label>
               <select
                 value={selectedFamily}
                 onChange={(e) => setSelectedFamily(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium bg-secondary text-foreground border border-border/80 focus:outline-none focus:ring-1 focus:ring-foreground/20 cursor-pointer"
+                className="w-full h-10 px-3 rounded-xl text-xs sm:text-sm font-medium bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600/10 cursor-pointer"
               >
                 {CAREER_FAMILIES.map((fam) => (
                   <option key={fam} value={fam}>
@@ -352,15 +255,15 @@ export function InteractiveDomainGrid({
               </select>
             </div>
 
-            {/* 2. Career Level Filter */}
+            {/* Career Level Filter */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <label className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                 Career Level
               </label>
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium bg-secondary text-foreground border border-border/80 focus:outline-none focus:ring-1 focus:ring-foreground/20 cursor-pointer"
+                className="w-full h-10 px-3 rounded-xl text-xs sm:text-sm font-medium bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600/10 cursor-pointer"
               >
                 {CAREER_LEVELS.map((lvl) => (
                   <option key={lvl} value={lvl}>
@@ -370,29 +273,29 @@ export function InteractiveDomainGrid({
               </select>
             </div>
 
-            {/* 3. Tech or Skill Filter Input */}
+            {/* Technology / Skill Filter */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <label className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                 Technology / Skill
               </label>
               <input
                 type="text"
                 value={selectedSkill}
                 onChange={(e) => setSelectedSkill(e.target.value)}
-                placeholder="e.g. React, Python, Kafka"
-                className="w-full px-2.5 py-1.5 rounded-xl text-xs sm:text-sm bg-secondary text-foreground border border-border/80 focus:outline-none focus:ring-1 focus:ring-foreground/20 placeholder:text-muted-foreground"
+                placeholder="e.g. React, Python, AWS"
+                className="w-full h-10 px-3 rounded-xl text-xs sm:text-sm bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600/10"
               />
             </div>
 
-            {/* 4. Sort By Dropdown */}
+            {/* Sort Dropdown */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Sort Domains
+              <label className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+                Sort By
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium bg-secondary text-foreground border border-border/80 focus:outline-none focus:ring-1 focus:ring-foreground/20 cursor-pointer"
+                className="w-full h-10 px-3 rounded-xl text-xs sm:text-sm font-medium bg-neutral-50 dark:bg-neutral-800/80 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:border-purple-600 focus:ring-1 focus:ring-purple-600/10 cursor-pointer"
               >
                 <option value="name-asc">Domain Name (A → Z)</option>
                 <option value="name-desc">Domain Name (Z → A)</option>
@@ -402,18 +305,18 @@ export function InteractiveDomainGrid({
             </div>
           </div>
 
-          {/* Quick Toggle: Beginner-Friendly */}
-          <div className="flex items-center gap-2 pt-2 lg:pt-0 self-end shrink-0">
+          {/* Action Toggles: Beginner-Friendly & Reset */}
+          <div className="flex items-center gap-2 pt-2 lg:pt-5 self-end shrink-0">
             <button
               type="button"
               onClick={() => setBeginnerOnly(!beginnerOnly)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer shadow-2xs ${
+              className={`inline-flex items-center gap-1.5 h-10 px-3.5 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
                 beginnerOnly
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground border-border/80'
+                  ? 'bg-purple-600 text-white border-purple-600 shadow-xs'
+                  : 'bg-neutral-50 dark:bg-neutral-800/80 text-neutral-600 dark:text-neutral-300 border-neutral-200 dark:border-neutral-700/80 hover:bg-neutral-100 dark:hover:bg-neutral-700'
               }`}
             >
-              {beginnerOnly && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+              {beginnerOnly && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
               <span>Beginner-Friendly Only</span>
             </button>
 
@@ -421,8 +324,8 @@ export function InteractiveDomainGrid({
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-muted-foreground hover:text-foreground bg-secondary/80 border border-border/80 transition-colors cursor-pointer"
-                title="Reset all active filters"
+                className="inline-flex items-center gap-1.5 h-10 px-3 rounded-xl text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 transition-colors cursor-pointer"
+                title="Reset all filters"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset</span>
@@ -432,108 +335,90 @@ export function InteractiveDomainGrid({
         </div>
       </div>
 
-      {/* ================= SECTION 3: DOMAIN CARDS GRID ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
+      {/* ================= RESULTS HEADER ================= */}
+      <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-foreground" />
-          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground">
-            Explore IT Career Domains
+          <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+            Available Domains
           </h2>
-          <span className="text-[11px] font-semibold text-muted-foreground px-2 py-0.5 rounded-md bg-secondary border border-border/60">
-            {filteredDomains.length} of {domains.length} Domains
+          <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            ({filteredDomains.length} {filteredDomains.length === 1 ? 'domain' : 'domains'})
           </span>
         </div>
-        <p className="text-xs text-muted-foreground">
-          Click any domain card to navigate to its dedicated domain details page
-        </p>
+        {hasActiveFilters && (
+          <span className="text-xs text-purple-600 dark:text-purple-400 font-medium">
+            Filters Active
+          </span>
+        )}
       </div>
 
-      {/* Grid of All 38 Domain Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+      {/* ================= SPACIOUS MINIMAL DOMAIN CARDS ================= */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDomains.map((domain) => {
           const Icon = DOMAIN_ICONS[domain.name] || Layers;
-          const sampleRoles = sampleRolesMap[domain.name] || sampleRolesMap[domain.id] || domain.sampleRoles || [];
-          const percentage = Math.round(((domain.roleCount || 0) / maxRoleCount) * 100);
           const domainUrl = `/career-explorer/domains/${domain.id}`;
 
           return (
-            <Link
+            <motion.div
               key={domain.id || domain.name}
-              to={domainUrl}
-              className="group relative text-left p-5 rounded-2xl border border-border bg-card text-card-foreground hover:border-foreground/40 hover:shadow-md transition-all duration-200 cursor-pointer select-none flex flex-col justify-between space-y-4 hover:-translate-y-0.5 active:scale-[0.99]"
+              whileHover={{ y: -3 }}
+              transition={{ duration: 0.16, ease: 'easeOut' }}
+              className="h-full"
             >
-              {/* Top Row: Icon, Family Badge, Role Count Badge */}
-              <div className="flex items-start justify-between gap-2">
-                <div className="w-11 h-11 rounded-xl bg-secondary flex items-center justify-center text-foreground border border-border/60 group-hover:bg-foreground group-hover:text-background transition-colors shadow-2xs">
-                  <Icon className="w-5 h-5 transition-transform group-hover:scale-110" />
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className="px-2.5 py-1 rounded-full text-xs font-black bg-secondary text-foreground border border-border/60 shadow-2xs">
+              <Link
+                to={domainUrl}
+                className="group h-full bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200/90 dark:border-neutral-800 hover:border-purple-500/40 dark:hover:border-purple-500/40 p-6 flex flex-col justify-between space-y-5 transition-all shadow-xs hover:shadow-md cursor-pointer select-none"
+              >
+                {/* Top Section: Icon & Role Count Badge */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400 border border-purple-100 dark:border-purple-900/40 flex items-center justify-center shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-200">
+                    <Icon className="w-6 h-6 transition-transform duration-200 group-hover:scale-105" />
+                  </div>
+
+                  <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200/80 dark:border-neutral-700/80 shrink-0">
                     {domain.roleCount} {domain.roleCount === 1 ? 'Role' : 'Roles'}
                   </span>
-                  {domain.family && (
-                    <span className="text-[10px] font-semibold text-muted-foreground truncate max-w-[120px]">
-                      {domain.family.split('&')[0].trim()}
-                    </span>
-                  )}
                 </div>
-              </div>
 
-              {/* Title & Description */}
-              <div className="space-y-1.5 flex-1">
-                <h3 className="text-base font-bold text-foreground tracking-tight group-hover:text-primary transition-colors flex items-center justify-between">
-                  <span>{domain.name}</span>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0 ml-1" />
-                </h3>
-                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                  {domain.shortDescription || domain.description || 'Specialized placement engineering track with structured competencies.'}
-                </p>
-
-                {sampleRoles.length > 0 && (
-                  <div className="pt-1.5 text-[11px] font-medium text-foreground/80 line-clamp-1">
-                    <span className="text-muted-foreground font-semibold">Roles: </span>
-                    {sampleRoles.join(' • ')}
-                  </div>
-                )}
-              </div>
-
-              {/* Bottom Density & Explore Domain Action */}
-              <div className="space-y-2 pt-3 border-t border-border/60">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                    Role Density
-                  </span>
-                  <span className="font-bold text-foreground group-hover:text-primary flex items-center gap-1 transition-colors">
-                    Explore Domain
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
+                {/* Middle Section: Domain Name & Short Description */}
+                <div className="space-y-2 flex-1">
+                  <h3 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-neutral-100 tracking-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors leading-snug">
+                    {domain.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2 leading-relaxed">
+                    {domain.shortDescription || domain.description || 'Specialized IT career discipline with structured skills and industry roles.'}
+                  </p>
                 </div>
-                <div className="w-full bg-secondary rounded-full h-1.5 overflow-hidden">
-                  <div
-                    className="bg-primary h-full rounded-full transition-all duration-300"
-                    style={{ width: `${Math.max(15, percentage)}%` }}
-                  />
+
+                {/* Bottom Action: Clean "Explore Domain →" */}
+                <div className="pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs font-semibold text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300">
+                  <span>Explore Domain</span>
+                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           );
         })}
       </div>
 
-      {/* Empty State when no domains match */}
+      {/* ================= EMPTY STATE ================= */}
       {filteredDomains.length === 0 && (
-        <div className="p-12 text-center rounded-2xl border border-dashed border-border bg-card space-y-3">
-          <Filter className="w-10 h-10 text-muted-foreground mx-auto opacity-50" />
-          <h4 className="text-base font-bold text-foreground">
-            No domains matched your filters
-          </h4>
-          <p className="text-xs text-muted-foreground max-w-sm mx-auto">
-            Try adjusting your search query, selecting "All Families", or clearing your filters.
-          </p>
+        <div className="p-12 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 space-y-3.5 my-6">
+          <div className="w-12 h-12 rounded-2xl bg-neutral-100 dark:bg-neutral-800 text-neutral-400 flex items-center justify-center mx-auto">
+            <Filter className="w-6 h-6" />
+          </div>
+          <div className="space-y-1">
+            <h4 className="text-base font-bold text-neutral-900 dark:text-neutral-100">
+              No career domains matched your filters
+            </h4>
+            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
+              Try adjusting your search keywords, clearing career family filters, or resetting search filters.
+            </p>
+          </div>
           <button
             type="button"
             onClick={handleResetFilters}
-            className="px-4 py-2 text-xs font-bold bg-foreground text-background rounded-xl hover:opacity-90 transition-all cursor-pointer shadow-xs inline-flex items-center gap-1.5"
+            className="px-4 py-2 text-xs font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-xl hover:opacity-90 transition-all cursor-pointer shadow-xs inline-flex items-center gap-1.5"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset All Filters</span>

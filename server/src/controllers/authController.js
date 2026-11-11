@@ -1,6 +1,8 @@
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { queryCommon } = require('../config/db');
+const { resolveTenantMetadata, queryTenant } = require('../config/tenantConnectionManager');
 const { JWT_SECRET } = require('../middleware/auth');
 const { logAuditEvent } = require('../services/auditService');
 
@@ -18,19 +20,96 @@ async function login(req, res, next) {
       });
     }
 
+    // Resolve Tenant Context
+    let tenant = null;
+    const reqTenantCode = req.body.collegeCode || req.query?.college || req.headers['x-tenant-code'] || req.headers['x-college-code'];
+
+    if (reqTenantCode) {
+      try {
+        tenant = await resolveTenantMetadata(reqTenantCode);
+      } catch (tErr) {
+        if (tErr.code === 'COLLEGE_SUSPENDED' || (tErr.message && tErr.message.toLowerCase().includes('suspended'))) {
+          return res.status(403).json({
+            success: false,
+            message: tErr.message,
+            code: 'COLLEGE_SUSPENDED',
+          });
+        }
+        return res.status(400).json({ success: false, message: tErr.message });
+      }
+    } else {
+      // Check subdomain from host
+      const host = req.headers.host || '';
+      const hostParts = host.split(':')[0].split('.');
+      if (hostParts.length > 2 && !['www', 'api', 'app', 'localhost', 'platform', 'admin'].includes(hostParts[0].toLowerCase())) {
+        try {
+          tenant = await resolveTenantMetadata(hostParts[0]);
+        } catch {}
+      }
+
+      // Auto-resolve tenant from institutional email domain (e.g. @kct.ac.in -> KCT, @psgtech.edu -> PSG)
+      if (!tenant && email && email.includes('@')) {
+        const emailDomain = email.split('@')[1].trim().toLowerCase();
+        const domainKeyword = emailDomain.split('.')[0].toUpperCase();
+        try {
+          tenant = await resolveTenantMetadata(domainKeyword);
+        } catch (tErr) {
+          if (tErr.code === 'COLLEGE_SUSPENDED' || (tErr.message && tErr.message.toLowerCase().includes('suspended'))) {
+            return res.status(403).json({
+              success: false,
+              message: tErr.message,
+              code: 'COLLEGE_SUSPENDED',
+            });
+          }
+          try {
+            const { queryPlatform } = require('../config/platformDb');
+            const matches = await queryPlatform(
+              `SELECT code FROM colleges WHERE LOWER(contact_email) LIKE ? OR LOWER(subdomain) = ? OR LOWER(code) = ? LIMIT 1`,
+              [`%@${emailDomain}%`, domainKeyword.toLowerCase(), domainKeyword.toLowerCase()]
+            );
+            if (matches.length > 0 && matches[0].code) {
+              tenant = await resolveTenantMetadata(matches[0].code);
+            }
+          } catch {}
+        }
+      }
+    }
+
+    if (!tenant) {
+      try {
+        tenant = await resolveTenantMetadata('CAMPUS_MAIN');
+      } catch {
+        tenant = {
+          id: 1,
+          code: 'CAMPUS_MAIN',
+          name: 'CampusCorp Flagship Institution',
+          database_name: process.env.DB_COMMON_NAME || 'lms',
+        };
+      }
+    }
+
+    if (tenant.status === 'SUSPENDED') {
+      return res.status(403).json({
+        success: false,
+        message: `Institutional access for '${tenant.name}' is currently suspended. Please contact platform administration.`,
+        code: 'COLLEGE_SUSPENDED',
+      });
+    }
+
     const identifier = email.trim().toLowerCase();
     const withCollege = identifier.includes('@') ? identifier : `${identifier}@college.edu`;
     const withUniserve = identifier.includes('@') ? identifier : `${identifier}@uniserve.edu`;
 
-    const users = await queryCommon(
-      `SELECT u.*, sm.id AS student_id, sm.register_number, sm.cgpa, sm.placement_status,
-              sm.batch, sm.graduation_year, COALESCE(sm.academic_year, '2026-2027') AS academic_year,
-              COALESCE(sm.department_code, u.department_code) AS final_dept
-       FROM users u
-       LEFT JOIN students_master sm ON sm.user_id = u.id
-       WHERE u.email = ? OR u.email = ? OR u.email = ? OR sm.register_number = ?`,
-      [identifier, withCollege, withUniserve, identifier]
-    );
+    const userSelectSql = `
+      SELECT u.*, sm.id AS student_id, sm.register_number, sm.cgpa, sm.placement_status,
+             sm.batch, sm.graduation_year, COALESCE(sm.academic_year, '2026-2027') AS academic_year,
+             COALESCE(sm.department_code, u.department_code) AS final_dept
+      FROM users u
+      LEFT JOIN students_master sm ON sm.user_id = u.id
+      WHERE u.email = ? OR u.email = ? OR u.email = ? OR sm.register_number = ?
+    `;
+
+    const users = await queryTenant(tenant.id, userSelectSql, [identifier, withCollege, withUniserve, identifier]);
 
     if (users.length === 0) {
       return res.status(401).json({
@@ -60,13 +139,17 @@ async function login(req, res, next) {
       });
     }
 
-    // Generate JWT Token
+    // Generate JWT Token with Tenant Scope
     const token = jwt.sign(
       {
+        jti: crypto.randomUUID(),
         userId: user.id,
         roleId: user.role_id,
         roleName: user.role_name,
         departmentCode: user.final_dept || user.department_code,
+        collegeId: tenant.id,
+        collegeCode: tenant.code,
+        dbName: tenant.database_name,
       },
       JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
@@ -102,6 +185,20 @@ async function login(req, res, next) {
       }
     } catch (e) {}
 
+    // Fetch enabled module entitlements for the college
+    let moduleEntitlements = {};
+    const collegeId = tenant?.id || req.tenant?.collegeId || 1;
+    try {
+      const { queryPlatform } = require('../config/platformDb');
+      const entRows = await queryPlatform(
+        'SELECT module_key, is_enabled FROM college_module_entitlements WHERE college_id = ?',
+        [collegeId]
+      );
+      for (const row of entRows) {
+        moduleEntitlements[row.module_key] = Boolean(row.is_enabled);
+      }
+    } catch (e) {}
+
     res.json({
       success: true,
       message: 'Login successful.',
@@ -122,6 +219,13 @@ async function login(req, res, next) {
         graduationYear: user.graduation_year,
         academicYear: user.academic_year || '2026-2027',
         preferences,
+      },
+      college: {
+        id: collegeId,
+        code: tenant?.code || req.tenant?.code || 'CAMPUS_MAIN',
+        name: tenant?.name || req.tenant?.name || 'CampusCorp Flagship Institution',
+        subdomain: tenant?.subdomain || req.tenant?.subdomain || 'main',
+        modules: moduleEntitlements,
       },
     });
   } catch (err) {
@@ -255,6 +359,20 @@ async function getCurrentUser(req, res, next) {
       }
     } catch (e) {}
 
+    // Fetch module entitlements
+    let moduleEntitlements = {};
+    const collegeId = req.tenant?.collegeId || req.user?.collegeId || 1;
+    try {
+      const { queryPlatform } = require('../config/platformDb');
+      const entRows = await queryPlatform(
+        'SELECT module_key, is_enabled FROM college_module_entitlements WHERE college_id = ?',
+        [collegeId]
+      );
+      for (const row of entRows) {
+        moduleEntitlements[row.module_key] = Boolean(row.is_enabled);
+      }
+    } catch (e) {}
+
     res.json({
       success: true,
       user: {
@@ -273,6 +391,13 @@ async function getCurrentUser(req, res, next) {
         graduationYear: user.graduation_year,
         academicYear: user.academic_year || '2026-2027',
         preferences,
+      },
+      college: {
+        id: collegeId,
+        code: req.tenant?.code || req.user?.collegeCode || 'CAMPUS_MAIN',
+        name: req.tenant?.name || 'CampusCorp Flagship Institution',
+        subdomain: req.tenant?.subdomain || 'main',
+        modules: moduleEntitlements,
       },
     });
   } catch (err) {
@@ -318,6 +443,7 @@ async function quickSwitchDemoRole(req, res, next) {
     const user = users[0];
     const token = jwt.sign(
       {
+        jti: crypto.randomUUID(),
         userId: user.id,
         roleId: user.role_id,
         roleName: user.role_name,
@@ -369,6 +495,12 @@ async function quickSwitchDemoRole(req, res, next) {
         graduationYear: user.graduation_year,
         academicYear: user.academic_year || '2026-2027',
         preferences,
+      },
+      college: {
+        id: req.tenant?.collegeId || req.user?.collegeId || 1,
+        code: req.tenant?.code || req.user?.collegeCode || 'CAMPUS_MAIN',
+        name: req.tenant?.name || 'CampusCorp Flagship Institution',
+        subdomain: req.tenant?.subdomain || 'main',
       },
     });
   } catch (err) {
@@ -473,8 +605,114 @@ async function quickSwitchDemoRole(req, res, next) {
   }
 }
 
+const { revokeToken } = require('../services/sessionRevocationService');
+
+/**
+ * Log out user and revoke active session token
+ */
+async function logout(req, res, next) {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = (authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null) || req.query?.token;
+
+    if (token) {
+      await revokeToken({
+        token,
+        tokenType: 'COLLEGE',
+        userId: req.user?.id,
+        collegeId: req.user?.collegeId || req.tenant?.collegeId,
+        reason: req.body?.reason || 'User logged out',
+        revokedBy: req.user?.email || 'SELF',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Logged out successfully. Session token revoked.',
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Public Endpoint: Get college branding and institutional info for login screen
+ */
+async function getPublicCollegeInfo(req, res, next) {
+  try {
+    const identifier = req.query.college || req.headers['x-tenant-code'] || req.headers['x-college-code'];
+    let tenant = null;
+
+    if (identifier) {
+      try {
+        tenant = await resolveTenantMetadata(identifier);
+      } catch (err) {
+        if (err.code === 'COLLEGE_SUSPENDED' || (err.message && err.message.toLowerCase().includes('suspended'))) {
+          return res.status(403).json({
+            success: false,
+            message: err.message,
+            code: 'COLLEGE_SUSPENDED',
+          });
+        }
+        return res.status(404).json({ success: false, message: `College '${identifier}' not found.` });
+      }
+    } else {
+      // Check subdomain from host
+      const host = req.headers.host || '';
+      const hostParts = host.split(':')[0].split('.');
+      if (hostParts.length > 2 && !['www', 'api', 'app', 'localhost', 'platform', 'admin'].includes(hostParts[0].toLowerCase())) {
+        try {
+          tenant = await resolveTenantMetadata(hostParts[0]);
+        } catch {}
+      }
+    }
+
+    if (!tenant) {
+      tenant = await resolveTenantMetadata('CAMPUS_MAIN');
+    }
+
+    return res.json({
+      success: true,
+      college: {
+        id: tenant.id,
+        code: tenant.code,
+        name: tenant.name,
+        type: tenant.type,
+        affiliation: tenant.affiliation,
+        subdomain: tenant.subdomain,
+        logo_url: tenant.logo_url,
+        contactEmail: tenant.contact_email,
+        status: tenant.status,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Public Endpoint: Get list of active colleges for institution switcher
+ */
+async function getPublicCollegesDirectory(req, res, next) {
+  try {
+    const { queryPlatform } = require('../config/platformDb');
+    const colleges = await queryPlatform(
+      `SELECT id, code, name, type, affiliation, subdomain, logo_url, status 
+       FROM colleges 
+       WHERE status = 'ACTIVE' 
+       ORDER BY name ASC`
+    );
+    res.json({ success: true, colleges });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   login,
+  logout,
   getCurrentUser,
   quickSwitchDemoRole,
+  getPublicCollegeInfo,
+  getPublicCollegesDirectory,
 };

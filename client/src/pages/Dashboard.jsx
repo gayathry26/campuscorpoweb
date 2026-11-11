@@ -35,7 +35,7 @@ import {
 } from 'recharts';
 
 export function Dashboard() {
-  const { user } = useAuth();
+  const { user, isModuleEnabled } = useAuth();
   const { chartColors, isDark } = useTheme();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -102,92 +102,100 @@ export function Dashboard() {
             subtitle={`${ov.registeredStudents} Registered for Drives`}
             icon={Users}
           />
-          <StatCard
-            title="Institutional Placement Rate"
-            value={`${ov.placementRate}%`}
-            subtitle={`${ov.placedStudents} Students Placed`}
-            icon={GraduationCap}
-            trend={+12}
-          />
-          <StatCard
-            title="Average CTC Package"
-            value={`₹${ov.averagePackageLpa} LPA`}
-            subtitle={`Highest: ₹${ov.highestPackageLpa} LPA`}
-            icon={TrendingUp}
-          />
-          <StatCard
-            title="Active Companies"
-            value={ov.totalCompanies}
-            subtitle={`${ov.upcomingDrives} Upcoming Drives`}
-            icon={Building2}
-          />
+          {isModuleEnabled('RECRUITMENT') && (
+            <StatCard
+              title="Institutional Placement Rate"
+              value={`${ov.placementRate}%`}
+              subtitle={`${ov.placedStudents} Students Placed`}
+              icon={GraduationCap}
+              trend={+12}
+            />
+          )}
+          {isModuleEnabled('RECRUITMENT') && (
+            <StatCard
+              title="Average CTC Package"
+              value={`₹${ov.averagePackageLpa} LPA`}
+              subtitle={`Highest: ₹${ov.highestPackageLpa} LPA`}
+              icon={TrendingUp}
+            />
+          )}
+          {isModuleEnabled('RECRUITMENT') && (
+            <StatCard
+              title="Active Companies"
+              value={ov.totalCompanies}
+              subtitle={`${ov.upcomingDrives} Upcoming Drives`}
+              icon={Building2}
+            />
+          )}
         </div>
 
         {/* Analytics Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Department-wise Placement Rates */}
-          <div className="lg:col-span-2 bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-lg font-bold text-foreground">Department Placement Performance</h3>
-                <p className="text-sm text-muted-foreground mt-0.5">Placement percentage by department</p>
+        {isModuleEnabled('RECRUITMENT') && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Department-wise Placement Rates */}
+            <div className="lg:col-span-2 bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">Department Placement Performance</h3>
+                  <p className="text-sm text-muted-foreground mt-0.5">Placement percentage by department</p>
+                </div>
+                <span className="text-xs font-semibold text-foreground bg-secondary px-2.5 py-1 rounded-md border border-border">Live Multi-DB</span>
               </div>
-              <span className="text-xs font-semibold text-foreground bg-secondary px-2.5 py-1 rounded-md border border-border">Live Multi-DB</span>
-            </div>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={deptData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "rgba(255,255,255,0.08)" : "#e5e5e5"} vertical={false} />
-                  <XAxis dataKey="department_code" tick={{ fontSize: 12, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 12, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} domain={[0, 100]} />
-                  <Tooltip
-                    contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '13px' }}
-                    formatter={(val) => [`${val}%`, 'Placement Rate']}
-                  />
-                  <Bar dataKey="placement_rate" fill={COLORS[0]} radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Salary Package Distribution */}
-          <div className="bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-lg font-bold text-foreground">Salary Band Distribution</h3>
-                <p className="text-sm text-muted-foreground mt-0.5">Offers by CTC range</p>
-              </div>
-            </div>
-            <div className="h-64 flex items-center justify-center">
-              {salaryChartData.length > 0 ? (
+              <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={salaryChartData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={50}
-                      outerRadius={75}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {salaryChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '13px' }} />
-                    <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  </PieChart>
+                  <BarChart data={deptData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "rgba(255,255,255,0.08)" : "#e5e5e5"} vertical={false} />
+                    <XAxis dataKey="department_code" tick={{ fontSize: 12, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 12, fill: isDark ? '#a1a1a1' : '#737373' }} axisLine={false} tickLine={false} domain={[0, 100]} />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '13px' }}
+                      formatter={(val) => [`${val}%`, 'Placement Rate']}
+                    />
+                    <Bar dataKey="placement_rate" fill={COLORS[0]} radius={[6, 6, 0, 0]} />
+                  </BarChart>
                 </ResponsiveContainer>
-              ) : (
-                <p className="text-sm text-muted-foreground">No offers issued yet</p>
-              )}
+              </div>
+            </div>
+
+            {/* Salary Package Distribution */}
+            <div className="bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">Salary Band Distribution</h3>
+                  <p className="text-sm text-muted-foreground mt-0.5">Offers by CTC range</p>
+                </div>
+              </div>
+              <div className="h-64 flex items-center justify-center">
+                {salaryChartData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={salaryChartData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={50}
+                        outerRadius={75}
+                        paddingAngle={5}
+                        dataKey="value"
+                      >
+                        {salaryChartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ backgroundColor: isDark ? '#171717' : '#ffffff', color: isDark ? '#fafafa' : '#0a0a0a', borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e5e5', borderRadius: '10px', fontSize: '13px' }} />
+                      <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No offers issued yet</p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Compiler Environment Diagnostic */}
-        {data?.compilersStatus && (
+        {isModuleEnabled('ASSESSMENTS') && data?.compilersStatus && (
           <div className="bg-card text-card-foreground rounded-xl border border-border p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
@@ -254,66 +262,72 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* Student Quick Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <StatCard title="Total Applied" value={stats.totalApplications} icon={Briefcase} />
-          <StatCard title="In Progress / Shortlist" value={stats.shortlistedCount} icon={Clock} />
-          <StatCard title="Placement Offers" value={stats.offersCount} icon={Award} />
-          <StatCard title="Placement Status" value={prof.placement_status || 'REGISTERED'} icon={CheckCircle2} />
-        </div>
-
-        {/* Skill Analyzer Quick Banner */}
-        <div className="bg-card rounded-xl border border-purple-500/30 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-foreground">Skill Analyzer & IT Career Match</h4>
-              <p className="text-xs text-muted-foreground mt-0.5">Discover your technical fitment across 12+ IT roles and follow your personalized placement roadmap.</p>
-            </div>
+        {/* Student Quick Stats (Recruitment Module) */}
+        {isModuleEnabled('RECRUITMENT') && (
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <StatCard title="Total Applied" value={stats.totalApplications} icon={Briefcase} />
+            <StatCard title="In Progress / Shortlist" value={stats.shortlistedCount} icon={Clock} />
+            <StatCard title="Placement Offers" value={stats.offersCount} icon={Award} />
+            <StatCard title="Placement Status" value={prof.placement_status || 'REGISTERED'} icon={CheckCircle2} />
           </div>
-          <Link
-            to="/skill-analyzer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white shrink-0 shadow-xs transition-transform active:scale-95"
-          >
-            <span>Analyze My Skills</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+        )}
 
-        {/* Active Applications Table */}
-        <div className="bg-card text-card-foreground rounded-xl border border-border p-5 shadow-xs">
-          <h3 className="text-base font-bold text-foreground mb-3">My Application Status</h3>
-          {apps.length === 0 ? (
-            <p className="text-xs text-muted-foreground py-6 text-center">You have not applied for any drives yet. Check the Jobs tab.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-muted-foreground">
-                <thead className="bg-secondary text-foreground font-semibold border-b border-border text-xs uppercase tracking-wider">
-                  <tr>
-                    <th className="py-2.5 px-3">Company</th>
-                    <th className="py-2.5 px-3">Role</th>
-                    <th className="py-2.5 px-3">Package (CTC)</th>
-                    <th className="py-2.5 px-3">Current Round</th>
-                    <th className="py-2.5 px-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {apps.map((app) => (
-                    <tr key={app.id} className="hover:bg-secondary transition-colors">
-                      <td className="py-2.5 px-3 font-semibold text-foreground">{app.company_name}</td>
-                      <td className="py-2.5 px-3">{app.job_title}</td>
-                      <td className="py-2.5 px-3 font-semibold text-foreground">₹{app.ctc_lpa} LPA</td>
-                      <td className="py-2.5 px-3">Round {app.current_round_number}</td>
-                      <td className="py-2.5 px-3"><StatusBadge status={app.status} /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Skill Analyzer Quick Banner (Career Explorer Module) */}
+        {isModuleEnabled('CAREER_EXPLORER') && (
+          <div className="bg-card rounded-xl border border-purple-500/30 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-foreground">Skill Analyzer & IT Career Match</h4>
+                <p className="text-xs text-muted-foreground mt-0.5">Discover your technical fitment across 12+ IT roles and follow your personalized placement roadmap.</p>
+              </div>
             </div>
-          )}
-        </div>
+            <Link
+              to="/skill-analyzer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 hover:bg-purple-500 text-white shrink-0 shadow-xs transition-transform active:scale-95"
+            >
+              <span>Analyze My Skills</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
+
+        {/* Active Applications Table (Recruitment Module) */}
+        {isModuleEnabled('RECRUITMENT') && (
+          <div className="bg-card text-card-foreground rounded-xl border border-border p-5 shadow-xs">
+            <h3 className="text-base font-bold text-foreground mb-3">My Application Status</h3>
+            {apps.length === 0 ? (
+              <p className="text-xs text-muted-foreground py-6 text-center">You have not applied for any drives yet. Check the Jobs tab.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm text-muted-foreground">
+                  <thead className="bg-secondary text-foreground font-semibold border-b border-border text-xs uppercase tracking-wider">
+                    <tr>
+                      <th className="py-2.5 px-3">Company</th>
+                      <th className="py-2.5 px-3">Role</th>
+                      <th className="py-2.5 px-3">Package (CTC)</th>
+                      <th className="py-2.5 px-3">Current Round</th>
+                      <th className="py-2.5 px-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {apps.map((app) => (
+                      <tr key={app.id} className="hover:bg-secondary transition-colors">
+                        <td className="py-2.5 px-3 font-semibold text-foreground">{app.company_name}</td>
+                        <td className="py-2.5 px-3">{app.job_title}</td>
+                        <td className="py-2.5 px-3 font-semibold text-foreground">₹{app.ctc_lpa} LPA</td>
+                        <td className="py-2.5 px-3">Round {app.current_round_number}</td>
+                        <td className="py-2.5 px-3"><StatusBadge status={app.status} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }

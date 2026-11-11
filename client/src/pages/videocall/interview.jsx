@@ -1109,16 +1109,16 @@ export function InterviewRoomPage() {
   // =========================================================================
   if (!inCall) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans select-none">
+      <div className="min-h-screen bg-background text-foreground flex flex-col font-sans select-none">
         {/* Toast Notification Banner */}
         {feedbackToast && (
           <div
-            className={`fixed top-4 right-4 z-50 px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2 border transition-all ${
+            className={`fixed top-4 right-4 z-50 px-4 py-2.5 rounded-xl shadow-xs text-xs font-semibold flex items-center gap-2 border transition-all ${
               feedbackToast.type === 'success'
-                ? 'bg-slate-900 text-foreground border-border'
+                ? 'bg-card text-foreground border-border'
                 : feedbackToast.type === 'error'
-                ? 'bg-slate-900 text-foreground border-border'
-                : 'bg-slate-900 text-foreground border-border'
+                ? 'bg-card text-foreground border-border'
+                : 'bg-card text-foreground border-border'
             }`}
           >
             {feedbackToast.type === 'success' && <Check size={14} />}
@@ -1129,24 +1129,24 @@ export function InterviewRoomPage() {
         )}
 
         {/* Top Header */}
-        <header className="h-16 px-6 border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md flex items-center justify-between sticky top-0 z-30">
+        <header className="h-16 px-6 border-b border-border bg-card/90 backdrop-blur-md flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <Link
               to="/interviews"
-              className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 transition-colors"
+              className="p-2 rounded-xl bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground border border-border transition-colors"
               title="Back to Interview Roster"
             >
               <ArrowLeft size={16} />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] flex items-center justify-center text-white shadow-md shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-xs">
                 <Video size={18} />
               </div>
               <div>
-                <h1 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight">
+                <h1 className="text-base sm:text-lg font-bold text-foreground tracking-tight leading-tight">
                   Virtual Technical Interview Console
                 </h1>
-                <span className="text-xs text-slate-400 font-medium">
+                <span className="text-xs text-muted-foreground font-medium">
                   WebRTC P2P Signaling Architecture
                 </span>
               </div>
@@ -1154,15 +1154,15 @@ export function InterviewRoomPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-sm">
-              <span className="text-slate-400">Authenticated:</span>
-              <span className="font-semibold text-white">{user?.firstName || user?.username}</span>
-              <span className="px-2 py-0.5 rounded text-xs font-bold bg-slate-700 text-muted-foreground">
+            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-secondary border border-border text-sm text-foreground">
+              <span className="text-muted-foreground">Authenticated:</span>
+              <span className="font-semibold text-foreground">{user?.firstName || user?.username}</span>
+              <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-background text-foreground border border-border">
                 {userRole}
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-800/50 px-2.5 py-1 rounded-lg border border-slate-700/50">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-secondary px-2.5 py-1 rounded-lg border border-border">
               <Shield size={13} className="text-foreground" />
               <span className="font-mono text-xs">STUN Active</span>
             </div>
@@ -1175,19 +1175,17 @@ export function InterviewRoomPage() {
           {/* 1. FOR ADMIN / PLACEMENT / FACULTY: SHOW CREATION FIRST!          */}
           {/* ================================================================= */}
           {canCreate && (
-            <section className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/5 rounded-full blur-3xl pointer-events-none" />
-
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+            <section className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-xs relative overflow-hidden text-card-foreground">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-border gap-4">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 text-foreground border border-border mb-2.5">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-foreground border border-border mb-2.5">
                     <Sparkles size={14} />
                     <span>Executive Interview Management</span>
                   </div>
-                  <h2 className="text-2xl font-bold text-white tracking-tight">
+                  <h2 className="text-2xl font-bold text-foreground tracking-tight">
                     Schedule New Interview Session
                   </h2>
-                  <p className="text-sm text-slate-400 mt-1">
+                  <p className="text-sm text-muted-foreground mt-1">
                     Configure technical interview specifications, select candidates, and generate encrypted WebRTC room links.
                   </p>
                 </div>
@@ -1196,7 +1194,7 @@ export function InterviewRoomPage() {
                   <button
                     type="button"
                     onClick={handleGenerateRoomCode}
-                    className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-sm font-semibold text-slate-200 transition-colors cursor-pointer"
+                    className="px-4 py-2.5 bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border rounded-xl text-sm font-semibold text-foreground transition-colors cursor-pointer shadow-xs"
                   >
                     Generate Room Code
                   </button>
@@ -1208,8 +1206,8 @@ export function InterviewRoomPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Title */}
                   <div className="lg:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-300 mb-1.5">
-                      Interview Title <span className="text-foreground">*</span>
+                    <label className="block text-sm font-semibold text-foreground mb-1.5">
+                      Interview Title <span className="text-foreground font-bold">*</span>
                     </label>
                     <input
                       type="text"
@@ -1217,19 +1215,19 @@ export function InterviewRoomPage() {
                       placeholder="e.g. Amazon SDE-1 Technical Round - System Design"
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-border focus:ring-1 focus:ring-neutral-400"
+                      className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition"
                     />
                   </div>
 
                   {/* Technical Topic */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-300 mb-1.5">
-                      Domain / Assessment Track <span className="text-foreground">*</span>
+                    <label className="block text-sm font-semibold text-foreground mb-1.5">
+                      Domain / Assessment Track <span className="text-foreground font-bold">*</span>
                     </label>
                     <select
                       value={formData.topic}
                       onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-border"
+                      className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition"
                     >
                       <option value="Data Structures and Algorithms">Data Structures and Algorithms</option>
                       <option value="System Design and Scalability">System Design and Scalability</option>
@@ -1243,13 +1241,13 @@ export function InterviewRoomPage() {
                   {/* Candidate Selection */}
                   <div className="lg:col-span-2">
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-sm font-semibold text-slate-300">
-                        Candidate Student <span className="text-foreground">*</span>
+                      <label className="text-sm font-semibold text-foreground">
+                        Candidate Student <span className="text-foreground font-bold">*</span>
                       </label>
                       <button
                         type="button"
                         onClick={() => setCustomStudentMode(!customStudentMode)}
-                        className="text-xs text-foreground hover:underline font-semibold"
+                        className="text-xs text-foreground hover:underline font-semibold cursor-pointer"
                       >
                         {customStudentMode ? 'Select from Roster' : 'Manual Entry'}
                       </button>
@@ -1269,7 +1267,7 @@ export function InterviewRoomPage() {
                             student_roll: selected?.roll_number || '2023CSE001'
                           });
                         }}
-                        className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-border"
+                        className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition"
                       >
                         {studentOptions.map((s) => (
                           <option
@@ -1288,14 +1286,14 @@ export function InterviewRoomPage() {
                           placeholder="Candidate Name e.g. Varun Murugesh"
                           value={formData.student_name}
                           onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
-                          className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-border"
+                          className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition"
                         />
                         <input
                           type="text"
                           placeholder="Roll Number e.g. 2023CSE045"
                           value={formData.student_roll}
                           onChange={(e) => setFormData({ ...formData, student_roll: e.target.value })}
-                          className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-border font-mono"
+                          className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground font-mono transition"
                         />
                       </div>
                     )}
@@ -1303,20 +1301,20 @@ export function InterviewRoomPage() {
 
                   {/* Date & Time */}
                   <div>
-                    <label className="block font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-sm font-semibold text-foreground mb-1.5">
                       Scheduled Date & Time
                     </label>
                     <input
                       type="datetime-local"
                       value={formData.scheduled_at}
                       onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })}
-                      className="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-border"
+                      className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-foreground transition"
                     />
                   </div>
 
                   {/* Room Code */}
                   <div className="lg:col-span-3">
-                    <label className="block font-semibold text-slate-300 mb-1.5">
+                    <label className="block text-sm font-semibold text-foreground mb-1.5">
                       Room Code (Custom or Auto-Generated)
                     </label>
                     <div className="flex gap-2">
@@ -1325,12 +1323,12 @@ export function InterviewRoomPage() {
                         placeholder="Leave blank for automatic format (e.g. meet-dsa-4x9a)"
                         value={formData.custom_code}
                         onChange={(e) => setFormData({ ...formData, custom_code: e.target.value })}
-                        className="flex-1 bg-slate-800/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 font-mono focus:outline-none focus:border-border"
+                        className="flex-1 bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground font-mono focus:outline-none focus:ring-1 focus:ring-foreground transition"
                       />
                       <button
                         type="button"
                         onClick={handleGenerateRoomCode}
-                        className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl font-semibold text-slate-300 transition-colors"
+                        className="px-4 py-2.5 bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border rounded-xl font-semibold text-foreground text-sm transition-colors cursor-pointer shadow-xs"
                       >
                         Auto-Format
                       </button>
@@ -1339,11 +1337,11 @@ export function InterviewRoomPage() {
                 </div>
 
                 {/* Submit Actions */}
-                <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-slate-800">
+                <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-border">
                   <button
                     type="submit"
                     disabled={creating}
-                    className="w-full sm:w-auto px-6 py-2.5 bg-slate-800 hover:bg-slate-750 text-white font-bold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-2.5 bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground font-semibold rounded-xl border border-border transition-all flex items-center justify-center gap-2 cursor-pointer text-sm shadow-xs"
                   >
                     {creating ? <RefreshCw size={14} className="animate-spin" /> : <Calendar size={14} />}
                     <span>Schedule for Later</span>
@@ -1353,7 +1351,7 @@ export function InterviewRoomPage() {
                     type="button"
                     disabled={creating}
                     onClick={(e) => handleCreateMeeting(e, true)}
-                    className="w-full sm:w-auto px-6 py-2.5 bg-neutral-100 dark:bg-neutral-900 border border-border text-foreground   text-white font-bold rounded-xl shadow-lg shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-2.5 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 text-primary-foreground font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
                   >
                     {creating ? <RefreshCw size={14} className="animate-spin" /> : <Video size={14} />}
                     <span>Schedule & Launch Room Now</span>
@@ -1369,22 +1367,22 @@ export function InterviewRoomPage() {
           {!canCreate && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
               {/* Left: Quick Join by Code */}
-              <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+              <div className="lg:col-span-7 bg-card border border-border rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6 text-card-foreground shadow-xs">
                 <div className="space-y-3">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 text-foreground border border-border">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-foreground border border-border">
                     <UserCheck size={13} />
                     <span>Student Interview Portal</span>
                   </div>
-                  <h2 className="text-2xl font-bold text-white tracking-tight">
+                  <h2 className="text-2xl font-bold text-foreground tracking-tight">
                     Join Scheduled Technical Interview
                   </h2>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed">
                     Enter your assigned meeting code or select an upcoming interview round below. Please verify audio and camera readiness before joining.
                   </p>
                 </div>
 
-                <div className="space-y-3 bg-slate-800/60 border border-slate-750 p-4 rounded-xl">
-                  <label className="text-xs font-semibold text-slate-300 block">
+                <div className="space-y-3 bg-secondary border border-border p-4 rounded-xl">
+                  <label className="text-xs font-semibold text-foreground block">
                     Have an interview code or meeting link?
                   </label>
                   <div className="flex flex-col sm:flex-row gap-2">
@@ -1394,13 +1392,13 @@ export function InterviewRoomPage() {
                       value={inputCode}
                       onChange={(e) => setInputCode(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleJoinByCode()}
-                      className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-border font-mono"
+                      className="flex-1 bg-background border border-border rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground font-mono"
                     />
                     <button
                       type="button"
                       onClick={() => handleJoinByCode()}
                       disabled={!inputCode.trim()}
-                      className="px-5 py-2.5 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] disabled:opacity-40 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
+                      className="px-5 py-2.5 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-40 text-primary-foreground rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
                     >
                       <Video size={16} />
                       <span>Join Room</span>
@@ -1410,16 +1408,15 @@ export function InterviewRoomPage() {
               </div>
 
               {/* Right: Camera & Mic Self-Check Mirror */}
-              <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-4">
+              <div className="lg:col-span-5 bg-card border border-border rounded-2xl p-6 flex flex-col justify-between space-y-4 text-card-foreground shadow-xs">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                     <span>Hardware Readiness Check</span>
-                    <span className="w-2 h-2 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]" />
                   </h3>
-                  <p className="text-sm text-slate-400 mt-1">Test audio and video feed before joining panel</p>
+                  <p className="text-sm text-muted-foreground mt-1">Test audio and video feed before joining panel</p>
                 </div>
 
-                <div className="relative aspect-video bg-slate-950 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
+                <div className="relative aspect-video bg-secondary rounded-xl overflow-hidden border border-border flex items-center justify-center">
                   {cameraOn && !cameraError ? (
                     <video
                       ref={localVideoRef}
@@ -1430,18 +1427,18 @@ export function InterviewRoomPage() {
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center text-center p-4">
-                      <div className="w-14 h-14 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center mb-2 border border-slate-700">
+                      <div className="w-14 h-14 rounded-full bg-background text-muted-foreground flex items-center justify-center mb-2 border border-border">
                         <VideoOff size={22} />
                       </div>
-                      <p className="text-sm font-semibold text-slate-300">Camera is off</p>
-                      <p className="text-xs text-slate-500 mt-1">Toggle camera button below to preview</p>
+                      <p className="text-sm font-semibold text-foreground">Camera is off</p>
+                      <p className="text-xs text-muted-foreground mt-1">Toggle camera button below to preview</p>
                     </div>
                   )}
 
                   <div className="absolute bottom-3 left-3 flex items-center gap-2">
                     <div
-                      className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 ${
-                        micOn ? 'bg-black/70 text-foreground' : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black/80 text-white'
+                      className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-border ${
+                        micOn ? 'bg-background text-foreground' : 'bg-secondary text-muted-foreground'
                       }`}
                     >
                       {micOn ? <Mic size={11} /> : <MicOff size={11} />}
@@ -1454,8 +1451,8 @@ export function InterviewRoomPage() {
                   <button
                     type="button"
                     onClick={toggleMic}
-                    className={`p-2.5 rounded-full transition-colors cursor-pointer ${
-                      micOn ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white'
+                    className={`p-2.5 rounded-full transition-colors cursor-pointer border border-border shadow-xs ${
+                      micOn ? 'bg-primary text-primary-foreground' : 'bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground'
                     }`}
                     title={micOn ? 'Mute Mic' : 'Unmute Mic'}
                   >
@@ -1464,8 +1461,8 @@ export function InterviewRoomPage() {
                   <button
                     type="button"
                     onClick={toggleCamera}
-                    className={`p-2.5 rounded-full transition-colors cursor-pointer ${
-                      cameraOn ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white'
+                    className={`p-2.5 rounded-full transition-colors cursor-pointer border border-border shadow-xs ${
+                      cameraOn ? 'bg-primary text-primary-foreground' : 'bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground'
                     }`}
                     title={cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
                   >
@@ -1480,15 +1477,15 @@ export function InterviewRoomPage() {
           {/* 3. ALREADY CREATED MEETINGS ROSTER (For Admin & Candidates)       */}
           {/* ================================================================= */}
           <section className="space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-border">
               <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                   <Calendar size={18} className="text-foreground" />
                   <span>
                     {canCreate ? 'Already Created & Scheduled Meetings' : 'My Scheduled Interview Sessions'}
                   </span>
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-muted-foreground">
                   {canCreate
                     ? 'Manage ongoing rounds, copy room access links, or launch evaluations.'
                     : 'Upcoming virtual rounds assigned to your student profile.'}
@@ -1499,27 +1496,27 @@ export function InterviewRoomPage() {
               <div className="flex flex-wrap items-center gap-2.5">
                 {/* Search */}
                 <div className="relative">
-                  <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="text"
                     placeholder="Search by title, room or candidate..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-slate-900 border border-slate-700/80 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-border"
+                    className="bg-background border border-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground"
                   />
                 </div>
 
                 {/* Filter Pills */}
-                <div className="flex items-center bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs">
+                <div className="flex items-center bg-card border border-border p-1 rounded-xl text-xs">
                   {['ALL', 'SCHEDULED', 'COMPLETED'].map((st) => (
                     <button
                       key={st}
                       type="button"
                       onClick={() => setStatusFilter(st)}
-                      className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                      className={`px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
                         statusFilter === st
-                          ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white shadow-sm'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-primary text-primary-foreground shadow-xs'
+                          : 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       {st}
@@ -1530,7 +1527,7 @@ export function InterviewRoomPage() {
                 <button
                   type="button"
                   onClick={fetchScheduled}
-                  className="p-2 text-slate-400 hover:text-white rounded-xl bg-slate-900 border border-slate-800 transition-colors"
+                  className="p-2 text-muted-foreground hover:text-foreground rounded-xl bg-secondary border border-border transition-colors cursor-pointer"
                   title="Refresh Roster"
                 >
                   <RefreshCw size={14} className={loadingSchedule ? 'animate-spin' : ''} />
@@ -1540,31 +1537,31 @@ export function InterviewRoomPage() {
 
             {/* Metrics Pills */}
             <div className="grid grid-cols-3 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
-                <span className="text-slate-400">Total Recorded:</span>
-                <span className="font-bold text-white font-mono text-sm">{metrics.total}</span>
+              <div className="p-3 rounded-xl bg-card border border-border flex items-center justify-between shadow-xs">
+                <span className="text-muted-foreground">Total Recorded:</span>
+                <span className="font-bold text-foreground font-mono text-sm">{metrics.total}</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
-                <span className="text-slate-400">Scheduled:</span>
+              <div className="p-3 rounded-xl bg-card border border-border flex items-center justify-between shadow-xs">
+                <span className="text-muted-foreground">Scheduled:</span>
                 <span className="font-bold text-foreground font-mono text-sm">{metrics.scheduled}</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
-                <span className="text-slate-400">Completed:</span>
+              <div className="p-3 rounded-xl bg-card border border-border flex items-center justify-between shadow-xs">
+                <span className="text-muted-foreground">Completed:</span>
                 <span className="font-bold text-foreground font-mono text-sm">{metrics.completed}</span>
               </div>
             </div>
 
             {/* Meeting Cards Grid */}
             {loadingSchedule ? (
-              <div className="p-12 text-center text-xs text-slate-400 bg-slate-900/40 rounded-2xl border border-slate-800/80 animate-pulse">
+              <div className="p-12 text-center text-xs text-muted-foreground bg-secondary/50 rounded-2xl border border-border animate-pulse">
                 Synchronizing interview sessions...
               </div>
             ) : filteredInterviews.length === 0 ? (
-              <div className="p-12 text-center bg-slate-900/40 rounded-2xl border border-slate-800 text-slate-400 space-y-3">
-                <Video size={28} className="mx-auto text-slate-600" />
+              <div className="p-12 text-center bg-card rounded-2xl border border-border text-muted-foreground space-y-3 shadow-xs">
+                <Video size={28} className="mx-auto text-muted-foreground" />
                 <p className="text-xs font-medium">No matching interview sessions found.</p>
                 {canCreate && (
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-muted-foreground">
                     Use the creation form above to schedule your first mock interview.
                   </p>
                 )}
@@ -1574,43 +1571,37 @@ export function InterviewRoomPage() {
                 {filteredInterviews.map((item) => (
                   <div
                     key={item.id || item.room_code}
-                    className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 space-y-4 transition-all hover:shadow-xl flex flex-col justify-between"
+                    className="bg-card border border-border hover:border-foreground/30 rounded-2xl p-5 space-y-4 transition-all shadow-xs flex flex-col justify-between text-card-foreground"
                   >
                     <div className="space-y-2.5">
                       <div className="flex items-start justify-between gap-2">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 text-foreground border border-border">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-secondary text-foreground border border-border">
                           {item.topic || 'Technical Interview'}
                         </span>
-                        <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                            item.status === 'COMPLETED'
-                              ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 text-foreground border border-border'
-                              : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black/10 text-foreground border border-border'
-                          }`}
-                        >
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-secondary text-foreground border border-border">
                           {item.status || 'SCHEDULED'}
                         </span>
                       </div>
 
-                      <h4 className="text-sm font-bold text-white line-clamp-1">{item.title}</h4>
+                      <h4 className="text-sm font-bold text-foreground line-clamp-1">{item.title}</h4>
 
-                      <div className="text-xs text-slate-300 space-y-0.5">
+                      <div className="text-xs text-muted-foreground space-y-0.5">
                         <p>
-                          Candidate: <strong className="text-white">{item.student_name}</strong>{' '}
+                          Candidate: <strong className="text-foreground">{item.student_name}</strong>{' '}
                           {item.student_roll ? `(${item.student_roll})` : ''}
                         </p>
-                        <p className="text-[11px] text-slate-400">
+                        <p className="text-[11px] text-muted-foreground">
                           Interviewer: {item.interviewer_name}
                         </p>
                       </div>
                     </div>
 
-                    <div className="p-3 bg-slate-950/60 rounded-xl space-y-1.5 text-[11px] border border-slate-800">
-                      <div className="flex items-center justify-between text-slate-300">
-                        <span className="flex items-center gap-1.5 text-slate-400">
+                    <div className="p-3 bg-secondary rounded-xl space-y-1.5 text-[11px] border border-border text-foreground">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-muted-foreground">
                           <Clock size={12} className="text-foreground" /> Slot:
                         </span>
-                        <span className="font-mono text-slate-200">
+                        <span className="font-mono text-foreground">
                           {item.scheduled_at
                             ? new Date(item.scheduled_at).toLocaleString([], {
                                 dateStyle: 'short',
@@ -1620,15 +1611,15 @@ export function InterviewRoomPage() {
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between text-slate-300">
-                        <span className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-muted-foreground">
                           <Video size={12} className="text-foreground" /> Room Code:
                         </span>
                         <span className="font-mono text-foreground font-semibold">{item.room_code}</span>
                       </div>
 
                       {item.rating && (
-                        <div className="flex items-center justify-between text-foreground font-semibold pt-1 border-t border-slate-800">
+                        <div className="flex items-center justify-between text-foreground font-semibold pt-1 border-t border-border">
                           <span>Evaluated Score:</span>
                           <span className="flex items-center gap-1">
                             <Star size={11} className="fill-current" /> {item.rating} / 5.0
@@ -1641,7 +1632,7 @@ export function InterviewRoomPage() {
                       <button
                         type="button"
                         onClick={() => handleJoinByCode(item.room_code)}
-                        className="flex-1 py-2 bg-neutral-100 dark:bg-neutral-900 border border-border text-foreground   text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-xs cursor-pointer transition-transform active:scale-95"
+                        className="flex-1 py-2 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 text-primary-foreground rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition-transform active:scale-95"
                       >
                         <Video size={13} />
                         <span>Join Room</span>
@@ -1650,7 +1641,7 @@ export function InterviewRoomPage() {
                       <button
                         type="button"
                         onClick={() => handleCopyCode(item.room_code)}
-                        className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs transition-colors cursor-pointer border border-slate-700/60"
+                        className="p-2 bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground rounded-xl text-xs transition-colors cursor-pointer border border-border"
                         title="Copy Meeting Link"
                       >
                         <Copy size={14} />
@@ -1660,7 +1651,7 @@ export function InterviewRoomPage() {
                         <button
                           type="button"
                           onClick={() => handleDeleteMeeting(item.id, item.title)}
-                          className="p-2 bg-slate-800 hover:bg-secondary text-slate-400 hover:text-foreground rounded-xl text-xs transition-colors cursor-pointer border border-slate-700/60"
+                          className="p-2 bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-muted-foreground hover:text-foreground rounded-xl text-xs transition-colors cursor-pointer border border-border"
                           title="Remove Meeting Record"
                         >
                           <Trash2 size={14} />
@@ -1715,7 +1706,7 @@ export function InterviewRoomPage() {
             <button
               type="button"
               onClick={() => setActivePanel(activePanel === 'evaluate' ? null : 'evaluate')}
-              className="h-8 px-3.5 bg-neutral-100 dark:bg-neutral-900 border border-border text-foreground   text-white rounded-full flex items-center gap-2 text-xs font-bold transition-all shadow-md cursor-pointer"
+              className="h-8 px-3.5 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 text-primary-foreground rounded-full flex items-center gap-2 text-xs font-bold transition-all shadow-xs cursor-pointer"
             >
               <Award size={14} />
               <span>Evaluate Candidate</span>
@@ -1724,12 +1715,12 @@ export function InterviewRoomPage() {
 
           {/* Connection Status Pill */}
           {hasRemotePeer || wasAdmitted ? (
-            <div className="h-8 px-3 bg-secondary text-foreground text-muted-foreground rounded-full flex items-center gap-1.5 text-xs font-medium border border-border">
+            <div className="h-8 px-3 bg-secondary text-foreground rounded-full flex items-center gap-1.5 text-xs font-medium border border-border">
               <Check size={13} strokeWidth={2.5} />
               <span>{canCreate ? 'Candidate Connected' : 'Interviewer Connected'}</span>
             </div>
           ) : isWaitingInLobby ? (
-            <div className="h-8 px-3 bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black/20 text-muted-foreground rounded-full flex items-center gap-1.5 text-xs font-medium border border-border">
+            <div className="h-8 px-3 bg-secondary text-muted-foreground rounded-full flex items-center gap-1.5 text-xs font-medium border border-border">
               <Clock size={13} />
               <span>Waiting for Host Admission...</span>
             </div>
@@ -1737,13 +1728,13 @@ export function InterviewRoomPage() {
             <button
               type="button"
               onClick={() => handleAdmitCandidate(waitingCandidates[0])}
-              className="h-8 px-3.5 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white rounded-full flex items-center gap-2 text-xs font-semibold transition-all cursor-pointer shadow"
+              className="h-8 px-3.5 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 text-primary-foreground rounded-full flex items-center gap-2 text-xs font-semibold transition-all cursor-pointer shadow-xs"
             >
               <Users size={13} />
               <span>Admit {waitingCandidates[0]?.name || 'Candidate'}</span>
             </button>
           ) : (
-            <div className="h-8 px-3 bg-slate-800 text-slate-300 rounded-full flex items-center gap-1.5 text-xs font-medium border border-slate-700">
+            <div className="h-8 px-3 bg-secondary text-muted-foreground rounded-full flex items-center gap-1.5 text-xs font-medium border border-border">
               <Users size={13} />
               <span>1 Participant (You)</span>
             </div>
@@ -1752,14 +1743,14 @@ export function InterviewRoomPage() {
           {/* Participant Avatars */}
           <div className="flex items-center gap-1.5 pl-1">
             <div
-              className="w-7 h-7 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white font-bold flex items-center justify-center text-xs shadow-inner"
+              className="w-7 h-7 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center text-xs shadow-xs"
               title={`${user?.firstName || 'You'} (${userRole})`}
             >
               {(user?.firstName || 'U')[0].toUpperCase()}
             </div>
             {hasRemotePeer && (
               <div
-                className="w-7 h-7 rounded-full bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white font-bold flex items-center justify-center text-xs shadow-inner"
+                className="w-7 h-7 rounded-full bg-secondary border border-border text-foreground font-bold flex items-center justify-center text-xs shadow-xs"
                 title={remotePeerInfo?.name || 'Remote Peer'}
               >
                 {(remotePeerInfo?.name || 'P')[0].toUpperCase()}
@@ -1771,11 +1762,11 @@ export function InterviewRoomPage() {
 
       {/* 2. Main Video Viewport */}
       <main className="flex-1 relative mx-4 my-2 min-h-0 flex items-center justify-center">
-        <div className="relative w-full h-full max-h-[84vh] max-w-[1360px] bg-slate-900 rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center border border-white/5">
+        <div className="relative w-full h-full max-h-[84vh] max-w-[1360px] bg-card rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center border border-border">
           {/* Waiting in Lobby View for Student */}
           {isStudent && isWaitingInLobby && !hasRemotePeer ? (
             <div className="flex flex-col items-center justify-center text-center p-8 max-w-md space-y-4">
-              <div className="w-16 h-16 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/20 text-foreground flex items-center justify-center border border-border">
+              <div className="w-16 h-16 rounded-full bg-secondary text-foreground flex items-center justify-center border border-border">
                 <Clock size={28} className="animate-spin" />
               </div>
               <div className="space-y-1">
@@ -1818,11 +1809,11 @@ export function InterviewRoomPage() {
                     className="w-full h-full object-cover -scale-x-100"
                   />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-center p-2">
-                    <div className="w-10 h-10 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white font-bold flex items-center justify-center text-sm shadow">
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-card text-center p-2">
+                    <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center text-sm shadow-xs">
                       {(user?.firstName || 'Y')[0]}
                     </div>
-                    <span className="text-[10px] text-slate-400 mt-1">Camera off</span>
+                    <span className="text-[10px] text-muted-foreground mt-1">Camera off</span>
                   </div>
                 )}
                 <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-0.5 bg-black/60 rounded text-[10px] font-medium text-white">
@@ -1844,14 +1835,14 @@ export function InterviewRoomPage() {
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center text-center p-8 space-y-4">
-                  <div className="w-20 h-20 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white text-2xl font-bold flex items-center justify-center shadow-lg border-4 border-border">
+                  <div className="w-20 h-20 rounded-full bg-primary text-primary-foreground text-2xl font-bold flex items-center justify-center shadow-xs border-4 border-border">
                     {(user?.firstName || 'U')[0]}
                   </div>
                   <div>
-                    <p className="text-base font-semibold text-white">
+                    <p className="text-base font-semibold text-foreground">
                       {user?.firstName || 'You'} ({userRole})
                     </p>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       {cameraError ? 'Virtual avatar active (Camera access unavailable)' : 'Camera is currently off'}
                     </p>
                   </div>
@@ -1867,7 +1858,7 @@ export function InterviewRoomPage() {
 
           {/* Screen Share Active Banner */}
           {isScreenSharing && (
-            <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white rounded-full text-xs font-semibold shadow-md">
+            <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-background/90 text-foreground border border-border rounded-full text-xs font-semibold shadow-xs backdrop-blur-sm">
               <ScreenShare size={14} />
               <span>Presenting screen to interview session</span>
             </div>
@@ -1875,7 +1866,7 @@ export function InterviewRoomPage() {
 
           {/* Hand Raised Banner */}
           {handRaised && (
-            <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white rounded-full text-xs font-bold shadow-md">
+            <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-background/90 text-foreground border border-border rounded-full text-xs font-bold shadow-xs backdrop-blur-sm">
               <Hand size={14} />
               <span>Hand raised</span>
             </div>
@@ -1894,16 +1885,16 @@ export function InterviewRoomPage() {
 
           {/* Host Candidate Admission Card */}
           {canCreate && waitingCandidates.length > 0 && (
-            <div className="absolute top-5 right-5 z-30 w-80 bg-slate-900 border border-slate-700 rounded-2xl p-4 shadow-2xl text-left">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="absolute top-5 right-5 z-30 w-80 bg-card border border-border rounded-2xl p-4 shadow-2xl text-left text-card-foreground">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div>
-                  <h4 className="text-xs font-bold text-white flex items-center gap-2">
+                  <h4 className="text-xs font-bold text-foreground flex items-center gap-2">
                     <span>Waiting in Lobby</span>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/20 text-muted-foreground">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-secondary text-foreground border border-border">
                       Host Action
                     </span>
                   </h4>
-                  <p className="text-[11px] text-slate-400">Candidate requested admission</p>
+                  <p className="text-[11px] text-muted-foreground">Candidate requested admission</p>
                 </div>
                 <button
                   type="button"
@@ -1932,14 +1923,14 @@ export function InterviewRoomPage() {
                     <button
                       type="button"
                       onClick={() => handleAdmitCandidate(cand)}
-                      className="py-1.5 px-3 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white rounded-xl text-xs font-bold transition-colors cursor-pointer text-center"
+                      className="py-1.5 px-3 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 text-primary-foreground rounded-xl text-xs font-bold transition-colors cursor-pointer text-center shadow-xs"
                     >
                       Admit
                     </button>
                     <button
                       type="button"
                       onClick={() => handleDenyCandidate(cand)}
-                      className="py-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-foreground rounded-xl text-xs font-bold transition-colors cursor-pointer text-center"
+                      className="py-1.5 px-3 bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground rounded-xl text-xs font-bold transition-colors cursor-pointer text-center"
                     >
                       Decline
                     </button>
@@ -1952,10 +1943,10 @@ export function InterviewRoomPage() {
 
         {/* Slide-Over Right Panel (Chat / People / Info / Evaluation) */}
         {activePanel && (
-          <aside className="w-80 sm:w-96 h-full max-h-[84vh] bg-slate-900 border border-slate-800 rounded-2xl ml-3 shadow-2xl flex flex-col justify-between overflow-hidden z-20">
+          <aside className="w-80 sm:w-96 h-full max-h-[84vh] bg-card border border-border rounded-2xl ml-3 shadow-2xl flex flex-col justify-between overflow-hidden z-20 text-card-foreground">
             {/* Header */}
-            <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
-              <h3 className="text-xs font-bold text-white flex items-center gap-2">
+            <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+              <h3 className="text-xs font-bold text-foreground flex items-center gap-2">
                 {activePanel === 'chat' && <MessageSquare size={15} className="text-foreground" />}
                 {activePanel === 'people' && <Users size={15} className="text-foreground" />}
                 {activePanel === 'info' && <Info size={15} className="text-foreground" />}
@@ -1970,7 +1961,7 @@ export function InterviewRoomPage() {
               <button
                 type="button"
                 onClick={() => setActivePanel(null)}
-                className="p-1 rounded-full text-slate-400 hover:text-white"
+                className="p-1 rounded-full text-muted-foreground hover:text-foreground"
               >
                 <X size={15} />
               </button>
@@ -1981,17 +1972,17 @@ export function InterviewRoomPage() {
               {/* CHAT */}
               {activePanel === 'chat' && (
                 <div className="space-y-3">
-                  <div className="p-2.5 rounded-lg bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/10 border border-border text-[11px] text-muted-foreground">
+                  <div className="p-2.5 rounded-lg bg-secondary border border-border text-[11px] text-foreground">
                     Real-time messages sent to this interview room.
                   </div>
                   <div className="space-y-3">
                     {chatMessages.map((m) => (
                       <div key={m.id} className="space-y-1">
                         <div className="flex items-center justify-between text-[11px]">
-                          <span className="font-bold text-white">{m.senderName}</span>
-                          <span className="text-slate-500 text-[10px]">{m.time}</span>
+                          <span className="font-bold text-foreground">{m.senderName}</span>
+                          <span className="text-muted-foreground text-[10px]">{m.time}</span>
                         </div>
-                        <div className="p-2.5 bg-slate-800 rounded-xl text-slate-200 text-xs">
+                        <div className="p-2.5 bg-secondary rounded-xl text-foreground text-xs border border-border">
                           {m.text}
                         </div>
                       </div>
@@ -2003,34 +1994,34 @@ export function InterviewRoomPage() {
               {/* PEOPLE */}
               {activePanel === 'people' && (
                 <div className="space-y-3">
-                  <div className="p-2.5 bg-slate-800 rounded-xl flex items-center justify-between">
+                  <div className="p-2.5 bg-secondary rounded-xl flex items-center justify-between border border-border">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white font-bold flex items-center justify-center text-xs">
+                      <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center text-xs">
                         {(user?.firstName || 'U')[0]}
                       </div>
                       <div>
-                        <p className="font-semibold text-white">{user?.firstName || 'You'} (You)</p>
-                        <p className="text-[10px] text-slate-400">{userRole}</p>
+                        <p className="font-semibold text-foreground">{user?.firstName || 'You'} (You)</p>
+                        <p className="text-[10px] text-muted-foreground">{userRole}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1.5 text-slate-400">
+                    <div className="flex items-center gap-1.5 text-foreground">
                       {micOn ? <Mic size={13} className="text-foreground" /> : <MicOff size={13} className="text-foreground" />}
                       {cameraOn ? <Video size={13} className="text-foreground" /> : <VideoOff size={13} className="text-foreground" />}
                     </div>
                   </div>
 
                   {hasRemotePeer && (
-                    <div className="p-2.5 bg-slate-800 rounded-xl flex items-center justify-between">
+                    <div className="p-2.5 bg-secondary rounded-xl flex items-center justify-between border border-border">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white font-bold flex items-center justify-center text-xs">
+                        <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center text-xs">
                           {(remotePeerInfo?.name || 'P')[0]}
                         </div>
                         <div>
-                          <p className="font-semibold text-white">{remotePeerInfo?.name || 'Remote Peer'}</p>
-                          <p className="text-[10px] text-slate-400">{remotePeerInfo?.role || 'CONNECTED'}</p>
+                          <p className="font-semibold text-foreground">{remotePeerInfo?.name || 'Remote Peer'}</p>
+                          <p className="text-[10px] text-muted-foreground">{remotePeerInfo?.role || 'CONNECTED'}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-foreground">
                         {remoteMediaStatus.mic ? <Mic size={13} className="text-foreground" /> : <MicOff size={13} className="text-foreground" />}
                         {remoteMediaStatus.video ? <Video size={13} className="text-foreground" /> : <VideoOff size={13} className="text-foreground" />}
                       </div>
@@ -2042,25 +2033,25 @@ export function InterviewRoomPage() {
               {/* INFO */}
               {activePanel === 'info' && (
                 <div className="space-y-3 text-xs">
-                  <div className="p-3 bg-slate-800 rounded-xl space-y-2">
+                  <div className="p-3 bg-secondary rounded-xl space-y-2 border border-border">
                     <div>
-                      <span className="text-[11px] text-slate-400 block">Assessment Track:</span>
-                      <span className="font-semibold text-white">{interviewDetails?.topic || 'Technical Coding'}</span>
+                      <span className="text-[11px] text-muted-foreground block">Assessment Track:</span>
+                      <span className="font-semibold text-foreground">{interviewDetails?.topic || 'Technical Coding'}</span>
                     </div>
                     <div>
-                      <span className="text-[11px] text-slate-400 block">Room Code:</span>
+                      <span className="text-[11px] text-muted-foreground block">Room Code:</span>
                       <span className="font-mono text-foreground font-bold">{activeRoomCode}</span>
                     </div>
                     <div>
-                      <span className="text-[11px] text-slate-400 block">Encrypted WebRTC Connection:</span>
-                      <span className="text-slate-300 font-mono text-[11px]">DTLS-SRTP P2P</span>
+                      <span className="text-[11px] text-muted-foreground block">Encrypted WebRTC Connection:</span>
+                      <span className="text-muted-foreground font-mono text-[11px]">DTLS-SRTP P2P</span>
                     </div>
                   </div>
 
                   <button
                     type="button"
                     onClick={() => handleCopyCode()}
-                    className="w-full py-2 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white rounded-xl font-bold flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                    className="w-full py-2 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 text-primary-foreground rounded-xl font-bold flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
                   >
                     {copiedCode ? <CheckCheck size={14} /> : <Copy size={14} />}
                     <span>{copiedCode ? 'Meeting Link Copied' : 'Copy Meeting Link'}</span>
@@ -2072,7 +2063,7 @@ export function InterviewRoomPage() {
               {activePanel === 'evaluate' && (
                 <form onSubmit={handleSubmitEvaluation} className="space-y-4">
                   {evalSuccess && (
-                    <div className="p-3 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a]/20 text-muted-foreground rounded-xl border border-border text-center font-bold">
+                    <div className="p-3 bg-secondary text-foreground rounded-xl border border-border text-center font-bold">
                       Evaluation score saved to database.
                     </div>
                   )}
@@ -2146,12 +2137,12 @@ export function InterviewRoomPage() {
                   placeholder="Send a message to meeting..."
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
-                  className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none"
+                  className="flex-1 bg-background border border-border rounded-xl px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground"
                 />
                 <button
                   type="submit"
                   disabled={!chatInput.trim()}
-                  className="p-2 bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] hover:bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] disabled:opacity-40 text-white rounded-xl transition-colors cursor-pointer"
+                  className="p-2 bg-primary hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-40 text-primary-foreground rounded-xl transition-colors cursor-pointer shadow-xs"
                 >
                   <Send size={15} />
                 </button>
@@ -2162,7 +2153,7 @@ export function InterviewRoomPage() {
       </main>
 
       {/* 3. Bottom Action Controls Bar */}
-      <footer className="h-20 px-6 flex items-center justify-between shrink-0 z-10 border-t border-white/5 bg-[#1c1d1f]">
+      <footer className="h-20 px-6 flex items-center justify-between shrink-0 z-10 border-t border-border bg-[#1c1d1f]">
         {/* Left: Room Code & Link Copy */}
         <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400 min-w-[200px]">
           <span>Room Code:</span>
@@ -2170,7 +2161,7 @@ export function InterviewRoomPage() {
           <button
             type="button"
             onClick={() => setShowShareModal(true)}
-            className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 text-xs font-bold flex items-center gap-1.5 ml-1 transition-colors cursor-pointer border border-blue-500/30"
+            className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 ml-1 transition-colors cursor-pointer border border-white/20"
             title="Share Meeting Link & Code"
           >
             <Share2 size={13} />
@@ -2185,7 +2176,7 @@ export function InterviewRoomPage() {
             type="button"
             onClick={toggleMic}
             className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-md ${
-              micOn ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black hover:bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white'
+              micOn ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-red-600 hover:bg-red-700 text-white'
             }`}
             title={micOn ? 'Mute Microphone' : 'Unmute Microphone'}
           >
@@ -2197,7 +2188,7 @@ export function InterviewRoomPage() {
             type="button"
             onClick={toggleCamera}
             className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-md ${
-              cameraOn ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black hover:bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white'
+              cameraOn ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-red-600 hover:bg-red-700 text-white'
             }`}
             title={cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
           >
@@ -2209,7 +2200,7 @@ export function InterviewRoomPage() {
             type="button"
             onClick={toggleScreenShare}
             className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-md ${
-              isScreenSharing ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white' : 'bg-slate-800 hover:bg-slate-700 text-white'
+              isScreenSharing ? 'bg-white text-black' : 'bg-slate-800 hover:bg-slate-700 text-white'
             }`}
             title={isScreenSharing ? 'Stop Screen Share' : 'Share Screen'}
           >
@@ -2221,7 +2212,7 @@ export function InterviewRoomPage() {
             type="button"
             onClick={toggleHandRaise}
             className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-md ${
-              handRaised ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white' : 'bg-slate-800 hover:bg-slate-700 text-white'
+              handRaised ? 'bg-white text-black' : 'bg-slate-800 hover:bg-slate-700 text-white'
             }`}
             title={handRaised ? 'Lower Hand' : 'Raise Hand'}
           >
@@ -2233,7 +2224,7 @@ export function InterviewRoomPage() {
             type="button"
             onClick={() => setCaptionOn(!captionOn)}
             className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer font-bold text-xs shadow-md ${
-              captionOn ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] text-white' : 'bg-slate-800 hover:bg-slate-700 text-white'
+              captionOn ? 'bg-white text-black' : 'bg-slate-800 hover:bg-slate-700 text-white'
             }`}
             title="Toggle Live Technical Subtitles"
           >
@@ -2244,7 +2235,7 @@ export function InterviewRoomPage() {
           <button
             type="button"
             onClick={handleLeaveCall}
-            className="h-11 px-6 rounded-full bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black hover:bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black text-white flex items-center justify-center transition-colors cursor-pointer ml-1 shadow-lg font-bold gap-2"
+            className="h-11 px-6 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center transition-colors cursor-pointer ml-1 shadow-lg font-bold gap-2"
             title="Leave Session"
           >
             <PhoneOff size={18} />

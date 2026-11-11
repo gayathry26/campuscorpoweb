@@ -39,7 +39,7 @@ import {
 } from 'lucide-react';
 
 export function Sidebar() {
-  const { user } = useAuth();
+  const { user, isModuleEnabled } = useAuth();
   const { canAccessPage } = usePermissions();
   const { mobileSidebarOpen, closeMobileSidebar } = useUI();
   const location = useLocation();
@@ -152,35 +152,37 @@ export function Sidebar() {
 
   const careerExplorerItems = [
     { to: '/domains', label: 'IT Career Domains', icon: Compass },
-    { to: '/career-explorer/companies', label: 'IT Companies by Location', icon: MapPin },
+    { to: '/career-explorer/companies', label: 'IT Companies by Location', icon: MapPin, moduleKey: 'COMPANY_LOCATIONS' },
     { to: '/compare', label: 'Compare Career Roles', icon: GitCompare },
-    { to: '/skill-analyzer', label: 'Industry Skill Analyzer', icon: Layers },
+    { to: '/skill-analyzer', label: 'Industry Skill Analyzer', icon: Layers, moduleKey: 'SKILL_ANALYZER' },
     { to: '/github-scanner', label: 'GitHub Repo Scanner', icon: GitBranch },
     { to: '/role-analyzer', label: 'Role Requirement Engine', icon: Cpu },
-  ];
+  ].filter((item) => !item.moduleKey || isModuleEnabled(item.moduleKey));
 
   // Structure navigation sections
   const sections = [
     // 1. LMS Portal
     {
       id: 'lms',
+      moduleKey: 'LMS',
       label: 'LMS Portal',
       icon: GraduationCap,
       isOpen: lmsOpen,
       toggle: () => setLmsOpen(!lmsOpen),
       isActive: isLmsActive,
-      badge: 'Portal',
       canAccess:
-        canAccessPage(role, '/lms') ||
+        isModuleEnabled('LMS') &&
+        (canAccessPage(role, '/lms') ||
         canAccessPage(role, '/lms/my-learning') ||
-        canAccessPage(role, '/lms/faculty-dashboard'),
-      items: (role === 'STUDENT' ? studentLmsItems : facultyLmsItems).filter((item) =>
+        canAccessPage(role, '/lms/faculty-dashboard')),
+      items: isModuleEnabled('LMS') ? (role === 'STUDENT' ? studentLmsItems : facultyLmsItems).filter((item) =>
         canAccessPage(role, item.to)
-      ),
+      ) : [],
     },
     // 2. Career Explorer
     {
       id: 'career-explorer',
+      moduleKey: 'CAREER_EXPLORER',
       label: 'Career Explorer',
       icon: Compass,
       isOpen: careerExplorerOpen,
@@ -188,42 +190,47 @@ export function Sidebar() {
       isActive: isCareerExplorerActive,
       badge: 'New',
       canAccess:
-        canAccessPage(role, '/domains') ||
+        isModuleEnabled('CAREER_EXPLORER') &&
+        (canAccessPage(role, '/domains') ||
         canAccessPage(role, '/compare') ||
         canAccessPage(role, '/skill-analyzer') ||
-        canAccessPage(role, '/career-explorer/companies'),
-      items: careerExplorerItems.filter((item) => canAccessPage(role, item.to)),
+        canAccessPage(role, '/career-explorer/companies')),
+      items: isModuleEnabled('CAREER_EXPLORER') ? careerExplorerItems.filter((item) => canAccessPage(role, item.to)) : [],
     },
     // 3. Recruitment & Placement Drives
     {
       id: 'recruitment',
+      moduleKey: 'RECRUITMENT',
       label: 'Recruitment & Drives',
       icon: Briefcase,
       isOpen: recruitmentOpen,
       toggle: () => setRecruitmentOpen(!recruitmentOpen),
       isActive: isRecruitmentActive,
-      items: [
+      canAccess: isModuleEnabled('RECRUITMENT'),
+      items: isModuleEnabled('RECRUITMENT') ? [
         { to: '/companies', label: 'Placement Companies', icon: Building2 },
         { to: '/jobs', label: 'Jobs & Openings', icon: Briefcase },
         { to: '/drives', label: 'Placement Drives', icon: CalendarDays },
         { to: '/applications', label: role === 'STUDENT' ? 'My Applications' : 'Applications Pipeline', icon: FileCheck2 },
         { to: '/offers', label: 'Offers & Joining', icon: Award },
-      ].filter((item) => canAccessPage(role, item.to)),
+      ].filter((item) => canAccessPage(role, item.to)) : [],
     },
     // 4. Assessments & Interviews
     {
       id: 'assessments',
+      moduleKey: 'ASSESSMENTS',
       label: 'Assessments & Prep',
       icon: Code2,
       isOpen: assessmentsOpen,
       toggle: () => setAssessmentsOpen(!assessmentsOpen),
       isActive: isAssessmentsActive,
-      items: [
+      canAccess: isModuleEnabled('ASSESSMENTS'),
+      items: isModuleEnabled('ASSESSMENTS') ? [
         { to: '/assessment', label: 'Programming Assessment', icon: Code2 },
-        { to: '/interviews', label: 'Interview Slots', icon: CalendarCheck },
-        { to: '/videocall/interview', label: 'Mock Video Interview', icon: Video },
-        { to: '/resume-analyzer', label: 'Resume Analyzer', icon: FileSearch },
-      ].filter((item) => canAccessPage(role, item.to)),
+        { to: '/interviews', label: 'Interview Slots', icon: CalendarCheck, moduleKey: 'INTERVIEWS' },
+        { to: '/videocall/interview', label: 'Mock Video Interview', icon: Video, moduleKey: 'INTERVIEWS' },
+        { to: '/resume-analyzer', label: 'Resume Analyzer', icon: FileSearch, moduleKey: 'RESUME_AI' },
+      ].filter((item) => (!item.moduleKey || isModuleEnabled(item.moduleKey)) && canAccessPage(role, item.to)) : [],
     },
     // 5. Students & Career Development
     {
@@ -243,17 +250,19 @@ export function Sidebar() {
     // 6. Institutional Governance & Reports
     {
       id: 'governance',
+      moduleKey: 'GOVERNANCE',
       label: 'Governance & Reports',
       icon: FileText,
       isOpen: governanceOpen,
       toggle: () => setGovernanceOpen(!governanceOpen),
       isActive: isGovernanceActive,
-      items: [
+      canAccess: isModuleEnabled('GOVERNANCE'),
+      items: isModuleEnabled('GOVERNANCE') ? [
         { to: '/policies', label: 'Placement Policies', icon: FileText },
         { to: '/reports', label: 'NIRF / NAAC Reports', icon: PieChart },
         { to: '/finance', label: 'Budget & Finance', icon: DollarSign },
         { to: '/grievances', label: 'Grievance Desk', icon: AlertCircle },
-      ].filter((item) => canAccessPage(role, item.to)),
+      ].filter((item) => canAccessPage(role, item.to)) : [],
     },
     // 7. System Administration
     {
@@ -272,7 +281,7 @@ export function Sidebar() {
   ];
 
   const visibleSections = sections.filter(
-    (sec) => (sec.canAccess !== undefined ? sec.canAccess : true) && sec.items.length > 0
+    (sec) => (!sec.moduleKey || isModuleEnabled(sec.moduleKey)) && (sec.canAccess !== false) && sec.items.length > 0
   );
 
   const renderNavList = () => (

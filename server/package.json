@@ -8,7 +8,8 @@
     "dev": "nodemon src/server.js",
     "migrate": "node src/database/migrate.js",
     "seed": "node src/database/seed.js",
-    "test": "node --test src/tests/*.test.js"
+    "test": "node --test src/tests/*.test.js",
+    "test:saas": "node src/test_saas_full_suite.js"
   },
   "keywords": [
     "placement",

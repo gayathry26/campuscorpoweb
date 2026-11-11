@@ -1,14 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Compass,
   GitCompare,
   Search,
   X,
   Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  Briefcase,
   Layers,
 } from 'lucide-react';
 
@@ -30,32 +26,39 @@ export function CareerHeader({
   };
 
   return (
-    <div className="space-y-4 pb-2 border-b border-border/80">
-      {/* Top Breadcrumb & Status */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary text-foreground border border-border">
-            Career Discovery Dashboard
-          </span>
-          <span className="text-xs text-muted-foreground">• Explore Domains & Specializations</span>
+    <header className="space-y-4 pt-1">
+      {/* Top Row: Title, Subtitle, and Quick Actions */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="space-y-1.5 max-w-2xl">
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              Explore IT Career Domains
+            </h1>
+            <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
+              {stats?.totalDomains || 38} Domains
+            </span>
+          </div>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            Discover technology specializations, explore career pathways, and benchmark required industry skills.
+          </p>
         </div>
 
-        {/* Top Quick Actions: Compare & My Fit */}
-        <div className="flex items-center gap-2">
+        {/* Quick Actions: Compare & My Fit */}
+        <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
           <button
             type="button"
             onClick={handleOpenCompare}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs ${
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-xs ${
               comparedRoleIds.length > 0
-                ? 'bg-foreground text-background hover:opacity-90'
-                : 'bg-card text-foreground border border-border hover:bg-secondary'
+                ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-purple-500/20'
+                : 'bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/60'
             }`}
             title="Open side-by-side career comparison matrix"
           >
             <GitCompare className="w-3.5 h-3.5" />
-            <span>Compare Careers</span>
+            <span>Compare</span>
             {comparedRoleIds.length > 0 && (
-              <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold bg-background text-foreground">
+              <span className="ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-white text-purple-700 dark:bg-purple-950 dark:text-purple-200">
                 {comparedRoleIds.length}
               </span>
             )}
@@ -65,57 +68,39 @@ export function CareerHeader({
             <button
               type="button"
               onClick={onOpenMyFit}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold border border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer shadow-2xs"
-              title="Inspect your personalized career fit and verified skills"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border border-purple-200 dark:border-purple-800 bg-purple-50/70 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all cursor-pointer shadow-xs"
+              title="Inspect your personalized career fit"
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
               <span>My Career Fit</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* Main Title & Description */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-        <div className="max-w-3xl space-y-1.5">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-2.5">
-              <span>Explore IT Career Domains</span>
-            </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary text-primary-foreground shadow-2xs">
-              {stats?.totalDomains || 38} Domains
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary text-foreground border border-border/80 shadow-2xs">
-              {stats?.totalRoles || 114} Roles
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Discover technology careers, explore required skills, and build your career roadmap.
-          </p>
-        </div>
-
-        {/* Prominent Global Search Bar */}
-        <div className="relative w-full lg:w-96 shrink-0">
-          <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search domains, roles, tech, or skills..."
-            className="w-full pl-9 pr-9 py-2.5 rounded-xl text-xs sm:text-sm bg-card text-foreground border border-border shadow-xs focus:outline-none focus:ring-2 focus:ring-foreground/20 focus:border-foreground transition-all placeholder:text-muted-foreground"
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => onSearchChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5 rounded-md cursor-pointer"
-              title="Clear search"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
+      {/* Prominent Clean Search Bar */}
+      <div className="relative w-full">
+        <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search by domain, career role, technology, or skill (e.g. React, Python, Cloud, Security)..."
+          className="w-full h-11 pl-10 pr-10 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 text-sm transition-all shadow-xs"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => onSearchChange('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 p-1 cursor-pointer transition-colors"
+            title="Clear search"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
-    </div>
+    </header>
   );
 }
+
+export default CareerHeader;

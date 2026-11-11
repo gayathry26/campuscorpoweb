@@ -48,6 +48,30 @@ async function main() {
     console.log('✓ [DATABASE] MySQL is actively running on port 3306.');
   }
 
+  // 1b. Ensure port 5000 is free of stale zombie processes
+  const isPort5000Occupied = await checkPort(5000);
+  if (isPort5000Occupied) {
+    console.log('⚙️  [BACKEND] Port 5000 is currently occupied by a previous process. Freeing port...');
+    try {
+      const { execSync } = require('child_process');
+      if (process.platform === 'win32') {
+        const out = execSync('netstat -ano | findstr :5000', { encoding: 'utf8' });
+        const lines = out.trim().split('\n');
+        for (const line of lines) {
+          const parts = line.trim().split(/\s+/);
+          const pid = parts[parts.length - 1];
+          if (pid && pid !== '0' && pid !== String(process.pid)) {
+            try { execSync(`taskkill /F /PID ${pid}`); } catch {}
+          }
+        }
+      }
+      await new Promise(r => setTimeout(r, 1000));
+      console.log('✓ [BACKEND] Port 5000 freed.');
+    } catch (e) {
+      console.warn('⚠️  Could not auto-free port 5000:', e.message);
+    }
+  }
+
   // 2. Start Backend Server
   console.log('🔌 [BACKEND] Starting REST API server on port 5000...');
   const serverProc = spawn('node', ['server/src/server.js'], {
@@ -77,3 +101,4 @@ async function main() {
 }
 
 main().catch(console.error);
+

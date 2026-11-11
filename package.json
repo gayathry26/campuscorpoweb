@@ -12,6 +12,7 @@
     "server": "node server/src/server.js",
     "client": "npm run dev --prefix client",
     "build": "npm run build --prefix client",
+    "test:saas": "npm run test:saas --prefix server",
     "migrate": "npm run migrate --prefix server",
     "seed": "npm run seed --prefix server"
   },
