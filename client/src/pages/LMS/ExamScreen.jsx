@@ -6,6 +6,7 @@ import { apiFetch, getSessionUser } from '../services/api';
 import { useProctor, ProctorHUD } from '../components/ExamProctor';
 import CodeEditor, { extractCodeFromQuestion } from '../components/CodeEditor';
 import ExamRules from './ExamRules';
+import DesktopLockStandby from '../../components/LMS/DesktopLockStandby';
 import { ShieldCheck, ArrowRight, Lock, CheckCircle2, AlertTriangle, UserCheck } from 'lucide-react';
 
 const ExamScreen = ({
@@ -39,6 +40,25 @@ const ExamScreen = ({
     department: 'Computer Science & Engineering',
   });
 
+  const queryCandidate = useMemo(() => {
+    try {
+      const sp = new URLSearchParams(location.search);
+      const qName = sp.get('name') || sp.get('candidateName');
+      const qRoll = sp.get('rollNumber') || sp.get('roll');
+      if (qName || qRoll) {
+        return {
+          name: qName || 'Student Candidate',
+          roll_number: qRoll || '2023CSE001',
+          email: sp.get('email') || '',
+          department: sp.get('department') || 'Computer Science & Engineering',
+          role: 'student',
+          isGuest: true,
+        };
+      }
+    } catch (e) {}
+    return null;
+  }, [location.search]);
+
   const activeUser = authUser ? {
     ...authUser,
     id: authUser.id || 1,
@@ -51,10 +71,10 @@ const ExamScreen = ({
   } : (sessionUser ? {
     ...sessionUser,
     isGuest: false
-  } : (guestCandidate ? {
+  } : (queryCandidate ? queryCandidate : (guestCandidate ? {
     ...guestCandidate,
     isGuest: true
-  } : null));
+  } : null)));
 
   const user = activeUser || {
     name: 'Candidate',
@@ -71,7 +91,7 @@ const ExamScreen = ({
 
   // If candidate is not authenticated and hasn't checked in, prompt checkin gate
   const [phase, setPhase] = useState(() => {
-    if (autoStart || initialPhase === 'exam') return 'exam';
+    if (autoStart || initialPhase === 'exam' || location.search.includes('exeLock=true')) return 'exam';
     if (!activeUser) return 'checkin';
     return initialPhase || 'rules';
   });
@@ -480,12 +500,17 @@ const ExamScreen = ({
     }
   };
 
-  // Auto-start trigger when launched directly with autoStart={true}
+  // Auto-start trigger when launched directly with autoStart={true} or with exeLock=true
   useEffect(() => {
-    if ((autoStart || initialPhase === 'exam') && !attempt) {
+    const isExe = typeof window !== 'undefined' && Boolean(
+      window.location.search.includes('exeLock=true') ||
+      window.isCampusCorpExeLock ||
+      window.lockdownBrowser?.locked
+    );
+    if ((autoStart || initialPhase === 'exam' || isExe) && !attempt && !loading) {
       startExam();
     }
-  }, [autoStart, initialPhase, attempt]);
+  }, [autoStart, initialPhase, attempt, loading]);
 
   // Local storage answer persistence backup
   useEffect(() => {
@@ -503,8 +528,17 @@ const ExamScreen = ({
     }
   }, [answers, marked, index, examPhase, timer, attempt, phase]);
 
-  const handleStartExamClick = () => {
-    startExam();
+  const handleStartExamClick = (options = {}) => {
+    const isInsideExe = typeof window !== 'undefined' && Boolean(
+      window.location.search.includes('exeLock=true') ||
+      window.isCampusCorpExeLock ||
+      window.lockdownBrowser?.locked
+    );
+    if (isInsideExe) {
+      startExam();
+    } else {
+      setPhase('exe_running');
+    }
   };
 
   const formatTime = (s) => {
@@ -745,6 +779,32 @@ const ExamScreen = ({
           testId={selectedTestId}
         />
       </>
+    );
+  }
+
+  // ─── DESKTOP LOCKDOWN STANDBY PHASE ───
+  if (phase === 'exe_running') {
+    return (
+      <DesktopLockStandby
+        subject={activeTest?.subject || activeTest?.name || 'National Campus Technical CodeSprint 2026'}
+        testId={selectedTestId}
+        candidate={{
+          name: user?.name,
+          rollNumber: user?.roll_number,
+          email: user?.email,
+          department: user?.department,
+        }}
+        onReturnToHub={() => {
+          if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+          }
+          if (onExit) onExit();
+          else navigate('/assessment');
+        }}
+        onFallbackInBrowser={() => {
+          startExam();
+        }}
+      />
     );
   }
 

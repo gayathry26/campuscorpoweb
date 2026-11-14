@@ -23,7 +23,8 @@ namespace CampusCorp.SecureLock
         private static string _lastViolation = "NONE";
         private static int _prohibitedDetections = 0;
         private static DateTime _startTime = DateTime.UtcNow;
-        private static MainForm _mainForm;
+        private static Process _kioskProcess = null;
+        private static MainForm _mainForm = null;
         private static List<Form> _secondaryMonitors = new List<Form>();
 
         private const int WH_KEYBOARD_LL = 13;
@@ -59,7 +60,7 @@ namespace CampusCorp.SecureLock
 
             RegisterProtocolHandler();
 
-            string targetUrl = "http://localhost:5000/assessment";
+            string targetUrl = "http://localhost:5000/exam?testId=1";
 
             if (args != null && args.Length > 0)
             {
@@ -82,20 +83,75 @@ namespace CampusCorp.SecureLock
                 }
             }
 
+            // Ensure exeLock flag is present so the web application knows it is inside the desktop lockdown client
+            if (!targetUrl.Contains("exeLock=true"))
+            {
+                targetUrl += (targetUrl.Contains("?") ? "&" : "?") + "exeLock=true";
+            }
+
             // Start Local Loopback Handshake Server on port 52189
             StartHttpBridge();
 
             // Start Anti-Cheat Background Process Scanner
             StartProcessAuditor();
 
-            // Install Global Low-Level Keyboard Hook
+            // Install Global Low-Level Keyboard Hook (Blocks Alt+Tab, Win Keys, Alt+F4, PrtScn)
             _hookID = SetHook(_proc);
 
             // Blackout secondary monitors if present
             ShieldSecondaryMonitors();
 
-            _mainForm = new MainForm(targetUrl);
-            Application.Run(_mainForm);
+            // Find modern Chromium Kiosk executable (Edge or Chrome)
+            string browserPath = @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe";
+            if (!File.Exists(browserPath))
+            {
+                browserPath = @"C:\Program Files\Microsoft\Edge\Application\msedge.exe";
+            }
+            if (!File.Exists(browserPath))
+            {
+                browserPath = @"C:\Program Files\Google\Chrome\Application\chrome.exe";
+            }
+            if (!File.Exists(browserPath))
+            {
+                browserPath = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
+            }
+
+            if (File.Exists(browserPath))
+            {
+                string tempProfile = Path.Combine(Path.GetTempPath(), "CampusCorpSecureKioskProfile");
+                string kioskArgs = string.Format(
+                    "--kiosk \"{0}\" --edge-kiosk-type=fullscreen --no-first-run --no-default-browser-check --disable-features=TranslateUI,TouchpadAndWheelScrollLatching --user-data-dir=\"{1}\"",
+                    targetUrl,
+                    tempProfile
+                );
+
+                ProcessStartInfo psi = new ProcessStartInfo(browserPath, kioskArgs);
+                psi.WindowStyle = ProcessWindowStyle.Maximized;
+
+                try
+                {
+                    _kioskProcess = Process.Start(psi);
+                    if (_kioskProcess != null)
+                    {
+                        // Monitor the kiosk process until it closes
+                        while (!_kioskProcess.HasExited && _isRunning)
+                        {
+                            Thread.Sleep(500);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("[KIOSK LAUNCH NOTICE] " + ex.Message);
+                    _mainForm = new MainForm(targetUrl);
+                    Application.Run(_mainForm);
+                }
+            }
+            else
+            {
+                _mainForm = new MainForm(targetUrl);
+                Application.Run(_mainForm);
+            }
 
             // Cleanup upon application exit
             _isRunning = false;
@@ -112,6 +168,11 @@ namespace CampusCorp.SecureLock
                 }
             }
             catch { }
+
+            foreach (var form in _secondaryMonitors)
+            {
+                try { form.Close(); } catch { }
+            }
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -234,7 +295,6 @@ namespace CampusCorp.SecureLock
                             {
                                 _prohibitedDetections++;
                                 _lastViolation = "Prohibited software active: " + name;
-                                // Flash warning on main form if initialized
                                 if (_mainForm != null && !_mainForm.IsDisposed)
                                 {
                                     _mainForm.SetViolationBanner("⚠️ Anti-Cheat Warning: Background app detected (" + name + "). Close it immediately!");
@@ -324,13 +384,18 @@ namespace CampusCorp.SecureLock
                         body = reader.ReadToEnd();
                     }
 
-                    string targetUrl = "http://localhost:5000/assessment";
+                    string targetUrl = "http://localhost:5000/exam?testId=1&exeLock=true";
                     if (body.Contains("http"))
                     {
                         int idx = body.IndexOf("http");
                         int end = body.IndexOf("\"", idx);
                         if (end > idx) targetUrl = body.Substring(idx, end - idx);
                         else targetUrl = body.Substring(idx);
+                    }
+
+                    if (!targetUrl.Contains("exeLock=true"))
+                    {
+                        targetUrl += (targetUrl.Contains("?") ? "&" : "?") + "exeLock=true";
                     }
 
                     if (_mainForm != null && !_mainForm.IsDisposed)
@@ -345,6 +410,34 @@ namespace CampusCorp.SecureLock
                     res.OutputStream.Write(buffer, 0, buffer.Length);
                     res.StatusCode = 200;
                     res.Close();
+                    return;
+                }
+
+                if (path == "/exit" && req.HttpMethod == "POST")
+                {
+                    _isRunning = false;
+                    try
+                    {
+                        if (_kioskProcess != null && !_kioskProcess.HasExited)
+                        {
+                            _kioskProcess.Kill();
+                        }
+                    }
+                    catch { }
+
+                    string okJson = "{\"success\":true,\"message\":\"Lockdown ended.\"}";
+                    byte[] buffer = Encoding.UTF8.GetBytes(okJson);
+                    res.ContentType = "application/json";
+                    res.ContentLength64 = buffer.Length;
+                    res.OutputStream.Write(buffer, 0, buffer.Length);
+                    res.StatusCode = 200;
+                    res.Close();
+
+                    new Thread(() =>
+                    {
+                        Thread.Sleep(500);
+                        Environment.Exit(0);
+                    }).Start();
                     return;
                 }
 
@@ -470,14 +563,12 @@ namespace CampusCorp.SecureLock
             _browser.IsWebBrowserContextMenuEnabled = false;
             _browser.WebBrowserShortcutsEnabled = false;
 
-            // Set browser emulation to IE11/Edge standard
             SetBrowserFeatureControl();
 
             _browser.DocumentCompleted += (s, e) =>
             {
                 try
                 {
-                    // Inject Global Lock Flag into DOM
                     if (_browser.Document != null)
                     {
                         HtmlElement head = _browser.Document.GetElementsByTagName("head")[0];
@@ -563,11 +654,10 @@ namespace CampusCorp.SecureLock
                 string appName = Path.GetFileName(Application.ExecutablePath);
                 using (RegistryKey key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"))
                 {
-                    key.SetValue(appName, 11001, RegistryValueKind.DWord); // 11001 = IE11 Edge mode
+                    key.SetValue(appName, 11001, RegistryValueKind.DWord);
                 }
             }
             catch { }
         }
     }
 }
-

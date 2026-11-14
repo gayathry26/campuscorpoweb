@@ -42,8 +42,19 @@ const playSecurityTone = (type = 'warning') => {
   }
 };
 
-// Check if currently in fullscreen across all browsers
+// Check if currently in fullscreen across all browsers or native kiosk lock
 const checkIsFullscreen = () => {
+  if (typeof window !== 'undefined') {
+    if (window.location.search.includes('exeLock=true') || window.isCampusCorpExeLock) {
+      return true; // Running in native kiosk lockdown client
+    }
+    if (
+      Math.abs(window.innerWidth - window.screen.width) <= 6 &&
+      Math.abs(window.innerHeight - window.screen.height) <= 6
+    ) {
+      return true; // True OS kiosk mode dimensions
+    }
+  }
   return !!(
     document.fullscreenElement ||
     document.webkitFullscreenElement ||

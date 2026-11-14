@@ -43,6 +43,7 @@ import ExamRules from './LMS/ExamRules';
 import ExamScreen from './LMS/ExamScreen';
 import AdminDashboard from './LMS/admin/AdminDashboard';
 import CodeEditor from '../components/LMS/CodeEditor';
+import DesktopLockStandby from '../components/LMS/DesktopLockStandby';
 
 export function Assessment() {
   const { user } = useAuth();
@@ -398,8 +399,18 @@ int main() {
     setViewMode('rules');
   };
 
-  const handleLaunchExam = () => {
-    setViewMode('exam');
+  const handleLaunchExam = (options = {}) => {
+    const isInsideExe = typeof window !== 'undefined' && Boolean(
+      window.location.search.includes('exeLock=true') ||
+      window.isCampusCorpExeLock ||
+      window.lockdownBrowser?.locked
+    );
+    if (isInsideExe) {
+      setViewMode('exam');
+    } else {
+      // In standard browser: exam runs in desktop lock client, browser remains on standby
+      setViewMode('exe_running');
+    }
   };
 
   // Run Sandbox code
@@ -447,6 +458,24 @@ int main() {
           testId={activeTest?.id || activeTest?.assessmentId || 1}
         />
       </div>
+    );
+  }
+
+  // ── RENDER DESKTOP LOCKDOWN STANDBY VIEW ──
+  if (viewMode === 'exe_running') {
+    return (
+      <DesktopLockStandby
+        subject={activeTest?.title || 'National Campus Technical CodeSprint 2026'}
+        testId={activeTest?.id || activeTest?.assessmentId || 1}
+        candidate={{
+          name: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.name : 'Student Candidate',
+          rollNumber: user?.registerNumber || user?.rollNumber || '2023CSE001',
+          email: user?.email || '',
+          department: user?.departmentCode || 'Computer Science & Engineering',
+        }}
+        onReturnToHub={() => setViewMode('hub')}
+        onFallbackInBrowser={() => setViewMode('exam')}
+      />
     );
   }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
 import {
   ShieldCheck,
   Clock,
@@ -14,11 +15,11 @@ import {
   Zap,
   Lock,
   ShieldAlert,
-  X,
 } from 'lucide-react';
 
 export default function ExamRules({ subject, totalQuestions = 30, duration = 45, onStartExam, onGoBack, testId }) {
   const { currentTheme } = useTheme();
+  const { user } = useAuth();
   const [agreed, setAgreed] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -26,6 +27,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
   const [isExeLockActive, setIsExeLockActive] = useState(() => {
     if (typeof window !== 'undefined') {
       return Boolean(
+        window.location.search.includes('exeLock=true') ||
         window.isCampusCorpExeLock ||
         window.lockdownBrowser?.locked ||
         localStorage.getItem('campuscorp_simulated_exe_lock') === 'true'
@@ -37,11 +39,6 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
   const [simulated, setSimulated] = useState(() => {
     return typeof localStorage !== 'undefined' && localStorage.getItem('campuscorp_simulated_exe_lock') === 'true';
   });
-
-  // Launcher modal & execution state
-  const [showLaunchModal, setShowLaunchModal] = useState(false);
-  const [launchStep, setLaunchStep] = useState('downloading'); // 'downloading' | 'spawning' | 'connected'
-  const [spawnMessage, setSpawnMessage] = useState('');
 
   const verifyExeBridge = async () => {
     setCheckingExe(true);
@@ -83,7 +80,13 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
 
   const handleLaunchProctoredExam = async (e) => {
     // 1. If already running inside CampusCorp-SecureLock.exe, enter directly!
-    if (typeof window !== 'undefined' && (window.isCampusCorpExeLock || window.lockdownBrowser?.locked)) {
+    const isInsideExe = typeof window !== 'undefined' && Boolean(
+      window.location.search.includes('exeLock=true') ||
+      window.isCampusCorpExeLock ||
+      window.lockdownBrowser?.locked
+    );
+
+    if (isInsideExe) {
       try {
         const el = document.documentElement;
         const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
@@ -91,7 +94,7 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
           await rfs.call(el);
         }
       } catch (err) {}
-      onStartExam && onStartExam(e);
+      onStartExam && onStartExam({ isDesktopLaunch: false });
       return;
     }
 
@@ -107,18 +110,25 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
       console.warn('Auto download notice:', err);
     }
 
-    // 3. Open launcher modal
-    setShowLaunchModal(true);
-    setLaunchStep('spawning');
-    setSpawnMessage('Downloaded CampusCorp-SecureLock.exe. Initializing locked desktop kiosk...');
-
-    // 4. Calculate exact exam URL
+    // 3. Calculate exact exam URL with candidate credentials and exeLock flag
     const origin = window.location.origin;
-    const examTargetUrl = window.location.href.includes('/exam')
-      ? window.location.href
-      : `${origin}/exam?subject=${encodeURIComponent(subject || 'DSA')}&testId=${testId || 1}`;
+    const studentName = user?.name || `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Candidate';
+    const rollNo = user?.registerNumber || user?.rollNumber || '';
+    const email = user?.email || '';
+    const dept = user?.departmentCode || '';
 
-    // 5. Automatically invoke protocol handler: campuscorp-lock://
+    const query = new URLSearchParams({
+      testId: String(testId || 1),
+      subject: subject || 'DSA',
+      name: studentName,
+      rollNumber: rollNo,
+      email: email,
+      department: dept,
+      exeLock: 'true',
+    });
+    const examTargetUrl = `${origin}/exam?${query.toString()}`;
+
+    // 4. Automatically invoke protocol handler: campuscorp-lock://
     try {
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none';
@@ -129,22 +139,18 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
       }, 3000);
     } catch (e) {}
 
-    // 6. Automatically spawn the native executable on the host
+    // 5. Automatically spawn the native executable on the host
     try {
-      const res = await fetch('/api/v1/assessment/launch-desktop-exe', {
+      await fetch('/api/v1/assessment/launch-desktop-exe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ targetUrl: examTargetUrl }),
       });
-      const data = await res.json();
-      if (data && data.success) {
-        setSpawnMessage('Desktop Lock Executable spawned on host! Opening exam in lockdown kiosk...');
-      }
     } catch (e) {
       // Endpoint fallback
     }
 
-    // 7. Also ping local loopback bridge port 52189 if active
+    // 6. Also ping local loopback bridge port 52189 if active
     try {
       await fetch('http://127.0.0.1:52189/launch', {
         method: 'POST',
@@ -153,22 +159,8 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
       });
     } catch (e) {}
 
-    // 8. Poll loopback bridge for live connection confirmation
-    const pollTimer = setInterval(async () => {
-      try {
-        const res = await fetch('http://127.0.0.1:52189/status', { mode: 'cors' });
-        if (res.ok) {
-          const statusData = await res.json();
-          if (statusData && statusData.locked) {
-            setLaunchStep('connected');
-            setIsExeLockActive(true);
-            clearInterval(pollTimer);
-          }
-        }
-      } catch (e) {}
-    }, 1000);
-
-    setTimeout(() => clearInterval(pollTimer), 30000);
+    // 7. Transition parent view to Standby Screen (never run exam inside normal browser tab!)
+    onStartExam && onStartExam({ isDesktopLaunch: true, examTargetUrl });
   };
 
   const rules = [
@@ -380,104 +372,6 @@ export default function ExamRules({ subject, totalQuestions = 30, duration = 45,
           </div>
         </div>
       </div>
-
-      {/* Launch Exam in EXE Client Modal */}
-      {showLaunchModal && (
-        <div className="fixed inset-0 z-[1200] bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative space-y-5 animate-in fade-in zoom-in-95 duration-150">
-            <button
-              onClick={() => setShowLaunchModal(false)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-3">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
-                style={{
-                  backgroundColor: currentTheme.primaryLight,
-                  color: currentTheme.primary,
-                }}
-              >
-                <Lock className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  EXE Lockdown Initializer
-                </span>
-                <h3 className="text-lg font-bold text-foreground">
-                  Launching CampusCorp-SecureLock.exe
-                </h3>
-              </div>
-            </div>
-
-            {/* Launch Progress Steps */}
-            <div className="space-y-3 p-4 rounded-2xl bg-secondary/50 border border-border text-xs">
-              <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-400 font-bold">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>1. Downloaded CampusCorp-SecureLock.exe</span>
-              </div>
-              <div className="flex items-center gap-3 text-foreground font-semibold">
-                <span className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin shrink-0" />
-                <span>2. Starting Lockdown Window (Alt+Tab, Win key, and secondary displays disabled)</span>
-              </div>
-              <div className="flex items-center gap-3 text-muted-foreground">
-                <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                  launchStep === 'connected' ? 'bg-emerald-500 text-white' : 'bg-secondary border border-border'
-                }`}>
-                  {launchStep === 'connected' ? '✓' : '3'}
-                </span>
-                <span>
-                  {launchStep === 'connected'
-                    ? '3. EXE Handshake Connected: Exam is running inside lockdown client!'
-                    : '3. Connecting exam session into the lockdown kiosk...'}
-                </span>
-              </div>
-            </div>
-
-            {/* Helpful execution notice */}
-            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-300 space-y-1">
-              <span className="font-bold block">👉 Click to run the downloaded file:</span>
-              <p className="text-[11px] leading-relaxed">
-                If the lockdown window does not pop up automatically, click <strong>CampusCorp-SecureLock.exe</strong> in your browser's download tray to open the locked exam.
-              </p>
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-border">
-              <a
-                href="/downloads/CampusCorp-SecureLock.exe"
-                download="CampusCorp-SecureLock.exe"
-                className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold text-foreground bg-secondary hover:bg-secondary/80 border border-border flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Re-download .exe</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={async (e) => {
-                  setShowLaunchModal(false);
-                  try {
-                    const el = document.documentElement;
-                    const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-                    if (rfs && !document.fullscreenElement) {
-                      await rfs.call(el);
-                    }
-                  } catch (err) {}
-                  onStartExam && onStartExam(e);
-                }}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold shadow-xs hover:opacity-90 flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <span>Continue to Exam in Fullscreen</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
