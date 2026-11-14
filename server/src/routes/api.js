@@ -152,6 +152,8 @@ router.use('/student/compiler', requireModule('ASSESSMENTS'));
 router.use('/compiler', requireModule('ASSESSMENTS'));
 router.use('/student/quiz', requireModule('ASSESSMENTS'));
 router.get('/assessment/runtime-status', assessCtrl.getRuntimeStatus);
+router.get('/assessment/download-lock-exe', assessCtrl.downloadLockExe);
+router.post('/assessment/launch-desktop-exe', optionalAuthenticateToken, assessCtrl.launchDesktopExe);
 router.post('/assessment/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
 router.post('/student/compiler/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);
 router.post('/compiler/run', optionalAuthenticateToken, assessCtrl.runCodeSandbox);

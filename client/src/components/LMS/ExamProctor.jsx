@@ -69,6 +69,59 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
   const [idleSeconds, setIdleSeconds] = useState(0);
   const [cameraActive, setCameraActive] = useState(false);
   const [multiTabBlocked, setMultiTabBlocked] = useState(false);
+  const [isExeLockActive, setIsExeLockActive] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return Boolean(
+        window.isCampusCorpExeLock ||
+        window.lockdownBrowser?.locked ||
+        localStorage.getItem('campuscorp_simulated_exe_lock') === 'true'
+      );
+    }
+    return false;
+  });
+  const [exeLockDetails, setExeLockDetails] = useState(null);
+
+  // Poll local loopback port 52189 to verify native CampusCorp-SecureLock.exe
+  useEffect(() => {
+    if (!enabled) return;
+
+    const checkExeBridge = async () => {
+      if (typeof window !== 'undefined' && (window.isCampusCorpExeLock || window.lockdownBrowser?.locked)) {
+        setIsExeLockActive(true);
+        setExeLockDetails({ version: '2.4.0', status: 'NATIVE_ACTIVE', kiosk: true });
+        return;
+      }
+
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('campuscorp_simulated_exe_lock') === 'true') {
+        setIsExeLockActive(true);
+        setExeLockDetails({ version: '2.4.0', status: 'SIMULATED_ACTIVE', kiosk: true });
+        return;
+      }
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1200);
+        const res = await fetch('http://127.0.0.1:52189/status', {
+          signal: controller.signal,
+          mode: 'cors',
+        });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.locked) {
+            setIsExeLockActive(true);
+            setExeLockDetails(data);
+          }
+        }
+      } catch (e) {
+        // EXE bridge not listening on loopback
+      }
+    };
+
+    checkExeBridge();
+    const interval = setInterval(checkExeBridge, 4000);
+    return () => clearInterval(interval);
+  }, [enabled]);
 
   const violationsRef = useRef(0);
   const warningTimer = useRef(null);
@@ -797,6 +850,9 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
     idleSeconds,
     cameraActive,
     multiTabBlocked,
+    isExeLockActive,
+    exeLockDetails,
+    setIsExeLockActive,
     sessionId: SESSION_ID,
     enterFullscreen,
     exitFullscreen,
@@ -810,7 +866,7 @@ export const useProctor = ({ onAutoSubmit, enabled = true, initialFullscreen = f
   }), [
     violations, isFullscreen, fullscreenLost, focusLostAlert, setFocusLostAlert, warning, warningSeverity, frozen,
     eventLog, networkStats, attentionScore, ipAddress, faceStatus, idleSeconds,
-    cameraActive, multiTabBlocked, enterFullscreen, exitFullscreen, forceFullscreen,
+    cameraActive, multiTabBlocked, isExeLockActive, exeLockDetails, enterFullscreen, exitFullscreen, forceFullscreen,
     addViolation, recordActivity, trackNavigation, attentionHistory
   ]);
 };
@@ -883,6 +939,18 @@ export const ProctorHUD = ({
             }}
           />
           <span>AI Proctor Active</span>
+          <span
+            style={{
+              padding: '2px 7px',
+              borderRadius: 12,
+              background: proctor.isExeLockActive ? '#059669' : 'rgba(255,255,255,0.12)',
+              color: '#fff',
+              fontSize: '0.65rem',
+              fontWeight: 800
+            }}
+          >
+            {proctor.isExeLockActive ? '🛡️ EXE Lock' : 'Web Lock'}
+          </span>
           <span
             style={{
               padding: '2px 8px',
@@ -1051,6 +1119,25 @@ export const ProctorHUD = ({
                   );
                 })}
               </div>
+            </div>
+
+            {/* Desktop EXE Lock Status */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '4px 8px',
+                borderRadius: 8,
+                background: proctor.isExeLockActive ? 'rgba(16, 185, 129, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                border: `1px solid ${proctor.isExeLockActive ? 'rgba(16, 185, 129, 0.35)' : 'rgba(255, 255, 255, 0.1)'}`,
+                fontSize: '0.62rem',
+                fontWeight: 700,
+                color: proctor.isExeLockActive ? '#34d399' : 'rgba(255, 255, 255, 0.6)'
+              }}
+            >
+              <span>EXE Lock Status:</span>
+              <span>{proctor.isExeLockActive ? '● ACTIVE (v2.4)' : 'STANDALONE WEB'}</span>
             </div>
 
             {/* Idle & Fullscreen Status */}

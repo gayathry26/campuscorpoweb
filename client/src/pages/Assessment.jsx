@@ -33,6 +33,9 @@ import {
   Globe,
   Lock,
   X,
+  Download,
+  RefreshCw,
+  Zap,
 } from 'lucide-react';
 
 // LMS Components & Modules
@@ -62,6 +65,14 @@ export function Assessment() {
   // Share Test Link Modal State
   const [shareModalTest, setShareModalTest] = useState(null);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedExeLink, setCopiedExeLink] = useState(false);
+
+  // EXE-Based Lockdown Client State
+  const [exeLockRunning, setExeLockRunning] = useState(false);
+  const [checkingExe, setCheckingExe] = useState(false);
+  const [simulatedExe, setSimulatedExe] = useState(() => {
+    return typeof localStorage !== 'undefined' && localStorage.getItem('campuscorp_simulated_exe_lock') === 'true';
+  });
 
   const getExamLink = (test) => {
     const origin = window.location.origin;
@@ -69,9 +80,60 @@ export function Assessment() {
     return `${origin}/exam?testId=${encodeURIComponent(testParam)}`;
   };
 
+  const getExeExamLink = (test) => {
+    const testParam = test?.id || test?.assessmentId || 1;
+    return `campuscorp-lock://exam?testId=${encodeURIComponent(testParam)}`;
+  };
+
+  const checkExeLock = async () => {
+    setCheckingExe(true);
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1500);
+      const res = await fetch('http://127.0.0.1:52189/status', {
+        signal: controller.signal,
+        mode: 'cors',
+      });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.locked) {
+          setExeLockRunning(true);
+          showToast('CampusCorp-SecureLock.exe loopback bridge connected!', 'success');
+        }
+      }
+    } catch (e) {
+      if (simulatedExe) {
+        setExeLockRunning(true);
+      } else {
+        setExeLockRunning(false);
+      }
+    } finally {
+      setCheckingExe(false);
+    }
+  };
+
+  useEffect(() => {
+    checkExeLock();
+  }, []);
+
+  const toggleSimulatedExe = () => {
+    const next = !simulatedExe;
+    setSimulatedExe(next);
+    setExeLockRunning(next);
+    if (next) {
+      localStorage.setItem('campuscorp_simulated_exe_lock', 'true');
+      showToast('Simulated EXE Lock active for testing.', 'success');
+    } else {
+      localStorage.removeItem('campuscorp_simulated_exe_lock');
+      showToast('Simulated EXE Lock disabled.', 'info');
+    }
+  };
+
   const handleOpenShareModal = (test) => {
     setShareModalTest(test);
     setCopiedLink(false);
+    setCopiedExeLink(false);
   };
 
   const handleCopyLink = async (test) => {
@@ -81,6 +143,18 @@ export function Assessment() {
       setCopiedLink(true);
       showToast('Exam link copied to clipboard!', 'success');
       setTimeout(() => setCopiedLink(false), 3000);
+    } catch (e) {
+      showToast('Could not copy link to clipboard.', 'error');
+    }
+  };
+
+  const handleCopyExeLink = async (test) => {
+    const link = getExeExamLink(test);
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopiedExeLink(true);
+      showToast('EXE Protocol link copied to clipboard!', 'success');
+      setTimeout(() => setCopiedExeLink(false), 3000);
     } catch (e) {
       showToast('Could not copy link to clipboard.', 'error');
     }
@@ -370,6 +444,7 @@ int main() {
           totalQuestions={activeTest?.questionsCount || 25}
           onStartExam={handleLaunchExam}
           onGoBack={() => setViewMode('hub')}
+          testId={activeTest?.id || activeTest?.assessmentId || 1}
         />
       </div>
     );
@@ -515,6 +590,96 @@ int main() {
 
           <div className="text-[11px] text-muted-foreground font-medium">
             Sandboxed Process Execution • 5000ms Timeout Limit
+          </div>
+        </div>
+      </div>
+
+      {/* EXE-Based Examination Lockdown Client (v2.4.0) Card */}
+      <div className="relative overflow-hidden rounded-2xl border border-primary/25 bg-gradient-to-r from-card via-card to-primary/5 p-5 shadow-xs">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary border border-primary/20">
+                <Lock className="w-3 h-3" />
+                EXE-Based Assessment Lockdown Engine
+              </span>
+              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                exeLockRunning
+                  ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500'
+                  : 'bg-secondary border-border text-muted-foreground'
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${exeLockRunning ? 'bg-emerald-500 animate-pulse' : 'bg-muted-foreground'}`} />
+                {exeLockRunning ? 'Desktop EXE Lock: ACTIVE (v2.4.0)' : 'Standalone Executable Ready'}
+              </span>
+            </div>
+            <h2 className="text-lg font-black text-foreground tracking-tight">
+              CampusCorp-SecureLock.exe Anti-Cheat Client
+            </h2>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Enforce OS-level full-screen kiosk lock, suppress Alt+Tab & Windows keys, block dual monitors, clear clipboard memory, and terminate unauthorized background cheating tools (AnyDesk, TeamViewer, OBS, Discord, ChatGPT).
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <a
+              href="/downloads/CampusCorp-SecureLock.exe"
+              download="CampusCorp-SecureLock.exe"
+              className="px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold transition-all flex items-center gap-2 shadow-xs hover:opacity-90 active:scale-95 cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download SecureLock.exe</span>
+            </a>
+            <a
+              href="campuscorp-lock://exam?testId=1"
+              className="px-3.5 py-2.5 rounded-xl bg-secondary hover:bg-secondary/80 border border-border text-foreground text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
+              title="Launch Assessment in CampusCorp SecureLock Desktop Browser"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+              <span>Launch .exe</span>
+            </a>
+            <button
+              type="button"
+              onClick={checkExeLock}
+              disabled={checkingExe}
+              className="px-3 py-2.5 rounded-xl bg-secondary hover:bg-secondary/80 border border-border text-foreground text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
+              title="Ping localhost:52189 loopback handshake bridge"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${checkingExe ? 'animate-spin' : ''}`} />
+              <span>{checkingExe ? 'Checking...' : 'Check Status'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={toggleSimulatedExe}
+              className={`px-3 py-2.5 rounded-xl border text-xs font-bold transition-colors cursor-pointer ${
+                simulatedExe
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-500'
+                  : 'bg-secondary border-border text-muted-foreground hover:text-foreground'
+              }`}
+              title="Simulate EXE handshake for browser testing"
+            >
+              <Zap className="w-3.5 h-3.5 inline mr-1" />
+              <span>{simulatedExe ? 'Test Lock: ON' : 'Test Lock'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Protection Badges Row */}
+        <div className="mt-4 pt-3.5 border-t border-border/80 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/40 border border-border/60">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            <span className="font-semibold text-foreground text-[11px]">Alt+Tab & Win Key Suppression</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/40 border border-border/60">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            <span className="font-semibold text-foreground text-[11px]">Anti-Cheat Process Scanner</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/40 border border-border/60">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            <span className="font-semibold text-foreground text-[11px]">Dual Monitor Blackout Shield</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/40 border border-border/60">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            <span className="font-semibold text-foreground text-[11px]">Port 52189 Loopback Bridge</span>
           </div>
         </div>
       </div>
@@ -879,7 +1044,7 @@ int main() {
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-foreground uppercase tracking-wider block">
-                Shareable Candidate URL
+                Shareable Candidate URL (Web Browser)
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -904,13 +1069,60 @@ int main() {
               </div>
             </div>
 
+            {/* EXE-Based Lockdown Protocol Link */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-foreground uppercase tracking-wider block">
+                  CampusCorp EXE Lock URL (Desktop App)
+                </label>
+                <a
+                  href="/downloads/CampusCorp-SecureLock.exe"
+                  download="CampusCorp-SecureLock.exe"
+                  className="text-[11px] font-bold text-primary hover:underline flex items-center gap-1"
+                >
+                  <Download className="w-3 h-3" />
+                  <span>Download .exe client</span>
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={getExeExamLink(shareModalTest)}
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-secondary border border-border text-foreground font-mono text-xs select-all focus:outline-none"
+                  onClick={(e) => e.target.select()}
+                />
+                <button
+                  type="button"
+                  onClick={() => handleCopyExeLink(shareModalTest)}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer shrink-0 active:scale-95 ${
+                    copiedExeLink
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-secondary border border-border text-foreground hover:bg-secondary/80'
+                  }`}
+                >
+                  {copiedExeLink ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                  <span>{copiedExeLink ? 'Copied!' : 'Copy EXE'}</span>
+                </button>
+                <a
+                  href={getExeExamLink(shareModalTest)}
+                  className="px-3.5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-1 hover:opacity-90 shadow-xs shrink-0"
+                  title="Launch test inside CampusCorp-SecureLock.exe"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Launch .exe</span>
+                </a>
+              </div>
+            </div>
+
             <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-700 dark:text-blue-300 space-y-1">
               <div className="font-bold flex items-center gap-1.5">
                 <Lock className="w-3.5 h-3.5" />
-                <span>Works for anyone right now:</span>
+                <span>Dual Exam Access Modes Supported:</span>
               </div>
               <p className="text-[11px] leading-relaxed text-blue-800/80 dark:text-blue-200/80">
-                Candidates opening this link in any browser or incognito tab will instantly access the Candidate Gate, review exam instructions, and enter mandatory fullscreen lock upon starting.
+                1. <strong>Web Browser Mode</strong>: Candidates opening in Chrome/Edge enter mandatory fullscreen lock, tab-loss penalty, and dynamic watermarking.<br />
+                2. <strong>EXE-Based Lock Mode</strong>: Opening via CampusCorp-SecureLock.exe enforces OS-level Alt+Tab suppression, blocks second monitors, and kills unauthorized background applications.
               </p>
             </div>
 

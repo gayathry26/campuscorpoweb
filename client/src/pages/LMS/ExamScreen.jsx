@@ -742,6 +742,7 @@ const ExamScreen = ({
           duration={activeTest?.duration_minutes || 90}
           onStartExam={handleStartExamClick}
           onGoBack={() => { if (document.fullscreenElement) { document.exitFullscreen().catch(() => {}); } if (onExit) onExit(); else navigate('/assessment'); }}
+          testId={selectedTestId}
         />
       </>
     );
@@ -1161,6 +1162,24 @@ const ExamScreen = ({
           </div>
         </div>
         <div style={styles.topRight}>
+          {/* EXE Lock Status Badge */}
+          <div
+            style={{
+              padding: '4px 10px',
+              borderRadius: 8,
+              background: proctor.isExeLockActive ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#d1fae5') : (isDark ? 'rgba(255, 255, 255, 0.05)' : '#f1f5f9'),
+              color: proctor.isExeLockActive ? '#10b981' : (isDark ? '#a1a1a1' : '#64748b'),
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              border: proctor.isExeLockActive ? '1px solid #10b981' : (isDark ? '1px solid #333' : '1px solid #cbd5e1'),
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4
+            }}
+            title={proctor.isExeLockActive ? 'Running inside CampusCorp-SecureLock.exe' : 'Running in Web Browser sandbox'}
+          >
+            <span>{proctor.isExeLockActive ? '🛡️ EXE Lock Active' : '🛡️ Web Lock'}</span>
+          </div>
           <button
             type="button"
             onClick={() => {

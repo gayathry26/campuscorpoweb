@@ -678,6 +678,70 @@ async function runCodeSandbox(req, res, next) {
   }
 }
 
+/**
+ * Download Standalone CampusCorp-SecureLock.exe
+ * GET /api/v1/assessment/download-lock-exe
+ */
+function downloadLockExe(req, res) {
+  const path = require('path');
+  const fs = require('fs');
+  const exePath = path.join(__dirname, '../../public/downloads/CampusCorp-SecureLock.exe');
+
+  if (fs.existsSync(exePath)) {
+    res.setHeader('Content-Disposition', 'attachment; filename="CampusCorp-SecureLock.exe"');
+    res.setHeader('Content-Type', 'application/octet-stream');
+    return res.sendFile(exePath);
+  }
+
+  const altPath = path.join(__dirname, '../../../desktop-lock/CampusCorp-SecureLock.exe');
+  if (fs.existsSync(altPath)) {
+    res.setHeader('Content-Disposition', 'attachment; filename="CampusCorp-SecureLock.exe"');
+    res.setHeader('Content-Type', 'application/octet-stream');
+    return res.sendFile(altPath);
+  }
+
+  res.status(404).json({ success: false, message: 'CampusCorp-SecureLock.exe binary is being built. Please try again shortly.' });
+}
+
+/**
+ * Launch Desktop Lock Executable
+ * POST /api/v1/assessment/launch-desktop-exe
+ */
+function launchDesktopExe(req, res) {
+  const { spawn } = require('child_process');
+  const path = require('path');
+  const fs = require('fs');
+
+  const { targetUrl } = req.body || {};
+  const examUrl = targetUrl || 'http://localhost:5000/exam?testId=1';
+
+  let exePath = path.join(__dirname, '../../../desktop-lock/CampusCorp-SecureLock.exe');
+  if (!fs.existsSync(exePath)) {
+    exePath = path.join(__dirname, '../../public/downloads/CampusCorp-SecureLock.exe');
+  }
+
+  if (!fs.existsSync(exePath)) {
+    return res.status(404).json({ success: false, message: 'CampusCorp-SecureLock.exe not found on host.' });
+  }
+
+  try {
+    const child = spawn(exePath, [examUrl], {
+      detached: true,
+      stdio: 'ignore',
+    });
+    child.unref();
+
+    return res.json({
+      success: true,
+      message: 'CampusCorp-SecureLock.exe launched successfully on host system.',
+      pid: child.pid,
+      examUrl,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to launch executable: ' + err.message });
+  }
+}
+
 module.exports = {
   getRuntimeStatus,
   getAllAssessments,
@@ -693,4 +757,6 @@ module.exports = {
   saveQuizAttempt,
   submitQuizAttempt,
   saveProctorLog,
+  downloadLockExe,
+  launchDesktopExe,
 };
