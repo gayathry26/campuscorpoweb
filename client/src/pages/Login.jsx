@@ -123,46 +123,46 @@ export function Login({ portal = 'student' }) {
     if (code === 'ABC') {
       if (activeRole === 'admin') {
         setUsername('admin@abc.edu');
-        setPassword('ABCAdmin@2026');
+        setPassword('Password@123');
       } else if (activeRole === 'faculty') {
         setUsername('faculty@abc.edu');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       } else {
         setUsername('student@abc.edu');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       }
     } else if (code === 'XYZ') {
       if (activeRole === 'admin') {
         setUsername('admin@xyz.edu');
-        setPassword('XYZAdmin@2026');
+        setPassword('Password@123');
       } else if (activeRole === 'faculty') {
         setUsername('faculty@xyz.edu');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       } else {
         setUsername('student@xyz.edu');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       }
     } else if (code === 'KCT') {
       if (activeRole === 'admin') {
         setUsername('admin@kct.ac.in');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       } else if (activeRole === 'faculty') {
         setUsername('admin@kct.ac.in');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       } else {
         setUsername('student.test@kct.ac.in');
-        setPassword('CollegeAdmin@2026');
+        setPassword('Password@123');
       }
     } else {
       if (activeRole === 'admin') {
         setUsername('admin@college.edu');
-        setPassword('Password123!');
+        setPassword('Password@123');
       } else if (activeRole === 'faculty') {
         setUsername('hod.cse@college.edu');
-        setPassword('Password123!');
+        setPassword('Password@123');
       } else {
         setUsername('student.cse1@college.edu');
-        setPassword('Password123!');
+        setPassword('Password@123');
       }
     }
     setError('');
@@ -477,6 +477,18 @@ export function Login({ portal = 'student' }) {
               Verified Test Institutions
             </span>
             <div className="flex flex-wrap gap-1.5 text-xs">
+              <button
+                type="button"
+                onClick={() => handleSelectCollege('CAMPUS_MAIN')}
+                className={`px-2.5 py-1.5 rounded-lg border font-semibold transition cursor-pointer ${
+                  selectedCollegeCode === 'CAMPUS_MAIN'
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                }`}
+              >
+                🌐 CampusCorp Main
+              </button>
+
               <button
                 type="button"
                 onClick={() => handleSelectCollege('ABC')}

@@ -329,6 +329,7 @@ router.post('/github/scan', optionalAuthenticateToken, githubScanCtrl.scanRepo);
 router.get('/github/scan-stream', optionalAuthenticateToken, githubScanCtrl.scanRepoLiveStream);
 router.get('/github/user-repos/:username', optionalAuthenticateToken, githubScanCtrl.getUserRepositories);
 router.post('/github/verify-and-import-skills', authenticateToken, githubScanCtrl.verifyAndImportSkills);
+router.post('/github/ai-analyze', optionalAuthenticateToken, githubScanCtrl.aiAnalyzeRepo);
 
 // 22. Role-Based LMS (Learning Management System)
 router.use('/lms', requireModule('LMS'));

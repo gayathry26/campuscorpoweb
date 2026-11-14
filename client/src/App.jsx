@@ -20,6 +20,7 @@ import { Jobs } from './pages/Jobs';
 import { Drives } from './pages/Drives';
 import { Applications } from './pages/Applications';
 import { Assessment } from './pages/Assessment';
+import { CompilerSandbox } from './pages/CompilerSandbox';
 import { Interviews } from './pages/Interviews';
 import { Training } from './pages/Training';
 import { Internships } from './pages/Internships';
@@ -360,6 +361,10 @@ export default function App() {
                   <Route path="/applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
                   <Route path="/my-applications" element={<ProtectedRoute path="/applications"><Applications /></ProtectedRoute>} />
                   <Route path="/assessment" element={<ProtectedRoute path="/assessment"><Assessment /></ProtectedRoute>} />
+                  <Route path="/compiler" element={<ProtectedRoute path="/assessment"><CompilerSandbox /></ProtectedRoute>} />
+                  <Route path="/compiler-sandbox" element={<Navigate to="/compiler" replace />} />
+                  <Route path="/sandbox" element={<Navigate to="/compiler" replace />} />
+                  <Route path="/student/compiler" element={<Navigate to="/compiler" replace />} />
                   <Route path="/exam" element={<Layout><ExamScreen /></Layout>} />
                   <Route path="/exam/:testId" element={<Layout><ExamScreen /></Layout>} />
                   <Route path="/exam/share/:testId" element={<Layout><ExamScreen /></Layout>} />

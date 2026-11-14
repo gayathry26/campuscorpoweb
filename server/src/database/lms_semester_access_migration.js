@@ -1,6 +1,10 @@
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
+const dotenv = require('dotenv');
+const path = require('path');
+
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 async function runLmsSemesterAccessMigration() {
   console.log('================================================================');

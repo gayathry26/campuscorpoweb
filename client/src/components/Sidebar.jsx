@@ -19,6 +19,7 @@ import {
   CalendarDays,
   FileCheck2,
   Code2,
+  Terminal,
   CalendarCheck,
   Video,
   GraduationCap,
@@ -68,6 +69,8 @@ export function Sidebar() {
 
   const isAssessmentsActive =
     location.pathname.startsWith('/assessment') ||
+    location.pathname.startsWith('/compiler') ||
+    location.pathname.startsWith('/sandbox') ||
     location.pathname.startsWith('/exam') ||
     location.pathname.startsWith('/interviews') ||
     location.pathname.startsWith('/videocall') ||
@@ -227,6 +230,7 @@ export function Sidebar() {
       canAccess: isModuleEnabled('ASSESSMENTS'),
       items: isModuleEnabled('ASSESSMENTS') ? [
         { to: '/assessment', label: 'Programming Assessment', icon: Code2 },
+        { to: '/compiler', label: 'Compiler Execution Sandbox', icon: Terminal },
         { to: '/interviews', label: 'Interview Slots', icon: CalendarCheck, moduleKey: 'INTERVIEWS' },
         { to: '/videocall/interview', label: 'Mock Video Interview', icon: Video, moduleKey: 'INTERVIEWS' },
         { to: '/resume-analyzer', label: 'Resume Analyzer', icon: FileSearch, moduleKey: 'RESUME_AI' },

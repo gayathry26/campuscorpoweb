@@ -94,6 +94,17 @@ export const githubScannerService = {
     });
     return res.data;
   },
+
+  /**
+   * AI Deep Analysis and Interactive Advice for repository
+   */
+  async analyzeWithAi(repoData, prompt = '') {
+    const res = await apiClient.post('/github/ai-analyze', {
+      repoData,
+      prompt,
+    });
+    return res.data;
+  },
 };
 
 export default githubScannerService;

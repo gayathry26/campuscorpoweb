@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useToast } from '../context/ToastContext';
@@ -464,9 +465,19 @@ int main() {
             </p>
           </div>
 
-          {/* Quick Staff/Admin Console Switcher */}
-          {isStaffOrAdmin && (
-            <div className="flex items-center gap-2">
+          {/* Actions & Launchers */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to="/compiler"
+              className="px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shadow-xs hover:opacity-90 active:scale-95"
+            >
+              <Terminal className="w-4 h-4" />
+              <span>Compiler Execution Sandbox</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+            </Link>
+
+            {/* Quick Staff/Admin Console Switcher */}
+            {isStaffOrAdmin && (
               <button
                 onClick={() => setViewMode('admin')}
                 className="px-4 py-2.5 rounded-xl border border-border hover:border-border bg-secondary hover:bg-secondary text-foreground text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shadow-2xs"
@@ -474,8 +485,8 @@ int main() {
                 <Settings2 className="w-4 h-4 text-muted-foreground" />
                 <span>Question Bank & Test Manager</span>
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Runtime Diagnostics Strip */}
@@ -728,10 +739,10 @@ int main() {
         {/* Right Column: Live Interactive Compiler Sandbox */}
         <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
           <div className="bg-card text-card-foreground rounded-2xl p-5 border border-border shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-border">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
               <div>
                 <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-foreground" />
+                  <Terminal className="w-4 h-4 text-primary" />
                   <span>Compiler Execution Sandbox</span>
                 </h3>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -739,18 +750,28 @@ int main() {
                 </p>
               </div>
 
-              {/* Language Selector */}
-              <select
-                value={sandboxLang}
-                onChange={(e) => handleLangChange(e.target.value)}
-                className="px-3 py-1.5 rounded-lg border border-border text-sm font-bold text-foreground bg-secondary focus:outline-none cursor-pointer"
-              >
-                <option value="python">Python 3.10</option>
-                <option value="javascript">JavaScript (Node.js)</option>
-                <option value="java">Java 21 (OpenJDK)</option>
-                <option value="c">C (GCC)</option>
-                <option value="cpp">C++ (G++)</option>
-              </select>
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/compiler"
+                  className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-bold shadow-xs hover:opacity-90 transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Open Sandbox Page</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </Link>
+
+                {/* Language Selector */}
+                <select
+                  value={sandboxLang}
+                  onChange={(e) => handleLangChange(e.target.value)}
+                  className="px-2.5 py-1.5 rounded-lg border border-border text-xs font-bold text-foreground bg-secondary focus:outline-none cursor-pointer"
+                >
+                  <option value="python">Python 3.10</option>
+                  <option value="javascript">JavaScript (Node.js)</option>
+                  <option value="java">Java 21 (OpenJDK)</option>
+                  <option value="c">C (GCC)</option>
+                  <option value="cpp">C++ (G++)</option>
+                </select>
+              </div>
             </div>
 
             {/* Embedded Code Editor */}

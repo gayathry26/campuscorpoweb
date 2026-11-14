@@ -65,17 +65,23 @@ async function resolveTenantMetadata(identifier) {
   const rows = await queryPlatform(sql, params);
 
   if (rows.length === 0) {
-    // If not found in platform registry, fallback check for flagship 'CAMPUS_MAIN' or default 'lms'
-    if (cacheKey === 'CAMPUS_MAIN' || cacheKey === 'MAIN' || cacheKey === 'LMS' || cacheKey === 'DEFAULT') {
+    // If not found in platform registry, fallback check for flagship 'CAMPUS_MAIN' or demo tenants
+    if (['CAMPUS_MAIN', 'MAIN', 'LMS', 'DEFAULT', 'ABC', 'XYZ', 'KCT'].includes(cacheKey)) {
+      const codeNameMap = {
+        ABC: 'ABC Institute of Technology',
+        XYZ: 'XYZ Engineering College',
+        KCT: 'Kumaraguru College of Technology',
+        CAMPUS_MAIN: 'CampusCorp Flagship Institution',
+      };
       const fallbackData = {
-        id: 1,
+        id: cacheKey === 'ABC' ? 2 : cacheKey === 'XYZ' ? 3 : cacheKey === 'KCT' ? 4 : 1,
         uuid: '11111111-1111-1111-1111-111111111111',
-        code: 'CAMPUS_MAIN',
-        name: 'CampusCorp Flagship Institution',
+        code: cacheKey,
+        name: codeNameMap[cacheKey] || 'CampusCorp Flagship Institution',
         type: 'AUTONOMOUS',
         affiliation: 'CampusCorp Educational Consortium',
-        subdomain: 'main',
-        contact_email: 'contact@campuscorp.edu',
+        subdomain: cacheKey.toLowerCase(),
+        contact_email: `contact@${cacheKey.toLowerCase()}.edu`,
         logo_url: '/logo-light.jpeg',
         status: 'ACTIVE',
         database_name: process.env.DB_COMMON_NAME || 'lms',

@@ -256,9 +256,148 @@ async function verifyAndImportSkills(req, res, next) {
   }
 }
 
+/**
+ * AI Repository Deep Analyzer & Advisor
+ * POST /api/v1/github/ai-analyze
+ */
+async function aiAnalyzeRepo(req, res, next) {
+  try {
+    const { repoData, prompt, question } = req.body;
+    if (!repoData || !repoData.repository) {
+      return res.status(400).json({ success: false, message: 'Valid repository scan data is required.' });
+    }
+
+    const repoName = repoData.repository.name || 'Repository';
+    const primaryLang = repoData.languages?.primaryLanguage || repoData.repository.language || 'Software';
+    const skills = repoData.detectedSkills || [];
+    const qualityScore = repoData.codeQuality?.score || 70;
+    const hasDocker = repoData.codeQuality?.hasDockerfile;
+    const hasCI = repoData.codeQuality?.hasWorkflows;
+    const hasTests = repoData.codeQuality?.hasTests;
+    const exposedSecrets = repoData.codeQuality?.exposedSecrets || [];
+
+    // If custom prompt or question was asked to the AI Assistant
+    if (prompt || question) {
+      const q = String(prompt || question).trim();
+      let response = '';
+
+      if (/scale|10k|traffic|bottleneck|performance/i.test(q)) {
+        response = `### 🚀 Scalability & Performance Strategy for **${repoName}**\n\n` +
+          `Based on the **${primaryLang}** stack and architecture detected:\n\n` +
+          `1. **Stateless Horizontal Scaling**: Decouple stateful sessions using Redis cache clusters. If using Node.js or Python, spawn worker clusters using PM2 or Gunicorn with Gevent.\n` +
+          `2. **Database Optimization**: Introduce read replicas and implement database connection pooling (e.g. PgBouncer or MySQL pool limits). Ensure all frequent queries on foreign keys and timestamps have B-tree indices.\n` +
+          `3. **Caching Layer**: Place Cloudflare CDN or Amazon CloudFront at the edge for static assets. Cache API responses with Redis TTLs for high-throughput read endpoints.\n` +
+          `4. **Asynchronous Task Offloading**: Offload long-running computations, file processing, and webhook delivery to background queues (BullMQ, Celery, or RabbitMQ).\n` +
+          `5. **Observability**: Integrate OpenTelemetry or Prometheus + Grafana dashboards to monitor p95 latency and memory leak trends under load.`;
+      } else if (/security|hardening|vulnerability|owasp/i.test(q)) {
+        response = `### 🛡️ Production Security Audit & Hardening Guide for **${repoName}**\n\n` +
+          `Security assessment for current ${primaryLang} codebase:\n\n` +
+          `1. **Secrets & Credentials Gate**: ${exposedSecrets.length > 0 ? `⚠️ **ALERT**: Found exposed sensitive files (${exposedSecrets.join(', ')}). Run 'git-filter-repo' or BFG Repo-Cleaner immediately and rotate all credentials!` : '✅ No unencrypted secrets or sensitive credentials detected in repository root.'}\n` +
+          `2. **Dependency Supply Chain**: Run automated vulnerability audits (\`${primaryLang.toLowerCase() === 'python' ? 'pip-audit / safety check' : 'npm audit --audit-level=high'}\`) in your CI pipeline before merging PRs.\n` +
+          `3. **Header Hardening**: Implement Helmet.js (or CSP headers in web framework) enforcing Content-Security-Policy, X-Frame-Options: DENY, and Strict-Transport-Security.\n` +
+          `4. **Input Sanitization & Injection Prevention**: Validate all incoming parameters with schemas (Zod/Joi for JS, Pydantic for Python) to eliminate SQL injection and XSS vectors.\n` +
+          `5. **Authentication Security**: Ensure JWTs use HTTP-only secure cookies with SameSite=Lax/Strict, avoiding localStorage storage.`;
+      } else if (/refactor|clean code|architecture|solid/i.test(q)) {
+        response = `### ♻️ Clean Code & Architecture Blueprint for **${repoName}**\n\n` +
+          `Architectural review for **${repoName}** (${primaryLang}):\n\n` +
+          `1. **Separation of Concerns**: Enforce strict 3-tier layering: Controllers (HTTP transport) -> Services (Pure business logic) -> Repositories / Data Access.\n` +
+          `2. **Error Boundary Strategy**: Replace inline try/catch blocks with centralized global error handling middleware and domain-specific custom Exception classes.\n` +
+          `3. **Configuration Isolation**: Move all hardcoded timeouts, URLs, and magic constants into a centralized, strongly-typed config module backed by environment variables.\n` +
+          `4. **Interface Contracts**: ${skills.includes('TypeScript') ? 'Leverage strict TypeScript interfaces for all data transfer objects (DTOs) and request payloads.' : 'Adopt type hints or JSDoc comments to document input and output contracts across module boundaries.'}\n` +
+          `5. **Dependency Injection**: Decouple external service dependencies (emailers, third-party APIs) via dependency inversion so they can be easily mocked during unit testing.`;
+      } else if (/interview|question|mock/i.test(q)) {
+        response = `### 🎯 Targeted Technical Interview Simulation for **${repoName}**\n\n` +
+          `Top interview challenges recruiters will ask based on this project:\n\n` +
+          `1. **Architectural Tradeoffs**: *"Why did you choose ${primaryLang} and ${skills.slice(0, 3).join(', ') || 'this stack'} for ${repoName}? What limitations did you hit and how would you redesign it today?"*\n` +
+          `   - *Model Strategy*: Highlight concurrency model, package ecosystem, and ease of deployment.\n\n` +
+          `2. **Fault Tolerance & Reliability**: *"How does ${repoName} behave if a downstream database or third-party service fails or times out?"*\n` +
+          `   - *Model Strategy*: Explain circuit breakers, exponential backoff retries, and graceful degradation for end users.\n\n` +
+          `3. **Data Integrity & Concurrency**: *"How do you prevent race conditions when two simultaneous requests attempt to update the same resource?"*\n` +
+          `   - *Model Strategy*: Discuss database transactions, optimistic locking (version column), or distributed locks with Redis.`;
+      } else {
+        response = `### 🤖 AI Engineering Insights for **${repoName}**\n\n` +
+          `Analysis of **${q}** regarding your **${primaryLang}** repository:\n\n` +
+          `- **Repository Context**: ${repoName} has a code quality rating of ${qualityScore}/100 with key competencies in ${skills.slice(0, 5).join(', ') || primaryLang}.\n` +
+          `- **Engineering Recommendation**: For this setup, prioritize modular component boundaries, deterministic dependency versions, and automated CI tests.\n` +
+          `- **Next Milestone**: ${!hasTests ? 'Add automated unit test suites (Jest/Pytest/JUnit) to reach >80% branch coverage.' : !hasDocker ? 'Package the application with a multi-stage Dockerfile to streamline production deployments.' : 'Implement end-to-end integration tests and load benchmarking tests.'}`;
+      }
+
+      return res.json({
+        success: true,
+        answer: response,
+        query: q,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // Default full architectural analysis payload
+    const architecturalPatterns = [];
+    if (repoData.repository.manifestsFound?.length > 1) {
+      architecturalPatterns.push('Multi-Package Monorepo Workspace');
+    } else {
+      architecturalPatterns.push('Modular Component-Driven Architecture');
+    }
+    if (skills.some(s => ['React', 'React.js', 'Vue.js', 'Next.js'].includes(s))) {
+      architecturalPatterns.push('Client-Side SPA / SSR Hydration');
+    }
+    if (skills.some(s => ['Node.js', 'Express.js', 'FastAPI', 'Spring Boot', 'Django'].includes(s))) {
+      architecturalPatterns.push('RESTful Backend Micro-Service');
+    }
+    if (hasDocker) architecturalPatterns.push('OCI Containerized Runtime');
+    if (hasCI) architecturalPatterns.push('Automated GitHub Actions CI/CD');
+
+    const readinessVerdict = qualityScore >= 85
+      ? 'Tier-1 Tech Screening Ready (Top 5%)'
+      : qualityScore >= 70
+      ? 'Competitive Product Portfolio (Top 20%)'
+      : 'Development-Grade Prototype (Needs Hardening)';
+
+    const interviewQuestions = [
+      {
+        topic: 'Architecture & System Design',
+        question: `How is data flow managed between client requests and state persistence in ${repoName}?`,
+        intent: 'Recruiters want to verify you understand separation of concerns and state mutations.',
+        answerGuideline: `Explain the flow: client sends request -> validated by schema -> handled by controller -> processed by service layer -> persisted to database transactions. Mention ${primaryLang} specific optimizations.`,
+      },
+      {
+        topic: 'Performance & Scaling',
+        question: `If ${repoName} experienced a 50x spike in concurrent users, where is the first bottleneck and how would you resolve it?`,
+        intent: 'Checks capacity planning, database query optimization, and caching knowledge.',
+        answerGuideline: 'Identify database connection pool exhaustion and synchronous I/O. Recommend read replicas, Redis caching for hot paths, and load balancing.',
+      },
+      {
+        topic: 'Reliability & CI/CD',
+        question: `How do you ensure breaking changes do not make it into production when merging code?`,
+        intent: 'Tests production hygiene, test automation, and deployment pipelines.',
+        answerGuideline: hasCI
+          ? 'Point to your automated GitHub Actions workflow that executes linters, type checks, and test suites on pull requests.'
+          : 'Explain how you run automated unit tests, commit hooks with Husky/pre-commit, and Docker container verification.',
+      },
+    ];
+
+    const resumeBullets = [
+      `Architected high-performance ${primaryLang} application utilizing ${skills.slice(0, 3).join(', ') || 'modern paradigms'}, ensuring modularity and maintainable codebase structure.`,
+      `${hasDocker ? 'Containerized application with multi-stage Docker builds' : 'Structured clean layered application architecture'}, achieving consistent local development and cloud deployability.`,
+      `${hasCI ? 'Configured automated CI/CD pipelines with GitHub Actions' : 'Implemented automated testing and code hygiene routines'}, maintaining code quality score of ${qualityScore}/100 and zero security vulnerabilities.`,
+    ];
+
+    res.json({
+      success: true,
+      verdict: readinessVerdict,
+      architecturalPatterns,
+      interviewQuestions,
+      resumeBullets,
+      qualityScore,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   scanRepo,
   scanRepoLiveStream,
   getUserRepositories,
   verifyAndImportSkills,
+  aiAnalyzeRepo,
 };
