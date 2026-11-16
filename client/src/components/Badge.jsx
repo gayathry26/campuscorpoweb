@@ -27,8 +27,8 @@ export function Badge({ children, variant = 'default', size = 'md', className = 
   };
 
   const sizeStyles = {
-    sm: 'text-[11px] px-2 py-0.5 leading-tight',
-    md: 'text-xs px-2.5 py-0.5 leading-tight',
+    sm: 'text-xs px-2.5 py-0.5 leading-tight',
+    md: 'text-xs sm:text-sm px-3 py-0.5 leading-tight',
     lg: 'text-sm px-3.5 py-1 leading-tight',
   };
 

@@ -91,7 +91,7 @@ export function SingleRoleShowcase({
         {/* Top Badges & Salary */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
+            <span className="px-3 py-1 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
               {category}
             </span>
             {tags.map((t) => (
@@ -99,13 +99,13 @@ export function SingleRoleShowcase({
                 {t}
               </Badge>
             ))}
-            <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-secondary text-muted-foreground border border-border">
+            <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-secondary text-muted-foreground border border-border">
               Focused Career Pathway
             </span>
           </div>
 
           {/* Salary Pill */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold shadow-2xs">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-sm sm:text-base font-bold shadow-2xs">
             <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span>{salaryText}</span>
           </div>
@@ -113,14 +113,14 @@ export function SingleRoleShowcase({
 
         {/* Title & Scope */}
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-foreground tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
             {title}
           </h2>
-          <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-medium">
+          <p className="text-sm sm:text-base text-foreground/80 leading-relaxed font-medium">
             {shortDescription}
           </p>
           {scope && (
-            <div className="p-3.5 rounded-xl bg-secondary/60 border border-border/80 text-xs text-muted-foreground leading-relaxed flex items-start gap-2.5">
+            <div className="p-3.5 rounded-xl bg-secondary/60 border border-border/80 text-sm text-muted-foreground leading-relaxed flex items-start gap-2.5">
               <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
               <span>
                 <strong className="text-foreground font-semibold">Industry Impact: </strong>
@@ -133,26 +133,26 @@ export function SingleRoleShowcase({
         {/* Market Indicators Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
           <div className="p-3 rounded-xl bg-secondary/40 border border-border/60">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
               Active Job Openings
             </span>
-            <span className="text-sm font-bold text-foreground mt-0.5 block">
+            <span className="text-sm sm:text-base font-bold text-foreground mt-0.5 block">
               {stats.jobOpenings || 'High Demand Campus Track'}
             </span>
           </div>
           <div className="p-3 rounded-xl bg-secondary/40 border border-border/60">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
               Market Growth Rate
             </span>
-            <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5 block">
+            <span className="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5 block">
               {stats.growthRate || '+15% YoY Growth'}
             </span>
           </div>
           <div className="p-3 rounded-xl bg-secondary/40 border border-border/60 col-span-2 sm:col-span-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
               Placement Readiness
             </span>
-            <span className="text-sm font-bold text-foreground mt-0.5 block">
+            <span className="text-sm sm:text-base font-bold text-foreground mt-0.5 block">
               ATS Standard Verified
             </span>
           </div>
@@ -160,25 +160,13 @@ export function SingleRoleShowcase({
 
         {/* Primary Action Buttons Bar */}
         <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-border/70">
-          {/* Check Career Fit */}
-          {onCheckFit && (
-            <button
-              type="button"
-              onClick={() => onCheckFit(role)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white transition-all shadow-xs cursor-pointer active:scale-[0.98]"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Check My Career Fit</span>
-            </button>
-          )}
-
           {/* Compare Role Button */}
           {onToggleCompare && (
             <button
               type="button"
               onClick={() => onToggleCompare(role)}
               disabled={!isCompared && !canAddCompare}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer shadow-2xs ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold border transition-all cursor-pointer shadow-2xs ${
                 isCompared
                   ? 'bg-foreground text-background border-foreground'
                   : 'bg-card border-border hover:bg-secondary text-foreground'
@@ -192,7 +180,7 @@ export function SingleRoleShowcase({
           {/* Resume Analyzer Integration */}
           <Link
             to="/resume-analyzer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-border bg-card hover:bg-secondary text-foreground transition-all shadow-2xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold border border-border bg-card hover:bg-secondary text-foreground transition-all shadow-2xs"
           >
             <FileSearch className="w-3.5 h-3.5 text-foreground" />
             <span>Scan Resume for this Role</span>
@@ -201,7 +189,7 @@ export function SingleRoleShowcase({
           {/* Skill Analyzer Integration */}
           <Link
             to="/skill-analyzer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-border bg-card hover:bg-secondary text-foreground transition-all shadow-2xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold border border-border bg-card hover:bg-secondary text-foreground transition-all shadow-2xs"
           >
             <Cpu className="w-3.5 h-3.5 text-foreground" />
             <span>Verify Skills</span>
@@ -212,7 +200,7 @@ export function SingleRoleShowcase({
             <button
               type="button"
               onClick={() => onViewRoadmapModal(role)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-border bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-all cursor-pointer shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-all cursor-pointer shadow-2xs"
             >
               <BookOpen className="w-3.5 h-3.5 text-muted-foreground" />
               <span>Full Roadmap View</span>
@@ -222,7 +210,7 @@ export function SingleRoleShowcase({
           {/* Dedicated Full Specifications Page */}
           <Link
             to={`/domains/${category ? category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') : 'all'}/${id}`}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-foreground text-background hover:opacity-90 transition-all shadow-xs ml-auto"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold bg-foreground text-background hover:opacity-90 transition-all shadow-xs ml-auto"
           >
             <span>Full Specifications Page</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -244,7 +232,7 @@ export function SingleRoleShowcase({
             <button
               type="button"
               onClick={() => setActiveTab('skills-tools')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'skills-tools'
                   ? 'bg-foreground text-background shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -255,7 +243,7 @@ export function SingleRoleShowcase({
             <button
               type="button"
               onClick={() => setActiveTab('roadmap')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'roadmap'
                   ? 'bg-foreground text-background shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -266,7 +254,7 @@ export function SingleRoleShowcase({
             <button
               type="button"
               onClick={() => setActiveTab('projects')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'projects'
                   ? 'bg-foreground text-background shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -277,7 +265,7 @@ export function SingleRoleShowcase({
             <button
               type="button"
               onClick={() => setActiveTab('certifications')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'certifications'
                   ? 'bg-foreground text-background shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -294,7 +282,7 @@ export function SingleRoleShowcase({
             {/* Responsibilities Checklist */}
             {responsibilities.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span>Core Responsibilities & Day-to-Day Deliverables</span>
                 </h3>
@@ -302,9 +290,9 @@ export function SingleRoleShowcase({
                   {responsibilities.map((r, i) => (
                     <div
                       key={i}
-                      className="p-3 rounded-xl bg-secondary/40 border border-border/60 text-xs text-foreground flex items-start gap-2.5"
+                      className="p-3 rounded-xl bg-secondary/40 border border-border/60 text-sm text-foreground flex items-start gap-2.5"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-2" />
                       <span className="leading-relaxed">{r}</span>
                     </div>
                   ))}
@@ -315,11 +303,11 @@ export function SingleRoleShowcase({
             {/* Technical Skills Breakdown */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                   <Cpu className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Technical Competencies ({technicalSkills.length} Verified)</span>
                 </h3>
-                <span className="text-[11px] text-muted-foreground font-medium">
+                <span className="text-xs text-muted-foreground font-medium">
                   Curriculum ATS Alignment
                 </span>
               </div>
@@ -331,14 +319,14 @@ export function SingleRoleShowcase({
                       key={categoryName}
                       className="p-3.5 rounded-xl bg-secondary/30 border border-border/60 space-y-2"
                     >
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
                         {categoryName}
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {items.map((s, idx) => (
                           <span
                             key={idx}
-                            className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-card text-foreground border border-border shadow-2xs"
+                            className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold bg-card text-foreground border border-border shadow-2xs"
                           >
                             {s}
                           </span>
@@ -352,7 +340,7 @@ export function SingleRoleShowcase({
                   {technicalSkills.map((s, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-secondary text-foreground border border-border/80 shadow-2xs"
+                      className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-secondary text-foreground border border-border/80 shadow-2xs"
                     >
                       {s}
                     </span>
@@ -366,17 +354,17 @@ export function SingleRoleShowcase({
               {/* Production Tools */}
               {tools.length > 0 && (
                 <div className="p-4 rounded-xl bg-secondary/30 border border-border/60 space-y-2.5">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                    <Wrench className="w-3.5 h-3.5 text-amber-500" />
+                  <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
+                    <Wrench className="w-4 h-4 text-amber-500" />
                     <span>Production Toolchains ({tools.length})</span>
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {tools.map((t, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-card text-foreground border border-border shadow-2xs"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs sm:text-sm font-medium bg-card text-foreground border border-border shadow-2xs"
                       >
-                        <Wrench className="w-3 h-3 text-muted-foreground" />
+                        <Wrench className="w-3.5 h-3.5 text-muted-foreground" />
                         <span>{t}</span>
                       </span>
                     ))}
@@ -387,15 +375,15 @@ export function SingleRoleShowcase({
               {/* Soft Skills */}
               {softSkills.length > 0 && (
                 <div className="p-4 rounded-xl bg-secondary/30 border border-border/60 space-y-2.5">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-500" />
+                  <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-purple-500" />
                     <span>Behavioral & Collaboration Traits</span>
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {softSkills.map((s, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-card text-muted-foreground border border-border"
+                        className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs sm:text-sm font-medium bg-card text-muted-foreground border border-border"
                       >
                         {s}
                       </span>
@@ -410,7 +398,7 @@ export function SingleRoleShowcase({
         {/* TAB CONTENT 2: CAREER PREPARATION ROADMAP */}
         {activeTab === 'roadmap' && (
           <div className="space-y-5">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <div className="flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
               <p>
                 Structured placement progression from foundational engineering to industry-ready candidate.
               </p>
@@ -428,7 +416,7 @@ export function SingleRoleShowcase({
                       key={index}
                       type="button"
                       onClick={() => setActiveRoadmapStage(index)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                         activeRoadmapStage === index
                           ? 'bg-foreground text-background shadow-xs'
                           : 'bg-secondary text-muted-foreground hover:text-foreground'
@@ -446,14 +434,14 @@ export function SingleRoleShowcase({
                     <div className="p-5 rounded-2xl bg-secondary/30 border border-border space-y-4">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/60 pb-3">
                         <div>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                          <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
                             Stage {activeRoadmapStage + 1}
                           </span>
-                          <h4 className="text-base font-black text-foreground">
+                          <h4 className="text-base sm:text-lg font-bold text-foreground">
                             {currentStage.title || currentStage.stage}
                           </h4>
                           {currentStage.description && (
-                            <p className="text-xs text-muted-foreground mt-0.5">
+                            <p className="text-sm text-muted-foreground mt-0.5">
                               {currentStage.description}
                             </p>
                           )}
@@ -464,14 +452,14 @@ export function SingleRoleShowcase({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {currentStage.skills && currentStage.skills.length > 0 && (
                           <div className="space-y-1.5">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                               Target Competencies
                             </span>
                             <div className="flex flex-wrap gap-1.5">
                               {currentStage.skills.map((sk, idx) => (
                                 <span
                                   key={idx}
-                                  className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-card border border-border text-foreground"
+                                  className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold bg-card border border-border text-foreground"
                                 >
                                   {sk}
                                 </span>
@@ -482,16 +470,16 @@ export function SingleRoleShowcase({
 
                         {currentStage.tools && currentStage.tools.length > 0 && (
                           <div className="space-y-1.5">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                               Toolchains
                             </span>
                             <div className="flex flex-wrap gap-1.5">
                               {currentStage.tools.map((tl, idx) => (
                                 <span
                                   key={idx}
-                                  className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-card border border-border text-foreground flex items-center gap-1"
+                                  className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold bg-card border border-border text-foreground flex items-center gap-1"
                                 >
-                                  <Wrench className="w-3 h-3 text-muted-foreground" />
+                                  <Wrench className="w-3.5 h-3.5 text-muted-foreground" />
                                   <span>{tl}</span>
                                 </span>
                               ))}
@@ -503,13 +491,13 @@ export function SingleRoleShowcase({
                       {/* Learning Activities */}
                       {currentStage.learningActivities && currentStage.learningActivities.length > 0 && (
                         <div className="space-y-1.5 pt-1">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Actionable Milestones
                           </span>
-                          <ul className="space-y-1.5 text-xs text-foreground/90">
+                          <ul className="space-y-1.5 text-sm text-foreground/90">
                             {currentStage.learningActivities.map((act, idx) => (
                               <li key={idx} className="flex items-start gap-2">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                                 <span>{act}</span>
                               </li>
                             ))}
@@ -554,12 +542,12 @@ export function SingleRoleShowcase({
                     key={stg.num}
                     className="p-4 rounded-xl bg-secondary/30 border border-border flex items-start gap-3.5"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-foreground text-background font-black text-xs flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-lg bg-foreground text-background font-black text-sm flex items-center justify-center shrink-0">
                       {stg.num}
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-foreground">{stg.title}</h4>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">{stg.desc}</p>
+                      <h4 className="text-sm font-bold text-foreground">{stg.title}</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">{stg.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -571,7 +559,7 @@ export function SingleRoleShowcase({
         {/* TAB CONTENT 3: PRACTICAL PROJECTS */}
         {activeTab === 'projects' && (
           <div className="space-y-5">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Build verifiable proof of work for your resume and campus recruitment interviews:
             </p>
 
@@ -579,17 +567,17 @@ export function SingleRoleShowcase({
               {/* Beginner */}
               <div className="p-4 rounded-xl bg-secondary/30 border border-border/80 space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-border/60">
-                  <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                     <span>Beginner Capstones</span>
                   </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
                     Tier 1
                   </span>
                 </div>
                 <div className="space-y-2">
                   {(projects.beginner || ['Manual Test Plan and Defect Log for Campus E-Commerce Portal']).map((p, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-xs text-foreground/90 leading-relaxed">
+                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
                       {p}
                     </div>
                   ))}
@@ -599,17 +587,17 @@ export function SingleRoleShowcase({
               {/* Intermediate */}
               <div className="p-4 rounded-xl bg-secondary/30 border border-border/80 space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-border/60">
-                  <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-sky-500" />
+                  <span className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
                     <span>Intermediate Frameworks</span>
                   </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-700 dark:text-sky-300">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-300">
                     Tier 2
                   </span>
                 </div>
                 <div className="space-y-2">
                   {(projects.intermediate || ['Automated Playwright/Cypress End-to-End Regression Suite']).map((p, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-xs text-foreground/90 leading-relaxed">
+                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
                       {p}
                     </div>
                   ))}
@@ -619,17 +607,17 @@ export function SingleRoleShowcase({
               {/* Advanced */}
               <div className="p-4 rounded-xl bg-secondary/30 border border-border/80 space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-border/60">
-                  <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-purple-500" />
+                  <span className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
                     <span>Advanced / Enterprise</span>
                   </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-700 dark:text-purple-300">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-700 dark:text-purple-300">
                     Tier 3
                   </span>
                 </div>
                 <div className="space-y-2">
                   {(projects.advanced || ['Continuous Performance Testing Pipeline simulating 5k Virtual Users with k6']).map((p, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-xs text-foreground/90 leading-relaxed">
+                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
                       {p}
                     </div>
                   ))}
@@ -645,7 +633,7 @@ export function SingleRoleShowcase({
             {/* Certifications */}
             {certifications.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                   <Award className="w-4 h-4 text-amber-500" />
                   <span>Industry Credentials & Recognized Certifications</span>
                 </h3>
@@ -656,11 +644,11 @@ export function SingleRoleShowcase({
                       className="p-3.5 rounded-xl bg-secondary/30 border border-border/80 flex items-center justify-between gap-3"
                     >
                       <div className="space-y-0.5">
-                        <div className="text-xs font-bold text-foreground">{c.name}</div>
-                        <div className="text-[11px] text-muted-foreground">{c.provider}</div>
+                        <div className="text-sm font-bold text-foreground">{c.name}</div>
+                        <div className="text-xs text-muted-foreground">{c.provider}</div>
                       </div>
                       <span
-                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md shrink-0 ${
+                        className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md shrink-0 ${
                           c.type === 'FREE'
                             ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20'
                             : 'bg-secondary text-muted-foreground border border-border'
@@ -677,7 +665,7 @@ export function SingleRoleShowcase({
             {/* Hiring Companies */}
             {topHiringCompanies.length > 0 && (
               <div className="space-y-3 pt-2 border-t border-border/60">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                   <Building2 className="w-4 h-4 text-foreground" />
                   <span>Verified Recruiters for this Role in Campus Drives</span>
                 </h3>
@@ -685,9 +673,9 @@ export function SingleRoleShowcase({
                   {topHiringCompanies.map((comp, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-secondary text-foreground border border-border"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium bg-secondary text-foreground border border-border"
                     >
-                      <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
+                      <Building2 className="w-4 h-4 text-muted-foreground" />
                       <span>{comp}</span>
                     </span>
                   ))}

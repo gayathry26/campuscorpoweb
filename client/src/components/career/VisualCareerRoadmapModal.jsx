@@ -139,16 +139,16 @@ export function VisualCareerRoadmapModal({
         <div className="p-5 sm:p-6 border-b border-border flex items-start justify-between gap-4 bg-secondary/30 shrink-0">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary text-foreground border border-border">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-secondary text-foreground border border-border">
                 {category}
               </span>
-              <span className="text-xs text-muted-foreground">• 6-Stage Learning Progression</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">• 6-Stage Learning Progression</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight flex items-center gap-2">
               <Compass className="w-5 h-5 text-foreground" />
               <span>{title} Career Roadmap</span>
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               A structured step-by-step curriculum customized to industry hiring requirements for {title}.
             </p>
           </div>
@@ -166,7 +166,7 @@ export function VisualCareerRoadmapModal({
         {/* Modal Body: Scrollable 6-Stage Progression */}
         <div className="p-5 sm:p-8 overflow-y-auto space-y-6">
           {/* Quick Stack Summary Pillbox */}
-          <div className="p-4 rounded-2xl bg-secondary/40 border border-border/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="p-4 rounded-2xl bg-secondary/40 border border-border/80 flex flex-wrap items-center justify-between gap-3 text-sm">
             <div>
               <span className="font-bold text-foreground">Target Role Competencies: </span>
               <span className="text-muted-foreground">
@@ -174,7 +174,7 @@ export function VisualCareerRoadmapModal({
               </span>
             </div>
             {tools.length > 0 && (
-              <div className="text-[11px] font-mono text-muted-foreground">
+              <div className="text-xs font-mono text-muted-foreground">
                 Tools: {tools.slice(0, 4).join(', ')}
               </div>
             )}
@@ -185,7 +185,7 @@ export function VisualCareerRoadmapModal({
             {SIX_STAGES.map((stage) => (
               <div key={stage.stageNumber} className="relative group">
                 {/* Stepper node dot */}
-                <div className="absolute -left-[23px] sm:-left-[27px] top-2 w-5 h-5 rounded-full border-2 border-background bg-foreground text-background flex items-center justify-center text-[9px] font-bold shadow-xs">
+                <div className="absolute -left-[23px] sm:-left-[27px] top-2 w-5 h-5 rounded-full border-2 border-background bg-foreground text-background flex items-center justify-center text-xs font-bold shadow-xs">
                   {stage.stageNumber}
                 </div>
 
@@ -196,14 +196,14 @@ export function VisualCareerRoadmapModal({
                   <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border/60 pb-3">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-secondary text-foreground">
+                        <span className="text-xs font-extrabold uppercase px-2 py-0.5 rounded bg-secondary text-foreground">
                           {stage.badge}
                         </span>
-                        <h3 className="text-base font-bold text-foreground">
+                        <h3 className="text-base sm:text-lg font-bold text-foreground">
                           {stage.title}
                         </h3>
                       </div>
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
                         {stage.subtitle}
                       </p>
                     </div>
@@ -211,13 +211,13 @@ export function VisualCareerRoadmapModal({
 
                   {/* Learning Objectives */}
                   <div className="space-y-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                       Key Milestones & Objectives
                     </span>
-                    <ul className="space-y-1 text-xs text-muted-foreground">
+                    <ul className="space-y-1.5 text-sm text-muted-foreground leading-relaxed">
                       {stage.objectives.map((obj, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span>{obj}</span>
                         </li>
                       ))}
@@ -225,24 +225,24 @@ export function VisualCareerRoadmapModal({
                   </div>
 
                   {/* CampusCorp Integrated Resource Links */}
-                  <div className="pt-2 flex flex-wrap items-center gap-2.5 border-t border-border/40 text-xs">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mr-1">
+                  <div className="pt-2 flex flex-wrap items-center gap-2.5 border-t border-border/40 text-xs sm:text-sm">
+                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground mr-1">
                       Platform Resources:
                     </span>
                     <Link
                       to={stage.lmsLink}
                       onClick={onClose}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded-lg font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-colors"
                     >
-                      <BookOpen className="w-3.5 h-3.5" />
+                      <BookOpen className="w-4 h-4" />
                       <span>{stage.lmsLabel}</span>
                     </Link>
                     <Link
                       to={stage.practiceLink}
                       onClick={onClose}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded-lg font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-colors"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <ExternalLink className="w-4 h-4" />
                       <span>{stage.practiceLabel}</span>
                     </Link>
                   </div>
@@ -253,14 +253,14 @@ export function VisualCareerRoadmapModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 sm:p-5 border-t border-border bg-secondary/30 flex items-center justify-between text-xs shrink-0">
+        <div className="p-4 sm:p-5 border-t border-border bg-secondary/30 flex items-center justify-between text-xs sm:text-sm shrink-0">
           <p className="text-muted-foreground hidden sm:block">
             Completion milestones synchronize automatically with active LMS courses and submitted assessments.
           </p>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl font-bold bg-foreground text-background hover:opacity-90 ml-auto cursor-pointer"
+            className="px-4 py-2 rounded-xl text-sm font-bold bg-foreground text-background hover:opacity-90 ml-auto cursor-pointer"
           >
             Close Roadmap
           </button>

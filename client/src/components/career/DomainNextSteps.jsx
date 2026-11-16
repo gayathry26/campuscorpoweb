@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Sparkles,
+  BookOpen,
   Compass,
   FileSearch,
   CheckCircle2,
@@ -10,7 +10,6 @@ import {
 
 export function DomainNextSteps({
   topRole,
-  onCheckFit,
   onViewRoadmap,
 }) {
   return (
@@ -21,33 +20,30 @@ export function DomainNextSteps({
             Career Readiness & Actionable Next Steps
           </h3>
           <p className="text-[11px] text-muted-foreground mt-0.5">
-            Validate your skills, review stage-by-stage roadmaps, and audit your resume for placement drives
+            Explore deep domain notes, review stage-by-stage roadmaps, and audit your resume for placement drives
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* Action 1: Check My Fit */}
+        {/* Action 1: Domain Knowledge Hub */}
         <div className="p-3.5 rounded-xl bg-secondary/40 border border-border/80 flex flex-col justify-between space-y-3 hover:border-foreground/30 transition-all">
           <div className="space-y-1.5">
             <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-300 flex items-center justify-center">
-              <Sparkles className="w-4 h-4" />
+              <BookOpen className="w-4 h-4" />
             </div>
-            <h4 className="text-xs font-bold text-foreground">Personalized Career Fit</h4>
+            <h4 className="text-xs font-bold text-foreground">Domain Knowledge Notes</h4>
             <p className="text-[11px] text-muted-foreground leading-relaxed">
-              Match your profile, courses, and projects against placement rubrics.
+              Read 12-module academic notes, runnable code labs, and download PDFs.
             </p>
           </div>
-          {topRole && onCheckFit && (
-            <button
-              type="button"
-              onClick={() => onCheckFit(topRole)}
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#171717] hover:bg-[#262626] text-[#fafafa] dark:bg-[#fafafa] dark:hover:bg-[#e5e5e5] dark:text-[#0a0a0a] transition-all cursor-pointer shadow-2xs"
-            >
-              <span>Check My Fit</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
+          <Link
+            to="/career-explorer/knowledge-hub"
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 hover:bg-purple-700 text-white transition-all cursor-pointer shadow-2xs"
+          >
+            <span>Open Notes Hub</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
         {/* Action 2: Learning Roadmap */}

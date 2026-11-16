@@ -45,6 +45,9 @@ import { GithubRepoScanner } from './pages/career/GithubRepoScanner';
 import { DepartmentAcademicManagement } from './pages/DepartmentAcademicManagement';
 import { CompanyLocationExplorer } from './pages/career/CompanyLocationExplorer';
 import { CompanyLocationDetail } from './pages/career/CompanyLocationDetail';
+import { DomainKnowledgeHub } from './pages/career/DomainKnowledgeHub';
+import { DomainLearningWorkspace } from './pages/career/DomainLearningWorkspace';
+import { AdminDomainKnowledgeManagement } from './pages/admin/AdminDomainKnowledgeManagement';
 
 // Platform Super Admin (SaaS Governance) Pages
 import { PlatformLogin } from './pages/platform/PlatformLogin';
@@ -347,6 +350,14 @@ export default function App() {
                   <Route path="/career-explorer/companies" element={<ProtectedRoute path="/career-explorer"><CompanyLocationExplorer /></ProtectedRoute>} />
                   <Route path="/career-explorer/companies/:id" element={<ProtectedRoute path="/career-explorer"><CompanyLocationDetail /></ProtectedRoute>} />
                   <Route path="/companies-by-location" element={<Navigate to="/career-explorer/companies" replace />} />
+
+                  {/* Domain Knowledge Hub & Technical Learning Library */}
+                  <Route path="/career-explorer/knowledge-hub" element={<ProtectedRoute path="/domains"><DomainKnowledgeHub /></ProtectedRoute>} />
+                  <Route path="/career-explorer/knowledge-hub/:domainSlug" element={<ProtectedRoute path="/domains"><DomainLearningWorkspace /></ProtectedRoute>} />
+                  <Route path="/career-explorer/knowledge-hub/:domainSlug/:moduleNumber" element={<ProtectedRoute path="/domains"><DomainLearningWorkspace /></ProtectedRoute>} />
+                  <Route path="/knowledge-hub" element={<Navigate to="/career-explorer/knowledge-hub" replace />} />
+                  <Route path="/knowledge-hub/:domainSlug" element={<Navigate to="/career-explorer/knowledge-hub/:domainSlug" replace />} />
+                  <Route path="/admin/domain-knowledge-hub" element={<ProtectedRoute path="/admin"><AdminDomainKnowledgeManagement /></ProtectedRoute>} />
 
                   {/* LMS - Role-Based Learning Management System */}
                   <Route path="/lms" element={<ProtectedRoute path="/lms"><LmsPortal /></ProtectedRoute>} />

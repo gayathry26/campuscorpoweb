@@ -134,16 +134,6 @@ export function VisualRoleCard({
               <span>View Roadmap</span>
             </button>
 
-            {/* Check My Fit Action */}
-            <button
-              type="button"
-              onClick={() => onCheckFit(role)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer shadow-2xs active:scale-95"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Check My Fit</span>
-            </button>
-
             {/* Compare Toggle */}
             <button
               type="button"

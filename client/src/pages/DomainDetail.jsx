@@ -15,7 +15,6 @@ import careerService from '../services/careerService';
 import { CompactDomainHeader } from '../components/career/CompactDomainHeader';
 import { CompactRoleCard } from '../components/career/CompactRoleCard';
 import VisualCareerRoadmapModal from '../components/career/VisualCareerRoadmapModal';
-import PersonalizedCareerFitModal from '../components/career/PersonalizedCareerFitModal';
 
 export function DomainDetail() {
   const { slug, domainSlug } = useParams();
@@ -36,7 +35,6 @@ export function DomainDetail() {
 
   // 3. Modals State
   const [roadmapRole, setRoadmapRole] = useState(null);
-  const [fitModalRole, setFitModalRole] = useState(null);
 
   // 4. Compare Roles State (Synced with localStorage)
   const [comparedRoleIds, setComparedRoleIds] = useState(() => {
@@ -350,7 +348,6 @@ export function DomainDetail() {
                 role={role}
                 domainSlug={currentSlug}
                 onViewRoadmap={(r) => setRoadmapRole(r)}
-                onCheckFit={(r) => setFitModalRole(r)}
                 onToggleCompare={handleToggleCompare}
                 isCompared={comparedRoleIds.includes(role.id)}
                 canAddCompare={comparedRoleIds.length < 4}
@@ -390,13 +387,6 @@ export function DomainDetail() {
         role={roadmapRole}
         isOpen={Boolean(roadmapRole)}
         onClose={() => setRoadmapRole(null)}
-      />
-
-      {/* Personalized Career Fit Modal */}
-      <PersonalizedCareerFitModal
-        role={fitModalRole}
-        isOpen={Boolean(fitModalRole)}
-        onClose={() => setFitModalRole(null)}
       />
 
       {/* ================= COMPACT COMPARISON INDICATOR ================= */}
