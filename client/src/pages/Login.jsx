@@ -6,17 +6,15 @@ import { UniserveLoader } from '../components/UniserveLoader';
 import {
   Lock,
   User,
-  Sparkles,
-  Briefcase,
   Eye,
   EyeOff,
   Building2,
   GraduationCap,
   Users,
   Shield,
-  ChevronDown,
   ArrowRight,
-  ShieldCheck,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 
 export function Login({ portal = 'student' }) {
@@ -25,30 +23,7 @@ export function Login({ portal = 'student' }) {
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
 
-  // 1. Colleges directory & active college state
-  const [collegesList, setCollegesList] = useState([]);
-  const [selectedCollegeCode, setSelectedCollegeCode] = useState(() => {
-    // Read from URL query param (?college=ABC or ?institution=XYZ)
-    const params = new URLSearchParams(window.location.search);
-    const paramCollege = params.get('college') || params.get('institution');
-    if (paramCollege) return paramCollege.toUpperCase();
-
-    // Check host subdomain (e.g. abc.localhost)
-    const host = window.location.hostname || '';
-    const parts = host.split('.');
-    if (parts.length > 2 && !['www', 'api', 'app', 'localhost', 'platform', 'admin'].includes(parts[0].toLowerCase())) {
-      return parts[0].toUpperCase();
-    }
-
-    // Stored college preference
-    const saved = localStorage.getItem('campuscorp_preferred_college');
-    return saved ? saved.toUpperCase() : 'ABC';
-  });
-
-  const [collegeInfo, setCollegeInfo] = useState(null);
-  const [collegesLoading, setCollegesLoading] = useState(true);
-
-  // 2. Active Portal Role ('student' | 'faculty' | 'admin')
+  // Active Portal Role ('student' | 'faculty' | 'admin')
   const [activeRole, setActiveRole] = useState(() => {
     const path = location.pathname.toLowerCase();
     if (path.includes('/superadmin') || path.includes('/admin')) return 'admin';
@@ -62,118 +37,29 @@ export function Login({ portal = 'student' }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Fetch available colleges directory on mount
-  useEffect(() => {
-    async function fetchDirectory() {
-      try {
-        const res = await fetch('/api/v1/auth/colleges/directory');
-        const json = await res.json();
-        if (json.success && json.colleges) {
-          setCollegesList(json.colleges);
-        }
-      } catch (e) {
-        console.warn('Could not fetch colleges directory:', e);
-      }
-    }
-    fetchDirectory();
-  }, []);
-
-  // Fetch institutional branding whenever selected college changes
-  useEffect(() => {
-    let isCancelled = false;
-    setCollegesLoading(true);
-    setError('');
-
-    async function fetchBranding() {
-      try {
-        const res = await fetch(`/api/v1/auth/college-info?college=${encodeURIComponent(selectedCollegeCode)}`);
-        const json = await res.json();
-        if (!isCancelled) {
-          if (json.success && json.college) {
-            setCollegeInfo(json.college);
-            localStorage.setItem('campuscorp_preferred_college', json.college.code);
-          } else {
-            setCollegeInfo({
-              code: selectedCollegeCode,
-              name: `${selectedCollegeCode} Educational Institution`,
-              affiliation: 'Autonomous Institutional Campus',
-            });
-          }
-        }
-      } catch (e) {
-        if (!isCancelled) {
-          setCollegeInfo({
-            code: selectedCollegeCode,
-            name: `${selectedCollegeCode} Educational Institution`,
-            affiliation: 'Autonomous Institutional Campus',
-          });
-        }
-      } finally {
-        if (!isCancelled) setCollegesLoading(false);
-      }
-    }
-
-    fetchBranding();
-    return () => { isCancelled = true; };
-  }, [selectedCollegeCode]);
-
-  // Update default credentials whenever college or role changes
-  useEffect(() => {
-    const code = (selectedCollegeCode || '').toUpperCase();
-    if (code === 'ABC') {
-      if (activeRole === 'admin') {
-        setUsername('admin@abc.edu');
-        setPassword('Password@123');
-      } else if (activeRole === 'faculty') {
-        setUsername('faculty@abc.edu');
-        setPassword('Password@123');
-      } else {
-        setUsername('student@abc.edu');
-        setPassword('Password@123');
-      }
-    } else if (code === 'XYZ') {
-      if (activeRole === 'admin') {
-        setUsername('admin@xyz.edu');
-        setPassword('Password@123');
-      } else if (activeRole === 'faculty') {
-        setUsername('faculty@xyz.edu');
-        setPassword('Password@123');
-      } else {
-        setUsername('student@xyz.edu');
-        setPassword('Password@123');
-      }
-    } else if (code === 'KCT') {
-      if (activeRole === 'admin') {
-        setUsername('admin@kct.ac.in');
-        setPassword('Password@123');
-      } else if (activeRole === 'faculty') {
-        setUsername('admin@kct.ac.in');
-        setPassword('Password@123');
-      } else {
-        setUsername('student.test@kct.ac.in');
-        setPassword('Password@123');
-      }
-    } else {
-      if (activeRole === 'admin') {
-        setUsername('admin@college.edu');
-        setPassword('Password@123');
-      } else if (activeRole === 'faculty') {
-        setUsername('hod.cse@college.edu');
-        setPassword('Password@123');
-      } else {
-        setUsername('student.cse1@college.edu');
-        setPassword('Password@123');
-      }
-    }
-    setError('');
-  }, [selectedCollegeCode, activeRole]);
-
-  const handleSelectCollege = (newCode) => {
-    setSelectedCollegeCode(newCode);
+  // Background college context for tenant routing (defaults to ABC for demo accounts)
+  const [selectedCollegeCode] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    params.set('college', newCode.toLowerCase());
-    navigate(`?${params.toString()}`, { replace: true });
-  };
+    const paramCollege = params.get('college') || params.get('institution');
+    if (paramCollege) return paramCollege.toUpperCase();
+    const saved = localStorage.getItem('campuscorp_preferred_college');
+    return saved ? saved.toUpperCase() : 'ABC';
+  });
+
+  // Pre-fill default credentials based on active role
+  useEffect(() => {
+    if (activeRole === 'admin') {
+      setUsername('admin@abc.edu');
+      setPassword('Password@123');
+    } else if (activeRole === 'faculty') {
+      setUsername('faculty@abc.edu');
+      setPassword('Password@123');
+    } else {
+      setUsername('student@abc.edu');
+      setPassword('Password@123');
+    }
+    setError('');
+  }, [activeRole]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -194,60 +80,50 @@ export function Login({ portal = 'student' }) {
         : defaultDest;
       navigate(destination, { replace: true });
     } else {
-      setError(res.message || 'Invalid username or password for this institution.');
+      setError(res.message || 'Invalid username or password.');
     }
   };
 
   if (loading) {
     return (
       <UniserveLoader
-        title={collegeInfo?.name || 'CampusCorp'}
-        subtitle={`Authenticating with ${selectedCollegeCode} Secure Hub...`}
-        status="Connecting to Dedicated Institutional Database..."
+        title="CampusCorpo"
+        subtitle="Authenticating credentials..."
+        status="Connecting to CampusCorpo Career Hub..."
       />
     );
   }
 
-  const collegeName = collegeInfo?.name || `College ${selectedCollegeCode}`;
-  const collegeCode = collegeInfo?.code || selectedCollegeCode;
-  const collegeAffiliation = collegeInfo?.affiliation || `${collegeInfo?.type || 'Autonomous'} Academic Campus`;
-
   return (
     <div className="min-h-screen lg:h-screen lg:overflow-hidden w-full flex flex-col lg:flex-row bg-neutral-950 font-sans antialiased text-foreground">
       {/* ========================================================================= */}
-      {/* LEFT PANEL: Dedicated College Brand & Institutional Identity               */}
+      {/* LEFT PANEL: CampusCorpo Brand Identity                                    */}
       {/* ========================================================================= */}
       <div className="w-full lg:w-[50%] lg:h-full relative flex flex-col justify-between p-6 sm:p-10 lg:p-12 bg-neutral-950 text-neutral-100 overflow-hidden border-b lg:border-b-0 lg:border-r border-neutral-800">
         {/* Subtle Ambient Monochrome Backlight */}
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/[0.03] blur-3xl pointer-events-none" />
         <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-white/[0.02] blur-3xl pointer-events-none" />
 
-        {/* Top: Dedicated College Logo & Identity */}
+        {/* Top: Brand Header */}
         <div className="relative z-10 flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-xl bg-white p-1.5 shadow-md flex items-center justify-center border border-neutral-200 overflow-hidden shrink-0">
-            {collegeInfo?.logo_url ? (
-              <img
-                src={collegeInfo.logo_url}
-                alt={`${collegeName} Logo`}
-                className="w-full h-full object-contain"
-              />
-            ) : (
-              <div className="w-full h-full rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white font-mono font-black text-sm tracking-wider">
-                {collegeCode}
-              </div>
-            )}
+          <div className="w-11 h-11 rounded-xl bg-white p-1.5 shadow-md flex items-center justify-center border border-neutral-200 overflow-hidden shrink-0">
+            <img
+              src="/logo-light.jpeg"
+              alt="CampusCorpo Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-[19px] sm:text-[21px] font-black tracking-tight text-white truncate">
-                {collegeName}
+              <span className="text-[20px] font-black tracking-tight text-white">
+                CampusCorpo
               </span>
-              <span className="text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-neutral-900 text-neutral-300 border border-neutral-800">
-                {collegeCode}
+              <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-neutral-900 text-neutral-300 border border-neutral-800">
+                Hub
               </span>
             </div>
             <p className="text-[12px] font-medium text-neutral-400 truncate">
-              {collegeAffiliation}
+              IT Career Hub & Placement Governance
             </p>
           </div>
         </div>
@@ -255,28 +131,28 @@ export function Login({ portal = 'student' }) {
         {/* Center: Hero Institutional Message */}
         <div className="relative z-10 my-auto py-8 sm:py-12 max-w-lg space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-neutral-900 text-neutral-300 border border-neutral-800">
-            <ShieldCheck className="w-3.5 h-3.5 text-neutral-200" />
-            <span>Dedicated Multi-Tenant Institutional Cluster</span>
+            <Sparkles className="w-3.5 h-3.5 text-neutral-200" />
+            <span>Unified Career & Placement Ecosystem</span>
           </div>
 
           <div className="space-y-3">
-            <h1 className="text-[28px] sm:text-[34px] lg:text-[38px] font-black tracking-tight text-white leading-tight">
-              {collegeName}
+            <h1 className="text-[30px] sm:text-[36px] lg:text-[40px] font-black tracking-tight text-white leading-tight">
+              Empowering Campus Careers & Placements
             </h1>
             <p className="text-[14.5px] font-normal text-neutral-400 leading-relaxed">
-              Unified institutional gateway for students, faculty coordinators, and placement leadership with dedicated database isolation.
+              Unified platform for students, faculty coordinators, and corporate recruiters with 38 career domains, hands-on learning labs, and placement pipelines.
             </p>
           </div>
 
-          {/* Institutional Highlights */}
+          {/* Highlights */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-neutral-300">
             <div className="p-3.5 rounded-xl bg-neutral-900/90 border border-neutral-800 flex items-center gap-2.5">
-              <Building2 className="w-4 h-4 text-neutral-300 shrink-0" />
-              <span>Dedicated Tenant Isolation</span>
+              <BookOpen className="w-4 h-4 text-neutral-300 shrink-0" />
+              <span>38 IT Career Domains</span>
             </div>
             <div className="p-3.5 rounded-xl bg-neutral-900/90 border border-neutral-800 flex items-center gap-2.5">
-              <Shield className="w-4 h-4 text-neutral-300 shrink-0" />
-              <span>Role-Based Access Control</span>
+              <Building2 className="w-4 h-4 text-neutral-300 shrink-0" />
+              <span>Placement & Assessment Drives</span>
             </div>
           </div>
         </div>
@@ -295,47 +171,14 @@ export function Login({ portal = 'student' }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* RIGHT PANEL: Institutional Login Form & Switcher (CampusCorpo B&W)        */}
+      {/* RIGHT PANEL: Clean & Neat Login Form                                      */}
       {/* ========================================================================= */}
       <div className="w-full lg:w-[50%] lg:h-full flex items-center justify-center p-6 sm:p-10 lg:p-12 bg-white dark:bg-neutral-950 overflow-y-auto">
-        <div className="w-full max-w-[420px] my-auto space-y-6">
-
-          {/* College Selector Dropdown Bar */}
-          <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
-            <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">
-              Current Institution Portal
-            </label>
-            <div className="relative">
-              <select
-                value={selectedCollegeCode}
-                onChange={(e) => handleSelectCollege(e.target.value)}
-                className="w-full h-11 pl-3.5 pr-8 rounded-xl border border-neutral-300 dark:border-neutral-700 text-[13.5px] font-bold text-neutral-900 dark:text-white bg-white dark:bg-neutral-950 focus:outline-none focus:border-neutral-900 dark:focus:border-white focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white transition cursor-pointer appearance-none shadow-2xs"
-              >
-                {collegesList.length > 0 ? (
-                  collegesList.map((c) => (
-                    <option key={c.id} value={c.code}>
-                      {c.name} ({c.code})
-                    </option>
-                  ))
-                ) : (
-                  <>
-                    <option value="ABC">ABC Institute of Technology (ABC)</option>
-                    <option value="XYZ">XYZ Engineering College (XYZ)</option>
-                    <option value="KCT">Kumaraguru College of Technology (KCT)</option>
-                    <option value="PSG">PSG College of Technology (PSG)</option>
-                    <option value="CIT">Coimbatore Institute of Technology (CIT)</option>
-                  </>
-                )}
-              </select>
-              <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-neutral-400">
-                <ChevronDown className="w-4 h-4" />
-              </div>
-            </div>
-          </div>
+        <div className="w-full max-w-[400px] my-auto space-y-6">
 
           {/* Portal Role Selector Tabs */}
           <div>
-            <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2">
               Portal Experience
             </label>
             <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs font-semibold">
@@ -383,10 +226,10 @@ export function Login({ portal = 'student' }) {
           {/* Form Header */}
           <div>
             <h2 className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight">
-              Sign In to {collegeCode} Portal
+              Sign In to CampusCorpo
             </h2>
             <p className="text-[13.5px] text-neutral-500 dark:text-neutral-400 mt-1">
-              Enter your verified institutional credentials to continue.
+              Enter your credentials to access your account.
             </p>
           </div>
 
@@ -411,7 +254,7 @@ export function Login({ portal = 'student' }) {
             {/* User Name */}
             <div>
               <label className="block text-[12px] font-bold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-1.5">
-                Institutional Email or Username
+                Email or Username
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-400">
@@ -422,7 +265,7 @@ export function Login({ portal = 'student' }) {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder={`user@${selectedCollegeCode.toLowerCase()}.edu`}
+                  placeholder="Enter email or username"
                   autoComplete="username"
                   className="w-full h-11 pl-10 pr-3.5 rounded-xl border border-neutral-300 dark:border-neutral-700 text-[14px] font-medium text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-neutral-900 dark:focus:border-white focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white transition-all bg-white dark:bg-neutral-950 shadow-2xs"
                 />
@@ -465,69 +308,15 @@ export function Login({ portal = 'student' }) {
                 disabled={loading}
                 className="w-full h-11 rounded-xl bg-neutral-950 hover:bg-neutral-800 text-white dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-950 font-bold text-[14px] flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer disabled:opacity-50 active:scale-[0.99]"
               >
-                <span>{loading ? 'Authenticating...' : `Sign In to ${collegeCode} Portal`}</span>
+                <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </form>
-
-          {/* Quick Demo Switcher Pills */}
-          <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800">
-            <span className="block text-[10.5px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider mb-2">
-              Verified Test Institutions
-            </span>
-            <div className="flex flex-wrap gap-1.5 text-xs">
-              <button
-                type="button"
-                onClick={() => handleSelectCollege('CAMPUS_MAIN')}
-                className={`px-3 py-1.5 rounded-lg border font-semibold transition cursor-pointer ${
-                  selectedCollegeCode === 'CAMPUS_MAIN'
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 border-neutral-950 dark:border-white shadow-2xs'
-                    : 'bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                }`}
-              >
-                🌐 CampusCorp Main
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleSelectCollege('ABC')}
-                className={`px-3 py-1.5 rounded-lg border font-semibold transition cursor-pointer ${
-                  selectedCollegeCode === 'ABC'
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 border-neutral-950 dark:border-white shadow-2xs'
-                    : 'bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                }`}
-              >
-                🏛️ ABC Institute
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleSelectCollege('XYZ')}
-                className={`px-3 py-1.5 rounded-lg border font-semibold transition cursor-pointer ${
-                  selectedCollegeCode === 'XYZ'
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 border-neutral-950 dark:border-white shadow-2xs'
-                    : 'bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                }`}
-              >
-                🏫 XYZ College
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleSelectCollege('KCT')}
-                className={`px-3 py-1.5 rounded-lg border font-semibold transition cursor-pointer ${
-                  selectedCollegeCode === 'KCT'
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 border-neutral-950 dark:border-white shadow-2xs'
-                    : 'bg-neutral-50 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                }`}
-              >
-                🎓 KCT Tech
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default Login;
