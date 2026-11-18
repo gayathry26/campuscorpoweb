@@ -38,6 +38,7 @@ const deptAdminCtrl = require('../controllers/departmentAdminController');
 const companyLocationCtrl = require('../controllers/companyLocationController');
 const githubScanCtrl = require('../controllers/githubScannerController');
 const collegeAdminCtrl = require('../controllers/collegeAdminController');
+const domainKnowledgeHubCtrl = require('../controllers/domainKnowledgeHubController');
 const { handleMaterialUpload, handleAssignmentUpload } = require('../middleware/lmsUpload.middleware');
 const { handlePolicyUpload } = require('../middleware/policyUpload.middleware');
 const { handleImportUpload } = require('../middleware/importUpload.middleware');
@@ -317,7 +318,21 @@ router.post('/career/admin/roles', authenticateToken, authorize(['SUPER_ADMIN', 
 router.put('/career/admin/roles/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminSaveRole);
 router.delete('/career/admin/roles/:id', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), careerExplorerCtrl.adminDeleteRole);
 
-// 21d. IT Companies by Location (Career Explorer Location Intelligence)
+// 21d. Domain Knowledge Hub (Complete 38-Domain Learning Library & Notes System)
+router.get('/career/knowledge-hub/domains', optionalAuthenticateToken, domainKnowledgeHubCtrl.getDomains);
+router.get('/career/knowledge-hub/domains/:domainSlug', optionalAuthenticateToken, domainKnowledgeHubCtrl.getDomainBySlug);
+router.get('/career/knowledge-hub/domains/:domainSlug/modules/:moduleNumber', optionalAuthenticateToken, domainKnowledgeHubCtrl.getModuleDetails);
+router.get('/career/knowledge-hub/domains/:domainSlug/full-syllabus', domainKnowledgeHubCtrl.getFullSyllabus);
+router.post('/career/knowledge-hub/progress', authenticateToken, domainKnowledgeHubCtrl.saveProgress);
+router.get('/career/knowledge-hub/progress', authenticateToken, domainKnowledgeHubCtrl.getProgress);
+router.post('/career/knowledge-hub/bookmarks', authenticateToken, domainKnowledgeHubCtrl.toggleBookmark);
+router.get('/career/knowledge-hub/bookmarks', authenticateToken, domainKnowledgeHubCtrl.getBookmarks);
+router.get('/career/knowledge-hub/pdf/:domainSlug', domainKnowledgeHubCtrl.generateOrDownloadPdf);
+router.get('/career/knowledge-hub/handbook', domainKnowledgeHubCtrl.getHandbook);
+router.put('/career/knowledge-hub/admin/modules/:domainId/:moduleNumber', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER', 'FACULTY_COORDINATOR']), domainKnowledgeHubCtrl.adminUpdateModule);
+router.get('/career/knowledge-hub/admin/analytics', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), domainKnowledgeHubCtrl.adminGetAnalytics);
+
+// 21e. IT Companies by Location (Career Explorer Location Intelligence)
 router.get('/career/companies/location', companyLocationCtrl.searchLocationCompanies);
 router.get('/career/companies/locations/meta', companyLocationCtrl.getLocationMetadata);
 router.get('/career/companies/:id', companyLocationCtrl.getCompanyDetails);

@@ -63,7 +63,7 @@ export function CareerRoadmap({ roadmap = [] }) {
             <div key={level.stage || idx} className="relative group">
               {/* Stepper node dot */}
               <div
-                className={`absolute -left-[27px] sm:-left-[31px] top-1.5 w-6 h-6 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold shadow-xs transition-transform group-hover:scale-110 ${
+                className={`absolute -left-[27px] sm:-left-[31px] top-1.5 w-6 h-6 rounded-full border-2 border-background flex items-center justify-center text-xs font-bold shadow-xs transition-transform group-hover:scale-110 ${
                   isLast
                     ? 'bg-foreground text-background'
                     : 'bg-secondary text-foreground border-border'
@@ -78,35 +78,35 @@ export function CareerRoadmap({ roadmap = [] }) {
                 <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-border/60">
                   <div className="space-y-0.5">
                     <span
-                      className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${config.accent}`}
+                      className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-semibold uppercase tracking-wider border ${config.accent}`}
                     >
                       {config.label}
                     </span>
-                    <h4 className="text-base font-bold text-foreground">
+                    <h4 className="text-lg font-bold text-foreground">
                       {level.title}
                     </h4>
                   </div>
                   {level.description && (
-                    <p className="text-xs text-muted-foreground max-w-md">
+                    <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
                       {level.description}
                     </p>
                   )}
                 </div>
 
                 {/* Grid Sections: Skills, Tools, Activities & Projects */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   {/* Skills to Learn */}
                   {level.skills && level.skills.length > 0 && (
                     <div className="space-y-2">
-                      <div className="flex items-center gap-1.5 font-bold text-foreground">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-muted-foreground" />
+                      <div className="flex items-center gap-1.5 font-bold text-foreground text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-muted-foreground" />
                         <span>Key Skills to Acquire</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {level.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="px-2.5 py-1 rounded-lg text-xs font-medium bg-secondary text-foreground border border-border/80"
+                            className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-medium bg-secondary text-foreground border border-border/80"
                           >
                             {skill}
                           </span>
@@ -118,15 +118,15 @@ export function CareerRoadmap({ roadmap = [] }) {
                   {/* Tools to Practice */}
                   {level.tools && level.tools.length > 0 && (
                     <div className="space-y-2">
-                      <div className="flex items-center gap-1.5 font-bold text-foreground">
-                        <Wrench className="w-3.5 h-3.5 text-muted-foreground" />
+                      <div className="flex items-center gap-1.5 font-bold text-foreground text-sm">
+                        <Wrench className="w-4 h-4 text-muted-foreground" />
                         <span>Tools & Environments</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {level.tools.map((t) => (
                           <span
                             key={t}
-                            className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-foreground border border-neutral-300 dark:border-neutral-700"
+                            className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-semibold bg-neutral-100 dark:bg-neutral-800 text-foreground border border-neutral-300 dark:border-neutral-700"
                           >
                             {t}
                           </span>
@@ -138,14 +138,14 @@ export function CareerRoadmap({ roadmap = [] }) {
                   {/* Learning Activities */}
                   {level.learningActivities && level.learningActivities.length > 0 && (
                     <div className="space-y-2">
-                      <div className="flex items-center gap-1.5 font-bold text-foreground">
-                        <BookOpen className="w-3.5 h-3.5 text-muted-foreground" />
+                      <div className="flex items-center gap-1.5 font-bold text-foreground text-sm">
+                        <BookOpen className="w-4 h-4 text-muted-foreground" />
                         <span>Suggested Learning Activities</span>
                       </div>
-                      <ul className="space-y-1.5 text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         {level.learningActivities.map((act, i) => (
                           <li key={i} className="flex items-start gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-2" />
                             <span className="leading-relaxed">{act}</span>
                           </li>
                         ))}
@@ -156,14 +156,14 @@ export function CareerRoadmap({ roadmap = [] }) {
                   {/* Practical Projects */}
                   {level.projects && level.projects.length > 0 && (
                     <div className="space-y-2">
-                      <div className="flex items-center gap-1.5 font-bold text-foreground">
-                        <FolderGit2 className="w-3.5 h-3.5 text-muted-foreground" />
+                      <div className="flex items-center gap-1.5 font-bold text-foreground text-sm">
+                        <FolderGit2 className="w-4 h-4 text-muted-foreground" />
                         <span>Hands-On Milestone Projects</span>
                       </div>
-                      <ul className="space-y-1.5 text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         {level.projects.map((proj, i) => (
                           <li key={i} className="flex items-start gap-2">
-                            <ChevronRight className="w-3.5 h-3.5 text-foreground shrink-0 mt-0.5" />
+                            <ChevronRight className="w-4 h-4 text-foreground shrink-0 mt-0.5" />
                             <span className="font-medium text-foreground leading-relaxed">
                               {proj}
                             </span>

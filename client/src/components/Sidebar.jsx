@@ -155,6 +155,7 @@ export function Sidebar() {
 
   const careerExplorerItems = [
     { to: '/domains', label: 'IT Career Domains', icon: Compass },
+    { to: '/career-explorer/knowledge-hub', label: 'Domain Knowledge Hub', icon: BookOpen },
     { to: '/career-explorer/companies', label: 'IT Companies by Location', icon: MapPin, moduleKey: 'COMPANY_LOCATIONS' },
     { to: '/compare', label: 'Compare Career Roles', icon: GitCompare },
     { to: '/skill-analyzer', label: 'Industry Skill Analyzer', icon: Layers, moduleKey: 'SKILL_ANALYZER' },
@@ -279,6 +280,7 @@ export function Sidebar() {
       canAccess: isSuperAdmin || canAccessPage(role, '/admin') || canAccessPage(role, '/settings'),
       items: [
         { to: '/admin', label: 'Admin Management', icon: Database },
+        { to: '/admin/domain-knowledge-hub', label: 'Knowledge Hub CMS', icon: BookOpen },
         { to: '/settings', label: 'System Settings', icon: Settings },
       ].filter((item) => canAccessPage(role, item.to)),
     },
@@ -302,7 +304,7 @@ export function Sidebar() {
               <p className="text-xs font-bold uppercase tracking-wider truncate">
                 {role?.replace('_', ' ') || 'Guest'}
               </p>
-              <p className="text-[10px] text-muted-foreground truncate">
+              <p className="text-xs text-muted-foreground truncate">
                 {isSuperAdmin ? 'Master Placement Control' : user?.departmentCode ? `${user.departmentCode} Department` : 'Authorized User'}
               </p>
             </div>
@@ -310,9 +312,9 @@ export function Sidebar() {
         </div>
 
         {/* Section Header */}
-        <div className="px-3 flex items-center justify-between text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+        <div className="px-3 flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
           <span>CampusCorp Modules</span>
-          <span className="text-[10px] bg-secondary px-1.5 py-0.5 rounded-md text-foreground">
+          <span className="text-xs font-semibold bg-secondary px-1.5 py-0.5 rounded-md text-foreground">
             {visibleSections.reduce((acc, s) => acc + s.items.length, 1)} Modules
           </span>
         </div>
@@ -375,7 +377,7 @@ export function Sidebar() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     {sec.badge && (
-                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-secondary text-muted-foreground">
+                      <span className="px-1.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-secondary text-muted-foreground">
                         {sec.badge}
                       </span>
                     )}
@@ -403,7 +405,7 @@ export function Sidebar() {
                             to={sub.to}
                             onClick={closeMobileSidebar}
                             className={({ isActive }) =>
-                              `flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
+                              `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
                                 isActive
                                   ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] font-semibold shadow-xs'
                                   : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 font-medium'
@@ -413,7 +415,7 @@ export function Sidebar() {
                             {({ isActive }) => (
                               <>
                                 <SubIcon
-                                  className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+                                  className={`w-4 h-4 shrink-0 transition-colors ${
                                     isActive
                                       ? 'text-[#fafafa] dark:text-[#0a0a0a]'
                                       : 'text-muted-foreground'
@@ -443,7 +445,7 @@ export function Sidebar() {
           <span className="w-2 h-2 rounded-full bg-foreground" />
           <span>CampusCorp Multi-DB Active</span>
         </div>
-        <p className="text-[11px] text-muted-foreground leading-relaxed">
+        <p className="text-xs text-muted-foreground leading-relaxed">
           {isSuperAdmin
             ? 'Root access active. Managing institutional permissions & clusters.'
             : 'Role-based access active with dynamic page governance.'}

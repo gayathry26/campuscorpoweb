@@ -10,6 +10,7 @@ import {
   Sparkles,
   Compass,
   Check,
+  BookOpen,
 } from 'lucide-react';
 import { DOMAIN_ICONS } from './InteractiveDomainGrid';
 
@@ -28,7 +29,7 @@ export function CompactDomainHeader({
     <div className="space-y-4 pt-1">
       {/* Top Bar: Breadcrumbs & Back Navigation */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 flex-wrap">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-neutral-500 dark:text-neutral-400 flex-wrap">
           <Link to="/domains" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
             Career Explorer
           </Link>
@@ -44,9 +45,9 @@ export function CompactDomainHeader({
 
         <Link
           to="/domains"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-800 shadow-xs"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-800 shadow-xs"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
+          <ArrowLeft className="w-4 h-4" />
           <span>Back to Domains</span>
         </Link>
       </div>
@@ -63,11 +64,11 @@ export function CompactDomainHeader({
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
                   {domain?.name}
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
+                <span className="px-2.5 py-0.5 rounded-full text-sm font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
                   {roles.length} {roles.length === 1 ? 'Career Role' : 'Career Roles'}
                 </span>
               </div>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 {domain?.shortDescription || domain?.description || 'Explore career paths, verified salary bands, and essential skills in this technology domain.'}
               </p>
             </div>
@@ -78,39 +79,49 @@ export function CompactDomainHeader({
         <div className="pt-4 border-t border-neutral-100 dark:border-neutral-800 flex flex-wrap items-center justify-between gap-3">
           {displayTech.length > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 mr-1">
+              <span className="text-xs sm:text-sm font-semibold text-neutral-500 dark:text-neutral-400 mr-1">
                 Core Technologies:
               </span>
               {displayTech.map((tech, idx) => (
                 <span
                   key={idx}
-                  className="px-2.5 py-1 rounded-lg text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200/80 dark:border-neutral-700/80"
+                  className="px-2.5 py-1 rounded-lg text-xs sm:text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200/80 dark:border-neutral-700/80"
                 >
                   {tech}
                 </span>
               ))}
               {coreTech.length > displayTech.length && (
-                <span className="text-xs font-medium text-neutral-400 px-1.5">
+                <span className="text-xs sm:text-sm font-medium text-neutral-400 px-1.5">
                   +{coreTech.length - displayTech.length} more
                 </span>
               )}
             </div>
           )}
 
-          {onToggleDetails && (
-            <button
-              type="button"
-              onClick={onToggleDetails}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors ml-auto cursor-pointer"
+          <div className="flex items-center gap-3 ml-auto">
+            <Link
+              to={`/career-explorer/knowledge-hub/${domain?.slug || domain?.id}`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-purple-600 text-white hover:bg-purple-700 transition-colors shadow-xs"
             >
-              <span>{showDetails ? 'Hide Domain Overview' : 'Learn About This Domain'}</span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  showDetails ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
-          )}
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>12-Module Knowledge Notes & PDF</span>
+            </Link>
+
+            {onToggleDetails && (
+              <button
+                type="button"
+                onClick={onToggleDetails}
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors cursor-pointer"
+              >
+                <span>{showDetails ? 'Hide Overview' : 'Learn More'}</span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    showDetails ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Expandable "Learn About This Domain" Section */}
@@ -128,11 +139,11 @@ export function CompactDomainHeader({
                 <div className="lg:col-span-7 space-y-3">
                   <div className="flex items-center gap-2 pb-1 border-b border-neutral-100 dark:border-neutral-800">
                     <Briefcase className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
                       What Professionals in This Domain Do
                     </h3>
                   </div>
-                  <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     {domain.overview || domain.description || domain.shortDescription}
                   </p>
                   {Array.isArray(domain.whatProfessionalsDo) && domain.whatProfessionalsDo.length > 0 && (
@@ -140,7 +151,7 @@ export function CompactDomainHeader({
                       {domain.whatProfessionalsDo.map((task, idx) => (
                         <div
                           key={idx}
-                          className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 flex items-start gap-2.5 text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed"
+                          className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 flex items-start gap-2.5 text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed"
                         >
                           <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span>{task}</span>
@@ -156,15 +167,15 @@ export function CompactDomainHeader({
                   {Array.isArray(domain.prerequisites) && domain.prerequisites.length > 0 && (
                     <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 rounded-xl p-4 space-y-2.5">
                       <div className="flex items-center gap-2 pb-1.5 border-b border-neutral-200/60 dark:border-neutral-700/60">
-                        <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                        <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
                           Beginner Prerequisites
                         </h4>
                       </div>
-                      <div className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-400">
+                      <div className="space-y-1.5 text-sm text-neutral-600 dark:text-neutral-400">
                         {domain.prerequisites.map((prereq, idx) => (
                           <div key={idx} className="flex items-start gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400 shrink-0 mt-1.5" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400 shrink-0 mt-2" />
                             <span>{prereq}</span>
                           </div>
                         ))}
@@ -176,15 +187,15 @@ export function CompactDomainHeader({
                   {domain.careerProgression && (
                     <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 rounded-xl p-4 space-y-2.5">
                       <div className="flex items-center gap-2 pb-1.5 border-b border-neutral-200/60 dark:border-neutral-700/60">
-                        <Compass className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
+                        <Compass className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
                           Career Progression Track
                         </h4>
                       </div>
-                      <div className="flex items-center gap-1.5 flex-wrap text-xs font-semibold text-neutral-800 dark:text-neutral-200">
+                      <div className="flex items-center gap-1.5 flex-wrap text-sm font-semibold text-neutral-800 dark:text-neutral-200">
                         {domain.careerProgression.split('->').map((step, idx, arr) => (
                           <React.Fragment key={idx}>
-                            <span className="px-2.5 py-1 rounded-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 text-xs font-medium">
+                            <span className="px-2.5 py-1 rounded-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 text-sm font-medium">
                               {step.trim()}
                             </span>
                             {idx < arr.length - 1 && (

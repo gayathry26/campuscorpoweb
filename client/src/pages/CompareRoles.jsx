@@ -158,10 +158,10 @@ export function CompareRoles() {
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
               Compare Career Roles
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               Compare skills, tools, learning paths, and career opportunities to find the right direction for you.
             </p>
           </div>
@@ -169,7 +169,7 @@ export function CompareRoles() {
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
               to="/domains"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold border border-border bg-card hover:bg-secondary text-foreground transition-all cursor-pointer shadow-xs active:scale-95"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-card hover:bg-secondary text-foreground transition-all cursor-pointer shadow-xs active:scale-95"
             >
               <Compass className="w-4 h-4" />
               <span>Explore All Domains</span>
@@ -198,17 +198,17 @@ export function CompareRoles() {
           </div>
 
           <div className="space-y-2 max-w-md mx-auto">
-            <h3 className="text-xl font-bold text-foreground">
+            <h3 className="text-xl sm:text-2xl font-bold text-foreground">
               Select Careers to Compare
             </h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               Choose up to 4 different IT career paths to analyze their differences in daily responsibilities, technical stacks, average salaries, project milestones, and learning curves.
             </p>
           </div>
 
           {/* Quick preset comparisons */}
           <div className="pt-2 border-t border-border/60">
-            <p className="text-sm font-semibold text-foreground mb-3 flex items-center justify-center gap-1.5">
+            <p className="text-sm sm:text-base font-semibold text-foreground mb-3 flex items-center justify-center gap-1.5">
               <Sparkles className="w-4 h-4" />
               <span>Or choose a popular career comparison:</span>
             </p>
@@ -216,28 +216,28 @@ export function CompareRoles() {
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['frontend-developer', 'backend-developer'])}
-                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 Frontend vs Backend Developer
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['data-analyst', 'data-scientist'])}
-                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 Data Analyst vs Data Scientist
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['cybersecurity-analyst', 'cloud-engineer'])}
-                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 Cybersecurity vs Cloud Engineer
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset(['ui-ux-designer', 'frontend-developer'])}
-                className="px-3.5 py-2 rounded-xl text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
+                className="px-3.5 py-2 rounded-xl text-sm font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 border border-border text-foreground transition-all cursor-pointer active:scale-95"
               >
                 UI/UX Designer vs Frontend
               </button>

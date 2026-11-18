@@ -5,6 +5,7 @@ import apiClient from '../api/client';
 export const ALL_PAGES = [
   { path: '/', label: 'Placement Dashboard', category: 'Core & Overview' },
   { path: '/domains', label: 'Explore Career Domains', category: 'Career Exploration' },
+  { path: '/career-explorer/knowledge-hub', label: 'Domain Knowledge Hub', category: 'Career Exploration' },
   { path: '/compare', label: 'Compare Career Roles', category: 'Career Exploration' },
   { path: '/skill-analyzer', label: 'Skill Analyzer', category: 'Career Exploration' },
   { path: '/career-explorer/companies', label: 'IT Companies by Location', category: 'Career Exploration' },
@@ -240,7 +241,8 @@ export function PermissionProvider({ children }) {
       pagePath.startsWith('/skill-analyzer') ||
       pagePath.startsWith('/github-scanner') ||
       pagePath.startsWith('/role-analyzer') ||
-      pagePath.startsWith('/career-explorer')
+      pagePath.startsWith('/career-explorer') ||
+      pagePath.startsWith('/knowledge-hub')
     ) {
       return true;
     }
