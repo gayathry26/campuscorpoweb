@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import githubScannerService from '../../services/githubScannerService';
+import MermaidDiagram from '../../components/MermaidDiagram';
 import {
   GitBranch,
   GitCommitHorizontal,
@@ -37,6 +38,11 @@ import {
   Lightbulb,
   Send,
   BrainCircuit,
+  Network,
+  Layers,
+  ArrowRightLeft,
+  Box,
+  Component,
 } from 'lucide-react';
 
 const POPULAR_REPOS = [
@@ -103,7 +109,7 @@ export function GithubRepoScanner() {
 
     if (!silent) {
       setScanning(true);
-      setScanProgress({ step: 1, totalSteps: 5, label: 'Connecting to live GitHub scanner stream...' });
+      setScanProgress({ step: 1, totalSteps: 6, label: 'Connecting to live GitHub scanner stream...' });
       setProgressLogs([`Starting live analysis for "${target}"...`]);
       setError(null);
       setImported(false);
@@ -296,6 +302,7 @@ export function GithubRepoScanner() {
   const contributors = scanResult?.contributors || [];
   const fileTree = scanResult?.fileTree || [];
   const telemetry = scanResult?.telemetry;
+  const architectureDiagram = scanResult?.architectureDiagram || null;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
@@ -1378,99 +1385,175 @@ export function GithubRepoScanner() {
                 </div>
               </div>
 
-              {/* 5. Interactive AI Repo Advisor & Prompt Sandbox */}
-              <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-4">
+              {/* 5. Repository Architecture & System Flow */}
+              <div className="bg-card text-card-foreground border border-border rounded-2xl p-6 shadow-xs space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-border">
                   <div className="flex items-center gap-2">
-                    <Bot className="w-5 h-5 text-primary" />
+                    <Network className="w-5 h-5 text-primary" />
                     <h4 className="text-sm font-black uppercase tracking-wider text-foreground">
-                      Interactive AI Code & Architecture Advisor
+                      Repository Architecture & System Flow
                     </h4>
                   </div>
-                  <span className="text-xs font-mono text-muted-foreground">Neural Repo Consultant</span>
+                  <span className="text-xs font-mono text-muted-foreground">
+                    {architectureDiagram?.source === 'scraped' ? 'Deep Analysis' : 'Auto-Synthesized'}
+                  </span>
                 </div>
 
-                <p className="text-xs text-muted-foreground">
-                  Ask any engineering, refactoring, scalability, or interview question tailored specifically to this codebase:
-                </p>
-
-                {/* Quick Prompt Pills */}
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    { label: '🚀 Scaling to 10k Users', prompt: 'How do I scale this repository architecture to handle 10k daily active users?' },
-                    { label: '🛡️ Security Hardening', prompt: 'Perform an in-depth security hardening review for this repository.' },
-                    { label: '♻️ Clean Architecture Tips', prompt: 'Suggest clean code refactoring and design pattern improvements for this codebase.' },
-                    { label: '🎯 Mock Interview Simulation', prompt: 'Generate 3 tough recruiter interview questions and model answers based on this repository.' },
-                  ].map((pill, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleAskAi(pill.prompt)}
-                      disabled={aiAdvisorLoading}
-                      className="px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-xs font-medium text-foreground transition-colors cursor-pointer disabled:opacity-50"
-                    >
-                      {pill.label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Text Input & Submit */}
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleAskAi();
-                  }}
-                  className="flex gap-2"
-                >
-                  <input
-                    type="text"
-                    value={aiCustomPrompt}
-                    onChange={(e) => setAiCustomPrompt(e.target.value)}
-                    placeholder="Ask AI anything about this repository (e.g., How can I improve my error handling or add redis?)..."
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-secondary/50 border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-muted-foreground"
-                  />
-                  <button
-                    type="submit"
-                    disabled={aiAdvisorLoading || !aiCustomPrompt.trim()}
-                    className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-2 shadow-xs hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50"
-                  >
-                    {aiAdvisorLoading ? (
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    ) : (
-                      <Send className="w-3.5 h-3.5" />
-                    )}
-                    <span>{aiAdvisorLoading ? 'Analyzing...' : 'Ask AI'}</span>
-                  </button>
-                </form>
-
-                {/* AI Response Output */}
-                {aiAdvisorAnswer && (
-                  <div className="mt-4 p-5 rounded-xl bg-secondary/60 border border-border space-y-3">
-                    <div className="flex items-center justify-between pb-2 border-b border-border">
-                      <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-primary" />
-                        AI Advisor Response
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (navigator?.clipboard?.writeText) {
-                            navigator.clipboard.writeText(aiAdvisorAnswer);
-                          }
-                          setCopiedAnswer(true);
-                          showToast('AI response copied!', 'success');
-                          setTimeout(() => setCopiedAnswer(false), 2000);
-                        }}
-                        className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 cursor-pointer font-medium"
-                      >
-                        {copiedAnswer ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-                        <span>{copiedAnswer ? 'Copied' : 'Copy'}</span>
-                      </button>
-                    </div>
-                    <div className="text-xs text-foreground whitespace-pre-wrap leading-relaxed font-sans space-y-2">
-                      {aiAdvisorAnswer}
-                    </div>
+                {!architectureDiagram ? (
+                  <div className="flex flex-col items-center justify-center py-12 gap-3">
+                    <Layers className="w-10 h-10 text-muted-foreground/40" />
+                    <p className="text-xs text-muted-foreground text-center">
+                      Architecture diagram data is not available for this repository.
+                      <br />
+                      Try scanning a popular open-source project for full analysis.
+                    </p>
                   </div>
+                ) : (
+                  <>
+                    {/* Overview */}
+                    {architectureDiagram.overview && (
+                      <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Compass className="w-4 h-4 text-primary" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wide">System Overview</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          {architectureDiagram.overview}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Entry Points */}
+                    {architectureDiagram.entryPoints && architectureDiagram.entryPoints.length > 0 && (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Terminal className="w-4 h-4 text-emerald-500" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wide">Entry Points</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {architectureDiagram.entryPoints.map((ep, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs"
+                            >
+                              <FileCode className="w-3 h-3 text-emerald-500" />
+                              <span className="font-mono font-medium text-foreground">{ep.file || ep}</span>
+                              {ep.label && (
+                                <span className="text-muted-foreground">— {ep.label}</span>
+                              )}
+                              {ep.link && (
+                                <a href={ep.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-1">
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Mermaid Architecture Diagram */}
+                    {architectureDiagram.mermaidDiagram && (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Layers className="w-4 h-4 text-indigo-400" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wide">Architecture Diagram</span>
+                        </div>
+                        <MermaidDiagram chart={architectureDiagram.mermaidDiagram} />
+                      </div>
+                    )}
+
+                    {/* Components by Subsystem */}
+                    {architectureDiagram.components && architectureDiagram.components.length > 0 && (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <Box className="w-4 h-4 text-amber-400" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wide">
+                            Component Subsystems ({architectureDiagram.components.length})
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {architectureDiagram.components.map((comp, idx) => (
+                            <div
+                              key={idx}
+                              className="p-3.5 rounded-xl bg-secondary/40 border border-border space-y-2"
+                            >
+                              <div className="flex items-center gap-2 pb-2 border-b border-border">
+                                <Component className="w-3.5 h-3.5 text-primary" />
+                                <span className="text-xs font-bold text-foreground">{comp.subsystem}</span>
+                                {comp.items && (
+                                  <span className="text-[10px] ml-auto font-mono text-muted-foreground">
+                                    {comp.items.length} items
+                                  </span>
+                                )}
+                              </div>
+                              {comp.items && comp.items.length > 0 && (
+                                <div className="space-y-1">
+                                  {comp.items.slice(0, 8).map((item, itemIdx) => (
+                                    <div key={itemIdx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />
+                                      <span className="font-mono text-foreground/80 truncate">
+                                        {typeof item === 'string' ? item : item.name || item.file || JSON.stringify(item)}
+                                      </span>
+                                      {item.description && (
+                                        <span className="text-muted-foreground truncate">— {item.description}</span>
+                                      )}
+                                      {item.link && (
+                                        <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-auto shrink-0">
+                                          <ExternalLink className="w-3 h-3" />
+                                        </a>
+                                      )}
+                                    </div>
+                                  ))}
+                                  {comp.items.length > 8 && (
+                                    <span className="text-[10px] text-muted-foreground pl-4">
+                                      + {comp.items.length - 8} more items
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Connections / Data Flow */}
+                    {architectureDiagram.connections && architectureDiagram.connections.length > 0 && (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <ArrowRightLeft className="w-4 h-4 text-cyan-400" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wide">
+                            Connections & Data Flow ({architectureDiagram.connections.length})
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {architectureDiagram.connections.slice(0, 12).map((conn, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary/30 border border-border text-xs"
+                            >
+                              <span className="font-mono font-medium text-cyan-400 shrink-0">
+                                {conn.source || conn.from}
+                              </span>
+                              <span className="text-muted-foreground">→</span>
+                              <span className="font-mono font-medium text-amber-400 shrink-0">
+                                {conn.target || conn.to}
+                              </span>
+                              {conn.description && (
+                                <span className="text-muted-foreground truncate ml-1">: {conn.description}</span>
+                              )}
+                            </div>
+                          ))}
+                          {architectureDiagram.connections.length > 12 && (
+                            <span className="text-[10px] text-muted-foreground px-3 py-2">
+                              + {architectureDiagram.connections.length - 12} more connections
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

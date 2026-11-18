@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { getRepoArchitectureDiagram } = require('./gitDiagramService');
 
 /**
  * Live GitHub Repository & Profile Scanner Service
@@ -547,7 +548,7 @@ async function scanGithubRepository(rawUrl, options = {}) {
   const startTime = Date.now();
   const emitProgress = typeof options.onProgress === 'function' ? options.onProgress : () => {};
 
-  emitProgress({ step: 1, totalSteps: 5, label: 'Resolving GitHub repository & validating URL...', status: 'active' });
+  emitProgress({ step: 1, totalSteps: 6, label: 'Resolving GitHub repository & validating URL...', status: 'active' });
   const { owner, repo, fullName, branchHint } = parseRepoUrl(rawUrl);
   const headers = buildHeaders(options.githubToken);
 
@@ -595,7 +596,7 @@ async function scanGithubRepository(rawUrl, options = {}) {
   const resolvedRepo = repoData?.name || repo;
   let defaultBranch = branchHint || repoData?.default_branch || 'main';
 
-  emitProgress({ step: 2, totalSteps: 5, label: `Fetching live telemetry & tree for ${resolvedOwner}/${resolvedRepo}...`, status: 'active' });
+  emitProgress({ step: 2, totalSteps: 6, label: `Fetching live telemetry & tree for ${resolvedOwner}/${resolvedRepo}...`, status: 'active' });
 
   // ── PHASE 2: Fetch Languages, Recursive Tree, Live Commits & Contributors ──
   if (usedWebFallback || !repoData) {
@@ -701,7 +702,7 @@ async function scanGithubRepository(rawUrl, options = {}) {
     }
   }
 
-  emitProgress({ step: 3, totalSteps: 5, label: 'Inspecting dependencies across root & monorepo folders...', status: 'active' });
+  emitProgress({ step: 3, totalSteps: 6, label: 'Inspecting dependencies across root & monorepo folders...', status: 'active' });
 
   // ── PHASE 3: Inspect Tree, Monorepo Manifests, Security & Hygiene ──
   const normalizedPaths = treeFiles.map((f) => String(f.path || f.name || ''));
@@ -865,7 +866,7 @@ async function scanGithubRepository(rawUrl, options = {}) {
     if (detectedSkillsSet.has('Go (Golang)')) languagesData.Go = 45000;
   }
 
-  emitProgress({ step: 4, totalSteps: 5, label: 'Analyzing languages, engineering score & security posture...', status: 'active' });
+  emitProgress({ step: 4, totalSteps: 6, label: 'Analyzing languages, engineering score & security posture...', status: 'active' });
 
   // ── PHASE 4: Calculate Languages & Skills ──
   const totalBytes = Object.values(languagesData).reduce((a, b) => a + b, 0);
@@ -915,7 +916,7 @@ async function scanGithubRepository(rawUrl, options = {}) {
   const detectedSkills = Array.from(detectedSkillsSet);
 
   // ── PHASE 5: Code Quality Score & Role Matching ──
-  emitProgress({ step: 5, totalSteps: 5, label: 'Computing placement role fit & recruiter readiness report...', status: 'active' });
+  emitProgress({ step: 5, totalSteps: 6, label: 'Computing placement role fit & recruiter readiness report...', status: 'active' });
 
   const scoreBreakdown = {
     documentation: 0,
@@ -1035,6 +1036,22 @@ async function scanGithubRepository(rawUrl, options = {}) {
       size: f.size || 0,
     }));
 
+  // ── PHASE 6: Architecture Diagram & Component Flow ──
+  emitProgress({ step: 6, totalSteps: 6, label: 'Generating architecture diagram & component flow analysis...', status: 'active' });
+  let architectureDiagram = null;
+  try {
+    architectureDiagram = await getRepoArchitectureDiagram(resolvedOwner, resolvedRepo, {
+      fileTree: topTree,
+      languages: { primaryLanguage: languagesList[0]?.name || 'Unknown', breakdown: languagesList },
+      detectedSkills,
+      readmePreview: readmeSnippet,
+      repoData,
+    });
+  } catch (archErr) {
+    console.warn('[Architecture Diagram] Failed to generate:', archErr.message);
+    architectureDiagram = null;
+  }
+
   const latencyMs = Date.now() - startTime;
 
   return {
@@ -1091,6 +1108,7 @@ async function scanGithubRepository(rawUrl, options = {}) {
     contributors,
     fileTree: topTree,
     readmePreview: readmeSnippet,
+    architectureDiagram,
     telemetry: {
       live: true,
       source: sourceMode,
