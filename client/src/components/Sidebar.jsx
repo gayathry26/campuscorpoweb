@@ -330,8 +330,8 @@ export function Sidebar() {
               className={({ isActive }) =>
                 `group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all duration-200 ease-out hover:translate-x-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
                   isActive
-                    ? 'translate-x-1 bg-purple-500/10 text-purple-700 dark:text-purple-300 dark:bg-purple-500/15 font-semibold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-purple-600 dark:before:bg-purple-400 before:rounded-r-full shadow-2xs'
-                    : 'text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800/60 font-medium'
+                    ? 'translate-x-1 text-foreground font-bold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-foreground before:rounded-r-full'
+                    : 'text-muted-foreground hover:text-foreground font-medium'
                 }`
               }
             >
@@ -339,7 +339,7 @@ export function Sidebar() {
                 <>
                   <LayoutDashboard
                     className={`w-4 h-4 shrink-0 transition-colors ${
-                      isActive ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground group-hover:text-foreground'
+                      isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
                     }`}
                   />
                   <span className="flex-1 truncate">Placement Dashboard</span>
@@ -358,16 +358,12 @@ export function Sidebar() {
                   onClick={sec.toggle}
                   aria-expanded={sec.isOpen}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:translate-x-0.5 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
-                    sec.isActive
-                      ? 'bg-neutral-100 dark:bg-neutral-800/70 text-foreground'
-                      : 'text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800/50'
-                  }`}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:translate-x-0.5 text-foreground hover:text-foreground cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
                 >
                   <div className="flex items-center gap-2.5 truncate">
                     <SectionIcon
                       className={`w-4 h-4 shrink-0 transition-colors ${
-                        sec.isActive ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground'
+                        sec.isActive ? 'text-foreground' : 'text-muted-foreground'
                       }`}
                     />
                     <span className="truncate">{sec.label}</span>
@@ -404,8 +400,8 @@ export function Sidebar() {
                             className={({ isActive }) =>
                               `group relative flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 ease-out hover:translate-x-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
                                 isActive
-                                  ? 'translate-x-1 bg-purple-500/10 text-purple-700 dark:text-purple-300 dark:bg-purple-500/15 font-semibold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-1 before:bg-purple-600 dark:before:bg-purple-400 before:rounded-r-full shadow-2xs'
-                                  : 'text-muted-foreground hover:text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800/60 font-medium'
+                                  ? 'translate-x-1 text-foreground font-bold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-1 before:bg-foreground before:rounded-r-full'
+                                  : 'text-muted-foreground hover:text-foreground font-medium'
                               }`
                             }
                           >
@@ -414,7 +410,7 @@ export function Sidebar() {
                                 <SubIcon
                                   className={`w-4 h-4 shrink-0 transition-colors ${
                                     isActive
-                                      ? 'text-purple-600 dark:text-purple-400'
+                                      ? 'text-foreground'
                                       : 'text-muted-foreground group-hover:text-foreground'
                                   }`}
                                 />

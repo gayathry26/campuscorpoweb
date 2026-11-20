@@ -571,14 +571,14 @@ export function DomainLearningWorkspace() {
                   onClick={() => handleScrollToModule(m.moduleNumber)}
                   className={`group relative w-full text-left p-3 rounded-2xl transition-all duration-200 ease-out hover:translate-x-1 flex items-start gap-3 cursor-pointer ${
                     isSelected
-                      ? 'translate-x-1 bg-purple-500/10 text-purple-700 dark:text-purple-300 dark:bg-purple-500/15 font-bold before:absolute before:left-0 before:top-2.5 before:bottom-2.5 before:w-1 before:bg-purple-600 dark:before:bg-purple-400 before:rounded-r-full shadow-2xs'
-                      : 'hover:bg-neutral-100 dark:hover:bg-neutral-800/60 text-foreground font-medium'
+                      ? 'translate-x-1 text-foreground font-bold before:absolute before:left-0 before:top-2.5 before:bottom-2.5 before:w-1 before:bg-foreground before:rounded-r-full'
+                      : 'text-muted-foreground hover:text-foreground font-medium'
                   }`}
                 >
                   <span
                     className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 mt-0.5 transition-colors ${
                       isSelected
-                        ? 'bg-purple-600 text-white'
+                        ? 'bg-foreground text-background'
                         : isDone
                         ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
                         : 'bg-secondary text-muted-foreground group-hover:bg-neutral-200 dark:group-hover:bg-neutral-700'
@@ -593,7 +593,7 @@ export function DomainLearningWorkspace() {
                     </div>
                     <span
                       className={`text-[11px] block mt-0.5 line-clamp-1 ${
-                        isSelected ? 'text-purple-600 dark:text-purple-400 font-medium' : 'text-muted-foreground'
+                        isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'
                       }`}
                     >
                       {m.subtitle || `${m.estimatedMinutes || 20} mins study`}
