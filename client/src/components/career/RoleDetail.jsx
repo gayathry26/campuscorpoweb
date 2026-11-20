@@ -47,7 +47,65 @@ export function RoleDetail({
     certifications = [],
     roadmap = [],
     industry = [],
+    careerReadiness = {},
   } = role;
+
+  const renderProjectBox = (projData, fallbackTitle = 'Foundational Project') => {
+    if (!projData) {
+      return <p className="text-muted-foreground italic text-xs">No projects listed</p>;
+    }
+    if (Array.isArray(projData)) {
+      if (projData.length === 0) {
+        return <p className="text-muted-foreground italic text-xs">No projects listed</p>;
+      }
+      return (
+        <ul className="space-y-2 text-muted-foreground">
+          {projData.map((p, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
+              <span className="leading-relaxed">
+                {typeof p === 'object' ? p.title || p.name || p.description : p}
+              </span>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    if (typeof projData === 'object') {
+      return (
+        <div className="space-y-1.5">
+          <p className="font-bold text-foreground text-xs leading-snug">
+            {projData.title || fallbackTitle}
+          </p>
+          {projData.description && (
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
+              {projData.description}
+            </p>
+          )}
+          {Array.isArray(projData.tech) && projData.tech.length > 0 && (
+            <div className="flex flex-wrap gap-1 pt-1">
+              {projData.tech.map((t, idx) => (
+                <span
+                  key={idx}
+                  className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-secondary text-foreground"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+    return (
+      <ul className="space-y-2 text-muted-foreground">
+        <li className="flex items-start gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
+          <span className="leading-relaxed">{String(projData)}</span>
+        </li>
+      </ul>
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
@@ -323,14 +381,7 @@ export function RoleDetail({
                     Foundational
                   </span>
                 </div>
-                <ul className="space-y-2 text-muted-foreground">
-                  {(projects.beginner || []).map((p, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
-                      <span className="leading-relaxed">{p}</span>
-                    </li>
-                  ))}
-                </ul>
+                {renderProjectBox(projects?.beginner, 'Foundational App')}
               </div>
 
               {/* Intermediate */}
@@ -341,14 +392,7 @@ export function RoleDetail({
                     Full-Feature
                   </span>
                 </div>
-                <ul className="space-y-2 text-muted-foreground">
-                  {(projects.intermediate || []).map((p, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
-                      <span className="leading-relaxed">{p}</span>
-                    </li>
-                  ))}
-                </ul>
+                {renderProjectBox(projects?.intermediate, 'Full-Feature App')}
               </div>
 
               {/* Advanced */}
@@ -359,14 +403,7 @@ export function RoleDetail({
                     Capstone & Scale
                   </span>
                 </div>
-                <ul className="space-y-2 text-muted-foreground">
-                  {(projects.advanced || []).map((p, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-1.5" />
-                      <span className="leading-relaxed text-foreground font-medium">{p}</span>
-                    </li>
-                  ))}
-                </ul>
+                {renderProjectBox(projects?.advanced, 'Capstone & Distributed Scale')}
               </div>
             </div>
           </section>
@@ -376,34 +413,52 @@ export function RoleDetail({
             <div className="flex items-center gap-2 pb-2 border-b border-border/60">
               <Award className="w-4 h-4 text-foreground" />
               <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-                5. Industry Recognized Certifications
+                5. Industry Recognized Certifications & Prerequisites
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {certifications.map((cert, i) => (
-                <div
-                  key={i}
-                  className="p-3.5 rounded-xl bg-card border border-border flex items-center justify-between gap-3 text-xs"
-                >
-                  <div className="space-y-0.5">
-                    <p className="font-bold text-foreground">{cert.name}</p>
-                    {cert.provider && (
-                      <p className="text-[11px] text-muted-foreground">Issued by {cert.provider}</p>
-                    )}
-                  </div>
-                  <span
-                    className={`px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase tracking-wider shrink-0 ${
-                      cert.type === 'FREE'
-                        ? 'bg-neutral-100 dark:bg-neutral-800 text-foreground border-neutral-300 dark:border-neutral-700'
-                        : 'bg-neutral-200 dark:bg-neutral-800 text-foreground border-neutral-400 dark:border-neutral-600'
-                    }`}
+            {Array.isArray(certifications) && certifications.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {certifications.map((cert, i) => (
+                  <div
+                    key={i}
+                    className="p-3.5 rounded-xl bg-card border border-border flex items-center justify-between gap-3 text-xs"
                   >
-                    {cert.type}
-                  </span>
-                </div>
-              ))}
-            </div>
+                    <div className="space-y-0.5">
+                      <p className="font-bold text-foreground">{cert.name}</p>
+                      {cert.provider && (
+                        <p className="text-[11px] text-muted-foreground">Issued by {cert.provider}</p>
+                      )}
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase tracking-wider shrink-0 ${
+                        cert.type === 'FREE'
+                          ? 'bg-neutral-100 dark:bg-neutral-800 text-foreground border-neutral-300 dark:border-neutral-700'
+                          : 'bg-neutral-200 dark:bg-neutral-800 text-foreground border-neutral-400 dark:border-neutral-600'
+                      }`}
+                    >
+                      {cert.type}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : Array.isArray(careerReadiness?.prerequisites) && careerReadiness.prerequisites.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {careerReadiness.prerequisites.map((req, i) => (
+                  <div
+                    key={i}
+                    className="p-3.5 rounded-xl bg-card border border-border flex items-start gap-3 text-xs"
+                  >
+                    <Award className="w-4 h-4 text-foreground shrink-0 mt-0.5" />
+                    <span className="text-foreground leading-relaxed font-medium">{req}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground italic">
+                Domain credentials and certification standards being finalized for this specialization track.
+              </p>
+            )}
           </section>
 
           {/* Bottom Action Footer */}

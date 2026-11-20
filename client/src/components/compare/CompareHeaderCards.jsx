@@ -122,7 +122,7 @@ export function CompareHeaderCards({
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1">
-              {role.tags.map((t) => (
+              {(role.tags || []).map((t) => (
                 <Badge key={t} variant={t.toLowerCase()} size="sm">
                   {t}
                 </Badge>
@@ -131,7 +131,7 @@ export function CompareHeaderCards({
 
             {/* Description */}
             <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
-              {role.shortDescription}
+              {role.shortDescription || 'Role overview available in detailed roadmap.'}
             </p>
 
             {/* Market Info */}
@@ -154,14 +154,17 @@ export function CompareHeaderCards({
               </div>
             </div>
 
-            {/* Industries */}
-            {role.industry && role.industry.length > 0 && (
+            {/* Industries / Top Hiring Companies */}
+            {((role.industry && role.industry.length > 0) || (role.topHiringCompanies && role.topHiringCompanies.length > 0)) && (
               <div className="space-y-1">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                  Top Hiring Sectors
+                  {role.industry && role.industry.length > 0 ? 'Top Hiring Sectors' : 'Top Hiring Companies'}
                 </p>
                 <p className="text-xs font-medium text-foreground truncate">
-                  {role.industry.slice(0, 3).join(', ')}
+                  {(role.industry && role.industry.length > 0
+                    ? role.industry
+                    : role.topHiringCompanies || []
+                  ).slice(0, 3).join(', ')}
                 </p>
               </div>
             )}

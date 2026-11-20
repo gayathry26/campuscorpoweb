@@ -34,7 +34,7 @@ const COMPARISON_PRESETS = [
   },
   {
     label: 'QA vs Full Stack',
-    roles: ['software-tester', 'full-stack-developer'],
+    roles: ['qa-automation-engineer', 'full-stack-developer'],
   },
 ];
 
@@ -59,9 +59,9 @@ export function CompareRolePicker({
     if (!search.trim()) return true;
     const q = search.toLowerCase();
     return (
-      role.title.toLowerCase().includes(q) ||
-      role.category.toLowerCase().includes(q) ||
-      role.technicalSkills.some((s) => s.toLowerCase().includes(q))
+      (role.title || '').toLowerCase().includes(q) ||
+      (role.category || '').toLowerCase().includes(q) ||
+      (role.technicalSkills || role.skills || []).some((s) => (s || '').toLowerCase().includes(q))
     );
   });
 
@@ -141,7 +141,7 @@ export function CompareRolePicker({
                         </p>
                       </div>
                       <span className="text-[10px] font-semibold text-muted-foreground px-2 py-0.5 rounded bg-secondary shrink-0">
-                        {role.tags[0] || 'IT'}
+                        {(role.tags && role.tags[0]) || 'IT'}
                       </span>
                     </button>
                   ))

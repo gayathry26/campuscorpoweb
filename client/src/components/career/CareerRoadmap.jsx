@@ -50,8 +50,12 @@ export function CareerRoadmap({ roadmap = [] }) {
     <div className="space-y-6">
       <div className="relative pl-6 sm:pl-8 space-y-8 before:absolute before:left-[15px] sm:before:left-[19px] before:top-3 before:bottom-3 before:w-0.5 before:bg-border">
         {roadmap.map((level, idx) => {
-          const config = STAGE_CONFIG[level.stage] || {
-            label: level.stage,
+          const stageKey = typeof level.stage === 'string' ? level.stage.toUpperCase() : level.stage;
+          const stageName = typeof level.stage === 'number'
+            ? `Stage ${level.stage}`
+            : (level.stage || `Stage ${idx + 1}`);
+          const config = STAGE_CONFIG[stageKey] || {
+            label: `${stageName}${level.duration ? ` • ${level.duration}` : ''}`,
             stepNumber: `0${idx + 1}`,
             accent: 'bg-secondary text-foreground',
             dot: 'bg-foreground',
@@ -132,6 +136,24 @@ export function CareerRoadmap({ roadmap = [] }) {
                           </span>
                         ))}
                       </div>
+                    </div>
+                  )}
+
+                  {/* Core Topics */}
+                  {level.topics && level.topics.length > 0 && (
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-1.5 font-bold text-foreground text-sm">
+                        <BookOpen className="w-4 h-4 text-muted-foreground" />
+                        <span>Core Topics & Concepts</span>
+                      </div>
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
+                        {level.topics.map((top, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-2" />
+                            <span className="leading-relaxed">{top}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
 

@@ -130,11 +130,14 @@ export function CompareRoles() {
     updateSelectedRoles(presetRoleIds);
   };
 
-  // Roles to display in comparison cards & matrix (prioritizing SQL loaded data)
+  // Roles to display in comparison cards & matrix (prioritizing SQL loaded data per selected ID)
   const selectedRoles = useMemo(() => {
-    if (loadedRoles.length > 0) return loadedRoles;
     return selectedRoleIds
-      .map((id) => allRoles.find((r) => r.id === id) || getRoleById(id))
+      .map((id) => {
+        const fromLoaded = (loadedRoles || []).find((r) => r?.id === id);
+        if (fromLoaded) return fromLoaded;
+        return (allRoles || []).find((r) => r?.id === id) || getRoleById(id);
+      })
       .filter(Boolean);
   }, [loadedRoles, selectedRoleIds, allRoles]);
 

@@ -47,9 +47,10 @@ export function AdaptiveDomainStats({ domain = {}, roles = [], stats = {} }) {
     (r.technicalSkills || []).forEach((s) => uniqueSkills.add(s));
     (r.tools || []).forEach((t) => uniqueTools.add(t));
     if (r.projects) {
-      totalProjects += (r.projects.beginner || []).length;
-      totalProjects += (r.projects.intermediate || []).length;
-      totalProjects += (r.projects.advanced || []).length;
+      const getProjCount = (p) => (Array.isArray(p) ? p.length : p ? 1 : 0);
+      totalProjects += getProjCount(r.projects.beginner);
+      totalProjects += getProjCount(r.projects.intermediate);
+      totalProjects += getProjCount(r.projects.advanced);
     }
     if (Array.isArray(r.roadmap)) {
       totalStages = Math.max(totalStages, r.roadmap.length);

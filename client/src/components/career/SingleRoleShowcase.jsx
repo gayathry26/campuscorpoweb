@@ -51,6 +51,47 @@ export function SingleRoleShowcase({
     roadmap = [],
   } = role;
 
+  const renderProjectsSection = (projData, fallbackText) => {
+    if (!projData) {
+      return (
+        <div className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
+          {fallbackText}
+        </div>
+      );
+    }
+    if (Array.isArray(projData)) {
+      return projData.map((p, i) => (
+        <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
+          {typeof p === 'object' ? p.title || p.name || p.description : p}
+        </div>
+      ));
+    }
+    if (typeof projData === 'object') {
+      return (
+        <div className="p-3 rounded-lg bg-card border border-border space-y-1.5 text-xs sm:text-sm">
+          <p className="font-bold text-foreground">{projData.title || fallbackText}</p>
+          {projData.description && (
+            <p className="text-xs text-muted-foreground leading-relaxed">{projData.description}</p>
+          )}
+          {Array.isArray(projData.tech) && projData.tech.length > 0 && (
+            <div className="flex flex-wrap gap-1 pt-1">
+              {projData.tech.map((t, idx) => (
+                <span key={idx} className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-secondary text-foreground">
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+    return (
+      <div className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
+        {String(projData)}
+      </div>
+    );
+  };
+
   const [activeTab, setActiveTab] = useState('skills-tools'); // 'skills-tools' | 'roadmap' | 'projects' | 'certifications'
   const [activeRoadmapStage, setActiveRoadmapStage] = useState(0);
 
@@ -576,11 +617,10 @@ export function SingleRoleShowcase({
                   </span>
                 </div>
                 <div className="space-y-2">
-                  {(projects.beginner || ['Manual Test Plan and Defect Log for Campus E-Commerce Portal']).map((p, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
-                      {p}
-                    </div>
-                  ))}
+                  {renderProjectsSection(
+                    projects.beginner,
+                    'Foundational Project & Core Fundamentals'
+                  )}
                 </div>
               </div>
 
@@ -596,11 +636,10 @@ export function SingleRoleShowcase({
                   </span>
                 </div>
                 <div className="space-y-2">
-                  {(projects.intermediate || ['Automated Playwright/Cypress End-to-End Regression Suite']).map((p, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
-                      {p}
-                    </div>
-                  ))}
+                  {renderProjectsSection(
+                    projects.intermediate,
+                    'Full-Feature Project & Architecture'
+                  )}
                 </div>
               </div>
 
@@ -616,11 +655,10 @@ export function SingleRoleShowcase({
                   </span>
                 </div>
                 <div className="space-y-2">
-                  {(projects.advanced || ['Continuous Performance Testing Pipeline simulating 5k Virtual Users with k6']).map((p, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-card border border-border text-sm text-foreground/90 leading-relaxed">
-                      {p}
-                    </div>
-                  ))}
+                  {renderProjectsSection(
+                    projects.advanced,
+                    'Capstone Project & Distributed Scale'
+                  )}
                 </div>
               </div>
             </div>
