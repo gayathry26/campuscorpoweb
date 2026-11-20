@@ -328,10 +328,10 @@ export function Sidebar() {
               end
               onClick={closeMobileSidebar}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
+                `group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all duration-200 ease-out hover:translate-x-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
                   isActive
-                    ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] shadow-xs'
-                    : 'text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
+                    ? 'translate-x-1 bg-purple-500/10 text-purple-700 dark:text-purple-300 dark:bg-purple-500/15 font-semibold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-purple-600 dark:before:bg-purple-400 before:rounded-r-full shadow-2xs'
+                    : 'text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800/60 font-medium'
                 }`
               }
             >
@@ -339,13 +339,10 @@ export function Sidebar() {
                 <>
                   <LayoutDashboard
                     className={`w-4 h-4 shrink-0 transition-colors ${
-                      isActive ? 'text-[#fafafa] dark:text-[#0a0a0a]' : 'text-foreground'
+                      isActive ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground group-hover:text-foreground'
                     }`}
                   />
                   <span className="flex-1 truncate">Placement Dashboard</span>
-                  {isActive && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#fafafa] dark:bg-[#0a0a0a]" />
-                  )}
                 </>
               )}
             </NavLink>
@@ -361,16 +358,16 @@ export function Sidebar() {
                   onClick={sec.toggle}
                   aria-expanded={sec.isOpen}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:translate-x-0.5 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
                     sec.isActive
-                      ? 'bg-neutral-200 dark:bg-neutral-800 text-foreground'
-                      : 'text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800'
+                      ? 'bg-neutral-100 dark:bg-neutral-800/70 text-foreground'
+                      : 'text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800/50'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 truncate">
                     <SectionIcon
                       className={`w-4 h-4 shrink-0 transition-colors ${
-                        sec.isActive ? 'text-foreground' : 'text-muted-foreground'
+                        sec.isActive ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground'
                       }`}
                     />
                     <span className="truncate">{sec.label}</span>
@@ -405,10 +402,10 @@ export function Sidebar() {
                             to={sub.to}
                             onClick={closeMobileSidebar}
                             className={({ isActive }) =>
-                              `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
+                              `group relative flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 ease-out hover:translate-x-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
                                 isActive
-                                  ? 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] font-semibold shadow-xs'
-                                  : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-800 font-medium'
+                                  ? 'translate-x-1 bg-purple-500/10 text-purple-700 dark:text-purple-300 dark:bg-purple-500/15 font-semibold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-1 before:bg-purple-600 dark:before:bg-purple-400 before:rounded-r-full shadow-2xs'
+                                  : 'text-muted-foreground hover:text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800/60 font-medium'
                               }`
                             }
                           >
@@ -417,14 +414,11 @@ export function Sidebar() {
                                 <SubIcon
                                   className={`w-4 h-4 shrink-0 transition-colors ${
                                     isActive
-                                      ? 'text-[#fafafa] dark:text-[#0a0a0a]'
-                                      : 'text-muted-foreground'
+                                      ? 'text-purple-600 dark:text-purple-400'
+                                      : 'text-muted-foreground group-hover:text-foreground'
                                   }`}
                                 />
                                 <span className="flex-1 truncate">{sub.label}</span>
-                                {isActive && (
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#fafafa] dark:bg-[#0a0a0a]" />
-                                )}
                               </>
                             )}
                           </NavLink>
