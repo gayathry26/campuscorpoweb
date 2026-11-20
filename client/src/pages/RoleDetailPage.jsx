@@ -26,7 +26,6 @@ import {
 import careerService from '../services/careerService';
 import { DOMAIN_ICONS } from '../components/career/InteractiveDomainGrid';
 import VisualCareerRoadmapModal from '../components/career/VisualCareerRoadmapModal';
-import PersonalizedCareerFitModal from '../components/career/PersonalizedCareerFitModal';
 import { getRoleById, CAREER_DOMAINS } from '../data/itRoles';
 
 export function RoleDetailPage() {
@@ -43,7 +42,6 @@ export function RoleDetailPage() {
 
   // 2. Interactive & Modal States
   const [roadmapModalOpen, setRoadmapModalOpen] = useState(false);
-  const [fitModalOpen, setFitModalOpen] = useState(false);
   const [activeRoadmapStage, setActiveRoadmapStage] = useState(0);
 
   // 3. Comparison Queue State (synced with localStorage)
@@ -408,17 +406,7 @@ export function RoleDetailPage() {
             <span>Analyze My Resume</span>
           </Link>
 
-          {/* 3. Check Career Fit */}
-          <button
-            type="button"
-            onClick={() => setFitModalOpen(true)}
-            className="inline-flex items-center gap-2 h-10 px-4 rounded-xl text-sm font-semibold bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all cursor-pointer shadow-xs"
-          >
-            <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-            <span>Career Fit Score</span>
-          </button>
-
-          {/* 4. Compare Role */}
+          {/* 3. Compare Role */}
           <button
             type="button"
             onClick={handleToggleCompare}
@@ -863,12 +851,6 @@ export function RoleDetailPage() {
         role={role}
         isOpen={roadmapModalOpen}
         onClose={() => setRoadmapModalOpen(false)}
-      />
-
-      <PersonalizedCareerFitModal
-        role={role}
-        isOpen={fitModalOpen}
-        onClose={() => setFitModalOpen(false)}
       />
     </div>
   );

@@ -553,3 +553,51 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--ring);
 }
+
+/* Knowledge Hub Independent Smooth Scroll Areas */
+.knowledge-scroll-area {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.knowledge-scroll-area::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.knowledge-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.knowledge-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(140, 140, 160, 0.25);
+  border-radius: 9999px;
+}
+
+.knowledge-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 140, 160, 0.45);
+}
+
+/* Topic Highlight Animation */
+@keyframes topicHighlightPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.5);
+    background-color: rgba(147, 51, 234, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(147, 51, 234, 0.25);
+    background-color: rgba(147, 51, 234, 0.12);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(147, 51, 234, 0);
+    background-color: transparent;
+  }
+}
+
+.topic-highlight-active {
+  animation: topicHighlightPulse 2.4s ease-out forwards;
+  border-color: rgb(147 51 234 / 0.6) !important;
+}
+
