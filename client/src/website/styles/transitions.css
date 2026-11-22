@@ -1,0 +1,57 @@
+/* ==========================================================================
+   CampusCorpo — Liquid Black Curved Transition & Ether Wave System
+   ========================================================================== */
+
+/* Full-Screen Page Transition Overlay */
+.curtain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.curtain-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.curtain-path {
+  fill: #050505;
+  will-change: d;
+}
+
+/* Destination Badge Typography (DM Mono, Obsidian/Pure Light) */
+.curtain-badge {
+  font-family: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #ffffff;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Screen Reader Live Region (Announces route navigation to assistive tech) */
+.sr-live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced Motion: Instant clean cross-fade without liquid distortion */
+@media (prefers-reduced-motion: reduce) {
+  .curtain-overlay {
+    display: none !important;
+  }
+}
+

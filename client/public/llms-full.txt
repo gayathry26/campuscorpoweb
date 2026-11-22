@@ -1,0 +1,94 @@
+# CampusCorpo — Full Architectural & Capability Documentation
+
+## 1. Brand Identity & Entity Overview
+- Official Entity: CampusCorpo Technologies
+- Canonical Domain: https://campuscorpo.com
+- Official Email: info@campuscorpo.com
+- Phone: +91 90800 07926
+- Headquarters: Tirupur, Tamil Nadu, India
+- Positioning: Integrated Campus-to-Career Management Platform for Engineering Colleges, Arts & Science Colleges, and Universities.
+
+## 2. Institutional Problem Solved
+Traditional higher education institutions manage student records, faculty teaching loads, and placement operations in fragmented software silos. Academic departments cannot measure real-time coding or interview readiness, while corporate recruiters struggle with unverified student resumes. CampusCorpo bridges this divide by integrating daily semester course code LMS delivery with automated programming evaluation and live placement drive pipelines.
+
+## 3. Product Architecture & Modules
+
+### A. Placement Management (https://campuscorpo.com/solutions/placement-management)
+- Student placement registration & verified resume profiles.
+- Dynamic eligibility filtering based on cumulative CGPA, standing arrears, and department branch.
+- Corporate partner directory & recruiter portal coordination.
+- End-to-end drive creation, online test slotting, and interview venue allocation.
+- Full-time job & internship opportunity management.
+- Real-time applicant tracking system (ATS) pipelines.
+- Automated multi-round interview tracking and CTC conversion analytics.
+- One-click accreditation reporting (NAAC, NBA, NIRF).
+
+### B. Student Management (https://campuscorpo.com/solutions/student-management)
+- Centralized 360° student digital records mapped to unique roll numbers.
+- Semester-wise CGPA, SGPA, attendance, and arrear progression history.
+- Verified programming skill matrix derived from real code test submissions.
+- Integrated resume builder and digital portfolio links.
+- Automated tier-based placement classification (Dream Tier > 10 LPA, Core Tier, IT Services).
+
+### C. Faculty Management (https://campuscorpo.com/solutions/faculty-management)
+- Departmental teaching workload balancing and course code mapping.
+- Semester-wise faculty allocations and elective routing.
+- Class advisor assignments and confidential cohort mentorship logs.
+- Attendance alert thresholds and academic milestone completion tracking.
+- Question paper uploads, assignment creation, and internal mark aggregation.
+
+### D. Administration Management (https://campuscorpo.com/solutions/administration)
+- Multi-branch department creation (CSE, IT, ECE, EEE, Mech, Civil).
+- Academic calendar, regulation cohort, and section configurations.
+- High-speed student & faculty master data ingestion via Excel, CSV, and JSON schemas.
+- Granular role-based access control (RBAC): Principal, Deans, HODs, TPOs, Faculty, Recruiters.
+- Semester grade freeze controls and immutable audit logging.
+
+### E. Semester Learning Management System (https://campuscorpo.com/solutions/lms)
+- Structured semester classroom rooms organized by department and section.
+- Course code mapping (e.g. 7 core theory/lab subjects + 1 class advisor = 8 assigned faculty members).
+- Subject-specific study material repository (lecture notes, code repos, slides).
+- Timed online assignments and MCQ/descriptive quizzes with instant grading.
+- Direct linkage between academic quiz scores and placement eligibility benchmarks.
+
+### F. Online Coding Assessment Platform (https://campuscorpo.com/features/programming-assessment)
+- Algorithmic programming sandbox with automated test-case evaluation.
+- Multi-language support: JavaScript (Node.js), Python 3, Java, C, C++.
+- Millisecond runtime and memory efficiency benchmarking.
+- Integrity controls: full-screen lockdown, tab-switch detection, and copy-paste locks.
+- Real-time percentile scoring feeding directly into placement readiness scores.
+
+### G. Mock Interview Platform (https://campuscorpo.com/features/mock-interviews)
+- Role-based technical question banks (Backend, Frontend, Full Stack, Data Science, DevOps, etc.).
+- Behavioral & HR scenario prompts testing situational articulation.
+- Real-time candidate audio/text transcription.
+- 4-dimension evaluation rubric: Technical Problem Solving, System Design, Code Complexity, and Communication Articulation.
+- Actionable remediation logs indicating specific weaknesses before corporate drives.
+
+### H. Location-Based IT Company Explorer (https://campuscorpo.com/company-explorer)
+- Curated technology company directory across 5 major Indian tech clusters:
+  1. Chennai (Zoho, Freshworks, Kissflow, Chargebee)
+  2. Coimbatore (Bosch Global Software Technologies, Kovai.co, Payoda)
+  3. Bengaluru (Razorpay, Flipkart, Zerodha)
+  4. Hyderabad (Microsoft IDC, ServiceNow, Darwinbox)
+  5. Pune (Persistent Systems, PubMatic)
+- Direct links to verified corporate career portals.
+
+### I. 16 IT Career Domains (https://campuscorpo.com/career-explorer)
+1. Software Development (Java, Python, C++, OOP, DSA)
+2. Web Development (React, Next.js, Node.js, Tailwind CSS)
+3. Mobile Development (Kotlin, Swift, Flutter, React Native)
+4. Artificial Intelligence (Neural Networks, Transformers, PyTorch, OpenCV)
+5. Machine Learning (Scikit-Learn, XGBoost, MLOps, Feature Engineering)
+6. Data Science (Statistical Modeling, Pandas, A/B Testing, Tableau)
+7. Data Analytics (SQL, Power BI, KPI Modeling, Snowflake)
+8. Cybersecurity (Penetration Testing, OWASP, SOC, Wireshark, Metasploit)
+9. Cloud Computing (AWS, Azure, GCP, Terraform, Serverless)
+10. DevOps (Docker, Kubernetes, CI/CD GitHub Actions, Prometheus)
+11. Networking (TCP/IP, Routing & Switching, VLANs, Wireshark)
+12. UI/UX Design (Figma, Design Systems, Information Architecture, Wireframing)
+13. Database Management (PostgreSQL, MySQL, Redis, Sharding, Query Tuning)
+14. Blockchain (Solidity, Smart Contracts, Ethereum, Hardhat, Web3)
+15. Embedded Systems (Embedded C, ARM/AVR, RTOS, Microcontrollers)
+16. Software Testing & QA (Selenium, Cypress, Playwright, JMeter, SDET)
+

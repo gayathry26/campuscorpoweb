@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Taste-Skill Dealt Software Palette */
+  --p-bg: #ffffff;
+  --p-surface: #f7f7f8;
+  --p-ink: #0a0a0a;
+  --p-muted: #6a6a6a;
+  --p-accent: #111111;
+  --p-accent-ink: #ffffff;
+  --p-action: #111111;
+  --p-action-ink: #ffffff;
+  --p-inv-bg: #0a0a0a;
+  --p-inv-surface: #171717;
+  --p-inv-ink: #ffffff;
+  --p-inv-muted: #979797;
+  --p-inv-accent: #ffffff;
+  --p-inv-accent-ink: #0a0a0a;
+  --p-inv-action: #ffffff;
+  --p-inv-action-ink: #0a0a0a;
+
+  /* Typography Scales */
+  --font-display: "Instrument Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --font-text: "Instrument Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.028em;
+  --display-tracking-xl: -0.036em;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-display);
+    color: #0a0a0a;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-text);
+    font-size: 1rem;
+    line-height: 1.625;
+    color: #374151;
+    letter-spacing: -0.012em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #0a0a0a;
+    font-family: var(--font-display);
+    letter-spacing: var(--display-tracking);
+    font-weight: 600;
+  }
+}
+
+/* Taste-Skill Anti-Slop Motion & Card Micro-Interactions (House Rule 5) */
+@layer utilities {
+  /* Stepped button interaction: hover lift 1px, active press down 98% */
+  .btn-step {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-step:hover {
+    transform: translateY(-1.5px);
+  }
+  .btn-step:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Card lift 2px with smooth shadow bloom */
+  .card-lift {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Frame photo/UI subtle zoom 1.02 */
+  .img-zoom {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .group:hover .img-zoom {
+    transform: scale(1.02);
+  }
+}
+
+/* CampusCorpo Standard Typography Utility Classes */
+/* 1. Main Page Headings (36–42px) */
+.heading-page {
+  font-size: 1.875rem;
+  line-height: 1.18;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 640px) {
+  .heading-page { font-size: 2.25rem; }
+}
+@media (min-width: 1024px) {
+  .heading-page { font-size: 40px; }
+}
+
+/* 2. Section Headings (28–32px) */
+.heading-section {
+  font-size: 1.5rem;
+  line-height: 1.24;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 640px) {
+  .heading-section { font-size: 1.875rem; }
+}
+@media (min-width: 768px) {
+  .heading-section { font-size: 30px; }
+}
+
+/* 3. Module Headings (22–24px) */
+.heading-module {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #0a0a0a;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 640px) {
+  .heading-module { font-size: 1.5rem; }
+}
+@media (min-width: 768px) {
+  .heading-module { font-size: 23px; }
+}
+
+/* 4. Card Headings (18–20px) */
+.heading-card {
+  font-size: 1.125rem;
+  line-height: 1.38;
+  font-weight: 600;
+  color: #0a0a0a;
+}
+@media (min-width: 640px) {
+  .heading-card { font-size: 19px; }
+}
+
+/* 5. Body Text (16px, 1.5–1.65 line-height) */
+.body-text {
+  font-size: 1rem;
+  line-height: 1.625;
+  font-weight: 400;
+  color: #374151;
+}
+
+/* 6. Secondary Descriptions (14px, 1.5 line-height) */
+.body-secondary {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #4b5563;
+}
+
+/* 7. Form Labels and Metadata (13–14px) */
+.label-standard {
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: #374151;
+}
+@media (min-width: 640px) {
+  .label-standard { font-size: 0.875rem; }
+}
+
+/* 8. Navigation (14–15px) */
+.nav-item {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  transition: color 0.15s ease;
+}
+.nav-item:hover {
+  color: #0a0a0a;
+}
+@media (min-width: 640px) {
+  .nav-item { font-size: 15px; }
+}
+
+/* 9. Dashboard Metrics (28–32px) */
+.metric-value {
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 640px) {
+  .metric-value { font-size: 30px; }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Focus outline accessibility */
+*:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+/* Lenis Smooth Scroll Core Rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ========================================================================= */
+/* CINEMATIC CYBER GLITCH TRANSITION KEYFRAMES                              */
+/* ========================================================================= */
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(15% 0 65% 0);
+    transform: translate3d(-6px, -2px, 0);
+  }
+  20% {
+    clip-path: inset(60% 0 15% 0);
+    transform: translate3d(6px, 2px, 0);
+  }
+  40% {
+    clip-path: inset(35% 0 45% 0);
+    transform: translate3d(-6px, 1px, 0);
+  }
+  60% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translate3d(5px, -2px, 0);
+  }
+  80% {
+    clip-path: inset(10% 0 75% 0);
+    transform: translate3d(-4px, 3px, 0);
+  }
+  100% {
+    clip-path: inset(25% 0 55% 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(25% 0 55% 0);
+    transform: translate3d(6px, 2px, 0);
+  }
+  20% {
+    clip-path: inset(45% 0 35% 0);
+    transform: translate3d(-5px, -2px, 0);
+  }
+  40% {
+    clip-path: inset(70% 0 10% 0);
+    transform: translate3d(6px, -1px, 0);
+  }
+  60% {
+    clip-path: inset(15% 0 65% 0);
+    transform: translate3d(-4px, 2px, 0);
+  }
+  80% {
+    clip-path: inset(55% 0 25% 0);
+    transform: translate3d(5px, -3px, 0);
+  }
+  100% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes glitch-shake {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  10% { transform: translate3d(-5px, 2px, 0) scale(1.02); }
+  25% { transform: translate3d(6px, -3px, 0) scale(0.99); }
+  40% { transform: translate3d(-7px, 1px, 0) scale(1.01); }
+  55% { transform: translate3d(5px, 3px, 0) scale(0.98); }
+  70% { transform: translate3d(-4px, -2px, 0) scale(1.03); }
+  85% { transform: translate3d(6px, -1px, 0) scale(0.99); }
+  100% { transform: translate3d(0, 0, 0) scale(1.05); }
+}
+
+.animate-glitch-1 {
+  animation: glitch-anim-1 0.22s infinite linear alternate-reverse;
+}
+
+.animate-glitch-2 {
+  animation: glitch-anim-2 0.18s infinite linear alternate-reverse;
+}
+
+.animate-glitch-shake {
+  animation: glitch-shake 0.28s infinite ease-in-out;
+}

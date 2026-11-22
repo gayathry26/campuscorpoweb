@@ -13,15 +13,25 @@ import {
   Users,
   Shield,
   ArrowRight,
+  ArrowLeft,
   BookOpen,
   Sparkles,
 } from 'lucide-react';
 
 export function Login({ portal = 'student' }) {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
+
+  // If already authenticated, redirect to destination
+  useEffect(() => {
+    if (user) {
+      const defaultDest = user.roleName === 'STUDENT' ? '/profile' : '/dashboard';
+      const destination = location.state?.from?.pathname || defaultDest;
+      navigate(destination, { replace: true });
+    }
+  }, [user, navigate, location]);
 
   // Active Portal Role ('student' | 'faculty' | 'admin')
   const [activeRole, setActiveRole] = useState(() => {
@@ -159,7 +169,13 @@ export function Login({ portal = 'student' }) {
 
         {/* Bottom Platform Credit */}
         <div className="relative z-10 pt-4 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-500">
-          <span>Powered by <strong className="text-neutral-300">CampusCorpo Enterprise</strong></span>
+          <Link
+            to="/"
+            className="hover:text-white transition-colors flex items-center gap-1 font-medium text-neutral-400"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Public Website</span>
+          </Link>
           <Link
             to="/platform-admin/login"
             className="hover:text-white transition-colors flex items-center gap-1 font-medium text-neutral-400"
@@ -175,6 +191,17 @@ export function Login({ portal = 'student' }) {
       {/* ========================================================================= */}
       <div className="w-full lg:w-[50%] lg:h-full flex items-center justify-center p-6 sm:p-10 lg:p-12 bg-white dark:bg-neutral-950 overflow-y-auto">
         <div className="w-full max-w-[400px] my-auto space-y-6">
+
+          {/* Top Return to Website Link */}
+          <div className="flex items-center justify-between pb-1">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to CampusCorpo Website</span>
+            </Link>
+          </div>
 
           {/* Portal Role Selector Tabs */}
           <div>

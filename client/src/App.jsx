@@ -49,6 +49,22 @@ import { DomainKnowledgeHub } from './pages/career/DomainKnowledgeHub';
 import { DomainLearningWorkspace } from './pages/career/DomainLearningWorkspace';
 import { AdminDomainKnowledgeManagement } from './pages/admin/AdminDomainKnowledgeManagement';
 
+// Public Marketing Website Pages (from STATICFRONTEND)
+import WebsiteLayout from './website/WebsiteLayout';
+import HomePage from './website/pages/HomePage';
+import PlatformPage from './website/pages/PlatformPage';
+import AboutPage from './website/pages/AboutPage';
+import ContactPage from './website/pages/ContactPage';
+import CompanyExplorerPage from './website/pages/CompanyExplorerPage';
+import CareerExplorerPage from './website/pages/CareerExplorerPage';
+import PlacementManagementPage from './website/pages/PlacementManagementPage';
+import StudentManagementPage from './website/pages/StudentManagementPage';
+import FacultyManagementPage from './website/pages/FacultyManagementPage';
+import AdministrationPage from './website/pages/AdministrationPage';
+import LmsPage from './website/pages/LmsPage';
+import ProgrammingAssessmentPage from './website/pages/ProgrammingAssessmentPage';
+import MockInterviewsPage from './website/pages/MockInterviewsPage';
+
 // Platform Super Admin (SaaS Governance) Pages
 import { PlatformLogin } from './pages/platform/PlatformLogin';
 import { PlatformAdminLayout } from './pages/platform/PlatformAdminLayout';
@@ -158,7 +174,7 @@ function ProtectedRoute({ children, path }) {
   const requiredModule = getRequiredModuleForPath(currentPath);
   if (requiredModule && isModuleEnabled && !isModuleEnabled(requiredModule)) {
     // Silent redirection: Never show disabled badges or deactivated screens
-    return <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/'} replace />;
+    return <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/dashboard'} replace />;
   }
 
   // 2. ROLE-BASED ACCESS CONTROL (RBAC) CHECK
@@ -177,7 +193,7 @@ function ProtectedRoute({ children, path }) {
           </p>
           <div className="flex items-center justify-center gap-3">
             <Link
-              to={user.roleName === 'STUDENT' ? '/profile' : '/'}
+              to={user.roleName === 'STUDENT' ? '/profile' : '/dashboard'}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold shadow-xs transition-transform active:scale-95 bg-primary text-primary-foreground hover:opacity-90"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -207,15 +223,14 @@ function ProtectedPlatformRoute({ children }) {
   return <PlatformAdminLayout>{children}</PlatformAdminLayout>;
 }
 
-// Dedicated Route Handlers per User Prompt Requirements:
-// Direct login is student login
-function DirectRoute() {
+// Dedicated Portal Route Handlers:
+function PortalRoute() {
   const { user, loading } = useAuth();
   if (loading) {
     return <UniserveLoader title="CampusCorp" subtitle="Student Career Gateway" status="Connecting to student database..." />;
   }
   if (!user) {
-    return <Login portal="student" />;
+    return <Navigate to="/login" replace />;
   }
   return (
     <Layout>
@@ -234,7 +249,7 @@ function SuperAdminRoute() {
     return <Login portal="superadmin" />;
   }
   if (user.roleName !== 'SUPER_ADMIN' && user.roleName !== 'ADMIN') {
-    return <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/'} replace />;
+    return <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/dashboard'} replace />;
   }
   return (
     <Layout>
@@ -257,7 +272,7 @@ function AdminRoute() {
       {user.roleName === 'SUPER_ADMIN' || user.roleName === 'ADMIN' ? (
         <Admin />
       ) : (
-        <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/'} replace />
+        <Navigate to={user.roleName === 'STUDENT' ? '/profile' : '/dashboard'} replace />
       )}
     </Layout>
   );
@@ -307,6 +322,34 @@ export default function App() {
                 <UIProvider>
                   <ScrollToTop />
                   <Routes>
+                    {/* Level 0: Public Marketing Website (from STATICFRONTEND) */}
+                    <Route path="/" element={<WebsiteLayout><HomePage /></WebsiteLayout>} />
+                    <Route path="/platform" element={<WebsiteLayout><PlatformPage /></WebsiteLayout>} />
+                    <Route path="/about" element={<WebsiteLayout><AboutPage /></WebsiteLayout>} />
+                    <Route path="/contact" element={<WebsiteLayout><ContactPage /></WebsiteLayout>} />
+                    <Route path="/company-explorer" element={<WebsiteLayout><CompanyExplorerPage /></WebsiteLayout>} />
+                    <Route path="/career-explorer" element={<WebsiteLayout><CareerExplorerPage /></WebsiteLayout>} />
+
+                    {/* Dedicated Public Solution & Feature Module Pages */}
+                    <Route path="/solutions/placement-management" element={<WebsiteLayout><PlacementManagementPage /></WebsiteLayout>} />
+                    <Route path="/placement-management" element={<WebsiteLayout><PlacementManagementPage /></WebsiteLayout>} />
+
+                    <Route path="/solutions/student-management" element={<WebsiteLayout><StudentManagementPage /></WebsiteLayout>} />
+                    <Route path="/student-management" element={<WebsiteLayout><StudentManagementPage /></WebsiteLayout>} />
+
+                    <Route path="/solutions/faculty-management" element={<WebsiteLayout><FacultyManagementPage /></WebsiteLayout>} />
+                    <Route path="/faculty-management" element={<WebsiteLayout><FacultyManagementPage /></WebsiteLayout>} />
+
+                    <Route path="/solutions/administration" element={<WebsiteLayout><AdministrationPage /></WebsiteLayout>} />
+
+                    <Route path="/solutions/lms" element={<WebsiteLayout><LmsPage /></WebsiteLayout>} />
+
+                    <Route path="/features/programming-assessment" element={<WebsiteLayout><ProgrammingAssessmentPage /></WebsiteLayout>} />
+                    <Route path="/programming-assessment" element={<WebsiteLayout><ProgrammingAssessmentPage /></WebsiteLayout>} />
+
+                    <Route path="/features/mock-interviews" element={<WebsiteLayout><MockInterviewsPage /></WebsiteLayout>} />
+                    <Route path="/mock-interviews" element={<WebsiteLayout><MockInterviewsPage /></WebsiteLayout>} />
+
                     {/* Level 1: Global Platform Super Admin Routes */}
                     <Route path="/platform-admin/login" element={<PlatformLogin />} />
                     <Route path="/platform-admin" element={<ProtectedPlatformRoute><PlatformOverview /></ProtectedPlatformRoute>} />
@@ -320,43 +363,43 @@ export default function App() {
                     <Route path="/platform-admin/audit-logs" element={<ProtectedPlatformRoute><PlatformAuditLogs /></ProtectedPlatformRoute>} />
                     <Route path="/platform-admin/settings" element={<ProtectedPlatformRoute><PlatformSettings /></ProtectedPlatformRoute>} />
 
-                    {/* Direct Login and Specified Routes */}
-                  <Route path="/" element={<DirectRoute />} />
-                  <Route path="/login" element={<Login portal="student" />} />
-                  <Route path="/superadmin" element={<SuperAdminRoute />} />
-                  <Route path="/admin" element={<AdminRoute />} />
-                  <Route path="/placement" element={<PlacementRoute />} />
-                  <Route path="/staff" element={<StaffRoute />} />
+                    {/* Level 2: Institutional Portal Gateway & Direct Logins */}
+                    <Route path="/login" element={<Login portal="student" />} />
+                    <Route path="/dashboard" element={<PortalRoute />} />
+                    <Route path="/portal" element={<PortalRoute />} />
+                    <Route path="/superadmin" element={<SuperAdminRoute />} />
+                    <Route path="/admin" element={<AdminRoute />} />
+                    <Route path="/placement" element={<PlacementRoute />} />
+                    <Route path="/staff" element={<StaffRoute />} />
 
-                  {/* Settings & Appearance */}
-                  <Route path="/settings" element={<ProtectedRoute path="/settings"><Settings /></ProtectedRoute>} />
+                    {/* Settings & Appearance */}
+                    <Route path="/settings" element={<ProtectedRoute path="/settings"><Settings /></ProtectedRoute>} />
 
-                  {/* Career Explorer & Role Comparison & Skill Analyzer */}
-                  <Route path="/domains" element={<ProtectedRoute path="/domains"><Domains /></ProtectedRoute>} />
-                  <Route path="/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
-                  <Route path="/career-explorer/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
-                  <Route path="/domains/:domainSlug/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
-                  <Route path="/career-explorer/roles/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
-                  <Route path="/roles/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
-                  <Route path="/compare" element={<ProtectedRoute path="/compare"><CompareRoles /></ProtectedRoute>} />
-                  <Route path="/skill-analyzer" element={<ProtectedRoute path="/skill-analyzer"><SkillAnalyzer /></ProtectedRoute>} />
-                  <Route path="/role-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
-                  <Route path="/career-explorer" element={<Navigate to="/domains" replace />} />
-                  <Route path="/career-explorer/domains" element={<Navigate to="/domains" replace />} />
-                  <Route path="/career-explorer/compare" element={<Navigate to="/compare" replace />} />
-                  <Route path="/career-explorer/skill-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
-                  <Route path="/github-scanner" element={<ProtectedRoute path="/skill-analyzer"><GithubRepoScanner /></ProtectedRoute>} />
-                  <Route path="/career-explorer/github-scanner" element={<ProtectedRoute path="/skill-analyzer"><GithubRepoScanner /></ProtectedRoute>} />
-                  <Route path="/career-explorer/companies" element={<ProtectedRoute path="/career-explorer"><CompanyLocationExplorer /></ProtectedRoute>} />
-                  <Route path="/career-explorer/companies/:id" element={<ProtectedRoute path="/career-explorer"><CompanyLocationDetail /></ProtectedRoute>} />
-                  <Route path="/companies-by-location" element={<Navigate to="/career-explorer/companies" replace />} />
+                    {/* Career Explorer & Role Comparison & Skill Analyzer */}
+                    <Route path="/domains" element={<ProtectedRoute path="/domains"><Domains /></ProtectedRoute>} />
+                    <Route path="/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
+                    <Route path="/career-explorer/domains" element={<Navigate to="/domains" replace />} />
+                    <Route path="/career-explorer/domains/:slug" element={<ProtectedRoute path="/domains"><DomainDetail /></ProtectedRoute>} />
+                    <Route path="/domains/:domainSlug/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
+                    <Route path="/career-explorer/roles/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
+                    <Route path="/roles/:roleSlug" element={<ProtectedRoute path="/domains"><RoleDetailPage /></ProtectedRoute>} />
+                    <Route path="/compare" element={<ProtectedRoute path="/compare"><CompareRoles /></ProtectedRoute>} />
+                    <Route path="/skill-analyzer" element={<ProtectedRoute path="/skill-analyzer"><SkillAnalyzer /></ProtectedRoute>} />
+                    <Route path="/role-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
+                    <Route path="/career-explorer/compare" element={<Navigate to="/compare" replace />} />
+                    <Route path="/career-explorer/skill-analyzer" element={<Navigate to="/skill-analyzer" replace />} />
+                    <Route path="/github-scanner" element={<ProtectedRoute path="/skill-analyzer"><GithubRepoScanner /></ProtectedRoute>} />
+                    <Route path="/career-explorer/github-scanner" element={<ProtectedRoute path="/skill-analyzer"><GithubRepoScanner /></ProtectedRoute>} />
+                    <Route path="/career-explorer/companies" element={<ProtectedRoute path="/career-explorer"><CompanyLocationExplorer /></ProtectedRoute>} />
+                    <Route path="/career-explorer/companies/:id" element={<ProtectedRoute path="/career-explorer"><CompanyLocationDetail /></ProtectedRoute>} />
+                    <Route path="/companies-by-location" element={<Navigate to="/career-explorer/companies" replace />} />
 
-                  {/* Domain Knowledge Hub & Technical Learning Library */}
-                  <Route path="/career-explorer/knowledge-hub" element={<ProtectedRoute path="/domains"><DomainKnowledgeHub /></ProtectedRoute>} />
-                  <Route path="/career-explorer/knowledge-hub/:domainSlug" element={<ProtectedRoute path="/domains"><DomainLearningWorkspace /></ProtectedRoute>} />
-                  <Route path="/career-explorer/knowledge-hub/:domainSlug/:moduleNumber" element={<ProtectedRoute path="/domains"><DomainLearningWorkspace /></ProtectedRoute>} />
-                  <Route path="/knowledge-hub" element={<Navigate to="/career-explorer/knowledge-hub" replace />} />
-                  <Route path="/knowledge-hub/:domainSlug" element={<Navigate to="/career-explorer/knowledge-hub/:domainSlug" replace />} />
+                    {/* Domain Knowledge Hub & Technical Learning Library */}
+                    <Route path="/career-explorer/knowledge-hub" element={<ProtectedRoute path="/domains"><DomainKnowledgeHub /></ProtectedRoute>} />
+                    <Route path="/career-explorer/knowledge-hub/:domainSlug" element={<ProtectedRoute path="/domains"><DomainLearningWorkspace /></ProtectedRoute>} />
+                    <Route path="/career-explorer/knowledge-hub/:domainSlug/:moduleNumber" element={<ProtectedRoute path="/domains"><DomainLearningWorkspace /></ProtectedRoute>} />
+                    <Route path="/knowledge-hub" element={<Navigate to="/career-explorer/knowledge-hub" replace />} />
+                    <Route path="/knowledge-hub/:domainSlug" element={<Navigate to="/career-explorer/knowledge-hub/:domainSlug" replace />} />
                   <Route path="/admin/domain-knowledge-hub" element={<ProtectedRoute path="/admin"><AdminDomainKnowledgeManagement /></ProtectedRoute>} />
 
                   {/* LMS - Role-Based Learning Management System */}
@@ -390,9 +433,9 @@ export default function App() {
                   <Route path="/policies" element={<ProtectedRoute path="/policies"><Policies /></ProtectedRoute>} />
                   <Route path="/reports" element={<ProtectedRoute path="/reports"><Reports /></ProtectedRoute>} />
                   <Route path="/finance" element={<ProtectedRoute path="/finance"><Finance /></ProtectedRoute>} />
-                  <Route path="/alumni" element={<Navigate to="/" replace />} />
+                  <Route path="/alumni" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/grievances" element={<ProtectedRoute path="/grievances"><Grievances /></ProtectedRoute>} />
-                  <Route path="/ai-assistant" element={<Navigate to="/" replace />} />
+                  <Route path="/ai-assistant" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/admin/academics" element={<ProtectedRoute path="/admin/academics"><DepartmentAcademicManagement /></ProtectedRoute>} />
                   <Route path="/admin/departments" element={<ProtectedRoute path="/admin/academics"><DepartmentAcademicManagement /></ProtectedRoute>} />
                   <Route path="/college-admin" element={<ProtectedRoute path="/admin"><CollegeAdminDashboard /></ProtectedRoute>} />
