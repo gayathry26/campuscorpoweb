@@ -11,10 +11,15 @@
     "dev:client": "npm run dev --prefix client",
     "server": "node server/src/server.js",
     "client": "npm run dev --prefix client",
-    "build": "npm run build --prefix client",
+    "postinstall": "npm install --prefix client",
+    "build": "npm run build --prefix client && node -e \"const fs=require('fs'); if(fs.existsSync('client/dist')){fs.cpSync('client/dist','dist',{recursive:true});}\"",
+    "vercel-build": "npm run build",
     "test:saas": "npm run test:saas --prefix server",
     "migrate": "npm run migrate --prefix server",
     "seed": "npm run seed --prefix server"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
   },
   "keywords": [
     "placement",
