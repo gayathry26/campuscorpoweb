@@ -1,0 +1,1466 @@
+{
+  "executedAt": "2026-11-21T12:51:49.508Z",
+  "targetHost": "127.0.0.1:3306",
+  "totalDatabases": 16,
+  "validationResults": {
+    "campuscorp_platform": {
+      "expectedTables": 11,
+      "expectedRows": 428,
+      "actualTables": 11,
+      "actualRows": 428,
+      "tableResults": {
+        "colleges": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "college_database_registry": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "college_invoices": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "college_module_entitlements": {
+          "expected": 63,
+          "actual": 63,
+          "matches": true
+        },
+        "college_subscriptions": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "platform_audit_logs": {
+          "expected": 293,
+          "actual": 293,
+          "matches": true
+        },
+        "platform_modules": {
+          "expected": 9,
+          "actual": 9,
+          "matches": true
+        },
+        "platform_revoked_tokens": {
+          "expected": 27,
+          "actual": 27,
+          "matches": true
+        },
+        "platform_settings": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "platform_users": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "subscription_plans": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms": {
+      "expectedTables": 68,
+      "expectedRows": 1995,
+      "actualTables": 68,
+      "actualRows": 1995,
+      "tableResults": {
+        "academic_structures": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "admin_wizard_drafts": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "alumni_network": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        },
+        "assessment_submissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "audit_logs": {
+          "expected": 290,
+          "actual": 290,
+          "matches": true
+        },
+        "career_domains": {
+          "expected": 38,
+          "actual": 38,
+          "matches": true
+        },
+        "career_roles": {
+          "expected": 114,
+          "actual": 114,
+          "matches": true
+        },
+        "career_role_domains": {
+          "expected": 223,
+          "actual": 223,
+          "matches": true
+        },
+        "career_role_requirements": {
+          "expected": 719,
+          "actual": 719,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "companies": {
+          "expected": 15,
+          "actual": 15,
+          "matches": true
+        },
+        "company_offices": {
+          "expected": 21,
+          "actual": 21,
+          "matches": true
+        },
+        "company_recruiters": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "company_tech_domains": {
+          "expected": 22,
+          "actual": 22,
+          "matches": true
+        },
+        "department_databases": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "drive_announcements": {
+          "expected": 5,
+          "actual": 5,
+          "matches": true
+        },
+        "drive_rounds": {
+          "expected": 40,
+          "actual": 40,
+          "matches": true
+        },
+        "grievances": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "import_jobs": {
+          "expected": 10,
+          "actual": 10,
+          "matches": true
+        },
+        "internships": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "interviews": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 23,
+          "actual": 23,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "lms_announcements": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "lms_assignments": {
+          "expected": 13,
+          "actual": 13,
+          "matches": true
+        },
+        "lms_assignment_submissions": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "lms_certificates": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 16,
+          "actual": 16,
+          "matches": true
+        },
+        "lms_course_enrollments": {
+          "expected": 28,
+          "actual": 28,
+          "matches": true
+        },
+        "lms_course_resources": {
+          "expected": 41,
+          "actual": 41,
+          "matches": true
+        },
+        "lms_discussions": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        },
+        "lms_discussion_replies": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "lms_faculty_course_assignments": {
+          "expected": 12,
+          "actual": 12,
+          "matches": true
+        },
+        "lms_learning_paths": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "lms_learning_path_enrollments": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "lms_lessons": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "lms_lesson_progress": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_live_attendance": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "lms_live_classes": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        },
+        "lms_modules": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        },
+        "lms_notifications": {
+          "expected": 18,
+          "actual": 18,
+          "matches": true
+        },
+        "lms_quizzes": {
+          "expected": 15,
+          "actual": 15,
+          "matches": true
+        },
+        "lms_quiz_attempts": {
+          "expected": 5,
+          "actual": 5,
+          "matches": true
+        },
+        "lms_quiz_questions": {
+          "expected": 33,
+          "actual": 33,
+          "matches": true
+        },
+        "lms_student_notes": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "lms_student_portfolio_projects": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "lms_support_tickets": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "mock_interviews": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "notifications": {
+          "expected": 14,
+          "actual": 14,
+          "matches": true
+        },
+        "placement_budget": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 10,
+          "actual": 10,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "placement_policies": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "resume_analyses": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "skills_catalogue": {
+          "expected": 102,
+          "actual": 102,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 9,
+          "actual": 9,
+          "matches": true
+        },
+        "student_documents": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_learning_roadmaps": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "student_saved_roles": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_skills": {
+          "expected": 11,
+          "actual": 11,
+          "matches": true
+        },
+        "student_skill_analysis_history": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "student_skill_assessments": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "training_programs": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "users": {
+          "expected": 24,
+          "actual": 24,
+          "matches": true
+        },
+        "user_preferences": {
+          "expected": 14,
+          "actual": 14,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms_cse": {
+      "expectedTables": 11,
+      "expectedRows": 80,
+      "actualTables": 11,
+      "actualRows": 80,
+      "tableResults": {
+        "classes": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 51,
+          "actual": 51,
+          "matches": true
+        },
+        "dept_eligibility_overrides": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_mock_evaluations": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "dept_training_attendance": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "sections": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 5,
+          "actual": 5,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 5,
+          "actual": 5,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 5,
+          "actual": 5,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms_ece": {
+      "expectedTables": 11,
+      "expectedRows": 8,
+      "actualTables": 11,
+      "actualRows": 8,
+      "tableResults": {
+        "classes": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 4,
+          "actual": 4,
+          "matches": true
+        },
+        "dept_eligibility_overrides": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_mock_evaluations": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "dept_training_attendance": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms_eee": {
+      "expectedTables": 11,
+      "expectedRows": 0,
+      "actualTables": 11,
+      "actualRows": 0,
+      "tableResults": {
+        "classes": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_eligibility_overrides": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_mock_evaluations": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_training_attendance": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms_mech": {
+      "expectedTables": 11,
+      "expectedRows": 16,
+      "actualTables": 11,
+      "actualRows": 16,
+      "tableResults": {
+        "classes": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 10,
+          "actual": 10,
+          "matches": true
+        },
+        "dept_eligibility_overrides": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "dept_mock_evaluations": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "dept_training_attendance": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms_civil": {
+      "expectedTables": 11,
+      "expectedRows": 2,
+      "actualTables": 11,
+      "actualRows": 2,
+      "tableResults": {
+        "classes": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "dept_eligibility_overrides": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_mock_evaluations": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_training_attendance": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "lms_it": {
+      "expectedTables": 11,
+      "expectedRows": 0,
+      "actualTables": 11,
+      "actualRows": 0,
+      "tableResults": {
+        "classes": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_eligibility_overrides": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_mock_evaluations": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_training_attendance": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_dept_aids": {
+      "expectedTables": 8,
+      "expectedRows": 1,
+      "actualTables": 8,
+      "actualRows": 1,
+      "tableResults": {
+        "classes": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_dept_robotics": {
+      "expectedTables": 8,
+      "expectedRows": 18,
+      "actualTables": 8,
+      "actualRows": 18,
+      "tableResults": {
+        "classes": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "dept_audit_logs": {
+          "expected": 10,
+          "actual": 10,
+          "matches": true
+        },
+        "dept_students_academic": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "sections": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        },
+        "semester_records": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "student_academic_records": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "student_profiles": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_college_abc": {
+      "expectedTables": 15,
+      "expectedRows": 24,
+      "actualTables": 15,
+      "actualRows": 24,
+      "tableResults": {
+        "academic_years": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "college_settings": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "companies": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "departments": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "users": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_college_amr": {
+      "expectedTables": 15,
+      "expectedRows": 22,
+      "actualTables": 15,
+      "actualRows": 22,
+      "tableResults": {
+        "academic_years": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "college_settings": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "companies": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "departments": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "users": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_college_cit": {
+      "expectedTables": 15,
+      "expectedRows": 23,
+      "actualTables": 15,
+      "actualRows": 23,
+      "tableResults": {
+        "academic_years": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "college_settings": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "companies": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "departments": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "users": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_college_kct": {
+      "expectedTables": 15,
+      "expectedRows": 25,
+      "actualTables": 15,
+      "actualRows": 25,
+      "tableResults": {
+        "academic_years": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "college_settings": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "companies": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "departments": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "users": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_college_psg": {
+      "expectedTables": 15,
+      "expectedRows": 24,
+      "actualTables": 15,
+      "actualRows": 24,
+      "tableResults": {
+        "academic_years": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "college_settings": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "companies": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "departments": {
+          "expected": 8,
+          "actual": 8,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "users": {
+          "expected": 1,
+          "actual": 1,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    },
+    "campuscorp_college_xyz": {
+      "expectedTables": 15,
+      "expectedRows": 24,
+      "actualTables": 15,
+      "actualRows": 24,
+      "tableResults": {
+        "academic_years": {
+          "expected": 2,
+          "actual": 2,
+          "matches": true
+        },
+        "assessment_questions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "coding_assessments": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "college_settings": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "companies": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "departments": {
+          "expected": 6,
+          "actual": 6,
+          "matches": true
+        },
+        "jobs": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "job_applications": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "lms_courses": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_drives": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "placement_offers": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "roles": {
+          "expected": 7,
+          "actual": 7,
+          "matches": true
+        },
+        "role_permissions": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "students_master": {
+          "expected": 0,
+          "actual": 0,
+          "matches": true
+        },
+        "users": {
+          "expected": 3,
+          "actual": 3,
+          "matches": true
+        }
+      },
+      "status": "VERIFIED"
+    }
+  },
+  "mismatches": [],
+  "criticalRecordVerification": {
+    "activeColleges": {
+      "count": 7,
+      "sample": [
+        "CAMPUS_MAIN (CampusCorp Institute of Technology)",
+        "PSG (PSG College of Technology)",
+        "CIT (Coimbatore Institute of Technology)",
+        "ABC (ABC Institute of Technology)",
+        "XYZ (XYZ Engineering College)",
+        "KCT (Kumaraguru College of Technology)",
+        "AMR (amrita)"
+      ]
+    },
+    "usersByRole": [
+      {
+        "role_name": "ADMIN",
+        "cnt": 1
+      },
+      {
+        "role_name": "ALUMNI",
+        "cnt": 1
+      },
+      {
+        "role_name": "FACULTY_COORDINATOR",
+        "cnt": 8
+      },
+      {
+        "role_name": "MANAGEMENT",
+        "cnt": 1
+      },
+      {
+        "role_name": "RECRUITER",
+        "cnt": 2
+      },
+      {
+        "role_name": "STUDENT",
+        "cnt": 9
+      },
+      {
+        "role_name": "SUPER_ADMIN",
+        "cnt": 1
+      },
+      {
+        "role_name": "TPO_OFFICER",
+        "cnt": 1
+      }
+    ],
+    "activeDepartmentDatabases": [
+      "CSE -> lms_cse",
+      "ECE -> lms_ece",
+      "EEE -> lms_eee",
+      "MECH -> lms_mech",
+      "CIVIL -> lms_civil",
+      "IT -> lms_it",
+      "AIDS -> campuscorp_dept_aids",
+      "ROBOTICS -> campuscorp_dept_robotics"
+    ]
+  },
+  "passed": true
+}

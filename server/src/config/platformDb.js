@@ -14,6 +14,7 @@ const dbConfig = {
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000,
+  ...(process.env.DB_SSL === 'true' ? { ssl: { rejectUnauthorized: true } } : {}),
 };
 
 const platformDbName = process.env.DB_PLATFORM_NAME || 'campuscorp_platform';

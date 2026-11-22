@@ -1,0 +1,44 @@
+{
+  "scannedAt": "2026-11-21T12:53:32.998Z",
+  "targetBucket": "LOCAL_AUDIT_MODE",
+  "region": "us-east-1",
+  "totalFiles": 5,
+  "totalBytes": 26484,
+  "files": [
+    {
+      "localPath": "d:\\INNOVO\\server\\uploads\\policies\\Institutional_Placement_Code_of_Conduct_2026_27.pdf",
+      "s3Key": "uploads/policies/Institutional_Placement_Code_of_Conduct_2026_27.pdf",
+      "sizeBytes": 784,
+      "contentType": "application/pdf",
+      "sha256": "27e103876574934cadfd0a5594954ca4dbdd698e231b51e9a18b4a061c8d1995"
+    },
+    {
+      "localPath": "d:\\INNOVO\\server\\uploads\\policies\\policy-CampusCorp_CSE_Policy_2026_27-1792393358427-896592c3.pdf",
+      "s3Key": "uploads/policies/policy-CampusCorp_CSE_Policy_2026_27-1792393358427-896592c3.pdf",
+      "sizeBytes": 730,
+      "contentType": "application/pdf",
+      "sha256": "35ca213f29fb47d89a0ec95cdf8badb955eff6c9a8f49b6c9be488944f76a96e"
+    },
+    {
+      "localPath": "d:\\INNOVO\\server\\uploads\\policies\\policy-Draft_Norms_Review-1792393358458-4d122b39.pdf",
+      "s3Key": "uploads/policies/policy-Draft_Norms_Review-1792393358458-4d122b39.pdf",
+      "sizeBytes": 670,
+      "contentType": "application/pdf",
+      "sha256": "46b7130af7d96a15b2a24b573d82d7245a7df61d8977fa643ed3fd6dc49a97f1"
+    },
+    {
+      "localPath": "d:\\INNOVO\\server\\uploads\\policies\\policy-University_Master_Policy_2026_27-1792393358448-439fc685.pdf",
+      "s3Key": "uploads/policies/policy-University_Master_Policy_2026_27-1792393358448-439fc685.pdf",
+      "sizeBytes": 748,
+      "contentType": "application/pdf",
+      "sha256": "2e4468136578e59605c3f0037ec2d99a36338b4589ded28aa3cfa6d8abce6afd"
+    },
+    {
+      "localPath": "d:\\INNOVO\\server\\public\\downloads\\CampusCorp-SecureLock.exe",
+      "s3Key": "downloads/CampusCorp-SecureLock.exe",
+      "sizeBytes": 23552,
+      "contentType": "application/vnd.microsoft.portable-executable",
+      "sha256": "f7c74f2e0eb07014b86a0bc42c8ce5929093ca9ba64f20958f1864f5585400e3"
+    }
+  ]
+}

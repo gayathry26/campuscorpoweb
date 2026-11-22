@@ -9,6 +9,7 @@ node_modules/
 **/.env
 **/.env.*
 !**/.env.example
+!**/.env.*.example
 server/.env
 
 # Build outputs
@@ -40,6 +41,10 @@ scratch/
 *.weights
 server/src/models/*
 !server/src/models/.gitkeep
+
+# Database SQL Dumps
+backups/**/*.sql
+backups/*.sql
 
 # OS and Editor
 .DS_Store

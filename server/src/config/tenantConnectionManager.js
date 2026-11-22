@@ -142,13 +142,24 @@ async function getTenantPool(identifier) {
     return tenantPools.get(dbName);
   }
 
-  const pool = mysql.createPool({
+  const isLocalHost = (h) => !h || h === '127.0.0.1' || h === 'localhost';
+  const effectiveHost = (!isLocalHost(metadata.db_host) || isLocalHost(defaultDbConfig.host))
+    ? (metadata.db_host || defaultDbConfig.host)
+    : defaultDbConfig.host;
+
+  const poolConfig = {
     ...defaultDbConfig,
-    host: metadata.db_host || defaultDbConfig.host,
+    host: effectiveHost,
     port: parseInt(metadata.db_port || defaultDbConfig.port, 10),
-    user: metadata.db_user || defaultDbConfig.user,
+    user: (metadata.db_user && metadata.db_user !== 'root') ? metadata.db_user : defaultDbConfig.user,
     database: dbName,
-  });
+  };
+
+  if (process.env.DB_SSL === 'true') {
+    poolConfig.ssl = { rejectUnauthorized: true };
+  }
+
+  const pool = mysql.createPool(poolConfig);
 
   tenantPools.set(dbName, pool);
   console.log(`✓ [TENANT CONNECTION MANAGER] Initialized dedicated connection pool for \`${dbName}\` (${metadata.code})`);
