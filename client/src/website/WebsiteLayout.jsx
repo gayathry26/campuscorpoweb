@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -16,6 +16,21 @@ import './index.css';
 export default function WebsiteLayout({ children }) {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const location = useLocation();
+
+  // Enforce crisp white background on public website routes
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove('dark');
+    root.style.backgroundColor = '#ffffff';
+    document.body.style.backgroundColor = '#ffffff';
+    document.body.style.color = '#0a0a0a';
+
+    return () => {
+      root.style.backgroundColor = '';
+      document.body.style.backgroundColor = '';
+      document.body.style.color = '';
+    };
+  }, [location.pathname]);
 
   // Initialize Lenis smooth scroll synchronized with GSAP ScrollTrigger
   useLenis();
@@ -57,7 +72,7 @@ export default function WebsiteLayout({ children }) {
       {/* Global Liquid Curved Black Curtain Page Transition */}
       <PageTransition />
 
-      <div className="min-h-screen bg-white font-sans text-neutral-900 selection:bg-neutral-950 selection:text-white flex flex-col justify-between relative">
+      <div className="website-shell min-h-screen bg-white font-sans text-neutral-900 selection:bg-neutral-950 selection:text-white flex flex-col justify-between relative" style={{ backgroundColor: '#ffffff', color: '#0a0a0a' }}>
         {/* 0. Cinematic Logo-to-Website Intro Transformation */}
         <AnimatePresence mode="wait">
           {showIntro && (

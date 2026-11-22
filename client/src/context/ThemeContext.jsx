@@ -19,12 +19,16 @@ const getThemeTokens = (isDark) => ({
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  // Clean, palette-free theme mode: strictly Light vs Dark
+  // Clean, palette-free theme mode: strictly Light vs Dark (defaults to light for public website)
   const [isDark, setIsDark] = useState(() => {
     try {
+      if (typeof window !== 'undefined') {
+        const p = window.location.pathname.toLowerCase();
+        const isMarketing = p === '/' || p.startsWith('/platform') || p.startsWith('/about') || p.startsWith('/contact') || p.startsWith('/company-explorer') || p.startsWith('/career-explorer') || p.startsWith('/solutions') || p.startsWith('/features');
+        if (isMarketing) return false;
+      }
       const saved = localStorage.getItem('campuscorp_theme_mode');
-      if (saved) return saved === 'dark';
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return saved === 'dark';
     } catch {
       return false;
     }
@@ -76,7 +80,10 @@ export function ThemeProvider({ children }) {
     } catch (e) {}
 
     const root = document.documentElement;
-    if (isDark) {
+    const p = typeof window !== 'undefined' ? window.location.pathname.toLowerCase() : '';
+    const isMarketing = p === '/' || p.startsWith('/platform') || p.startsWith('/about') || p.startsWith('/contact') || p.startsWith('/company-explorer') || p.startsWith('/career-explorer') || p.startsWith('/solutions') || p.startsWith('/features');
+
+    if (isDark && !isMarketing) {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');

@@ -115,7 +115,7 @@ export default function HeroSection({ onOpenDemo }) {
   }, []);
 
   return (
-    <section ref={heroRef} id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-white">
+    <section ref={heroRef} id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-white" style={{ backgroundColor: '#ffffff', color: '#0a0a0a' }}>
       {/* Subtle SaaS Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#f3f4f6_1px,transparent_1px),linear-gradient(to_bottom,#f3f4f6_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" />
 

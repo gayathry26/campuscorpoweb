@@ -13,9 +13,14 @@
     <script>
       (function() {
         try {
-          var mode = localStorage.getItem('campuscorp_theme_mode') || localStorage.getItem('uniserve_theme_mode');
-          var isDark = mode === 'dark' || (!mode && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          if (isDark) {
+          var path = window.location.pathname;
+          var isMarketing = path === '/' || path.startsWith('/platform') || path.startsWith('/about') || path.startsWith('/contact') || path.startsWith('/company-explorer') || path.startsWith('/career-explorer') || path.startsWith('/solutions') || path.startsWith('/features');
+          if (isMarketing) {
+            document.documentElement.classList.remove('dark');
+            return;
+          }
+          var mode = localStorage.getItem('campuscorp_theme_mode');
+          if (mode === 'dark') {
             document.documentElement.classList.add('dark');
           } else {
             document.documentElement.classList.remove('dark');
