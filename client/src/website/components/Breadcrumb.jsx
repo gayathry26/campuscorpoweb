@@ -7,7 +7,7 @@ export default function Breadcrumb({ items = [] }) {
   if (!items || items.length === 0) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className="py-3 px-4 sm:px-0">
+    <nav aria-label="Breadcrumb" className="py-2 sm:py-2.5 px-4 sm:px-0">
       <ol className="flex items-center flex-wrap gap-1.5 text-xs sm:text-[13px] text-neutral-500 font-medium">
         <li>
           <Link 

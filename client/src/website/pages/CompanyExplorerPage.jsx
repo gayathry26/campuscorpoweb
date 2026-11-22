@@ -50,7 +50,7 @@ export default function CompanyExplorerPage({ onOpenDemo }) {
   }, [selectedCity, searchQuery]);
 
   return (
-    <AnimatedPageWrapper className="pt-24 pb-20 bg-white">
+    <AnimatedPageWrapper className="pt-20 sm:pt-24 pb-16 bg-white">
       <SEOHead
         title={seo.title}
         description={seo.description}
@@ -66,7 +66,7 @@ export default function CompanyExplorerPage({ onOpenDemo }) {
         ]} />
 
         {/* Hero */}
-        <div className="py-10 md:py-14 text-center max-w-3xl mx-auto">
+        <div className="pt-2 sm:pt-4 pb-8 md:pb-10 text-center max-w-3xl mx-auto">
           <span className="text-xs font-semibold tracking-wider text-neutral-500 uppercase">
             REGIONAL CORPORATE DIRECTORY
           </span>

@@ -95,13 +95,13 @@ export default function Navbar({ onOpenDemo }) {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links (Standard 14–15px) */}
-          <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1" aria-label="Main Navigation">
             
             {/* Home */}
             <Link
               to="/"
-              className={`px-3.5 py-2 text-[14px] sm:text-[15px] font-medium rounded-lg transition-colors ${
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
                 location.pathname === '/' 
                   ? 'text-neutral-950 bg-neutral-100 font-semibold' 
                   : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
@@ -118,7 +118,7 @@ export default function Navbar({ onOpenDemo }) {
             >
               <Link
                 to="/platform"
-                className={`flex items-center gap-1 px-3.5 py-2 text-[14px] sm:text-[15px] font-medium rounded-lg transition-colors ${
+                className={`flex items-center gap-1 px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
                   location.pathname.startsWith('/platform') || location.pathname.startsWith('/solutions') || location.pathname.startsWith('/features')
                     ? 'text-neutral-950 bg-neutral-100 font-semibold'
                     : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
@@ -231,7 +231,7 @@ export default function Navbar({ onOpenDemo }) {
             {/* Career Explorer Direct Link */}
             <Link
               to="/career-explorer"
-              className={`px-3.5 py-2 text-[14px] sm:text-[15px] font-medium rounded-lg transition-colors ${
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
                 location.pathname === '/career-explorer'
                   ? 'text-neutral-950 bg-neutral-100 font-semibold'
                   : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
@@ -243,7 +243,7 @@ export default function Navbar({ onOpenDemo }) {
             {/* Company Explorer Direct Link */}
             <Link
               to="/company-explorer"
-              className={`px-3.5 py-2 text-[14px] sm:text-[15px] font-medium rounded-lg transition-colors ${
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
                 location.pathname === '/company-explorer'
                   ? 'text-neutral-950 bg-neutral-100 font-semibold'
                   : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
@@ -255,7 +255,7 @@ export default function Navbar({ onOpenDemo }) {
             {/* About */}
             <Link
               to="/about"
-              className={`px-3.5 py-2 text-[14px] sm:text-[15px] font-medium rounded-lg transition-colors ${
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
                 location.pathname === '/about'
                   ? 'text-neutral-950 bg-neutral-100 font-semibold'
                   : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
@@ -267,7 +267,7 @@ export default function Navbar({ onOpenDemo }) {
             {/* Contact */}
             <Link
               to="/contact"
-              className={`px-3.5 py-2 text-[14px] sm:text-[15px] font-medium rounded-lg transition-colors ${
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
                 location.pathname === '/contact'
                   ? 'text-neutral-950 bg-neutral-100 font-semibold'
                   : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
@@ -278,12 +278,12 @@ export default function Navbar({ onOpenDemo }) {
           </nav>
 
           {/* Right CTA */}
-          <div className="hidden sm:flex items-center gap-2.5 flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-2 xl:gap-2.5 flex-shrink-0">
             {user ? (
               <div className="flex items-center gap-2">
                 <Link
                   to={user.roleName === 'STUDENT' ? '/profile' : '/dashboard'}
-                  className="btn-step inline-flex items-center justify-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-neutral-950 hover:bg-neutral-800 rounded-xl shadow-xs transition-colors group"
+                  className="btn-step inline-flex items-center justify-center gap-2 px-3 xl:px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-neutral-950 hover:bg-neutral-800 rounded-xl shadow-xs transition-colors whitespace-nowrap group"
                 >
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span>Go to Portal ({user.first_name || user.roleName})</span>
@@ -291,7 +291,7 @@ export default function Navbar({ onOpenDemo }) {
                 </Link>
                 <button
                   onClick={logout}
-                  className="px-3 py-2 text-xs font-semibold text-neutral-600 hover:text-neutral-950 rounded-xl hover:bg-neutral-100 transition-colors"
+                  className="px-2.5 xl:px-3 py-2 text-xs font-semibold text-neutral-600 hover:text-neutral-950 rounded-xl hover:bg-neutral-100 transition-colors whitespace-nowrap"
                 >
                   Sign Out
                 </button>
@@ -300,14 +300,14 @@ export default function Navbar({ onOpenDemo }) {
               <>
                 <Link
                   to="/login"
-                  className="btn-step inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-neutral-950 hover:bg-neutral-800 rounded-xl shadow-xs transition-colors group"
+                  className="btn-step inline-flex items-center justify-center gap-1.5 px-3 xl:px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-neutral-950 hover:bg-neutral-800 rounded-xl shadow-xs transition-colors whitespace-nowrap group"
                 >
                   <LogIn className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white transition-colors" />
                   <span>Portal Sign In</span>
                 </Link>
                 <button
                   onClick={onOpenDemo}
-                  className="btn-step inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold text-neutral-900 bg-white hover:bg-neutral-50 rounded-xl border border-neutral-300 shadow-xs group"
+                  className="btn-step inline-flex items-center justify-center px-3 xl:px-4 py-2 text-xs sm:text-sm font-semibold text-neutral-900 bg-white hover:bg-neutral-50 rounded-xl border border-neutral-300 shadow-xs whitespace-nowrap group"
                 >
                   <span>Request a Demo</span>
                   <ArrowUpRight className="ml-1.5 h-3.5 w-3.5 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-neutral-950" />

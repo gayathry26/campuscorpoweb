@@ -24,7 +24,7 @@ export default function AboutPage({ onOpenDemo }) {
   const seo = routesSEO.about;
 
   return (
-    <AnimatedPageWrapper className="pt-24 pb-20 bg-white">
+    <AnimatedPageWrapper className="pt-20 sm:pt-24 pb-16 bg-white">
       <SEOHead
         title={seo.title}
         description={seo.description}
@@ -44,7 +44,7 @@ export default function AboutPage({ onOpenDemo }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="py-12 md:py-16 text-center max-w-3xl mx-auto"
+          className="pt-2 sm:pt-4 pb-12 md:pb-16 text-center max-w-3xl mx-auto"
         >
           <div className="h-16 w-16 mx-auto mb-4 bg-white border border-neutral-200 rounded-2xl p-2 shadow-xs flex items-center justify-center">
             <img src="/campuscorpo-mark.png" alt="CampusCorpo" className="h-full w-full object-contain" />

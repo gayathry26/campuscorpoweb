@@ -57,7 +57,7 @@ export default function PlatformPage({ onOpenDemo }) {
   ];
 
   return (
-    <AnimatedPageWrapper className="pt-24 pb-20 bg-white">
+    <AnimatedPageWrapper className="pt-20 sm:pt-24 pb-16 bg-white">
       <SEOHead
         title={seo.title}
         description={seo.description}
@@ -75,7 +75,7 @@ export default function PlatformPage({ onOpenDemo }) {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="py-12 md:py-16 text-center max-w-3xl mx-auto"
+          className="pt-2 sm:pt-4 pb-12 md:pb-16 text-center max-w-3xl mx-auto"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-300 bg-neutral-50 text-xs font-semibold text-neutral-800 shadow-2xs mb-4">
             <Sparkles className="w-3.5 h-3.5 text-neutral-950" />

@@ -19,7 +19,7 @@ export default function MockInterviewsPage({ onOpenDemo }) {
   const seo = routesSEO.mockInterviews;
 
   return (
-    <div className="pt-24 pb-20 bg-white">
+    <div className="pt-20 sm:pt-24 pb-16 bg-white">
       <SEOHead
         title={seo.title}
         description={seo.description}
@@ -36,7 +36,7 @@ export default function MockInterviewsPage({ onOpenDemo }) {
         ]} />
 
         {/* Hero */}
-        <div className="py-12 md:py-16 text-center max-w-3xl mx-auto">
+        <div className="pt-2 sm:pt-4 pb-12 md:pb-16 text-center max-w-3xl mx-auto">
           <span className="text-xs font-semibold tracking-wider text-neutral-500 uppercase">
             INTERVIEW INTELLIGENCE &amp; PRACTICE
           </span>

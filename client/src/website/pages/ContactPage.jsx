@@ -10,7 +10,7 @@ export default function ContactPage() {
   const seo = routesSEO.contact;
 
   return (
-    <AnimatedPageWrapper className="pt-24 pb-20 bg-white">
+    <AnimatedPageWrapper className="pt-20 sm:pt-24 pb-16 bg-white">
       <SEOHead
         title={seo.title}
         description={seo.description}
@@ -20,7 +20,7 @@ export default function ContactPage() {
         faqs={seo.faqs}
       />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-1">
         <Breadcrumb items={[
           { name: 'Contact CampusCorpo', href: '/contact' }
         ]} />
