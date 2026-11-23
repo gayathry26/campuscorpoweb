@@ -36,14 +36,14 @@ export default function Footer({ onReplayIntro }) {
   };
 
   return (
-    <footer className="bg-neutral-950 text-neutral-400 border-t border-neutral-900" itemScope itemType="https://schema.org/WPFooter">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+    <footer className="bg-[#0B0F17] text-neutral-400 border-t border-neutral-800/80 font-sans" itemScope itemType="https://schema.org/WPFooter">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-14">
         
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8">
+        {/* Main 4-Column Responsive Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
           
-          {/* Brand Info (4 Cols) */}
-          <div className="lg:col-span-4 space-y-3.5">
+          {/* Column 1: Company */}
+          <div className="space-y-4">
             <Link to="/" className="flex items-center gap-3 group focus:outline-none">
               <div className="flex items-center justify-center h-9 w-9 rounded-xl bg-white p-1 shadow-xs flex-shrink-0">
                 <img
@@ -55,20 +55,20 @@ export default function Footer({ onReplayIntro }) {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold tracking-tight text-white font-sans leading-none">
+                <span className="text-[17px] font-bold tracking-tight text-white font-sans leading-none">
                   Campus<span className="font-semibold text-neutral-400">Corpo</span>
                 </span>
-                <span className="text-[10px] tracking-wider uppercase text-neutral-400 font-medium mt-1">
+                <span className="text-[11px] tracking-wider uppercase text-neutral-400 font-medium mt-1">
                   Campus &amp; Career Platform
                 </span>
               </div>
             </Link>
 
-            <p className="text-xs sm:text-[13px] text-neutral-400 leading-relaxed max-w-sm font-normal">
-              One unified platform for institutional governance, semester classrooms, automated skill verification, and campus placement drives.
+            <p className="text-sm text-neutral-400 leading-relaxed font-normal pr-2">
+              Unified institutional governance, semester classroom delivery, automated skill assessments, and campus placement recruiting.
             </p>
 
-            <div className="pt-1 flex items-center gap-2 text-neutral-400">
+            <div className="pt-1 flex items-center gap-2.5 text-neutral-400">
               {companyDetails.socials.map((social) => {
                 const Icon = iconMap[social.icon] || GithubIcon;
                 return (
@@ -78,94 +78,94 @@ export default function Footer({ onReplayIntro }) {
                     target="_blank"
                     rel="noreferrer noopener"
                     aria-label={`CampusCorpo on ${social.name}`}
-                    className="h-7 w-7 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white hover:border-neutral-700 transition-colors cursor-pointer"
+                    className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
                   >
-                    <Icon className="h-3.5 w-3.5" />
+                    <Icon className="h-4 w-4" />
                   </a>
                 );
               })}
             </div>
           </div>
 
-          {/* Solutions (3 Cols) */}
-          <div className="lg:col-span-3">
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono mb-3.5">
+          {/* Column 2: Solutions */}
+          <div>
+            <h3 className="text-[15px] font-semibold text-white tracking-normal mb-4">
               Solutions
             </h3>
-            <ul className="space-y-2 text-xs sm:text-[13px] text-neutral-400 font-normal">
+            <ul className="space-y-2.5 text-[13.5px] sm:text-[14px] text-neutral-400 font-normal">
               <li>
-                <Link to="/solutions/placement-management" className="hover:text-white transition-colors">
+                <Link to="/solutions/placement-management" className="hover:text-white transition-colors block">
                   Placement Management
                 </Link>
               </li>
               <li>
-                <Link to="/solutions/student-management" className="hover:text-white transition-colors">
+                <Link to="/solutions/student-management" className="hover:text-white transition-colors block">
                   Student 360° Management
                 </Link>
               </li>
               <li>
-                <Link to="/solutions/faculty-management" className="hover:text-white transition-colors">
+                <Link to="/solutions/faculty-management" className="hover:text-white transition-colors block">
                   Faculty Management
                 </Link>
               </li>
               <li>
-                <Link to="/solutions/lms" className="hover:text-white transition-colors">
+                <Link to="/solutions/lms" className="hover:text-white transition-colors block">
                   Semester LMS
                 </Link>
               </li>
               <li>
-                <Link to="/platform" className="hover:text-white transition-colors text-neutral-300 font-medium">
-                  All 7 Modules &rarr;
+                <Link to="/platform" className="hover:text-white transition-colors font-medium text-neutral-300 block">
+                  All Modules &rarr;
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Career & Labs (2.5 Cols) */}
-          <div className="lg:col-span-2.5">
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono mb-3.5">
+          {/* Column 3: Career & Labs */}
+          <div>
+            <h3 className="text-[15px] font-semibold text-white tracking-normal mb-4">
               Career &amp; Labs
             </h3>
-            <ul className="space-y-2 text-xs sm:text-[13px] text-neutral-400 font-normal">
+            <ul className="space-y-2.5 text-[13.5px] sm:text-[14px] text-neutral-400 font-normal">
               <li>
-                <Link to="/features/programming-assessment" className="hover:text-white transition-colors">
+                <Link to="/features/programming-assessment" className="hover:text-white transition-colors block">
                   Coding Assessments
                 </Link>
               </li>
               <li>
-                <Link to="/features/mock-interviews" className="hover:text-white transition-colors">
+                <Link to="/features/mock-interviews" className="hover:text-white transition-colors block">
                   Mock Interview Labs
                 </Link>
               </li>
               <li>
-                <Link to="/career-explorer" className="hover:text-white transition-colors">
+                <Link to="/career-explorer" className="hover:text-white transition-colors block">
                   16 IT Career Domains
                 </Link>
               </li>
               <li>
-                <Link to="/company-explorer" className="hover:text-white transition-colors">
+                <Link to="/company-explorer" className="hover:text-white transition-colors block">
                   IT Company Directory
                 </Link>
               </li>
               <li className="pt-0.5">
                 <Link to="/login" className="text-white font-medium hover:underline inline-flex items-center gap-1">
                   <span>Portal Sign In</span>
-                  <ArrowUpRight className="h-3 w-3" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400" />
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Reduced & Clean Contact (2.5 Cols) */}
-          <div className="lg:col-span-2.5">
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono mb-3.5">
+          {/* Column 4: Contact */}
+          <div>
+            <h3 className="text-[15px] font-semibold text-white tracking-normal mb-4">
               Contact
             </h3>
-            <div className="space-y-2 text-xs sm:text-[13px] text-neutral-400 font-normal leading-relaxed">
+            <div className="space-y-2.5 text-[13.5px] sm:text-[14px] text-neutral-400 font-normal leading-relaxed">
               <div>
                 <a
                   href={`mailto:${companyDetails.email}`}
-                  className="text-neutral-200 font-medium hover:text-white hover:underline transition-colors block truncate"
+                  className="text-neutral-300 font-medium hover:text-white hover:underline transition-colors block truncate"
                 >
                   {companyDetails.email}
                 </a>
@@ -181,12 +181,13 @@ export default function Footer({ onReplayIntro }) {
               <div className="text-neutral-400">
                 Tirupur, Tamil Nadu, India
               </div>
-              <div className="pt-1.5">
+              <div className="pt-1">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-1 text-xs text-neutral-300 hover:text-white font-medium hover:underline transition-colors"
+                  className="inline-flex items-center gap-1.5 text-white font-medium hover:underline transition-colors"
                 >
-                  <span>Request Demo &rarr;</span>
+                  <span>Request a Demo</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400" />
                 </Link>
               </div>
             </div>
@@ -194,18 +195,18 @@ export default function Footer({ onReplayIntro }) {
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-8 pt-5 border-t border-neutral-900/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400">
+        {/* Bottom Bar with Thin Divider */}
+        <div className="mt-12 pt-6 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-neutral-400">
           <div>
             &copy; {companyDetails.year} CampusCorpo Technologies. All Rights Reserved.
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-5">
+          <div className="flex items-center gap-5 sm:gap-6">
             {onReplayIntro && (
               <button
                 type="button"
                 onClick={onReplayIntro}
-                className="hover:text-white transition-colors cursor-pointer text-xs font-normal"
+                className="hover:text-white transition-colors cursor-pointer text-[13px] font-normal"
                 aria-label="Replay Opening Intro"
               >
                 Replay Intro
@@ -215,11 +216,11 @@ export default function Footer({ onReplayIntro }) {
             <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center justify-center h-6 w-6 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700 transition-colors shadow-2xs cursor-pointer ml-1"
+              className="inline-flex items-center justify-center h-7 w-7 rounded-md bg-white/5 border border-white/10 text-neutral-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer ml-1"
               title="Back to Top"
               aria-label="Back to Top"
             >
-              <ArrowUp className="h-3 w-3" />
+              <ArrowUp className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
