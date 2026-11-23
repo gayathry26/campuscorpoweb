@@ -146,14 +146,14 @@ export default function HeroSection({ onOpenDemo }) {
             CampusCorpo unifies student records, semester classrooms, automated coding assessments, and campus recruitment drives into one connected platform—eliminating spreadsheet chaos and accelerating hiring conversions.
           </p>
 
-          {/* CTA Buttons (Tasteskill Stepped Micro-Interactions) */}
+          {/* CTA Buttons (All 3 styled cleanly as white boxes matching Request Demo) */}
           <div className="hero-cta mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
             <Link
               to="/login"
-              className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-white bg-neutral-950 hover:bg-neutral-800 rounded-xl shadow-md hover:shadow-lg cursor-pointer group"
+              className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-neutral-900 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-xl shadow-xs hover:border-neutral-400 transition-colors cursor-pointer group"
             >
               <span>Sign In to Portal</span>
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="ml-2 h-4 w-4 text-neutral-500 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <button
               onClick={onOpenDemo}
@@ -170,23 +170,19 @@ export default function HeroSection({ onOpenDemo }) {
             </Link>
           </div>
 
-          {/* Core Pillars as Styled Boxes */}
+          {/* Core Pillars - Balanced 3 Boxes in Single Row */}
           <div className="hero-pillars mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
-            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
               <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Centralized Student 360°</span>
             </div>
-            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
               <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Automated Placement Drives</span>
             </div>
-            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
               <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Semester LMS &amp; Faculty Portals</span>
-            </div>
-            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
-              <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
-              <span>Built-in Coding &amp; Mock Interview Labs</span>
             </div>
           </div>
         </div>
