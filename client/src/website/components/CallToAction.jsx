@@ -32,13 +32,13 @@ export default function CallToAction({ onOpenDemo }) {
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            onClick={onOpenDemo}
+          <Link
+            to="/contact"
             className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-sm sm:text-base font-semibold text-neutral-950 bg-white hover:bg-neutral-100 rounded-xl shadow-md group cursor-pointer"
           >
             <span>Request an Institutional Demo</span>
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          </Link>
           
           <Link
             to="/contact"

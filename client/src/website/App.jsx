@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -33,6 +33,7 @@ import MockInterviewsPage from './pages/MockInterviewsPage';
 export default function App() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Initialize Lenis smooth scroll synchronized with GSAP ScrollTrigger
   useLenis();
@@ -55,7 +56,7 @@ export default function App() {
   });
 
   const handleOpenDemo = () => {
-    setIsDemoModalOpen(true);
+    navigate('/contact');
   };
 
   const handleCloseDemo = () => {

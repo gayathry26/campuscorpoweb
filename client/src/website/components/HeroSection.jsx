@@ -155,12 +155,12 @@ export default function HeroSection({ onOpenDemo }) {
               <span>Sign In to Portal</span>
               <ArrowRight className="ml-2 h-4 w-4 text-neutral-500 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <button
-              onClick={onOpenDemo}
+            <Link
+              to="/contact"
               className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-neutral-900 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-xl shadow-xs hover:border-neutral-400 transition-colors cursor-pointer"
             >
               Request Institutional Demo
-            </button>
+            </Link>
             <Link
               to="/platform"
               className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-neutral-900 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-xl shadow-xs hover:border-neutral-400 transition-colors cursor-pointer group"
