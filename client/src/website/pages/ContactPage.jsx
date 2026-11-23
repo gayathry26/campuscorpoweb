@@ -28,7 +28,7 @@ export default function ContactPage() {
 
       <Contact />
 
-      <FAQSection 
+      <FAQSection
         faqs={seo.faqs}
         title="Frequently Asked Questions: Contact &amp; Onboarding"
         subtitle="Direct answers on institutional scheduling, consultations, and deployment timelines."

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Users, 
-  CheckCircle2, 
-  Award, 
-  Code2, 
-  BookOpen, 
-  Briefcase, 
-  ShieldCheck, 
-  ArrowRight 
+import {
+  Users,
+  CheckCircle2,
+  Award,
+  Code2,
+  BookOpen,
+  Briefcase,
+  ShieldCheck,
+  ArrowRight
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
@@ -151,7 +151,7 @@ export default function StudentManagementPage({ onOpenDemo }) {
 
       </div>
 
-      <FAQSection 
+      <FAQSection
         faqs={seo.faqs}
         title="Frequently Asked Questions: Student Management"
         subtitle="Direct answers on student records, digital portfolios, and placement tier classification."
