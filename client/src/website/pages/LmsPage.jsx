@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  BookOpen, 
-  CheckCircle2, 
-  Layers, 
-  FileText, 
-  HelpCircle, 
-  Award, 
-  Users, 
-  ArrowRight 
+import {
+  BookOpen,
+  CheckCircle2,
+  Layers,
+  FileText,
+  HelpCircle,
+  Award,
+  Users,
+  ArrowRight
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
@@ -160,7 +160,7 @@ export default function LmsPage({ onOpenDemo }) {
 
       </div>
 
-      <FAQSection 
+      <FAQSection
         faqs={seo.faqs}
         title="Frequently Asked Questions: Learning Management System"
         subtitle="Direct answers on semester course code mapping, online assignments, and grading."

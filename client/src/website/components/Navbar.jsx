@@ -4,19 +4,19 @@ import TransitionLink from './TransitionLink';
 const Link = TransitionLink;
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  Menu, 
-  X, 
-  ArrowUpRight, 
-  ChevronDown, 
-  Briefcase, 
-  Users, 
-  GraduationCap, 
-  Shield, 
-  BookOpen, 
-  Code2, 
-  MessageSquareText, 
-  Compass, 
+import {
+  Menu,
+  X,
+  ArrowUpRight,
+  ChevronDown,
+  Briefcase,
+  Users,
+  GraduationCap,
+  Shield,
+  BookOpen,
+  Code2,
+  MessageSquareText,
+  Compass,
   Layers,
   LogIn,
   LogOut
@@ -61,15 +61,14 @@ export default function Navbar({ onOpenDemo }) {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       style={{ backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.95)' : '#ffffff', color: '#0a0a0a' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md border-b border-neutral-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] py-2.5'
-          : 'bg-white border-b border-transparent py-4'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-white/95 backdrop-blur-md border-b border-neutral-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] py-2.5'
+        : 'bg-white border-b border-transparent py-4'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          
+
           {/* Logo with Schema Microdata & accessible alt */}
           <Link
             to="/"
@@ -97,32 +96,30 @@ export default function Navbar({ onOpenDemo }) {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1" aria-label="Main Navigation">
-            
+
             {/* Home */}
             <Link
               to="/"
-              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
-                location.pathname === '/' 
-                  ? 'text-neutral-950 bg-neutral-100 font-semibold' 
-                  : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
-              }`}
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${location.pathname === '/'
+                ? 'text-neutral-950 bg-neutral-100 font-semibold'
+                : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
+                }`}
             >
               Home
             </Link>
 
             {/* Platform Dropdown */}
-            <div 
+            <div
               className="relative"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
               <Link
                 to="/platform"
-                className={`flex items-center gap-1 px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
-                  location.pathname.startsWith('/platform') || location.pathname.startsWith('/solutions') || location.pathname.startsWith('/features')
-                    ? 'text-neutral-950 bg-neutral-100 font-semibold'
-                    : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
-                }`}
+                className={`flex items-center gap-1 px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${location.pathname.startsWith('/platform') || location.pathname.startsWith('/solutions') || location.pathname.startsWith('/features')
+                  ? 'text-neutral-950 bg-neutral-100 font-semibold'
+                  : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
+                  }`}
               >
                 <span>Platform</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
@@ -231,11 +228,10 @@ export default function Navbar({ onOpenDemo }) {
             {/* Career Explorer Direct Link */}
             <Link
               to="/career-explorer"
-              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
-                location.pathname === '/career-explorer'
-                  ? 'text-neutral-950 bg-neutral-100 font-semibold'
-                  : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
-              }`}
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${location.pathname === '/career-explorer'
+                ? 'text-neutral-950 bg-neutral-100 font-semibold'
+                : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
+                }`}
             >
               Career Explorer
             </Link>
@@ -243,11 +239,10 @@ export default function Navbar({ onOpenDemo }) {
             {/* Company Explorer Direct Link */}
             <Link
               to="/company-explorer"
-              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
-                location.pathname === '/company-explorer'
-                  ? 'text-neutral-950 bg-neutral-100 font-semibold'
-                  : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
-              }`}
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${location.pathname === '/company-explorer'
+                ? 'text-neutral-950 bg-neutral-100 font-semibold'
+                : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
+                }`}
             >
               Company Explorer
             </Link>
@@ -255,11 +250,10 @@ export default function Navbar({ onOpenDemo }) {
             {/* About */}
             <Link
               to="/about"
-              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
-                location.pathname === '/about'
-                  ? 'text-neutral-950 bg-neutral-100 font-semibold'
-                  : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
-              }`}
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${location.pathname === '/about'
+                ? 'text-neutral-950 bg-neutral-100 font-semibold'
+                : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
+                }`}
             >
               About
             </Link>
@@ -267,11 +261,10 @@ export default function Navbar({ onOpenDemo }) {
             {/* Contact */}
             <Link
               to="/contact"
-              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${
-                location.pathname === '/contact'
-                  ? 'text-neutral-950 bg-neutral-100 font-semibold'
-                  : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
-              }`}
+              className={`px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-[13.5px] xl:text-[14.5px] font-medium rounded-lg transition-colors whitespace-nowrap ${location.pathname === '/contact'
+                ? 'text-neutral-950 bg-neutral-100 font-semibold'
+                : 'text-neutral-700 hover:text-neutral-950 hover:bg-neutral-50'
+                }`}
             >
               Contact
             </Link>
@@ -356,94 +349,94 @@ export default function Navbar({ onOpenDemo }) {
             className="lg:hidden border-b border-neutral-200 bg-white shadow-xl overflow-hidden"
           >
             <div className="px-5 pt-3 pb-6 space-y-1 text-sm font-medium">
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2 rounded-xl text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 font-semibold"
               >
                 Home
               </Link>
-              <Link 
-                to="/platform" 
+              <Link
+                to="/platform"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2 rounded-xl text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 font-semibold"
               >
                 Platform
               </Link>
               <div className="pl-4 py-1 space-y-1 text-xs text-neutral-600 border-l-2 border-neutral-200 ml-3">
-                <Link 
-                  to="/solutions/placement-management" 
+                <Link
+                  to="/solutions/placement-management"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; Placement Management
                 </Link>
-                <Link 
-                  to="/solutions/student-management" 
+                <Link
+                  to="/solutions/student-management"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; Student 360&deg; Management
                 </Link>
-                <Link 
-                  to="/solutions/faculty-management" 
+                <Link
+                  to="/solutions/faculty-management"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; Faculty Management
                 </Link>
-                <Link 
-                  to="/solutions/administration" 
+                <Link
+                  to="/solutions/administration"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; Administration &amp; RBAC
                 </Link>
-                <Link 
-                  to="/solutions/lms" 
+                <Link
+                  to="/solutions/lms"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; Semester LMS
                 </Link>
-                <Link 
-                  to="/features/programming-assessment" 
+                <Link
+                  to="/features/programming-assessment"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; Programming Assessment
                 </Link>
-                <Link 
-                  to="/features/mock-interviews" 
+                <Link
+                  to="/features/mock-interviews"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-1 hover:text-neutral-950"
                 >
                   &bull; AI Mock Interviews
                 </Link>
               </div>
-              <Link 
-                to="/career-explorer" 
+              <Link
+                to="/career-explorer"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2 rounded-xl text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 font-semibold"
               >
                 Career Explorer
               </Link>
-              <Link 
-                to="/company-explorer" 
+              <Link
+                to="/company-explorer"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2 rounded-xl text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 font-semibold"
               >
                 Company Explorer
               </Link>
-              <Link 
-                to="/about" 
+              <Link
+                to="/about"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2 rounded-xl text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 font-semibold"
               >
                 About
               </Link>
-              <Link 
-                to="/contact" 
+              <Link
+                to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2 rounded-xl text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 font-semibold"
               >

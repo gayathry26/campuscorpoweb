@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Building2, 
-  MapPin, 
-  Mail, 
-  Phone, 
-  CheckCircle2, 
-  Layers, 
-  ShieldCheck, 
+import {
+  Building2,
+  MapPin,
+  Mail,
+  Phone,
+  CheckCircle2,
+  Layers,
+  ShieldCheck,
   Sparkles,
-  ArrowRight 
+  ArrowRight
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import Breadcrumb from '../components/Breadcrumb';
@@ -40,7 +40,7 @@ export default function AboutPage({ onOpenDemo }) {
         ]} />
 
         {/* Hero */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -89,7 +89,7 @@ export default function AboutPage({ onOpenDemo }) {
               The Three Core Pillars of CampusCorpo
             </h2>
             <div className="space-y-4">
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -3 }}
                 transition={{ duration: 0.18 }}
                 className="p-5 rounded-xl bg-neutral-50 border border-neutral-200"
@@ -100,7 +100,7 @@ export default function AboutPage({ onOpenDemo }) {
                 </p>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -3 }}
                 transition={{ duration: 0.18 }}
                 className="p-5 rounded-xl bg-neutral-50 border border-neutral-200"
@@ -111,7 +111,7 @@ export default function AboutPage({ onOpenDemo }) {
                 </p>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -3 }}
                 transition={{ duration: 0.18 }}
                 className="p-5 rounded-xl bg-neutral-50 border border-neutral-200"
@@ -198,7 +198,7 @@ export default function AboutPage({ onOpenDemo }) {
 
       </div>
 
-      <FAQSection 
+      <FAQSection
         faqs={seo.faqs}
         title="Frequently Asked Questions: About CampusCorpo"
         subtitle="Verifiable institutional facts about CampusCorpo."

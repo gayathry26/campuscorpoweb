@@ -88,11 +88,10 @@ export default function CompanyExplorerPage({ onOpenDemo }) {
                 <button
                   key={city}
                   onClick={() => setSelectedCity(city)}
-                  className={`relative px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-colors z-10 ${
-                    isSelected
-                      ? 'text-white'
-                      : 'text-neutral-700 hover:text-neutral-950 border border-neutral-200 bg-white hover:border-neutral-300'
-                  }`}
+                  className={`relative px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-colors z-10 ${isSelected
+                    ? 'text-white'
+                    : 'text-neutral-700 hover:text-neutral-950 border border-neutral-200 bg-white hover:border-neutral-300'
+                    }`}
                 >
                   {isSelected && (
                     <motion.div
@@ -129,8 +128,8 @@ export default function CompanyExplorerPage({ onOpenDemo }) {
         </div>
 
         {/* Directory Grid with Animated Stagger Cards */}
-        <motion.div 
-          layout 
+        <motion.div
+          layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
         >
           <AnimatePresence>
@@ -186,7 +185,7 @@ export default function CompanyExplorerPage({ onOpenDemo }) {
         </motion.div>
 
         {filteredCompanies.length === 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-14 bg-neutral-50 rounded-xl border border-neutral-200"

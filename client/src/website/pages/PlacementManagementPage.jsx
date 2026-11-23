@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Briefcase, 
-  CheckCircle2, 
-  TrendingUp, 
-  Users, 
-  Calendar, 
+import {
+  Briefcase,
+  CheckCircle2,
+  TrendingUp,
+  Users,
+  Calendar,
   ArrowRight,
   FileCheck,
   Building2,
@@ -170,7 +170,7 @@ export default function PlacementManagementPage({ onOpenDemo }) {
       </div>
 
       {/* AEO FAQ Section */}
-      <FAQSection 
+      <FAQSection
         faqs={seo.faqs}
         title="Frequently Asked Questions: Placement Management"
         subtitle="Direct answers regarding college placement management systems and recruiter workflows."
