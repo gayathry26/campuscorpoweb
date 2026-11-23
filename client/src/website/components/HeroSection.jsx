@@ -157,34 +157,35 @@ export default function HeroSection({ onOpenDemo }) {
             </Link>
             <button
               onClick={onOpenDemo}
-              className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-neutral-900 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-xl shadow-xs hover:border-neutral-400 transition-colors"
+              className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-neutral-900 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-xl shadow-xs hover:border-neutral-400 transition-colors cursor-pointer"
             >
               Request Institutional Demo
             </button>
             <Link
               to="/platform"
-              className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 rounded-xl transition-colors"
+              className="btn-step w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-neutral-900 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-xl shadow-xs hover:border-neutral-400 transition-colors cursor-pointer group"
             >
-              Explore Modules &rarr;
+              <span>Explore Modules</span>
+              <ArrowRight className="ml-2 h-4 w-4 text-neutral-500 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
 
-          {/* Core Pillars */}
-          <div className="hero-pillars mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs sm:text-sm text-neutral-500 font-medium">
-            <div className="hero-pillar-item flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-neutral-950" />
+          {/* Core Pillars as Styled Boxes */}
+          <div className="hero-pillars mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+              <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Centralized Student 360°</span>
             </div>
-            <div className="hero-pillar-item flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-neutral-950" />
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+              <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Automated Placement Drives</span>
             </div>
-            <div className="hero-pillar-item flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-neutral-950" />
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+              <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Semester LMS &amp; Faculty Portals</span>
             </div>
-            <div className="hero-pillar-item flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-neutral-950" />
+            <div className="hero-pillar-item inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-neutral-300/80 shadow-2xs hover:border-neutral-400 transition-colors text-neutral-800">
+              <CheckCircle2 className="h-4 w-4 text-neutral-950 flex-shrink-0" />
               <span>Built-in Coding &amp; Mock Interview Labs</span>
             </div>
           </div>
