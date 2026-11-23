@@ -1,7 +1,7 @@
 import React from 'react';
 import TransitionLink from './TransitionLink';
 const Link = TransitionLink;
-import { Mail, Phone, MapPin, ArrowUp, ArrowUpRight } from 'lucide-react';
+import { ArrowUp, ArrowUpRight } from 'lucide-react';
 import { companyDetails } from '../data/websiteData';
 
 const LinkedinIcon = (props) => (
@@ -36,39 +36,39 @@ export default function Footer({ onReplayIntro }) {
   };
 
   return (
-    <footer className="bg-[#FAFAFA] text-neutral-600 border-t border-neutral-200/90" itemScope itemType="https://schema.org/WPFooter">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <footer className="bg-neutral-950 text-neutral-400 border-t border-neutral-900" itemScope itemType="https://schema.org/WPFooter">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
         
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8">
           
           {/* Brand Info (4 Cols) */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-4 space-y-3.5">
             <Link to="/" className="flex items-center gap-3 group focus:outline-none">
-              <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white border border-neutral-200 p-1 shadow-2xs flex-shrink-0 group-hover:shadow-xs transition-shadow">
+              <div className="flex items-center justify-center h-9 w-9 rounded-xl bg-white p-1 shadow-xs flex-shrink-0">
                 <img
                   src="/campuscorpo-mark.png"
                   alt="CampusCorpo Emblem Logo"
                   className="h-full w-full object-contain"
-                  width="40"
-                  height="40"
+                  width="36"
+                  height="36"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight text-neutral-950 font-sans leading-none">
-                  Campus<span className="font-semibold text-neutral-600">Corpo</span>
+                <span className="text-lg font-bold tracking-tight text-white font-sans leading-none">
+                  Campus<span className="font-semibold text-neutral-400">Corpo</span>
                 </span>
-                <span className="text-[11px] tracking-wider uppercase text-neutral-500 font-semibold mt-1">
+                <span className="text-[10px] tracking-wider uppercase text-neutral-400 font-medium mt-1">
                   Campus &amp; Career Platform
                 </span>
               </div>
             </Link>
 
-            <p className="text-sm text-neutral-600 leading-relaxed max-w-sm font-normal">
-              Unified institutional governance, semester classroom delivery, automated skill assessments, and campus placement recruiting.
+            <p className="text-xs sm:text-[13px] text-neutral-400 leading-relaxed max-w-sm font-normal">
+              One unified platform for institutional governance, semester classrooms, automated skill verification, and campus placement drives.
             </p>
 
-            <div className="pt-1 flex items-center gap-2.5 text-neutral-500">
+            <div className="pt-1 flex items-center gap-2 text-neutral-400">
               {companyDetails.socials.map((social) => {
                 const Icon = iconMap[social.icon] || GithubIcon;
                 return (
@@ -78,7 +78,7 @@ export default function Footer({ onReplayIntro }) {
                     target="_blank"
                     rel="noreferrer noopener"
                     aria-label={`CampusCorpo on ${social.name}`}
-                    className="h-8 w-8 rounded-lg bg-white border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-950 hover:border-neutral-300 transition-colors shadow-2xs cursor-pointer"
+                    className="h-7 w-7 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white hover:border-neutral-700 transition-colors cursor-pointer"
                   >
                     <Icon className="h-3.5 w-3.5" />
                   </a>
@@ -89,37 +89,32 @@ export default function Footer({ onReplayIntro }) {
 
           {/* Solutions (3 Cols) */}
           <div className="lg:col-span-3">
-            <h3 className="text-xs font-semibold text-neutral-950 uppercase tracking-wider font-mono mb-4">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono mb-3.5">
               Solutions
             </h3>
-            <ul className="space-y-2 text-sm text-neutral-600 font-normal">
+            <ul className="space-y-2 text-xs sm:text-[13px] text-neutral-400 font-normal">
               <li>
-                <Link to="/solutions/placement-management" className="hover:text-neutral-950 transition-colors">
+                <Link to="/solutions/placement-management" className="hover:text-white transition-colors">
                   Placement Management
                 </Link>
               </li>
               <li>
-                <Link to="/solutions/student-management" className="hover:text-neutral-950 transition-colors">
+                <Link to="/solutions/student-management" className="hover:text-white transition-colors">
                   Student 360° Management
                 </Link>
               </li>
               <li>
-                <Link to="/solutions/faculty-management" className="hover:text-neutral-950 transition-colors">
+                <Link to="/solutions/faculty-management" className="hover:text-white transition-colors">
                   Faculty Management
                 </Link>
               </li>
               <li>
-                <Link to="/solutions/administration" className="hover:text-neutral-950 transition-colors">
-                  Administration &amp; RBAC
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/lms" className="hover:text-neutral-950 transition-colors">
+                <Link to="/solutions/lms" className="hover:text-white transition-colors">
                   Semester LMS
                 </Link>
               </li>
               <li>
-                <Link to="/platform" className="hover:text-neutral-950 transition-colors font-medium text-neutral-900">
+                <Link to="/platform" className="hover:text-white transition-colors text-neutral-300 font-medium">
                   All 7 Modules &rarr;
                 </Link>
               </li>
@@ -127,33 +122,33 @@ export default function Footer({ onReplayIntro }) {
           </div>
 
           {/* Career & Labs (2.5 Cols) */}
-          <div className="lg:col-span-2">
-            <h3 className="text-xs font-semibold text-neutral-950 uppercase tracking-wider font-mono mb-4">
+          <div className="lg:col-span-2.5">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono mb-3.5">
               Career &amp; Labs
             </h3>
-            <ul className="space-y-2 text-sm text-neutral-600 font-normal">
+            <ul className="space-y-2 text-xs sm:text-[13px] text-neutral-400 font-normal">
               <li>
-                <Link to="/features/programming-assessment" className="hover:text-neutral-950 transition-colors">
+                <Link to="/features/programming-assessment" className="hover:text-white transition-colors">
                   Coding Assessments
                 </Link>
               </li>
               <li>
-                <Link to="/features/mock-interviews" className="hover:text-neutral-950 transition-colors">
+                <Link to="/features/mock-interviews" className="hover:text-white transition-colors">
                   Mock Interview Labs
                 </Link>
               </li>
               <li>
-                <Link to="/career-explorer" className="hover:text-neutral-950 transition-colors">
+                <Link to="/career-explorer" className="hover:text-white transition-colors">
                   16 IT Career Domains
                 </Link>
               </li>
               <li>
-                <Link to="/company-explorer" className="hover:text-neutral-950 transition-colors">
+                <Link to="/company-explorer" className="hover:text-white transition-colors">
                   IT Company Directory
                 </Link>
               </li>
-              <li className="pt-1">
-                <Link to="/login" className="text-neutral-950 font-semibold hover:underline inline-flex items-center gap-1">
+              <li className="pt-0.5">
+                <Link to="/login" className="text-white font-medium hover:underline inline-flex items-center gap-1">
                   <span>Portal Sign In</span>
                   <ArrowUpRight className="h-3 w-3" />
                 </Link>
@@ -161,35 +156,37 @@ export default function Footer({ onReplayIntro }) {
             </ul>
           </div>
 
-          {/* Direct Contact (3 Cols) */}
-          <div className="lg:col-span-3">
-            <h3 className="text-xs font-semibold text-neutral-950 uppercase tracking-wider font-mono mb-4">
-              Direct Contact
+          {/* Reduced & Clean Contact (2.5 Cols) */}
+          <div className="lg:col-span-2.5">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono mb-3.5">
+              Contact
             </h3>
-            <div className="space-y-2.5 text-sm text-neutral-600 font-normal leading-relaxed" itemScope itemType="https://schema.org/PostalAddress">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 text-neutral-950 flex-shrink-0 mt-0.5" />
-                <span itemProp="streetAddress">{companyDetails.address}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-neutral-950 flex-shrink-0" />
-                <a href={`mailto:${companyDetails.email}`} className="text-neutral-950 font-medium hover:underline" itemProp="email">
+            <div className="space-y-2 text-xs sm:text-[13px] text-neutral-400 font-normal leading-relaxed">
+              <div>
+                <a
+                  href={`mailto:${companyDetails.email}`}
+                  className="text-neutral-200 font-medium hover:text-white hover:underline transition-colors block truncate"
+                >
                   {companyDetails.email}
                 </a>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-neutral-950 flex-shrink-0" />
-                <a href={`tel:${companyDetails.phoneRaw}`} className="hover:text-neutral-950 transition-colors" itemProp="telephone">
+              <div>
+                <a
+                  href={`tel:${companyDetails.phoneRaw}`}
+                  className="hover:text-white transition-colors block"
+                >
                   {companyDetails.phone}
                 </a>
               </div>
-              <div className="pt-2">
+              <div className="text-neutral-400">
+                Tirupur, Tamil Nadu, India
+              </div>
+              <div className="pt-1.5">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-950 text-white hover:bg-neutral-800 text-xs font-semibold transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-1 text-xs text-neutral-300 hover:text-white font-medium hover:underline transition-colors"
                 >
-                  <span>Request Institutional Demo</span>
-                  <ArrowUpRight className="h-3 w-3 text-neutral-400" />
+                  <span>Request Demo &rarr;</span>
                 </Link>
               </div>
             </div>
@@ -198,31 +195,31 @@ export default function Footer({ onReplayIntro }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-neutral-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+        <div className="mt-8 pt-5 border-t border-neutral-900/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400">
           <div>
             &copy; {companyDetails.year} CampusCorpo Technologies. All Rights Reserved.
           </div>
 
-          <div className="flex items-center gap-5 sm:gap-6">
+          <div className="flex items-center gap-4 sm:gap-5">
             {onReplayIntro && (
               <button
                 type="button"
                 onClick={onReplayIntro}
-                className="hover:text-neutral-950 transition-colors cursor-pointer text-xs font-normal"
-                aria-label="Replay Cinematic Opening Intro"
+                className="hover:text-white transition-colors cursor-pointer text-xs font-normal"
+                aria-label="Replay Opening Intro"
               >
                 Replay Intro
               </button>
             )}
-            <Link to="/about" className="hover:text-neutral-950 transition-colors">About Us</Link>
-            <Link to="/contact" className="hover:text-neutral-950 transition-colors">Contact</Link>
+            <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center justify-center h-7 w-7 rounded-md bg-white border border-neutral-200 text-neutral-600 hover:text-neutral-950 hover:border-neutral-300 transition-colors shadow-2xs cursor-pointer"
+              className="inline-flex items-center justify-center h-6 w-6 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700 transition-colors shadow-2xs cursor-pointer ml-1"
               title="Back to Top"
               aria-label="Back to Top"
             >
-              <ArrowUp className="h-3.5 w-3.5" />
+              <ArrowUp className="h-3 w-3" />
             </button>
           </div>
         </div>
