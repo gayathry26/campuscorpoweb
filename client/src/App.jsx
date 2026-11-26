@@ -88,10 +88,11 @@ function Layout({ children }) {
   const location = useLocation();
   const isExam = location.pathname.startsWith('/exam');
   const isVideoCall = location.pathname.startsWith('/videocall') || location.pathname.startsWith('/interview/room');
+  const isPlacementPortal = location.pathname.startsWith('/jobs') || location.pathname.startsWith('/placement');
 
-  if (isExam || isVideoCall) {
+  if (isExam || isVideoCall || isPlacementPortal) {
     return (
-      <div className="min-h-screen bg-background text-foreground font-sans w-full p-0 m-0 overflow-hidden transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-neutral-950 text-foreground font-sans w-full p-0 m-0 overflow-x-hidden transition-colors duration-200">
         {children}
       </div>
     );
@@ -289,7 +290,7 @@ function PlacementRoute() {
   }
   return (
     <Layout>
-      <Dashboard />
+      <Jobs />
     </Layout>
   );
 }
