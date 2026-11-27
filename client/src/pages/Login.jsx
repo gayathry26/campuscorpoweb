@@ -80,7 +80,12 @@ export function Login({ portal = 'student' }) {
     setLoading(true);
     setError('');
 
-    const res = await login(username.trim(), password, selectedCollegeCode);
+    const trimmedUser = username.trim();
+    const effectiveCollege = (trimmedUser.includes('@') && !trimmedUser.toLowerCase().endsWith('@abc.edu'))
+      ? null
+      : selectedCollegeCode;
+
+    const res = await login(trimmedUser, password, effectiveCollege);
     setLoading(false);
 
     if (res.success) {

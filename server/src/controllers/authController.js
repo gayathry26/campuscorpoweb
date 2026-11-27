@@ -109,7 +109,25 @@ async function login(req, res, next) {
       WHERE u.email = ? OR u.email = ? OR u.email = ? OR sm.register_number = ?
     `;
 
-    const users = await queryTenant(tenant.id, userSelectSql, [identifier, withCollege, withUniserve, identifier]);
+    let users = await queryTenant(tenant.id, userSelectSql, [identifier, withCollege, withUniserve, identifier]);
+
+    // Fallback: If user not found in the resolved tenant database, check the central/common institutional database
+    if (users.length === 0 && tenant.code !== 'CAMPUS_MAIN') {
+      try {
+        const commonUsers = await queryCommon(userSelectSql, [identifier, withCollege, withUniserve, identifier]);
+        if (commonUsers.length > 0) {
+          users = commonUsers;
+          tenant = await resolveTenantMetadata('CAMPUS_MAIN').catch(() => ({
+            id: 1,
+            code: 'CAMPUS_MAIN',
+            name: 'CampusCorp Flagship Institution',
+            database_name: process.env.DB_COMMON_NAME || 'lms',
+          }));
+        }
+      } catch (err) {
+        console.warn('Common database fallback lookup warning:', err.message);
+      }
+    }
 
     if (users.length === 0) {
       return res.status(401).json({
