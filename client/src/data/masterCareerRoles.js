@@ -1,6 +1,6 @@
 // masterCareerRoles.js
 // Master Dataset of Comprehensive IT Career Roles
-// Expanded to 10 Career Families, 53 Domains, and 180+ Professional Roles
+// Expanded to 10 Career Families, 53 Domains, and 181 Professional Roles
 // Each role features a complete 32-point professional schema compliant with global standards (O*NET, SFIA 9, NIST NICE, CNCF, NASSCOM).
 
 export const MASTER_CAREER_ROLES = [
@@ -320,7 +320,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.5 - ₹7.2 LPA",
+        "midLevel": "₹6.5 - ₹11.3 LPA",
+        "senior": "₹11.3 - ₹16.0 LPA",
+        "leadArchitect": "₹16.0 - ₹24.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$72,000",
+          "mid": "$104,000",
+          "senior": "$176,000",
+          "lead": "$240,000"
+        },
+        "uk": {
+          "entry": "£36,000",
+          "mid": "£52,000",
+          "senior": "£88,000",
+          "lead": "£128,000"
+        },
+        "eu": {
+          "entry": "€39,000",
+          "mid": "€59,000",
+          "senior": "€96,000",
+          "lead": "€144,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Web Development & Frontend Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ui-engineer",
@@ -634,7 +672,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Web Development & Frontend Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "web-performance-engineer",
@@ -944,7 +1020,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Web Development & Frontend Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "backend-developer",
@@ -1262,7 +1376,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.9 - ₹7.7 LPA",
+        "midLevel": "₹7.0 - ₹12.5 LPA",
+        "senior": "₹12.5 - ₹18.0 LPA",
+        "leadArchitect": "₹18.0 - ₹27.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$77,000",
+          "mid": "$112,000",
+          "senior": "$198,000",
+          "lead": "$270,000"
+        },
+        "uk": {
+          "entry": "£39,000",
+          "mid": "£56,000",
+          "senior": "£99,000",
+          "lead": "£144,000"
+        },
+        "eu": {
+          "entry": "€42,000",
+          "mid": "€63,000",
+          "senior": "€108,000",
+          "lead": "€162,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Backend & API Development.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "distributed-systems-engineer",
@@ -1577,7 +1729,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹31.5 LPA",
+        "senior": "₹31.5 - ₹45.0 LPA",
+        "leadArchitect": "₹45.0 - ₹67.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$495,000",
+          "lead": "$675,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£248,000",
+          "lead": "£360,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€270,000",
+          "lead": "€405,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Backend & API Development.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "api-platform-engineer",
@@ -1886,7 +2076,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Backend & API Development.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "full-stack-developer",
@@ -2203,7 +2431,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.3 - ₹8.3 LPA",
+        "midLevel": "₹7.5 - ₹13.3 LPA",
+        "senior": "₹13.3 - ₹19.0 LPA",
+        "leadArchitect": "₹19.0 - ₹28.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$83,000",
+          "mid": "$120,000",
+          "senior": "$209,000",
+          "lead": "$285,000"
+        },
+        "uk": {
+          "entry": "£41,000",
+          "mid": "£60,000",
+          "senior": "£105,000",
+          "lead": "£152,000"
+        },
+        "eu": {
+          "entry": "€45,000",
+          "mid": "€68,000",
+          "senior": "€114,000",
+          "lead": "€171,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Full-Stack & Enterprise Software.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "enterprise-software-architect",
@@ -2509,7 +2775,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹17.5 - ₹27.5 LPA",
+        "midLevel": "₹25.0 - ₹42.5 LPA",
+        "senior": "₹42.5 - ₹60.0 LPA",
+        "leadArchitect": "₹60.0 - ₹90.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$275,000",
+          "mid": "$400,000",
+          "senior": "$660,000",
+          "lead": "$900,000"
+        },
+        "uk": {
+          "entry": "£138,000",
+          "mid": "£200,000",
+          "senior": "£330,000",
+          "lead": "£480,000"
+        },
+        "eu": {
+          "entry": "€150,000",
+          "mid": "€225,000",
+          "senior": "€360,000",
+          "lead": "€540,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Full-Stack & Enterprise Software.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "saas-application-engineer",
@@ -2820,7 +3124,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Full-Stack & Enterprise Software.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "mobile-app-developer",
@@ -3132,7 +3474,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.5 - ₹7.2 LPA",
+        "midLevel": "₹6.5 - ₹12.0 LPA",
+        "senior": "₹12.0 - ₹17.5 LPA",
+        "leadArchitect": "₹17.5 - ₹26.3 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$72,000",
+          "mid": "$104,000",
+          "senior": "$193,000",
+          "lead": "$263,000"
+        },
+        "uk": {
+          "entry": "£36,000",
+          "mid": "£52,000",
+          "senior": "£96,000",
+          "lead": "£140,000"
+        },
+        "eu": {
+          "entry": "€39,000",
+          "mid": "€59,000",
+          "senior": "€105,000",
+          "lead": "€158,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Mobile Application Development.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ios-native-engineer",
@@ -3440,7 +3820,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Mobile Application Development.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "android-native-engineer",
@@ -3748,7 +4166,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Mobile Application Development.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "embedded-software-engineer",
@@ -4060,7 +4516,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.5 - ₹7.2 LPA",
+        "midLevel": "₹6.5 - ₹12.3 LPA",
+        "senior": "₹12.3 - ₹18.0 LPA",
+        "leadArchitect": "₹18.0 - ₹27.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$72,000",
+          "mid": "$104,000",
+          "senior": "$198,000",
+          "lead": "$270,000"
+        },
+        "uk": {
+          "entry": "£36,000",
+          "mid": "£52,000",
+          "senior": "£99,000",
+          "lead": "£144,000"
+        },
+        "eu": {
+          "entry": "€39,000",
+          "mid": "€59,000",
+          "senior": "€108,000",
+          "lead": "€162,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Desktop, Systems & Embedded Software.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "systems-software-engineer",
@@ -4369,7 +4863,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹21.0 LPA",
+        "senior": "₹21.0 - ₹30.0 LPA",
+        "leadArchitect": "₹30.0 - ₹45.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$330,000",
+          "lead": "$450,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£165,000",
+          "lead": "£240,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€180,000",
+          "lead": "€270,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Desktop, Systems & Embedded Software.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "real-time-os-engineer",
@@ -4676,7 +5208,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹27.0 LPA",
+        "senior": "₹27.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Desktop, Systems & Embedded Software.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "data-analyst",
@@ -4986,7 +5556,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.8 - ₹6.1 LPA",
+        "midLevel": "₹5.5 - ₹9.8 LPA",
+        "senior": "₹9.8 - ₹14.0 LPA",
+        "leadArchitect": "₹14.0 - ₹21.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$61,000",
+          "mid": "$88,000",
+          "senior": "$154,000",
+          "lead": "$210,000"
+        },
+        "uk": {
+          "entry": "£30,000",
+          "mid": "£44,000",
+          "senior": "£77,000",
+          "lead": "£112,000"
+        },
+        "eu": {
+          "entry": "€33,000",
+          "mid": "€50,000",
+          "senior": "€84,000",
+          "lead": "€126,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Analytics & Business Intelligence.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "analytics-engineer",
@@ -5298,7 +5906,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Analytics & Business Intelligence.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "bi-solutions-architect",
@@ -5606,7 +6252,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹29.0 LPA",
+        "senior": "₹29.0 - ₹40.0 LPA",
+        "leadArchitect": "₹40.0 - ₹60.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$440,000",
+          "lead": "$600,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£220,000",
+          "lead": "£320,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€240,000",
+          "lead": "€360,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Analytics & Business Intelligence.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "data-scientist",
@@ -5916,7 +6600,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹15.0 LPA",
+        "senior": "₹15.0 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Science & Statistical Modeling.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "applied-research-scientist",
@@ -6226,7 +6948,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹33.0 LPA",
+        "senior": "₹33.0 - ₹48.0 LPA",
+        "leadArchitect": "₹48.0 - ₹72.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$528,000",
+          "lead": "$720,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£264,000",
+          "lead": "£384,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€288,000",
+          "lead": "€432,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Science & Statistical Modeling.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "quantitative-data-scientist",
@@ -6533,7 +7293,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹24.0 LPA",
+        "senior": "₹24.0 - ₹34.0 LPA",
+        "leadArchitect": "₹34.0 - ₹51.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$374,000",
+          "lead": "$510,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£187,000",
+          "lead": "£272,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€204,000",
+          "lead": "€306,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Science & Statistical Modeling.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ai-ml-engineer",
@@ -6846,7 +7644,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹16.5 LPA",
+        "senior": "₹16.5 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Artificial Intelligence & Machine Learning.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "computer-vision-engineer",
@@ -7156,7 +7992,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Artificial Intelligence & Machine Learning.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "nlp-speech-engineer",
@@ -7466,7 +8340,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.1 - ₹14.3 LPA",
+        "midLevel": "₹13.0 - ₹21.5 LPA",
+        "senior": "₹21.5 - ₹30.0 LPA",
+        "leadArchitect": "₹30.0 - ₹45.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$143,000",
+          "mid": "$208,000",
+          "senior": "$330,000",
+          "lead": "$450,000"
+        },
+        "uk": {
+          "entry": "£72,000",
+          "mid": "£104,000",
+          "senior": "£165,000",
+          "lead": "£240,000"
+        },
+        "eu": {
+          "entry": "€78,000",
+          "mid": "€117,000",
+          "senior": "€180,000",
+          "lead": "€270,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Artificial Intelligence & Machine Learning.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "generative-ai-engineer",
@@ -7779,7 +8691,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹19.0 LPA",
+        "senior": "₹19.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Generative AI & LLM Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ai-agent-architect",
@@ -8086,7 +9036,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹10.5 - ₹16.5 LPA",
+        "midLevel": "₹15.0 - ₹25.0 LPA",
+        "senior": "₹25.0 - ₹35.0 LPA",
+        "leadArchitect": "₹35.0 - ₹52.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$165,000",
+          "mid": "$240,000",
+          "senior": "$385,000",
+          "lead": "$525,000"
+        },
+        "uk": {
+          "entry": "£83,000",
+          "mid": "£120,000",
+          "senior": "£193,000",
+          "lead": "£280,000"
+        },
+        "eu": {
+          "entry": "€90,000",
+          "mid": "€135,000",
+          "senior": "€210,000",
+          "lead": "€315,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Generative AI & LLM Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "llm-fine-tuning-engineer",
@@ -8396,7 +9384,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹32.0 LPA",
+        "senior": "₹32.0 - ₹46.0 LPA",
+        "leadArchitect": "₹46.0 - ₹69.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$506,000",
+          "lead": "$690,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£253,000",
+          "lead": "£368,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€276,000",
+          "lead": "€414,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Generative AI & LLM Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "data-engineer",
@@ -8711,7 +9737,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹14.0 LPA",
+        "senior": "₹14.0 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Engineering & Big Data.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "streaming-data-engineer",
@@ -9022,7 +10086,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Engineering & Big Data.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "big-data-infrastructure-architect",
@@ -9330,7 +10432,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹14.0 - ₹22.0 LPA",
+        "midLevel": "₹20.0 - ₹34.0 LPA",
+        "senior": "₹34.0 - ₹48.0 LPA",
+        "leadArchitect": "₹48.0 - ₹72.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$220,000",
+          "mid": "$320,000",
+          "senior": "$528,000",
+          "lead": "$720,000"
+        },
+        "uk": {
+          "entry": "£110,000",
+          "mid": "£160,000",
+          "senior": "£264,000",
+          "lead": "£384,000"
+        },
+        "eu": {
+          "entry": "€120,000",
+          "mid": "€180,000",
+          "senior": "€288,000",
+          "lead": "€432,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Data Engineering & Big Data.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "database-administrator",
@@ -9640,7 +10780,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.9 - ₹7.7 LPA",
+        "midLevel": "₹7.0 - ₹12.0 LPA",
+        "senior": "₹12.0 - ₹17.0 LPA",
+        "leadArchitect": "₹17.0 - ₹25.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$77,000",
+          "mid": "$112,000",
+          "senior": "$187,000",
+          "lead": "$255,000"
+        },
+        "uk": {
+          "entry": "£39,000",
+          "mid": "£56,000",
+          "senior": "£94,000",
+          "lead": "£136,000"
+        },
+        "eu": {
+          "entry": "€42,000",
+          "mid": "€63,000",
+          "senior": "€102,000",
+          "lead": "€153,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Database & Data Platform Administration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-data-warehouse-architect",
@@ -9952,7 +11130,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹29.0 LPA",
+        "senior": "₹29.0 - ₹40.0 LPA",
+        "leadArchitect": "₹40.0 - ₹60.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$440,000",
+          "lead": "$600,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£220,000",
+          "lead": "£320,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€240,000",
+          "lead": "€360,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Database & Data Platform Administration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "nosql-distributed-database-engineer",
@@ -10263,7 +11479,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Database & Data Platform Administration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-engineer",
@@ -10572,7 +11826,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹14.0 LPA",
+        "senior": "₹14.0 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Cloud Computing & Cloud Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "multi-cloud-solutions-architect",
@@ -10881,7 +12173,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹15.4 - ₹24.2 LPA",
+        "midLevel": "₹22.0 - ₹38.5 LPA",
+        "senior": "₹38.5 - ₹55.0 LPA",
+        "leadArchitect": "₹55.0 - ₹82.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$242,000",
+          "mid": "$352,000",
+          "senior": "$605,000",
+          "lead": "$825,000"
+        },
+        "uk": {
+          "entry": "£121,000",
+          "mid": "£176,000",
+          "senior": "£303,000",
+          "lead": "£440,000"
+        },
+        "eu": {
+          "entry": "€132,000",
+          "mid": "€198,000",
+          "senior": "€330,000",
+          "lead": "€495,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Cloud Computing & Cloud Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-finops-engineer",
@@ -11189,7 +12519,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Cloud Computing & Cloud Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "devops-engineer",
@@ -11499,7 +12867,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.9 - ₹9.4 LPA",
+        "midLevel": "₹8.5 - ₹15.3 LPA",
+        "senior": "₹15.3 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$94,000",
+          "mid": "$136,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£47,000",
+          "mid": "£68,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€51,000",
+          "mid": "€77,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within DevOps, Platform Engineering & SRE.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "site-reliability-engineer",
@@ -11809,7 +13215,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within DevOps, Platform Engineering & SRE.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "platform-engineer",
@@ -12119,7 +13563,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹27.0 LPA",
+        "senior": "₹27.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within DevOps, Platform Engineering & SRE.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "network-engineer",
@@ -12429,7 +13911,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.8 - ₹6.1 LPA",
+        "midLevel": "₹5.5 - ₹10.3 LPA",
+        "senior": "₹10.3 - ₹15.0 LPA",
+        "leadArchitect": "₹15.0 - ₹22.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$61,000",
+          "mid": "$88,000",
+          "senior": "$165,000",
+          "lead": "$225,000"
+        },
+        "uk": {
+          "entry": "£30,000",
+          "mid": "£44,000",
+          "senior": "£83,000",
+          "lead": "£120,000"
+        },
+        "eu": {
+          "entry": "€33,000",
+          "mid": "€50,000",
+          "senior": "€90,000",
+          "lead": "€135,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Networking & Telecommunications.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-networking-architect",
@@ -12734,7 +14254,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹26.0 LPA",
+        "senior": "₹26.0 - ₹36.0 LPA",
+        "leadArchitect": "₹36.0 - ₹54.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$396,000",
+          "lead": "$540,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£198,000",
+          "lead": "£288,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€216,000",
+          "lead": "€324,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Networking & Telecommunications.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "network-automation-engineer",
@@ -13043,7 +14601,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Networking & Telecommunications.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "systems-administrator",
@@ -13353,7 +14949,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.5 - ₹5.5 LPA",
+        "midLevel": "₹5.0 - ₹9.0 LPA",
+        "senior": "₹9.0 - ₹13.0 LPA",
+        "leadArchitect": "₹13.0 - ₹19.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$55,000",
+          "mid": "$80,000",
+          "senior": "$143,000",
+          "lead": "$195,000"
+        },
+        "uk": {
+          "entry": "£28,000",
+          "mid": "£40,000",
+          "senior": "£72,000",
+          "lead": "£104,000"
+        },
+        "eu": {
+          "entry": "€30,000",
+          "mid": "€45,000",
+          "senior": "€78,000",
+          "lead": "€117,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Infrastructure & Systems Administration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "datacenter-virtualization-engineer",
@@ -13659,7 +15293,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.0 LPA",
+        "senior": "₹15.0 - ₹21.0 LPA",
+        "leadArchitect": "₹21.0 - ₹31.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$231,000",
+          "lead": "$315,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£116,000",
+          "lead": "£168,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€126,000",
+          "lead": "€189,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Infrastructure & Systems Administration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "infrastructure-architect",
@@ -13965,7 +15637,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹15.4 - ₹24.2 LPA",
+        "midLevel": "₹22.0 - ₹36.0 LPA",
+        "senior": "₹36.0 - ₹50.0 LPA",
+        "leadArchitect": "₹50.0 - ₹75.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$242,000",
+          "mid": "$352,000",
+          "senior": "$550,000",
+          "lead": "$750,000"
+        },
+        "uk": {
+          "entry": "£121,000",
+          "mid": "£176,000",
+          "senior": "£275,000",
+          "lead": "£400,000"
+        },
+        "eu": {
+          "entry": "€132,000",
+          "mid": "€198,000",
+          "senior": "€300,000",
+          "lead": "€450,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Infrastructure & Systems Administration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cybersecurity-analyst",
@@ -14277,7 +15987,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.9 - ₹7.7 LPA",
+        "midLevel": "₹7.0 - ₹12.5 LPA",
+        "senior": "₹12.5 - ₹18.0 LPA",
+        "leadArchitect": "₹18.0 - ₹27.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$77,000",
+          "mid": "$112,000",
+          "senior": "$198,000",
+          "lead": "$270,000"
+        },
+        "uk": {
+          "entry": "£39,000",
+          "mid": "£56,000",
+          "senior": "£99,000",
+          "lead": "£144,000"
+        },
+        "eu": {
+          "entry": "€42,000",
+          "mid": "€63,000",
+          "senior": "€108,000",
+          "lead": "€162,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Cybersecurity & Information Security.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-security-architect",
@@ -14585,7 +16333,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹30.0 LPA",
+        "senior": "₹30.0 - ₹42.0 LPA",
+        "leadArchitect": "₹42.0 - ₹63.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$462,000",
+          "lead": "$630,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£231,000",
+          "lead": "£336,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€252,000",
+          "lead": "€378,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Cybersecurity & Information Security.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "identity-access-architect",
@@ -14891,7 +16677,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Cybersecurity & Information Security.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "penetration-tester",
@@ -15201,7 +17025,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹14.5 LPA",
+        "senior": "₹14.5 - ₹21.0 LPA",
+        "leadArchitect": "₹21.0 - ₹31.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$231,000",
+          "lead": "$315,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£116,000",
+          "lead": "£168,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€126,000",
+          "lead": "€189,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Ethical Hacking & Offensive Security.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "red-team-specialist",
@@ -15507,7 +17369,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹27.0 LPA",
+        "senior": "₹27.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Ethical Hacking & Offensive Security.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "application-security-analyst",
@@ -15813,7 +17713,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Ethical Hacking & Offensive Security.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "digital-forensics-investigator",
@@ -16122,7 +18060,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.3 - ₹8.3 LPA",
+        "midLevel": "₹7.5 - ₹13.3 LPA",
+        "senior": "₹13.3 - ₹19.0 LPA",
+        "leadArchitect": "₹19.0 - ₹28.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$83,000",
+          "mid": "$120,000",
+          "senior": "$209,000",
+          "lead": "$285,000"
+        },
+        "uk": {
+          "entry": "£41,000",
+          "mid": "£60,000",
+          "senior": "£105,000",
+          "lead": "£152,000"
+        },
+        "eu": {
+          "entry": "€45,000",
+          "mid": "€68,000",
+          "senior": "€114,000",
+          "lead": "€171,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Digital Forensics, Incident Response & Governance.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "threat-intelligence-analyst",
@@ -16429,7 +18405,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Digital Forensics, Incident Response & Governance.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "security-compliance-auditor",
@@ -16736,7 +18750,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Digital Forensics, Incident Response & Governance.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "qa-automation-engineer",
@@ -17047,7 +19099,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.8 - ₹6.1 LPA",
+        "midLevel": "₹5.5 - ₹10.3 LPA",
+        "senior": "₹10.3 - ₹15.0 LPA",
+        "leadArchitect": "₹15.0 - ₹22.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$61,000",
+          "mid": "$88,000",
+          "senior": "$165,000",
+          "lead": "$225,000"
+        },
+        "uk": {
+          "entry": "£30,000",
+          "mid": "£44,000",
+          "senior": "£83,000",
+          "lead": "£120,000"
+        },
+        "eu": {
+          "entry": "€33,000",
+          "mid": "€50,000",
+          "senior": "€90,000",
+          "lead": "€135,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Software Testing & Quality Assurance.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "performance-test-engineer",
@@ -17356,7 +19446,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Software Testing & Quality Assurance.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "security-qa-test-engineer",
@@ -17662,7 +19790,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Software Testing & Quality Assurance.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "it-support-specialist",
@@ -17972,7 +20138,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹2.8 - ₹4.4 LPA",
+        "midLevel": "₹4.0 - ₹6.8 LPA",
+        "senior": "₹6.8 - ₹9.5 LPA",
+        "leadArchitect": "₹9.5 - ₹14.3 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$44,000",
+          "mid": "$64,000",
+          "senior": "$105,000",
+          "lead": "$143,000"
+        },
+        "uk": {
+          "entry": "£22,000",
+          "mid": "£32,000",
+          "senior": "£52,000",
+          "lead": "£76,000"
+        },
+        "eu": {
+          "entry": "€24,000",
+          "mid": "€36,000",
+          "senior": "€57,000",
+          "lead": "€86,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Support & IT Service Management.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "itsm-platform-administrator",
@@ -18279,7 +20483,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Support & IT Service Management.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "end-user-computing-engineer",
@@ -18585,7 +20827,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.1 - ₹5.0 LPA",
+        "midLevel": "₹4.5 - ₹7.8 LPA",
+        "senior": "₹7.8 - ₹11.0 LPA",
+        "leadArchitect": "₹11.0 - ₹16.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$50,000",
+          "mid": "$72,000",
+          "senior": "$121,000",
+          "lead": "$165,000"
+        },
+        "uk": {
+          "entry": "£25,000",
+          "mid": "£36,000",
+          "senior": "£61,000",
+          "lead": "£88,000"
+        },
+        "eu": {
+          "entry": "€27,000",
+          "mid": "€41,000",
+          "senior": "€66,000",
+          "lead": "€99,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Support & IT Service Management.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ui-ux-designer",
@@ -18895,7 +21175,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.5 - ₹7.2 LPA",
+        "midLevel": "₹6.5 - ₹12.3 LPA",
+        "senior": "₹12.3 - ₹18.0 LPA",
+        "leadArchitect": "₹18.0 - ₹27.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$72,000",
+          "mid": "$104,000",
+          "senior": "$198,000",
+          "lead": "$270,000"
+        },
+        "uk": {
+          "entry": "£36,000",
+          "mid": "£52,000",
+          "senior": "£99,000",
+          "lead": "£144,000"
+        },
+        "eu": {
+          "entry": "€39,000",
+          "mid": "€59,000",
+          "senior": "€108,000",
+          "lead": "€162,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within UI/UX & Product Design.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ux-researcher",
@@ -19202,7 +21520,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within UI/UX & Product Design.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "design-systems-lead",
@@ -19509,7 +21865,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹26.0 LPA",
+        "senior": "₹26.0 - ₹36.0 LPA",
+        "leadArchitect": "₹36.0 - ₹54.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$396,000",
+          "lead": "$540,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£198,000",
+          "lead": "£288,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€216,000",
+          "lead": "€324,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within UI/UX & Product Design.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "product-manager",
@@ -19816,7 +22210,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Product Management & Business Analysis.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "it-business-analyst",
@@ -20125,7 +22557,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.2 - ₹6.6 LPA",
+        "midLevel": "₹6.0 - ₹11.0 LPA",
+        "senior": "₹11.0 - ₹16.0 LPA",
+        "leadArchitect": "₹16.0 - ₹24.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$66,000",
+          "mid": "$96,000",
+          "senior": "$176,000",
+          "lead": "$240,000"
+        },
+        "uk": {
+          "entry": "£33,000",
+          "mid": "£48,000",
+          "senior": "£88,000",
+          "lead": "£128,000"
+        },
+        "eu": {
+          "entry": "€36,000",
+          "mid": "€54,000",
+          "senior": "€96,000",
+          "lead": "€144,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Product Management & Business Analysis.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "product-operations-manager",
@@ -20431,7 +22901,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Product Management & Business Analysis.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "systems-architect",
@@ -20743,7 +23251,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹14.0 - ₹22.0 LPA",
+        "midLevel": "₹20.0 - ₹35.0 LPA",
+        "senior": "₹35.0 - ₹50.0 LPA",
+        "leadArchitect": "₹50.0 - ₹75.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$220,000",
+          "mid": "$320,000",
+          "senior": "$550,000",
+          "lead": "$750,000"
+        },
+        "uk": {
+          "entry": "£110,000",
+          "mid": "£160,000",
+          "senior": "£275,000",
+          "lead": "£400,000"
+        },
+        "eu": {
+          "entry": "€120,000",
+          "mid": "€180,000",
+          "senior": "€300,000",
+          "lead": "€450,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Systems Architecture & Enterprise Integration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "event-driven-systems-specialist",
@@ -21052,7 +23598,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Systems Architecture & Enterprise Integration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "api-integration-architect",
@@ -21358,7 +23942,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Systems Architecture & Enterprise Integration.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "erp-crm-consultant",
@@ -21664,7 +24286,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.9 - ₹7.7 LPA",
+        "midLevel": "₹7.0 - ₹13.5 LPA",
+        "senior": "₹13.5 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$77,000",
+          "mid": "$112,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£39,000",
+          "mid": "£56,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€42,000",
+          "mid": "€63,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Enterprise Applications, ERP & CRM.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "salesforce-platform-developer",
@@ -21972,7 +24632,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹19.0 LPA",
+        "senior": "₹19.0 - ₹27.0 LPA",
+        "leadArchitect": "₹27.0 - ₹40.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$297,000",
+          "lead": "$405,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£149,000",
+          "lead": "£216,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€162,000",
+          "lead": "€243,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Enterprise Applications, ERP & CRM.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "sap-s4hana-technical-consultant",
@@ -22276,7 +24974,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.3 - ₹11.6 LPA",
+        "midLevel": "₹10.5 - ₹17.8 LPA",
+        "senior": "₹17.8 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$116,000",
+          "mid": "$168,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£58,000",
+          "mid": "£84,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€63,000",
+          "mid": "€95,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Enterprise Applications, ERP & CRM.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "it-project-manager",
@@ -22585,7 +25321,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹15.0 LPA",
+        "senior": "₹15.0 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Project, Program & Delivery Management.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "technical-program-manager",
@@ -22891,7 +25665,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹24.0 LPA",
+        "senior": "₹24.0 - ₹34.0 LPA",
+        "leadArchitect": "₹34.0 - ₹51.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$374,000",
+          "lead": "$510,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£187,000",
+          "lead": "£272,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€204,000",
+          "lead": "€306,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Project, Program & Delivery Management.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "scrum-master-agile-coach",
@@ -23197,7 +26009,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Project, Program & Delivery Management.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "robotics-software-engineer",
@@ -23508,7 +26358,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.3 - ₹8.3 LPA",
+        "midLevel": "₹7.5 - ₹13.8 LPA",
+        "senior": "₹13.8 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$83,000",
+          "mid": "$120,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£41,000",
+          "mid": "£60,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€45,000",
+          "mid": "€68,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Robotics, IoT & Industrial Automation.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "iot-solutions-architect",
@@ -23815,7 +26703,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Robotics, IoT & Industrial Automation.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "plc-scada-automation-engineer",
@@ -24121,7 +27047,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹13.5 LPA",
+        "senior": "₹13.5 - ₹19.0 LPA",
+        "leadArchitect": "₹19.0 - ₹28.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$209,000",
+          "lead": "$285,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£105,000",
+          "lead": "£152,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€114,000",
+          "lead": "€171,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Robotics, IoT & Industrial Automation.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "game-developer",
@@ -24431,7 +27395,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.2 - ₹6.6 LPA",
+        "midLevel": "₹6.0 - ₹12.0 LPA",
+        "senior": "₹12.0 - ₹18.0 LPA",
+        "leadArchitect": "₹18.0 - ₹27.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$66,000",
+          "mid": "$96,000",
+          "senior": "$198,000",
+          "lead": "$270,000"
+        },
+        "uk": {
+          "entry": "£33,000",
+          "mid": "£48,000",
+          "senior": "£99,000",
+          "lead": "£144,000"
+        },
+        "eu": {
+          "entry": "€36,000",
+          "mid": "€54,000",
+          "senior": "€108,000",
+          "lead": "€162,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Game Development, Graphics & XR.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "real-time-3d-graphics-engineer",
@@ -24741,7 +27743,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Game Development, Graphics & XR.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "xr-spatial-computing-engineer",
@@ -25050,7 +28090,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.3 - ₹11.6 LPA",
+        "midLevel": "₹10.5 - ₹17.8 LPA",
+        "senior": "₹17.8 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$116,000",
+          "mid": "$168,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£58,000",
+          "mid": "£84,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€63,000",
+          "mid": "€95,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Game Development, Graphics & XR.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "blockchain-developer",
@@ -25362,7 +28440,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.9 - ₹9.4 LPA",
+        "midLevel": "₹8.5 - ₹16.3 LPA",
+        "senior": "₹16.3 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$94,000",
+          "mid": "$136,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£47,000",
+          "mid": "£68,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€51,000",
+          "mid": "€77,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Blockchain & Web3.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "web3-security-auditor",
@@ -25669,7 +28785,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹31.5 LPA",
+        "senior": "₹31.5 - ₹45.0 LPA",
+        "leadArchitect": "₹45.0 - ₹67.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$495,000",
+          "lead": "$675,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£248,000",
+          "lead": "£360,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€270,000",
+          "lead": "€405,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Blockchain & Web3.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "dapp-fullstack-engineer",
@@ -25978,7 +29132,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.3 - ₹8.3 LPA",
+        "midLevel": "₹7.5 - ₹13.8 LPA",
+        "senior": "₹13.8 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$83,000",
+          "mid": "$120,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£41,000",
+          "mid": "£60,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€45,000",
+          "mid": "€68,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Blockchain & Web3.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "hardware-design-engineer",
@@ -26286,7 +29478,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.6 - ₹8.8 LPA",
+        "midLevel": "₹8.0 - ₹15.0 LPA",
+        "senior": "₹15.0 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$88,000",
+          "mid": "$128,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£44,000",
+          "mid": "£64,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€48,000",
+          "mid": "€72,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Hardware, Semiconductor & Computer Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "embedded-hardware-pcb-engineer",
@@ -26593,7 +29823,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹15.5 LPA",
+        "senior": "₹15.5 - ₹22.0 LPA",
+        "leadArchitect": "₹22.0 - ₹33.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$242,000",
+          "lead": "$330,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£121,000",
+          "lead": "£176,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€132,000",
+          "lead": "€198,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Hardware, Semiconductor & Computer Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "silicon-validation-engineer",
@@ -26898,7 +30166,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Hardware, Semiconductor & Computer Engineering.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "mlops-engineer",
@@ -27212,7 +30518,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹19.5 LPA",
+        "senior": "₹19.5 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within MLOps, AI Infrastructure & Responsible AI.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ai-governance-responsible-ai-officer",
@@ -27519,7 +30863,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within MLOps, AI Infrastructure & Responsible AI.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "gpu-cluster-infrastructure-engineer",
@@ -27826,7 +31208,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹31.0 LPA",
+        "senior": "₹31.0 - ₹44.0 LPA",
+        "leadArchitect": "₹44.0 - ₹66.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$484,000",
+          "lead": "$660,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£242,000",
+          "lead": "£352,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€264,000",
+          "lead": "€396,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within MLOps, AI Infrastructure & Responsible AI.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "hpc-specialist",
@@ -28136,7 +31556,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Research Computing & Scientific Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "computational-scientist-simulation",
@@ -28442,7 +31900,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹25.0 LPA",
+        "senior": "₹25.0 - ₹36.0 LPA",
+        "leadArchitect": "₹36.0 - ₹54.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$396,000",
+          "lead": "$540,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£198,000",
+          "lead": "£288,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€216,000",
+          "lead": "€324,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Research Computing & Scientific Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "quantum-computing-researcher",
@@ -28749,7 +32245,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹29.0 LPA",
+        "senior": "₹29.0 - ₹42.0 LPA",
+        "leadArchitect": "₹42.0 - ₹63.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$462,000",
+          "lead": "$630,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£231,000",
+          "lead": "£336,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€252,000",
+          "lead": "€378,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Research Computing & Scientific Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "technical-solutions-consultant",
@@ -29059,7 +32593,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.3 - ₹8.3 LPA",
+        "midLevel": "₹7.5 - ₹13.8 LPA",
+        "senior": "₹13.8 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$83,000",
+          "mid": "$120,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£41,000",
+          "mid": "£60,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€45,000",
+          "mid": "€68,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Technology Consulting & Technical Solutions.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "it-strategy-transformation-consultant",
@@ -29366,7 +32938,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Technology Consulting & Technical Solutions.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "enterprise-cloud-consultant",
@@ -29674,7 +33284,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹27.0 LPA",
+        "senior": "₹27.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Technology Consulting & Technical Solutions.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "fintech-software-engineer",
@@ -29985,7 +33633,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹6.3 - ₹9.9 LPA",
+        "midLevel": "₹9.0 - ₹17.5 LPA",
+        "senior": "₹17.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$99,000",
+          "mid": "$144,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£50,000",
+          "mid": "£72,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€54,000",
+          "mid": "€81,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within FinTech & Financial Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "quant-algo-trading-engineer",
@@ -30292,7 +33978,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹15.4 - ₹24.2 LPA",
+        "midLevel": "₹22.0 - ₹41.0 LPA",
+        "senior": "₹41.0 - ₹60.0 LPA",
+        "leadArchitect": "₹60.0 - ₹90.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$242,000",
+          "mid": "$352,000",
+          "senior": "$660,000",
+          "lead": "$900,000"
+        },
+        "uk": {
+          "entry": "£121,000",
+          "mid": "£176,000",
+          "senior": "£330,000",
+          "lead": "£480,000"
+        },
+        "eu": {
+          "entry": "€132,000",
+          "mid": "€198,000",
+          "senior": "€360,000",
+          "lead": "€540,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within FinTech & Financial Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "core-banking-systems-engineer",
@@ -30602,7 +34326,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within FinTech & Financial Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "healthtech-engineer",
@@ -30913,7 +34675,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.3 - ₹8.3 LPA",
+        "midLevel": "₹7.5 - ₹13.8 LPA",
+        "senior": "₹13.8 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$83,000",
+          "mid": "$120,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£41,000",
+          "mid": "£60,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€45,000",
+          "mid": "€68,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within HealthTech & Medical Informatics.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "clinical-data-systems-engineer",
@@ -31220,7 +35020,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within HealthTech & Medical Informatics.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "medical-device-software-engineer",
@@ -31526,7 +35364,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within HealthTech & Medical Informatics.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "gis-developer",
@@ -31836,7 +35712,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.2 - ₹6.6 LPA",
+        "midLevel": "₹6.0 - ₹11.0 LPA",
+        "senior": "₹11.0 - ₹16.0 LPA",
+        "leadArchitect": "₹16.0 - ₹24.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$66,000",
+          "mid": "$96,000",
+          "senior": "$176,000",
+          "lead": "$240,000"
+        },
+        "uk": {
+          "entry": "£33,000",
+          "mid": "£48,000",
+          "senior": "£88,000",
+          "lead": "£128,000"
+        },
+        "eu": {
+          "entry": "€36,000",
+          "mid": "€54,000",
+          "senior": "€96,000",
+          "lead": "€144,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within GIS, Geospatial & Location Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "spatial-data-scientist",
@@ -32143,7 +36057,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.3 - ₹11.6 LPA",
+        "midLevel": "₹10.5 - ₹17.3 LPA",
+        "senior": "₹17.3 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$116,000",
+          "mid": "$168,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£58,000",
+          "mid": "£84,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€63,000",
+          "mid": "€95,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within GIS, Geospatial & Location Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "geospatial-web-developer",
@@ -32452,7 +36404,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.5 - ₹7.2 LPA",
+        "midLevel": "₹6.5 - ₹11.8 LPA",
+        "senior": "₹11.8 - ₹17.0 LPA",
+        "leadArchitect": "₹17.0 - ₹25.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$72,000",
+          "mid": "$104,000",
+          "senior": "$187,000",
+          "lead": "$255,000"
+        },
+        "uk": {
+          "entry": "£36,000",
+          "mid": "£52,000",
+          "senior": "£94,000",
+          "lead": "£136,000"
+        },
+        "eu": {
+          "entry": "€39,000",
+          "mid": "€59,000",
+          "senior": "€102,000",
+          "lead": "€153,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within GIS, Geospatial & Location Technology.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "technical-writer",
@@ -32762,7 +36752,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.8 - ₹6.1 LPA",
+        "midLevel": "₹5.5 - ₹10.8 LPA",
+        "senior": "₹10.8 - ₹16.0 LPA",
+        "leadArchitect": "₹16.0 - ₹24.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$61,000",
+          "mid": "$88,000",
+          "senior": "$176,000",
+          "lead": "$240,000"
+        },
+        "uk": {
+          "entry": "£30,000",
+          "mid": "£44,000",
+          "senior": "£88,000",
+          "lead": "£128,000"
+        },
+        "eu": {
+          "entry": "€33,000",
+          "mid": "€50,000",
+          "senior": "€96,000",
+          "lead": "€144,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Technical Writing & Developer Experience.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "developer-advocate",
@@ -33069,7 +37097,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Technical Writing & Developer Experience.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "api-documentation-specialist",
@@ -33376,7 +37442,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.2 - ₹6.6 LPA",
+        "midLevel": "₹6.0 - ₹11.5 LPA",
+        "senior": "₹11.5 - ₹17.0 LPA",
+        "leadArchitect": "₹17.0 - ₹25.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$66,000",
+          "mid": "$96,000",
+          "senior": "$187,000",
+          "lead": "$255,000"
+        },
+        "uk": {
+          "entry": "£33,000",
+          "mid": "£48,000",
+          "senior": "£94,000",
+          "lead": "£136,000"
+        },
+        "eu": {
+          "entry": "€36,000",
+          "mid": "€54,000",
+          "senior": "€102,000",
+          "lead": "€153,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within Technical Writing & Developer Experience.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "technical-trainer",
@@ -33686,7 +37790,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.5 - ₹5.5 LPA",
+        "midLevel": "₹5.0 - ₹9.5 LPA",
+        "senior": "₹9.5 - ₹14.0 LPA",
+        "leadArchitect": "₹14.0 - ₹21.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$55,000",
+          "mid": "$80,000",
+          "senior": "$154,000",
+          "lead": "$210,000"
+        },
+        "uk": {
+          "entry": "£28,000",
+          "mid": "£40,000",
+          "senior": "£77,000",
+          "lead": "£112,000"
+        },
+        "eu": {
+          "entry": "€30,000",
+          "mid": "€45,000",
+          "senior": "€84,000",
+          "lead": "€126,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Training & Technical Education.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "instructional-designer-edtech",
@@ -33993,7 +38135,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹5.9 - ₹9.4 LPA",
+        "midLevel": "₹8.5 - ₹14.3 LPA",
+        "senior": "₹14.3 - ₹20.0 LPA",
+        "leadArchitect": "₹20.0 - ₹30.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$94,000",
+          "mid": "$136,000",
+          "senior": "$220,000",
+          "lead": "$300,000"
+        },
+        "uk": {
+          "entry": "£47,000",
+          "mid": "£68,000",
+          "senior": "£110,000",
+          "lead": "£160,000"
+        },
+        "eu": {
+          "entry": "€51,000",
+          "mid": "€77,000",
+          "senior": "€120,000",
+          "lead": "€180,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Training & Technical Education.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "software-lab-mentor",
@@ -34298,7 +38478,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.4 - ₹5.3 LPA",
+        "midLevel": "₹4.8 - ₹8.4 LPA",
+        "senior": "₹8.4 - ₹12.0 LPA",
+        "leadArchitect": "₹12.0 - ₹18.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$53,000",
+          "mid": "$77,000",
+          "senior": "$132,000",
+          "lead": "$180,000"
+        },
+        "uk": {
+          "entry": "£26,000",
+          "mid": "£38,000",
+          "senior": "£66,000",
+          "lead": "£96,000"
+        },
+        "eu": {
+          "entry": "€29,000",
+          "mid": "€43,000",
+          "senior": "€72,000",
+          "lead": "€108,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Training & Technical Education.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "it-governance-manager",
@@ -34607,7 +38825,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹24.5 LPA",
+        "senior": "₹24.5 - ₹35.0 LPA",
+        "leadArchitect": "₹35.0 - ₹52.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$385,000",
+          "lead": "$525,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£193,000",
+          "lead": "£280,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€210,000",
+          "lead": "€315,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Governance, Risk & IT Leadership.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "vciso-security-director",
@@ -34913,7 +39169,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹19.6 - ₹30.8 LPA",
+        "midLevel": "₹28.0 - ₹46.5 LPA",
+        "senior": "₹46.5 - ₹65.0 LPA",
+        "leadArchitect": "₹65.0 - ₹97.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$308,000",
+          "mid": "$448,000",
+          "senior": "$715,000",
+          "lead": "$975,000"
+        },
+        "uk": {
+          "entry": "£154,000",
+          "mid": "£224,000",
+          "senior": "£358,000",
+          "lead": "£520,000"
+        },
+        "eu": {
+          "entry": "€168,000",
+          "mid": "€252,000",
+          "senior": "€390,000",
+          "lead": "€585,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Governance, Risk & IT Leadership.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "it-audit-compliance-analyst",
@@ -35219,7 +39513,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM Talent Outlook",
         "WEF Future of Jobs"
       ]
-    }
+    },
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹4.2 - ₹6.6 LPA",
+        "midLevel": "₹6.0 - ₹10.5 LPA",
+        "senior": "₹10.5 - ₹15.0 LPA",
+        "leadArchitect": "₹15.0 - ₹22.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$66,000",
+          "mid": "$96,000",
+          "senior": "$165,000",
+          "lead": "$225,000"
+        },
+        "uk": {
+          "entry": "£33,000",
+          "mid": "£48,000",
+          "senior": "£83,000",
+          "lead": "£120,000"
+        },
+        "eu": {
+          "entry": "€36,000",
+          "mid": "€54,000",
+          "senior": "€90,000",
+          "lead": "€135,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating performance bottlenecks, operational friction, and system downtime within IT Governance, Risk & IT Leadership.",
+      "Translating ambiguous business and user requirements into verifiable, high-availability technical deliverables.",
+      "Strengthening security posture, automated test coverage, and engineering resilience across the software lifecycle."
+    ],
+    "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "autonomous-ai-agent-engineer",
@@ -35502,7 +39834,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 115
+    "sortOrder": 115,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹26.0 LPA",
+        "senior": "₹26.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Agentic AI, Autonomous Workflows & AI Orchestration.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "Rapidly expanding corporate adoption across enterprise IT, customer operations, finance, and automated engineering platforms.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ai-red-team-safety-engineer",
@@ -35779,7 +40149,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 116
+    "sortOrder": 116,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹31.5 LPA",
+        "senior": "₹31.5 - ₹45.0 LPA",
+        "leadArchitect": "₹45.0 - ₹67.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$495,000",
+          "lead": "$675,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£248,000",
+          "lead": "£360,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€270,000",
+          "lead": "€405,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Agentic AI, Autonomous Workflows & AI Orchestration.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "Essential security practice mandated by NIST AI RMF, ISO 42001, and corporate risk boards across Fortune 500 enterprises.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ai-evaluation-benchmarking-engineer",
@@ -36056,7 +40464,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 117
+    "sortOrder": 117,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹21.0 LPA",
+        "senior": "₹21.0 - ₹30.0 LPA",
+        "leadArchitect": "₹30.0 - ₹45.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$330,000",
+          "lead": "$450,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£165,000",
+          "lead": "£240,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€180,000",
+          "lead": "€270,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Agentic AI, Autonomous Workflows & AI Orchestration.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "Critical discipline solving the primary enterprise bottleneck: objectively proving that AI applications meet accuracy, safety, and business requirements.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "platform-engineer-idp",
@@ -36339,7 +40785,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 118
+    "sortOrder": 118,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹30.0 LPA",
+        "senior": "₹30.0 - ₹42.0 LPA",
+        "leadArchitect": "₹42.0 - ₹63.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$462,000",
+          "lead": "$630,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£231,000",
+          "lead": "£336,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€252,000",
+          "lead": "€378,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Platform Engineering & Internal Developer Platforms.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "Top strategic priority for large software organizations seeking to reduce cognitive load on product developers and enforce consistent governance.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-finops-analyst",
@@ -36616,7 +41100,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 119
+    "sortOrder": 119,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Cloud FinOps & Sustainable Infrastructure.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "High demand across private and public sectors facing expanding cloud infrastructure and AI compute expenditures.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "iam-zero-trust-architect",
@@ -36897,7 +41419,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 120
+    "sortOrder": 120,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹31.0 LPA",
+        "senior": "₹31.0 - ₹44.0 LPA",
+        "leadArchitect": "₹44.0 - ₹66.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$484,000",
+          "lead": "$660,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£242,000",
+          "lead": "£352,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€264,000",
+          "lead": "€396,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Identity & Access Management (IAM) & Zero Trust.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "Core defensive priority across enterprise IT, protecting corporate assets where identity has become the primary security perimeter.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "intelligent-process-automation-engineer",
@@ -37176,7 +41736,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 121
+    "sortOrder": 121,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹3.8 - ₹6.1 LPA",
+        "midLevel": "₹5.5 - ₹10.3 LPA",
+        "senior": "₹10.3 - ₹15.0 LPA",
+        "leadArchitect": "₹15.0 - ₹22.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$61,000",
+          "mid": "$88,000",
+          "senior": "$165,000",
+          "lead": "$225,000"
+        },
+        "uk": {
+          "entry": "£30,000",
+          "mid": "£44,000",
+          "senior": "£83,000",
+          "lead": "£120,000"
+        },
+        "eu": {
+          "entry": "€33,000",
+          "mid": "€50,000",
+          "senior": "€90,000",
+          "lead": "€135,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Intelligent Process Automation (IPA) & Enterprise RPA.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "High campus placement demand across Global Capability Centers (GCCs), IT services firms (TCS, Infosys, Cognizant, Wipro), and global banks.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "chief-technology-officer",
@@ -37452,7 +42050,45 @@ export const MASTER_CAREER_ROLES = [
         "NASSCOM FutureSkills"
       ]
     },
-    "sortOrder": 122
+    "sortOrder": 122,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹31.5 - ₹49.5 LPA",
+        "midLevel": "₹45.0 - ₹97.5 LPA",
+        "senior": "₹97.5 - ₹150.0 LPA",
+        "leadArchitect": "₹150.0 - ₹225.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$495,000",
+          "mid": "$720,000",
+          "senior": "$1650,000",
+          "lead": "$2250,000"
+        },
+        "uk": {
+          "entry": "£248,000",
+          "mid": "£360,000",
+          "senior": "£825,000",
+          "lead": "£1200,000"
+        },
+        "eu": {
+          "entry": "€270,000",
+          "mid": "€405,000",
+          "senior": "€900,000",
+          "lead": "€1350,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational barriers in Executive Technology Leadership & C-Suite.",
+      "Translating high-level organizational goals into dependable production software and architecture.",
+      "Enforcing quality, security, and performance standards across distributed teams."
+    ],
+    "whyRoleExists": "Highest technical executive officer in tech companies, enterprise corporations, and digital ventures.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "api-platform-sdk-engineer",
@@ -37712,7 +42348,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 123
+    "sortOrder": 123,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in API Engineering & Developer Tooling.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within API Engineering & Developer Tooling.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "software-build-release-engineer",
@@ -37973,7 +42647,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 124
+    "sortOrder": 124,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Software Build, Release & Packaging Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Software Build, Release & Packaging Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "systems-software-rust-engineer",
@@ -38232,7 +42944,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 125
+    "sortOrder": 125,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹26.0 LPA",
+        "senior": "₹26.0 - ₹36.0 LPA",
+        "leadArchitect": "₹36.0 - ₹54.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$396,000",
+          "lead": "$540,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£198,000",
+          "lead": "£288,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€216,000",
+          "lead": "€324,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Desktop, Systems & Embedded Software.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Desktop, Systems & Embedded Software.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "webassembly-runtime-engineer",
@@ -38489,7 +43239,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 126
+    "sortOrder": 126,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Web Development & Frontend Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "data-governance-engineer",
@@ -38747,7 +43535,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 127
+    "sortOrder": 127,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.0 LPA",
+        "senior": "₹18.0 - ₹25.0 LPA",
+        "leadArchitect": "₹25.0 - ₹37.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$275,000",
+          "lead": "$375,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£138,000",
+          "lead": "£200,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€150,000",
+          "lead": "€225,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Data Governance, Quality & Observability.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Data Governance, Quality & Observability.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "data-observability-quality-engineer",
@@ -39006,7 +43832,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 128
+    "sortOrder": 128,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹19.5 LPA",
+        "senior": "₹19.5 - ₹27.0 LPA",
+        "leadArchitect": "₹27.0 - ₹40.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$297,000",
+          "lead": "$405,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£149,000",
+          "lead": "£216,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€162,000",
+          "lead": "€243,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Data Governance, Quality & Observability.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Data Governance, Quality & Observability.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "knowledge-graph-engineer",
@@ -39267,7 +44131,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 129
+    "sortOrder": 129,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.1 - ₹14.3 LPA",
+        "midLevel": "₹13.0 - ₹21.5 LPA",
+        "senior": "₹21.5 - ₹30.0 LPA",
+        "leadArchitect": "₹30.0 - ₹45.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$143,000",
+          "mid": "$208,000",
+          "senior": "$330,000",
+          "lead": "$450,000"
+        },
+        "uk": {
+          "entry": "£72,000",
+          "mid": "£104,000",
+          "senior": "£165,000",
+          "lead": "£240,000"
+        },
+        "eu": {
+          "entry": "€78,000",
+          "mid": "€117,000",
+          "senior": "€180,000",
+          "lead": "€270,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Knowledge Engineering & Semantic Architecture.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Knowledge Engineering & Semantic Architecture.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "data-mesh-architect",
@@ -39526,7 +44428,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 130
+    "sortOrder": 130,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹14.0 - ₹22.0 LPA",
+        "midLevel": "₹20.0 - ₹34.0 LPA",
+        "senior": "₹34.0 - ₹48.0 LPA",
+        "leadArchitect": "₹48.0 - ₹72.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$220,000",
+          "mid": "$320,000",
+          "senior": "$528,000",
+          "lead": "$720,000"
+        },
+        "uk": {
+          "entry": "£110,000",
+          "mid": "£160,000",
+          "senior": "£264,000",
+          "lead": "£384,000"
+        },
+        "eu": {
+          "entry": "€120,000",
+          "mid": "€180,000",
+          "senior": "€288,000",
+          "lead": "€432,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Data Engineering & Big Data.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Data Engineering & Big Data.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "multimodal-ai-engineer",
@@ -39783,7 +44723,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 131
+    "sortOrder": 131,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹28.0 LPA",
+        "senior": "₹28.0 - ₹40.0 LPA",
+        "leadArchitect": "₹40.0 - ₹60.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$440,000",
+          "lead": "$600,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£220,000",
+          "lead": "£320,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€240,000",
+          "lead": "€360,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Generative AI & LLM Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Generative AI & LLM Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "llmops-inference-optimization-engineer",
@@ -40043,7 +45021,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 132
+    "sortOrder": 132,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹30.0 LPA",
+        "senior": "₹30.0 - ₹42.0 LPA",
+        "leadArchitect": "₹42.0 - ₹63.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$462,000",
+          "lead": "$630,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£231,000",
+          "lead": "£336,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€252,000",
+          "lead": "€378,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in MLOps, AI Infrastructure & Responsible AI.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within MLOps, AI Infrastructure & Responsible AI.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "vector-database-retrieval-architect",
@@ -40301,7 +45317,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 133
+    "sortOrder": 133,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹10.5 - ₹16.5 LPA",
+        "midLevel": "₹15.0 - ₹25.0 LPA",
+        "senior": "₹25.0 - ₹35.0 LPA",
+        "leadArchitect": "₹35.0 - ₹52.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$165,000",
+          "mid": "$240,000",
+          "senior": "$385,000",
+          "lead": "$525,000"
+        },
+        "uk": {
+          "entry": "£83,000",
+          "mid": "£120,000",
+          "senior": "£193,000",
+          "lead": "£280,000"
+        },
+        "eu": {
+          "entry": "€90,000",
+          "mid": "€135,000",
+          "senior": "€210,000",
+          "lead": "€315,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Generative AI & LLM Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Generative AI & LLM Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "kubernetes-infrastructure-operator",
@@ -40562,7 +45616,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 134
+    "sortOrder": 134,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in DevOps, Platform Engineering & SRE.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within DevOps, Platform Engineering & SRE.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-network-architect-mesh",
@@ -40818,7 +45910,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 135
+    "sortOrder": 135,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹27.0 LPA",
+        "senior": "₹27.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Web Development & Frontend Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "chaos-resiliency-engineer",
@@ -41077,7 +46207,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 136
+    "sortOrder": 136,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹10.5 - ₹16.5 LPA",
+        "midLevel": "₹15.0 - ₹24.5 LPA",
+        "senior": "₹24.5 - ₹34.0 LPA",
+        "leadArchitect": "₹34.0 - ₹51.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$165,000",
+          "mid": "$240,000",
+          "senior": "$374,000",
+          "lead": "$510,000"
+        },
+        "uk": {
+          "entry": "£83,000",
+          "mid": "£120,000",
+          "senior": "£187,000",
+          "lead": "£272,000"
+        },
+        "eu": {
+          "entry": "€90,000",
+          "mid": "€135,000",
+          "senior": "€204,000",
+          "lead": "€306,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in DevOps, Platform Engineering & SRE.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within DevOps, Platform Engineering & SRE.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "cloud-security-posture-engineer",
@@ -41335,7 +46503,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 137
+    "sortOrder": 137,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹10.5 - ₹16.5 LPA",
+        "midLevel": "₹15.0 - ₹25.5 LPA",
+        "senior": "₹25.5 - ₹36.0 LPA",
+        "leadArchitect": "₹36.0 - ₹54.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$165,000",
+          "mid": "$240,000",
+          "senior": "$396,000",
+          "lead": "$540,000"
+        },
+        "uk": {
+          "entry": "£83,000",
+          "mid": "£120,000",
+          "senior": "£198,000",
+          "lead": "£288,000"
+        },
+        "eu": {
+          "entry": "€90,000",
+          "mid": "€135,000",
+          "senior": "€216,000",
+          "lead": "€324,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Cloud Security, CNAPP & DevSecOps.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Cloud Security, CNAPP & DevSecOps.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "appsec-vulnerability-researcher",
@@ -41594,7 +46800,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 138
+    "sortOrder": 138,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹24.0 LPA",
+        "senior": "₹24.0 - ₹34.0 LPA",
+        "leadArchitect": "₹34.0 - ₹51.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$374,000",
+          "lead": "$510,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£187,000",
+          "lead": "£272,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€204,000",
+          "lead": "€306,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Application Security (AppSec) & Supply Chain Security.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Application Security (AppSec) & Supply Chain Security.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "software-supply-chain-security-specialist",
@@ -41852,7 +47096,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 139
+    "sortOrder": 139,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹11.2 - ₹17.6 LPA",
+        "midLevel": "₹16.0 - ₹27.0 LPA",
+        "senior": "₹27.0 - ₹38.0 LPA",
+        "leadArchitect": "₹38.0 - ₹57.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$176,000",
+          "mid": "$256,000",
+          "senior": "$418,000",
+          "lead": "$570,000"
+        },
+        "uk": {
+          "entry": "£88,000",
+          "mid": "£128,000",
+          "senior": "£209,000",
+          "lead": "£304,000"
+        },
+        "eu": {
+          "entry": "€96,000",
+          "mid": "€144,000",
+          "senior": "€228,000",
+          "lead": "€342,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Application Security (AppSec) & Supply Chain Security.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Application Security (AppSec) & Supply Chain Security.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "privacy-engineer-cryptographer",
@@ -42110,7 +47392,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 140
+    "sortOrder": 140,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹31.5 LPA",
+        "senior": "₹31.5 - ₹45.0 LPA",
+        "leadArchitect": "₹45.0 - ₹67.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$495,000",
+          "lead": "$675,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£248,000",
+          "lead": "£360,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€270,000",
+          "lead": "€405,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Web Development & Frontend Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "digital-accessibility-a11y-engineer",
@@ -42372,7 +47692,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 141
+    "sortOrder": 141,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.0 - ₹11.0 LPA",
+        "midLevel": "₹10.0 - ₹17.0 LPA",
+        "senior": "₹17.0 - ₹24.0 LPA",
+        "leadArchitect": "₹24.0 - ₹36.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$110,000",
+          "mid": "$160,000",
+          "senior": "$264,000",
+          "lead": "$360,000"
+        },
+        "uk": {
+          "entry": "£55,000",
+          "mid": "£80,000",
+          "senior": "£132,000",
+          "lead": "£192,000"
+        },
+        "eu": {
+          "entry": "€60,000",
+          "mid": "€90,000",
+          "senior": "€144,000",
+          "lead": "€216,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Digital Accessibility (A11y) & Design Systems.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Digital Accessibility (A11y) & Design Systems.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "design-systems-engineer",
@@ -42631,7 +47989,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 142
+    "sortOrder": 142,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹8.4 - ₹13.2 LPA",
+        "midLevel": "₹12.0 - ₹20.0 LPA",
+        "senior": "₹20.0 - ₹28.0 LPA",
+        "leadArchitect": "₹28.0 - ₹42.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$132,000",
+          "mid": "$192,000",
+          "senior": "$308,000",
+          "lead": "$420,000"
+        },
+        "uk": {
+          "entry": "£66,000",
+          "mid": "£96,000",
+          "senior": "£154,000",
+          "lead": "£224,000"
+        },
+        "eu": {
+          "entry": "€72,000",
+          "mid": "€108,000",
+          "senior": "€168,000",
+          "lead": "€252,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Digital Accessibility (A11y) & Design Systems.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Digital Accessibility (A11y) & Design Systems.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "product-growth-operations-specialist",
@@ -42888,7 +48284,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 143
+    "sortOrder": 143,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹7.7 - ₹12.1 LPA",
+        "midLevel": "₹11.0 - ₹18.5 LPA",
+        "senior": "₹18.5 - ₹26.0 LPA",
+        "leadArchitect": "₹26.0 - ₹39.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$121,000",
+          "mid": "$176,000",
+          "senior": "$286,000",
+          "lead": "$390,000"
+        },
+        "uk": {
+          "entry": "£61,000",
+          "mid": "£88,000",
+          "senior": "£143,000",
+          "lead": "£208,000"
+        },
+        "eu": {
+          "entry": "€66,000",
+          "mid": "€99,000",
+          "senior": "€156,000",
+          "lead": "€234,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Product Management & Business Analysis.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Product Management & Business Analysis.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "power-platform-solution-architect",
@@ -43145,7 +48579,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 144
+    "sortOrder": 144,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Intelligent Process Automation (IPA) & Enterprise RPA.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Intelligent Process Automation (IPA) & Enterprise RPA.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "ipaas-integration-consultant",
@@ -43402,7 +48874,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 145
+    "sortOrder": 145,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.1 - ₹14.3 LPA",
+        "midLevel": "₹13.0 - ₹21.5 LPA",
+        "senior": "₹21.5 - ₹30.0 LPA",
+        "leadArchitect": "₹30.0 - ₹45.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$143,000",
+          "mid": "$208,000",
+          "senior": "$330,000",
+          "lead": "$450,000"
+        },
+        "uk": {
+          "entry": "£72,000",
+          "mid": "£104,000",
+          "senior": "£165,000",
+          "lead": "£240,000"
+        },
+        "eu": {
+          "entry": "€78,000",
+          "mid": "€117,000",
+          "senior": "€180,000",
+          "lead": "€270,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Web Development & Frontend Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "workday-technical-consultant",
@@ -43656,7 +49166,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 146
+    "sortOrder": 146,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Enterprise Applications, ERP & CRM.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Enterprise Applications, ERP & CRM.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "bioinformatics-pipeline-developer",
@@ -43916,7 +49464,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 147
+    "sortOrder": 147,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.1 - ₹14.3 LPA",
+        "midLevel": "₹13.0 - ₹22.5 LPA",
+        "senior": "₹22.5 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$143,000",
+          "mid": "$208,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£72,000",
+          "mid": "£104,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€78,000",
+          "mid": "€117,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Bioinformatics & Computational Genomics.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Bioinformatics & Computational Genomics.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "autonomous-vehicle-perception-engineer",
@@ -44174,7 +49760,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 148
+    "sortOrder": 148,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹30.0 LPA",
+        "senior": "₹30.0 - ₹42.0 LPA",
+        "leadArchitect": "₹42.0 - ₹63.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$462,000",
+          "lead": "$630,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£231,000",
+          "lead": "£336,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€252,000",
+          "lead": "€378,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Autonomous Mobility, Aerial & Drone Systems.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Autonomous Mobility, Aerial & Drone Systems.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "drone-flight-software-engineer",
@@ -44433,7 +50057,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 149
+    "sortOrder": 149,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹24.0 LPA",
+        "senior": "₹24.0 - ₹34.0 LPA",
+        "leadArchitect": "₹34.0 - ₹51.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$374,000",
+          "lead": "$510,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£187,000",
+          "lead": "£272,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€204,000",
+          "lead": "€306,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Autonomous Mobility, Aerial & Drone Systems.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Autonomous Mobility, Aerial & Drone Systems.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "digital-twin-simulation-engineer",
@@ -44690,7 +50352,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 150
+    "sortOrder": 150,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹23.0 LPA",
+        "senior": "₹23.0 - ₹32.0 LPA",
+        "leadArchitect": "₹32.0 - ₹48.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$352,000",
+          "lead": "$480,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£176,000",
+          "lead": "£256,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€192,000",
+          "lead": "€288,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Robotics, IoT & Industrial Automation.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Robotics, IoT & Industrial Automation.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "quantum-software-developer",
@@ -44945,7 +50645,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 151
+    "sortOrder": 151,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹12.6 - ₹19.8 LPA",
+        "midLevel": "₹18.0 - ₹32.0 LPA",
+        "senior": "₹32.0 - ₹46.0 LPA",
+        "leadArchitect": "₹46.0 - ₹69.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$198,000",
+          "mid": "$288,000",
+          "senior": "$506,000",
+          "lead": "$690,000"
+        },
+        "uk": {
+          "entry": "£99,000",
+          "mid": "£144,000",
+          "senior": "£253,000",
+          "lead": "£368,000"
+        },
+        "eu": {
+          "entry": "€108,000",
+          "mid": "€162,000",
+          "senior": "€276,000",
+          "lead": "€414,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Research Computing & Scientific Technology.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Research Computing & Scientific Technology.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "telco-5g-core-software-engineer",
@@ -45202,7 +50940,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 152
+    "sortOrder": 152,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹9.8 - ₹15.4 LPA",
+        "midLevel": "₹14.0 - ₹24.0 LPA",
+        "senior": "₹24.0 - ₹34.0 LPA",
+        "leadArchitect": "₹34.0 - ₹51.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$154,000",
+          "mid": "$224,000",
+          "senior": "$374,000",
+          "lead": "$510,000"
+        },
+        "uk": {
+          "entry": "£77,000",
+          "mid": "£112,000",
+          "senior": "£187,000",
+          "lead": "£272,000"
+        },
+        "eu": {
+          "entry": "€84,000",
+          "mid": "€126,000",
+          "senior": "€204,000",
+          "lead": "€306,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Web Development & Frontend Engineering.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "chief-information-security-officer",
@@ -45457,7 +51233,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 153
+    "sortOrder": 153,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹28.0 - ₹44.0 LPA",
+        "midLevel": "₹40.0 - ₹90.0 LPA",
+        "senior": "₹90.0 - ₹140.0 LPA",
+        "leadArchitect": "₹140.0 - ₹210.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$440,000",
+          "mid": "$640,000",
+          "senior": "$1540,000",
+          "lead": "$2100,000"
+        },
+        "uk": {
+          "entry": "£220,000",
+          "mid": "£320,000",
+          "senior": "£770,000",
+          "lead": "£1120,000"
+        },
+        "eu": {
+          "entry": "€240,000",
+          "mid": "€360,000",
+          "senior": "€840,000",
+          "lead": "€1260,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Executive Technology Leadership & C-Suite.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "chief-data-ai-officer",
@@ -45708,7 +51522,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 154
+    "sortOrder": 154,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹29.4 - ₹46.2 LPA",
+        "midLevel": "₹42.0 - ₹93.5 LPA",
+        "senior": "₹93.5 - ₹145.0 LPA",
+        "leadArchitect": "₹145.0 - ₹217.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$462,000",
+          "mid": "$672,000",
+          "senior": "$1595,000",
+          "lead": "$2175,000"
+        },
+        "uk": {
+          "entry": "£231,000",
+          "mid": "£336,000",
+          "senior": "£798,000",
+          "lead": "£1160,000"
+        },
+        "eu": {
+          "entry": "€252,000",
+          "mid": "€378,000",
+          "senior": "€870,000",
+          "lead": "€1305,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Executive Technology Leadership & C-Suite.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "vp-software-engineering",
@@ -45962,7 +51814,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 155
+    "sortOrder": 155,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹26.6 - ₹41.8 LPA",
+        "midLevel": "₹38.0 - ₹79.0 LPA",
+        "senior": "₹79.0 - ₹120.0 LPA",
+        "leadArchitect": "₹120.0 - ₹180.0 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$418,000",
+          "mid": "$608,000",
+          "senior": "$1320,000",
+          "lead": "$1800,000"
+        },
+        "uk": {
+          "entry": "£209,000",
+          "mid": "£304,000",
+          "senior": "£660,000",
+          "lead": "£960,000"
+        },
+        "eu": {
+          "entry": "€228,000",
+          "mid": "€342,000",
+          "senior": "€720,000",
+          "lead": "€1080,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Executive Technology Leadership & C-Suite.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "director-technology-strategy",
@@ -46213,7 +52103,45 @@ export const MASTER_CAREER_ROLES = [
         "CNCF Landscape"
       ]
     },
-    "sortOrder": 156
+    "sortOrder": 156,
+    "salaryInsight": {
+      "currency": "INR, USD, GBP, EUR",
+      "india": {
+        "fresher": "₹21.0 - ₹33.0 LPA",
+        "midLevel": "₹30.0 - ₹57.5 LPA",
+        "senior": "₹57.5 - ₹85.0 LPA",
+        "leadArchitect": "₹85.0 - ₹127.5 LPA"
+      },
+      "global": {
+        "us": {
+          "entry": "$330,000",
+          "mid": "$480,000",
+          "senior": "$935,000",
+          "lead": "$1275,000"
+        },
+        "uk": {
+          "entry": "£165,000",
+          "mid": "£240,000",
+          "senior": "£468,000",
+          "lead": "£680,000"
+        },
+        "eu": {
+          "entry": "€180,000",
+          "mid": "€270,000",
+          "senior": "€510,000",
+          "lead": "€765,000"
+        }
+      }
+    },
+    "problemsSolved": [
+      "Eliminating technical and operational bottlenecks in Executive Technology Leadership & C-Suite.",
+      "Translating ambiguous requirements into production-ready, reliable deliverables.",
+      "Enforcing high availability, security posture, and performance SLAs."
+    ],
+    "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
+    "onetCode": "15-1252.00",
+    "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
   },
   {
     "id": "developer-experience-dx-engineer",
@@ -46413,7 +52341,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Very High: Driven by the proliferation of developer-first SaaS products and API-centric enterprise architectures.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "O*NET / Linux Foundation / CNCF / DevEx Frameworks"
+    "verificationStandard": "O*NET / Linux Foundation / CNCF / DevEx Frameworks",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "8 - 14 LPA",
+        "mid": "18 - 28 LPA",
+        "senior": "32 - 50+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$90,000 - $125,000",
+        "mid": "$135,000 - $175,000",
+        "senior": "$185,000 - $250,000+"
+      },
+      "globalGBP": {
+        "entry": "£50,000 - £70,000",
+        "mid": "£75,000 - £105,000",
+        "senior": "£115,000 - £150,000+"
+      },
+      "globalEUR": {
+        "entry": "€55,000 - €75,000",
+        "mid": "€80,000 - €110,000",
+        "senior": "€120,000 - €160,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Developer churn due to cryptic APIs",
+      "Slow team onboarding cycle times",
+      "Inconsistent SDK libraries across programming languages"
+    ]
   },
   {
     "id": "api-governance-architect",
@@ -46608,7 +52563,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Essential for modern organizations adopting microservices and composable enterprise architectures.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "SFIA 9 / TOGAF / OpenAPI Initiative"
+    "verificationStandard": "SFIA 9 / TOGAF / OpenAPI Initiative",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "12 - 18 LPA",
+        "mid": "22 - 36 LPA",
+        "senior": "40 - 65+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$110,000 - $140,000",
+        "mid": "$150,000 - $195,000",
+        "senior": "$210,000 - $280,000+"
+      },
+      "globalGBP": {
+        "entry": "£65,000 - £85,000",
+        "mid": "£90,000 - £125,000",
+        "senior": "£135,000 - £180,000+"
+      },
+      "globalEUR": {
+        "entry": "€70,000 - €95,000",
+        "mid": "€100,000 - €135,000",
+        "senior": "€145,000 - €195,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Sprawling undocumented shadow APIs",
+      "Breaking changes impacting mobile/web users",
+      "Inconsistent authentication across services"
+    ]
   },
   {
     "id": "release-orchestration-manager",
@@ -46802,7 +52784,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Steady & High: Crucial for regulated industries and large multi-team software enterprises.",
     "onetCode": "15-1299.08",
-    "verificationStandard": "SFIA 9 / ITIL 4 / DORA"
+    "verificationStandard": "SFIA 9 / ITIL 4 / DORA",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "7 - 12 LPA",
+        "mid": "15 - 26 LPA",
+        "senior": "28 - 45+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$85,000 - $115,000",
+        "mid": "$125,000 - $160,000",
+        "senior": "$170,000 - $225,000+"
+      },
+      "globalGBP": {
+        "entry": "£48,000 - £65,000",
+        "mid": "£70,000 - £95,000",
+        "senior": "£105,000 - £140,000+"
+      },
+      "globalEUR": {
+        "entry": "€52,000 - €70,000",
+        "mid": "€75,000 - €100,000",
+        "senior": "€110,000 - €150,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Failed deployments causing system downtime",
+      "Uncoordinated cross-team code clashes",
+      "Non-compliant or unvetted changes hitting production"
+    ]
   },
   {
     "id": "build-infrastructure-systems-engineer",
@@ -47000,7 +53009,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Very High: Highly coveted by Tier-1 tech firms and high-frequency trading firms with massive monorepos.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "ACM / IEEE Computer Society / CNCF"
+    "verificationStandard": "ACM / IEEE Computer Society / CNCF",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "10 - 16 LPA",
+        "mid": "20 - 35 LPA",
+        "senior": "38 - 60+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$105,000 - $135,000",
+        "mid": "$145,000 - $190,000",
+        "senior": "$200,000 - $275,000+"
+      },
+      "globalGBP": {
+        "entry": "£60,000 - £80,000",
+        "mid": "£85,000 - £120,000",
+        "senior": "£130,000 - £175,000+"
+      },
+      "globalEUR": {
+        "entry": "€65,000 - €85,000",
+        "mid": "€90,000 - €125,000",
+        "senior": "€140,000 - €185,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Multi-hour compile times draining engineer productivity",
+      "\"Works on my machine\" build discrepancies",
+      "Corrupted binary dependencies and cache contamination"
+    ]
   },
   {
     "id": "data-privacy-compliance-engineer",
@@ -47200,7 +53236,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Very High: Spurred by aggressive regulatory enforcement and new global privacy legislation worldwide.",
     "onetCode": "15-1212.00",
-    "verificationStandard": "IAPP / NIST Privacy Framework / ISO 27701"
+    "verificationStandard": "IAPP / NIST Privacy Framework / ISO 27701",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "9 - 15 LPA",
+        "mid": "18 - 30 LPA",
+        "senior": "35 - 55+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$95,000 - $130,000",
+        "mid": "$140,000 - $185,000",
+        "senior": "$190,000 - $260,000+"
+      },
+      "globalGBP": {
+        "entry": "£55,000 - £75,000",
+        "mid": "£80,000 - £110,000",
+        "senior": "£120,000 - £165,000+"
+      },
+      "globalEUR": {
+        "entry": "€60,000 - €80,000",
+        "mid": "€85,000 - €120,000",
+        "senior": "€130,000 - €175,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Accidental exposure of customer personal identification numbers",
+      "Manual, error-prone response to consumer data deletion requests",
+      "Untracked sensitive data spreading into development environments"
+    ]
   },
   {
     "id": "ontology-semantic-web-architect",
@@ -47400,7 +53463,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Surging due to enterprise adoption of Knowledge-Graph-Augmented Generation (GraphRAG) and Neurosymbolic AI.",
     "onetCode": "15-1299.08",
-    "verificationStandard": "W3C / ACM / IEEE"
+    "verificationStandard": "W3C / ACM / IEEE",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "10 - 16 LPA",
+        "mid": "19 - 32 LPA",
+        "senior": "36 - 55+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$100,000 - $135,000",
+        "mid": "$145,000 - $190,000",
+        "senior": "$200,000 - $265,000+"
+      },
+      "globalGBP": {
+        "entry": "£60,000 - £80,000",
+        "mid": "£85,000 - £120,000",
+        "senior": "£130,000 - £175,000+"
+      },
+      "globalEUR": {
+        "entry": "€65,000 - €85,000",
+        "mid": "€90,000 - €125,000",
+        "senior": "€140,000 - €185,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Disconnected data silos using conflicting business terminologies",
+      "LLM hallucinations in mission-critical applications",
+      "Inability to execute automated logical inference across domain data"
+    ]
   },
   {
     "id": "taxonomy-metadata-specialist",
@@ -47595,7 +53685,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Steady: Highly valued in knowledge-intensive domains and content-heavy enterprises.",
     "onetCode": "25-4022.00",
-    "verificationStandard": "ANSI/NISO Z39.19 / ISO 25964 / SFIA 9"
+    "verificationStandard": "ANSI/NISO Z39.19 / ISO 25964 / SFIA 9",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "5 - 9 LPA",
+        "mid": "10 - 18 LPA",
+        "senior": "20 - 32+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$65,000 - $85,000",
+        "mid": "$90,000 - $125,000",
+        "senior": "$135,000 - $175,000+"
+      },
+      "globalGBP": {
+        "entry": "£38,000 - £50,000",
+        "mid": "£55,000 - £75,000",
+        "senior": "£80,000 - £110,000+"
+      },
+      "globalEUR": {
+        "entry": "€42,000 - €55,000",
+        "mid": "€60,000 - €80,000",
+        "senior": "€85,000 - €120,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Employees unable to find critical internal documents",
+      "Misaligned reporting due to varying definitions of core business terms",
+      "Inaccurate enterprise search results"
+    ]
   },
   {
     "id": "internal-developer-platform-product-manager",
@@ -47788,7 +53905,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Very High: Driven by the global surge in platform engineering teams adopting product-led developer portals.",
     "onetCode": "15-1299.08",
-    "verificationStandard": "Product School / Team Topologies / CNCF"
+    "verificationStandard": "Product School / Team Topologies / CNCF",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "12 - 18 LPA",
+        "mid": "22 - 36 LPA",
+        "senior": "40 - 65+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$115,000 - $145,000",
+        "mid": "$155,000 - $205,000",
+        "senior": "$210,000 - $290,000+"
+      },
+      "globalGBP": {
+        "entry": "£70,000 - £90,000",
+        "mid": "£95,000 - £130,000",
+        "senior": "£140,000 - £190,000+"
+      },
+      "globalEUR": {
+        "entry": "€75,000 - €98,000",
+        "mid": "€105,000 - €140,000",
+        "senior": "€150,000 - €200,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Internal developer tools with terrible UX and poor adoption",
+      "Siloed infrastructure teams building conflicting custom solutions",
+      "Executive inability to quantify the ROI of developer tooling investments"
+    ]
   },
   {
     "id": "core-infrastructure-automation-engineer",
@@ -47987,7 +54131,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Essential for modern DevOps, SRE, and platform engineering initiatives.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "CNCF / Linux Foundation / HashiCorp"
+    "verificationStandard": "CNCF / Linux Foundation / HashiCorp",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "8 - 14 LPA",
+        "mid": "17 - 28 LPA",
+        "senior": "32 - 52+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$95,000 - $125,000",
+        "mid": "$135,000 - $175,000",
+        "senior": "$180,000 - $240,000+"
+      },
+      "globalGBP": {
+        "entry": "£55,000 - £75,000",
+        "mid": "£80,000 - £110,000",
+        "senior": "£120,000 - £160,000+"
+      },
+      "globalEUR": {
+        "entry": "€60,000 - €80,000",
+        "mid": "€85,000 - €115,000",
+        "senior": "€125,000 - €170,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Manual configuration drift between environments",
+      "Slow multi-week server provisioning lead times",
+      "Undocumented \"snowflake\" servers vulnerable to unpatched CVEs"
+    ]
   },
   {
     "id": "green-cloud-sustainability-architect",
@@ -48181,7 +54352,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Rapidly Growing: Highly accelerated by European CSRD regulations and corporate net-zero pledges.",
     "onetCode": "15-1299.08",
-    "verificationStandard": "Green Software Foundation / GHG Protocol / ISO 14064"
+    "verificationStandard": "Green Software Foundation / GHG Protocol / ISO 14064",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "8 - 14 LPA",
+        "mid": "18 - 28 LPA",
+        "senior": "32 - 50+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$95,000 - $125,000",
+        "mid": "$135,000 - $175,000",
+        "senior": "$185,000 - $245,000+"
+      },
+      "globalGBP": {
+        "entry": "£55,000 - £75,000",
+        "mid": "£80,000 - £110,000",
+        "senior": "£120,000 - £160,000+"
+      },
+      "globalEUR": {
+        "entry": "€60,000 - €80,000",
+        "mid": "€85,000 - €120,000",
+        "senior": "€130,000 - €175,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Unmonitored cloud computing carbon emissions violating ESG mandates",
+      "Inefficient software architectures wasting gigawatt-hours of power",
+      "Lack of visibility into digital infrastructure environmental impacts"
+    ]
   },
   {
     "id": "cloud-cost-optimization-lead",
@@ -48374,7 +54572,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Extremely High: As tech CFOs demand margin efficiency, FinOps leadership is among the most sought-after tech management roles.",
     "onetCode": "15-1299.08",
-    "verificationStandard": "FinOps Foundation / Linux Foundation"
+    "verificationStandard": "FinOps Foundation / Linux Foundation",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "12 - 18 LPA",
+        "mid": "22 - 38 LPA",
+        "senior": "42 - 68+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$110,000 - $140,000",
+        "mid": "$150,000 - $195,000",
+        "senior": "$205,000 - $285,000+"
+      },
+      "globalGBP": {
+        "entry": "£65,000 - £85,000",
+        "mid": "£90,000 - £125,000",
+        "senior": "£135,000 - £185,000+"
+      },
+      "globalEUR": {
+        "entry": "€70,000 - €90,000",
+        "mid": "€95,000 - €135,000",
+        "senior": "€145,000 - €195,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Uncontrolled monthly cloud bill blowouts",
+      "Huge waste from unutilized compute and storage resources",
+      "Unfavorable multi-year vendor lock-in contracts"
+    ]
   },
   {
     "id": "pam-privileged-access-specialist",
@@ -48568,7 +54793,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Extremely High: Mandated by cybersecurity insurance carriers and compliance regulations (SOX, PCI-DSS, HIPAA).",
     "onetCode": "15-1212.00",
-    "verificationStandard": "NICE Cybersecurity Workforce Framework / NIST SP 800-207"
+    "verificationStandard": "NICE Cybersecurity Workforce Framework / NIST SP 800-207",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "8 - 14 LPA",
+        "mid": "17 - 28 LPA",
+        "senior": "32 - 50+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$95,000 - $125,000",
+        "mid": "$135,000 - $175,000",
+        "senior": "$180,000 - $240,000+"
+      },
+      "globalGBP": {
+        "entry": "£55,000 - £75,000",
+        "mid": "£80,000 - £110,000",
+        "senior": "£120,000 - £160,000+"
+      },
+      "globalEUR": {
+        "entry": "€60,000 - €80,000",
+        "mid": "€85,000 - €115,000",
+        "senior": "€125,000 - €170,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Unvaulted domain admin passwords stored in text files",
+      "Unmonitored administrative backdoor access across production servers",
+      "Former employees retaining persistent access to critical infrastructure"
+    ]
   },
   {
     "id": "customer-identity-ciam-engineer",
@@ -48769,7 +55021,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Surging as companies abandon traditional passwords in favor of Passkeys and seamless consumer onboarding.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "FIDO Alliance / W3C WebAuthn / OpenID Foundation"
+    "verificationStandard": "FIDO Alliance / W3C WebAuthn / OpenID Foundation",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "8 - 14 LPA",
+        "mid": "17 - 28 LPA",
+        "senior": "32 - 50+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$90,000 - $125,000",
+        "mid": "$135,000 - $175,000",
+        "senior": "$180,000 - $240,000+"
+      },
+      "globalGBP": {
+        "entry": "£50,000 - £70,000",
+        "mid": "£75,000 - £105,000",
+        "senior": "£115,000 - £155,000+"
+      },
+      "globalEUR": {
+        "entry": "€55,000 - €75,000",
+        "mid": "€80,000 - €110,000",
+        "senior": "€120,000 - €165,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Customer drop-off during checkout caused by forgotten passwords",
+      "Massive automated credential-stuffing attacks overloading databases",
+      "Insecure storage of customer password hashes"
+    ]
   },
   {
     "id": "kubernetes-container-security-specialist",
@@ -48967,7 +55246,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Extremely High: CKS-certified engineers command top compensation across the cloud computing industry.",
     "onetCode": "15-1212.00",
-    "verificationStandard": "CNCF / Linux Foundation / CIS Benchmarks"
+    "verificationStandard": "CNCF / Linux Foundation / CIS Benchmarks",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "10 - 16 LPA",
+        "mid": "20 - 35 LPA",
+        "senior": "38 - 60+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$110,000 - $140,000",
+        "mid": "$150,000 - $195,000",
+        "senior": "$200,000 - $275,000+"
+      },
+      "globalGBP": {
+        "entry": "£65,000 - £85,000",
+        "mid": "£90,000 - £125,000",
+        "senior": "£135,000 - £180,000+"
+      },
+      "globalEUR": {
+        "entry": "€70,000 - €90,000",
+        "mid": "€95,000 - €135,000",
+        "senior": "€140,000 - €190,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Privileged container escapes compromising entire host nodes",
+      "Ransomware and crypto-mining malware stealthily running in containers",
+      "Insecure default cluster configurations violating compliance standards"
+    ]
   },
   {
     "id": "product-security-incident-response-psirt-engineer",
@@ -49163,7 +55469,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Essential for tech hardware makers, software vendors, and companies operating bug bounty programs.",
     "onetCode": "15-1212.00",
-    "verificationStandard": "FIRST PSIRT Services Framework / ISO/IEC 29147 / ISO/IEC 30111"
+    "verificationStandard": "FIRST PSIRT Services Framework / ISO/IEC 29147 / ISO/IEC 30111",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "9 - 15 LPA",
+        "mid": "18 - 30 LPA",
+        "senior": "35 - 55+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$100,000 - $130,000",
+        "mid": "$140,000 - $185,000",
+        "senior": "$190,000 - $260,000+"
+      },
+      "globalGBP": {
+        "entry": "£60,000 - £80,000",
+        "mid": "£85,000 - £115,000",
+        "senior": "£125,000 - £170,000+"
+      },
+      "globalEUR": {
+        "entry": "€65,000 - €85,000",
+        "mid": "€90,000 - €125,000",
+        "senior": "€135,000 - €180,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Uncoordinated public disclosures causing zero-day crises",
+      "Disputed vulnerability severities delaying patch urgency",
+      "Inadequate customer advisories failing compliance standards"
+    ]
   },
   {
     "id": "inclusive-design-specialist",
@@ -49355,7 +55688,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Surging following strict European Accessibility Act (EAA) enforcement deadlines and global corporate ESG priorities.",
     "onetCode": "27-1024.00",
-    "verificationStandard": "IAAP / W3C WAI / ISO 9241-171"
+    "verificationStandard": "IAAP / W3C WAI / ISO 9241-171",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "7 - 12 LPA",
+        "mid": "14 - 24 LPA",
+        "senior": "28 - 45+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$80,000 - $110,000",
+        "mid": "$120,000 - $155,000",
+        "senior": "$165,000 - $220,000+"
+      },
+      "globalGBP": {
+        "entry": "£45,000 - £65,000",
+        "mid": "£70,000 - £95,000",
+        "senior": "£105,000 - £145,000+"
+      },
+      "globalEUR": {
+        "entry": "€50,000 - €70,000",
+        "mid": "€75,000 - £100,000",
+        "senior": "€110,000 - €150,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Products inaccessible to millions of disabled users",
+      "Expensive legal lawsuits under the Americans with Disabilities Act (ADA)",
+      "Cluttered, confusing interfaces alienating older or neurodivergent customers"
+    ]
   },
   {
     "id": "hyperautomation-solutions-architect",
@@ -49554,7 +55914,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Extremely High: Hyperautomation is a top strategic priority for enterprise CIOs and Shared Service organizations worldwide.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "Gartner / IEEE Computer Society / UiPath"
+    "verificationStandard": "Gartner / IEEE Computer Society / UiPath",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "10 - 16 LPA",
+        "mid": "19 - 34 LPA",
+        "senior": "38 - 60+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$105,000 - $135,000",
+        "mid": "$145,000 - $190,000",
+        "senior": "$200,000 - $275,000+"
+      },
+      "globalGBP": {
+        "entry": "£60,000 - £80,000",
+        "mid": "£85,000 - £120,000",
+        "senior": "£130,000 - £175,000+"
+      },
+      "globalEUR": {
+        "entry": "€65,000 - €85,000",
+        "mid": "€90,000 - £125,000",
+        "senior": "€140,000 - €185,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Millions of employee hours wasted on manual data entry across legacy green-screen systems",
+      "High error rates in invoice processing and loan approvals",
+      "Slow multi-day transaction turnaround times"
+    ]
   },
   {
     "id": "computational-biologist-data-scientist",
@@ -49757,7 +56144,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Spurred by the explosion of personalized medicine, mRNA therapeutics, and AI-driven biotechnology investments.",
     "onetCode": "19-1029.01",
-    "verificationStandard": "ISCB / NIH / Broad Institute"
+    "verificationStandard": "ISCB / NIH / Broad Institute",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "9 - 15 LPA",
+        "mid": "18 - 30 LPA",
+        "senior": "35 - 55+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$100,000 - $135,000",
+        "mid": "$140,000 - $185,000",
+        "senior": "$190,000 - $260,000+"
+      },
+      "globalGBP": {
+        "entry": "£55,000 - £75,000",
+        "mid": "£80,000 - £110,000",
+        "senior": "£120,000 - £165,000+"
+      },
+      "globalEUR": {
+        "entry": "€60,000 - €80,000",
+        "mid": "€85,000 - £115,000",
+        "senior": "€125,000 - €170,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Pinpointing genetic mutations that cause rare childhood disorders",
+      "Discovering why cancer tumors develop resistance to chemotherapy",
+      "Designing personalized mRNA vaccines and immunotherapies"
+    ]
   },
   {
     "id": "clinical-genomics-software-engineer",
@@ -49957,7 +56371,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Surging as clinical sequencing becomes standard-of-care across worldwide oncology centers.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "ACMG / CAP / CLIA / HL7 FHIR"
+    "verificationStandard": "ACMG / CAP / CLIA / HL7 FHIR",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "10 - 16 LPA",
+        "mid": "19 - 32 LPA",
+        "senior": "36 - 55+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$105,000 - $135,000",
+        "mid": "$145,000 - $190,000",
+        "senior": "$200,000 - $265,000+"
+      },
+      "globalGBP": {
+        "entry": "£60,000 - £80,000",
+        "mid": "£85,000 - £120,000",
+        "senior": "£130,000 - £175,000+"
+      },
+      "globalEUR": {
+        "entry": "€65,000 - €85,000",
+        "mid": "€90,000 - £125,000",
+        "senior": "€140,000 - €185,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Pipeline execution bugs yielding incorrect cancer mutation diagnoses",
+      "Unencrypted genetic patient records violating patient privacy laws",
+      "Slow multi-day computing turnaround times delaying critical surgeries"
+    ]
   },
   {
     "id": "robotics-motion-planning-controls-engineer",
@@ -50153,7 +56594,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Extremely High & Elite: Among the most technically challenging and lucrative software engineering disciplines in the world.",
     "onetCode": "17-2199.08",
-    "verificationStandard": "IEEE Robotics and Automation Society / SAE International / ISO 26262"
+    "verificationStandard": "IEEE Robotics and Automation Society / SAE International / ISO 26262",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "12 - 20 LPA",
+        "mid": "24 - 40 LPA",
+        "senior": "45 - 75+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$120,000 - $155,000",
+        "mid": "$165,000 - $215,000",
+        "senior": "$225,000 - $310,000+"
+      },
+      "globalGBP": {
+        "entry": "£75,000 - £100,000",
+        "mid": "£105,000 - £145,000",
+        "senior": "£155,000 - £210,000+"
+      },
+      "globalEUR": {
+        "entry": "€80,000 - €105,000",
+        "mid": "€115,000 - €155,000",
+        "senior": "€165,000 - €225,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Unsafe vehicle jerky maneuvers during sudden lane changes",
+      "Failure to safely navigate complex unstructured traffic intersections",
+      "Vehicle control instability during high-speed rain or slick road conditions"
+    ]
   },
   {
     "id": "multi-agent-orchestration-engineer",
@@ -50352,7 +56820,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Explosive: The absolute fastest-growing specialization across the global artificial intelligence landscape.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "AAAI / ACM / IEEE Computer Society"
+    "verificationStandard": "AAAI / ACM / IEEE Computer Society",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "12 - 20 LPA",
+        "mid": "22 - 38 LPA",
+        "senior": "42 - 70+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$120,000 - $160,000",
+        "mid": "$165,000 - $220,000",
+        "senior": "$225,000 - $320,000+"
+      },
+      "globalGBP": {
+        "entry": "£75,000 - £100,000",
+        "mid": "£105,000 - £150,000",
+        "senior": "£160,000 - £220,000+"
+      },
+      "globalEUR": {
+        "entry": "€80,000 - €105,000",
+        "mid": "€115,000 - £160,000",
+        "senior": "€170,000 - €235,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "AI getting stuck in infinite repeating loops",
+      "LLMs hallucinating fake data during multi-step reasoning",
+      "Inability of AI models to safely execute real-world code and software tools"
+    ]
   },
   {
     "id": "satellite-telemetry-gis-data-engineer",
@@ -50551,7 +57046,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High: Driven by commercial satellite mega-constellations and international ESG climate risk disclosures.",
     "onetCode": "15-1299.02",
-    "verificationStandard": "OGC (Open Geospatial Consortium) / ASPRS / IEEE GRSS"
+    "verificationStandard": "OGC (Open Geospatial Consortium) / ASPRS / IEEE GRSS",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "7 - 12 LPA",
+        "mid": "15 - 26 LPA",
+        "senior": "30 - 48+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$85,000 - $115,000",
+        "mid": "$125,000 - $165,000",
+        "senior": "$175,000 - $235,000+"
+      },
+      "globalGBP": {
+        "entry": "£50,000 - £70,000",
+        "mid": "£75,000 - £105,000",
+        "senior": "£115,000 - £155,000+"
+      },
+      "globalEUR": {
+        "entry": "€55,000 - €75,000",
+        "mid": "€80,000 - £110,000",
+        "senior": "€120,000 - €165,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Slow, unindexed satellite imagery stalling emergency disaster relief",
+      "Inability to query petabytes of geospatial imagery without downloading gigabyte files",
+      "Lack of real-time monitoring for global environmental deforestation and flooding"
+    ]
   },
   {
     "id": "clinical-health-informatics-specialist",
@@ -50752,7 +57274,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Very High: Catalyzed by the US 21st Century Cures Act and global government mandates for healthcare interoperability.",
     "onetCode": "15-1211.01",
-    "verificationStandard": "HIMSS / HL7 International / ONC Health IT"
+    "verificationStandard": "HIMSS / HL7 International / ONC Health IT",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "8 - 14 LPA",
+        "mid": "16 - 28 LPA",
+        "senior": "32 - 50+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$90,000 - $120,000",
+        "mid": "$130,000 - $170,000",
+        "senior": "$180,000 - $240,000+"
+      },
+      "globalGBP": {
+        "entry": "£50,000 - £70,000",
+        "mid": "£75,000 - £105,000",
+        "senior": "£115,000 - £155,000+"
+      },
+      "globalEUR": {
+        "entry": "€55,000 - €75,000",
+        "mid": "€80,000 - £110,000",
+        "senior": "€120,000 - €165,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Disconnected hospital databases causing missed medication allergies",
+      "Doctors burning out from tedious manual EHR data entry",
+      "Patients unable to access their electronic health records across different health networks"
+    ]
   },
   {
     "id": "spatial-computing-visionos-engineer",
@@ -50950,7 +57499,34 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "High & Expanding: Accelerated by consumer headsets like Apple Vision Pro and Meta Quest 3 entering corporate enterprises.",
     "onetCode": "15-1252.00",
-    "verificationStandard": "Khronos Group (OpenXR) / Apple Developer / IEEE Computer Society"
+    "verificationStandard": "Khronos Group (OpenXR) / Apple Developer / IEEE Computer Society",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "9 - 16 LPA",
+        "mid": "18 - 32 LPA",
+        "senior": "35 - 55+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$105,000 - $140,000",
+        "mid": "$145,000 - $195,000",
+        "senior": "$200,000 - $280,000+"
+      },
+      "globalGBP": {
+        "entry": "£60,000 - £85,000",
+        "mid": "£90,000 - £125,000",
+        "senior": "£135,000 - £185,000+"
+      },
+      "globalEUR": {
+        "entry": "€65,000 - €90,000",
+        "mid": "€95,000 - £135,000",
+        "senior": "€140,000 - €195,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Clunky 2D interfaces ported poorly to 3D virtual spaces",
+      "Motion sickness caused by stuttering frame rates in VR headsets",
+      "High power consumption draining headset battery in under an hour"
+    ]
   },
   {
     "id": "defi-smart-contract-security-auditor",
@@ -51150,6 +57726,33 @@ export const MASTER_CAREER_ROLES = [
     },
     "marketDemand": "Extremely High: Protocol founders routinely offer $50k–$150k per audit engagement to secure their contracts.",
     "onetCode": "15-1212.00",
-    "verificationStandard": "SWC Registry / Ethereum Foundation / EEA (Enterprise Ethereum Alliance)"
+    "verificationStandard": "SWC Registry / Ethereum Foundation / EEA (Enterprise Ethereum Alliance)",
+    "salaryData": {
+      "indiaLPA": {
+        "entry": "14 - 24 LPA",
+        "mid": "28 - 48 LPA",
+        "senior": "55 - 90+ LPA"
+      },
+      "globalUSD": {
+        "entry": "$130,000 - $170,000",
+        "mid": "$180,000 - $240,000",
+        "senior": "$250,000 - $350,000+"
+      },
+      "globalGBP": {
+        "entry": "£80,000 - £110,000",
+        "mid": "£115,000 - £160,000",
+        "senior": "£170,000 - £240,000+"
+      },
+      "globalEUR": {
+        "entry": "€85,000 - €115,000",
+        "mid": "€120,000 - £170,000",
+        "senior": "€180,000 - €250,000+"
+      }
+    },
+    "realWorldProblemsSolved": [
+      "Multi-million-dollar crypto protocol hacks draining user deposits",
+      "Logical flaws in token staking and liquidation mathematical models",
+      "Gas-inefficient smart contracts costing users exorbitant transaction fees"
+    ]
   }
 ];
