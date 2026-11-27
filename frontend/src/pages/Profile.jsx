@@ -63,12 +63,12 @@ export function Profile() {
       try {
         const parsed = typeof st.skills === 'string' ? JSON.parse(st.skills) : st.skills;
         skillsStr = Array.isArray(parsed) ? parsed.join(', ') : '';
-      } catch (e) {}
+      } catch (e) { }
 
       let ext = {};
       try {
         ext = typeof st.profile_details === 'string' ? JSON.parse(st.profile_details) : (st.profile_details || {});
-      } catch (e) {}
+      } catch (e) { }
 
       setForm({
         phone: st.phone || '',

@@ -39,6 +39,7 @@ import {
   Tag,
 } from 'lucide-react';
 import lmsService from '../../../services/lmsService';
+import StudentAssignmentsView from './StudentAssignmentsView';
 import { useToast } from '../../../context/ToastContext';
 
 export function StudentViews({ activeSection, onSelectSection }) {
@@ -791,137 +792,18 @@ export function StudentViews({ activeSection, onSelectSection }) {
     </div>
   );
 
-  // 4. Assignments & Capstones View
+  // 4. Assignments View (Clean Redesigned Component)
   const renderAssignments = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-foreground">Assignments & Capstone Submissions</h2>
-          <p className="text-xs text-muted-foreground">
-            Submit your project source code, GitHub repositories, and documentation for faculty review.
-          </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {assignments.map((assign) => (
-          <div key={assign.id} className="bg-card rounded-2xl border border-border p-5 shadow-xs space-y-4 flex flex-col justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span className="font-bold text-primary">{assign.course_code}</span>
-                <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold">
-                  <Calendar className="w-3.5 h-3.5" />
-                  Due: {new Date(assign.due_date).toLocaleDateString()}
-                </span>
-              </div>
-              <h3 className="text-base font-bold text-foreground">{assign.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
-                {assign.description}
-              </p>
-              <div className="p-3 rounded-xl bg-secondary text-xs text-foreground font-mono">
-                Instructions: {assign.instructions}
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-border space-y-3">
-              {assign.hasSubmitted ? (
-                <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs space-y-1">
-                  <div className="flex items-center justify-between font-bold text-emerald-700 dark:text-emerald-300">
-                    <span>Status: {assign.submission?.status}</span>
-                    {assign.submission?.grade && <span>Score: {assign.submission.grade}/100</span>}
-                  </div>
-                  {assign.submission?.feedback && (
-                    <p className="text-muted-foreground italic">
-                      Faculty Feedback: "{assign.submission.feedback}"
-                    </p>
-                  )}
-                </div>
-              ) : null}
-
-              <button
-                type="button"
-                onClick={() => setActiveAssignment(assign)}
-                className="w-full py-2.5 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90 transition-all cursor-pointer shadow-xs active:scale-95"
-              >
-                {assign.hasSubmitted ? 'Resubmit Project Work' : 'Submit Assignment Code / URL'}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Assignment Submission Modal */}
-      {activeAssignment && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-card rounded-2xl border border-border p-6 max-w-lg w-full space-y-4 shadow-xl">
-            <div className="flex items-center justify-between border-b border-border pb-3">
-              <h3 className="text-base font-bold text-foreground">Submit: {activeAssignment.title}</h3>
-              <button
-                type="button"
-                onClick={() => setActiveAssignment(null)}
-                className="text-muted-foreground hover:text-foreground text-xs font-bold cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmitAssignment} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-foreground">GitHub Repository Link</label>
-                <input
-                  type="url"
-                  placeholder="https://github.com/aditya/capstone-repo"
-                  value={submissionForm.githubUrl}
-                  onChange={(e) => setSubmissionForm({ ...submissionForm, githubUrl: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-foreground">Project Description & Architecture Notes</label>
-                <textarea
-                  rows={3}
-                  placeholder="Explain your approach, technologies utilized, and testing instructions..."
-                  value={submissionForm.text}
-                  onChange={(e) => setSubmissionForm({ ...submissionForm, text: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-foreground">Attach Solution File / Archive (.zip, .pdf, .py, .docx)</label>
-                <input
-                  type="file"
-                  onChange={(e) => setSubmissionFile(e.target.files[0])}
-                  className="w-full px-3 py-2 rounded-xl text-xs bg-secondary border border-border text-foreground file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[11px] file:font-semibold file:bg-primary file:text-primary-foreground cursor-pointer"
-                />
-                {submissionFile && (
-                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                    ✓ Attached: {submissionFile.name} ({(submissionFile.size / 1024).toFixed(1)} KB)
-                  </p>
-                )}
-              </div>
-
-              <div className="flex items-center justify-end gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveAssignment(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-secondary/80 text-foreground cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:opacity-90 transition-all cursor-pointer shadow-xs active:scale-95"
-                >
-                  Confirm Submission
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
+    <StudentAssignmentsView
+      assignments={assignments}
+      showToast={showToast}
+      onRefresh={async () => {
+        const aList = await lmsService.getAssignments();
+        setAssignments(aList);
+        const pData = await lmsService.getStudentProgress().catch(() => null);
+        if (pData) setProgressData(pData);
+      }}
+    />
   );
 
   // 5. Learning Paths View
