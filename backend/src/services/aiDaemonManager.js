@@ -11,8 +11,13 @@ let aiProcess = null;
 async function ensureAiDaemonRunning() {
   const AI_URL = process.env.PYTHON_SERVICE_URL || 'http://127.0.0.1:8000';
   const pythonPath = process.env.PYTHON_PATH || 'python';
-  const aiAppPath = path.resolve(__dirname, '../../../ai_service/app.py');
-  const aiDir = path.resolve(__dirname, '../../../ai_service');
+  const fs = require('fs');
+  const aiAppPath = fs.existsSync(path.resolve(__dirname, '../../ai_service/app.py'))
+    ? path.resolve(__dirname, '../../ai_service/app.py')
+    : path.resolve(__dirname, '../../../ai_service/app.py');
+  const aiDir = fs.existsSync(path.resolve(__dirname, '../../ai_service'))
+    ? path.resolve(__dirname, '../../ai_service')
+    : path.resolve(__dirname, '../../../ai_service');
 
   try {
     const health = await axios.get(`${AI_URL}/health`, { timeout: 1200 });

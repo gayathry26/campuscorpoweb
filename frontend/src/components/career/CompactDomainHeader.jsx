@@ -193,7 +193,7 @@ export function CompactDomainHeader({
                         </h4>
                       </div>
                       <div className="flex items-center gap-1.5 flex-wrap text-sm font-semibold text-neutral-800 dark:text-neutral-200">
-                        {domain.careerProgression.split('->').map((step, idx, arr) => (
+                        {domain.careerProgression.split(/\s*(?:->|→)\s*/).map((step, idx, arr) => (
                           <React.Fragment key={idx}>
                             <span className="px-2.5 py-1 rounded-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 text-sm font-medium">
                               {step.trim()}

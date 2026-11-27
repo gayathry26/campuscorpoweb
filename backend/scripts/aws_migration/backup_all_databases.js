@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const mysql = require('../../backend/node_modules/mysql2/promise');
+const mysql = require('../../node_modules/mysql2/promise');
 
 const DUMP_DIR = path.join(__dirname, '../../backups/pre_migration');
 const MYSQLDUMP_PATH = 'C:\\xampp\\mysql\\bin\\mysqldump.exe';

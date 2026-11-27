@@ -1,6 +1,11 @@
 const { queryCommon } = require('../config/db');
-const { MASTER_CAREER_DOMAINS } = require('../data/masterCareerDomains');
+const { MASTER_CAREER_DOMAINS, CAREER_DOMAINS } = require('../data/masterCareerDomains');
 const { MASTER_CAREER_ROLES } = require('../data/masterCareerRoles');
+
+const masterDomains = (Array.isArray(MASTER_CAREER_DOMAINS) && MASTER_CAREER_DOMAINS.length > 0)
+  ? MASTER_CAREER_DOMAINS
+  : (Array.isArray(CAREER_DOMAINS) ? CAREER_DOMAINS : []);
+const masterRoles = Array.isArray(MASTER_CAREER_ROLES) ? MASTER_CAREER_ROLES : [];
 
 /**
  * Format a raw SQL career_roles row into the frontend role object structure
@@ -131,7 +136,7 @@ async function getDomains(req, res) {
           sampleRoles: r.sample_roles ? r.sample_roles.split('||').slice(0, 3) : [],
           sortOrder: r.sort_order || 0,
         }))
-      : MASTER_CAREER_DOMAINS.map((d) => ({
+      : masterDomains.map((d) => ({
           id: d.id,
           name: d.name,
           family: d.family,
@@ -143,8 +148,8 @@ async function getDomains(req, res) {
           prerequisites: d.prerequisites || [],
           relatedDomains: d.relatedDomains || [],
           careerProgression: d.careerProgression || '',
-          roleCount: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).length,
-          sampleRoles: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).slice(0, 3).map((r) => r.title),
+          roleCount: masterRoles.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).length,
+          sampleRoles: masterRoles.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).slice(0, 3).map((r) => r.title),
           sortOrder: d.sortOrder || 0,
         }));
 
@@ -169,7 +174,7 @@ async function getDomains(req, res) {
     });
   } catch (error) {
     console.error('Error in getDomains (falling back to master dataset):', error.message);
-    const fallbackDomains = MASTER_CAREER_DOMAINS.map((d) => ({
+    const fallbackDomains = masterDomains.map((d) => ({
       id: d.id,
       name: d.name,
       family: d.family,
@@ -181,8 +186,8 @@ async function getDomains(req, res) {
       prerequisites: d.prerequisites || [],
       relatedDomains: d.relatedDomains || [],
       careerProgression: d.careerProgression || '',
-      roleCount: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).length,
-      sampleRoles: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).slice(0, 3).map((r) => r.title),
+      roleCount: masterRoles.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).length,
+      sampleRoles: masterRoles.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).slice(0, 3).map((r) => r.title),
       sortOrder: d.sortOrder || 0,
     }));
     return res.json({
@@ -221,7 +226,7 @@ async function getDomainBySlug(req, res) {
 
     if (domainRows.length === 0) {
       const cleanSlug = slug.toLowerCase();
-      const matchedMaster = MASTER_CAREER_DOMAINS.find(
+      const matchedMaster = masterDomains.find(
         (d) =>
           d.id.toLowerCase() === cleanSlug ||
           d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug ||
@@ -234,7 +239,7 @@ async function getDomainBySlug(req, res) {
         });
       }
 
-      const domainRoles = MASTER_CAREER_ROLES.filter(
+      const domainRoles = masterRoles.filter(
         (r) =>
           (r.domainIds && r.domainIds.some((d) => d.toLowerCase() === matchedMaster.id.toLowerCase())) ||
           r.category.toLowerCase() === matchedMaster.name.toLowerCase()
@@ -421,14 +426,14 @@ async function getDomainBySlug(req, res) {
     try {
       const { slug } = req.params;
       const cleanSlug = (slug || '').toLowerCase();
-      const matchedMaster = MASTER_CAREER_DOMAINS.find(
+      const matchedMaster = masterDomains.find(
         (d) =>
           d.id.toLowerCase() === cleanSlug ||
           d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug ||
           d.name.toLowerCase() === cleanSlug
       );
       if (matchedMaster) {
-        const domainRoles = MASTER_CAREER_ROLES.filter(
+        const domainRoles = masterRoles.filter(
           (r) =>
             (r.domainIds && r.domainIds.some((d) => d.toLowerCase() === matchedMaster.id.toLowerCase())) ||
             r.category.toLowerCase() === matchedMaster.name.toLowerCase()

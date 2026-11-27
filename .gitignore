@@ -29,11 +29,10 @@ pnpm-debug.log*
 # Uploads & Temp
 backend/uploads/*
 !backend/uploads/.gitkeep
-server/uploads/*
-!server/uploads/.gitkeep
 temp/
 tmp/
 scratch/
+backend/scratch/
 
 # Large AI Models & Weights
 *.gguf
@@ -44,12 +43,12 @@ scratch/
 *.weights
 backend/src/models/*
 !backend/src/models/.gitkeep
-server/src/models/*
-!server/src/models/.gitkeep
 
 # Database SQL Dumps
 backups/**/*.sql
 backups/*.sql
+backend/backups/**/*.sql
+backend/backups/*.sql
 
 
 # OS and Editor

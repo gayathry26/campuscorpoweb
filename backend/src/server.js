@@ -104,6 +104,14 @@ if (fs.existsSync(clientDistPath)) {
 // Centralized Error Handling
 app.use(errorHandler);
 
+// Global unhandled error guards
+process.on('uncaughtException', (err) => {
+  console.error('[SERVER UNCAUGHT EXCEPTION]', err);
+});
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[SERVER UNHANDLED REJECTION]', reason);
+});
+
 // WebRTC Real-Time Signaling & Interview Room Sockets
 const { setupWebRTCSockets } = require('./controllers/videocall');
 const { setupMockInterviews } = require('./database/createMockInterviews');

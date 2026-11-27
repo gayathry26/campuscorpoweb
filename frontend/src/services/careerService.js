@@ -9,6 +9,8 @@ import {
   getRoleById as localGetRoleById,
   getRolesByDomain as localGetRolesByDomain,
 } from '../data/itRoles';
+import { CAREER_DOMAINS as MASTER_DOMAINS } from '../data/masterCareerDomains';
+import { MASTER_CAREER_ROLES } from '../data/masterCareerRoles';
 
 /**
  * Career Explorer Service - Fetches all Domain, Role, and Comparison data from SQL via REST API
@@ -61,20 +63,29 @@ export const careerService = {
       console.warn('[careerService] Fallback to local dataset for domain by slug:', err.message);
     }
 
-    // Local fallback: find domain in CAREER_DOMAINS
+    // Local fallback: find domain in CAREER_DOMAINS or MASTER_DOMAINS
     const cleanSlug = slug.toLowerCase();
-    const matchedDomain = CAREER_DOMAINS.find(
+    const allCandidateDomains = [...(CAREER_DOMAINS || []), ...(MASTER_DOMAINS || [])];
+    const matchedDomain = allCandidateDomains.find(
       (d) =>
-        d.id.toLowerCase() === cleanSlug ||
-        d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug ||
-        d.name.toLowerCase() === cleanSlug
+        d &&
+        ((d.id && d.id.toLowerCase() === cleanSlug) ||
+         (d.name && d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug) ||
+         (d.name && d.name.toLowerCase() === cleanSlug))
     );
 
     if (!matchedDomain) {
       return { notFound: true, message: `Domain '${slug}' not found.` };
     }
 
-    const domainRoles = localGetRolesByDomain(matchedDomain.id);
+    let domainRoles = localGetRolesByDomain(matchedDomain.id);
+    if (!domainRoles || domainRoles.length === 0) {
+      domainRoles = (MASTER_CAREER_ROLES || []).filter(
+        (r) =>
+          (r.domainIds && r.domainIds.some((d) => d && d.toLowerCase() === matchedDomain.id.toLowerCase())) ||
+          (r.category && r.category.toLowerCase() === matchedDomain.name.toLowerCase())
+      );
+    }
     let withSalary = 0;
     let minSalary = Infinity;
     let maxSalary = 0;
@@ -180,7 +191,16 @@ export const careerService = {
       console.warn(`[careerService] Fallback to local dataset for role ${roleId}:`, err.message);
     }
 
-    return localGetRoleById(roleId);
+    const localRole = localGetRoleById(roleId);
+    if (localRole) return localRole;
+
+    const cleanId = String(roleId).toLowerCase().trim();
+    return (MASTER_CAREER_ROLES || []).find(
+      (r) =>
+        r.id === cleanId ||
+        r.id.toLowerCase() === cleanId ||
+        (r.title && r.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanId)
+    ) || null;
   },
 
   /**
@@ -204,9 +224,18 @@ export const careerService = {
     }
 
     // Try finding by roleSlug in local database
-    const localRole = localGetRoleById(roleSlug);
+    let localRole = localGetRoleById(roleSlug);
+    if (!localRole) {
+      const cleanSlug = String(roleSlug).toLowerCase().trim();
+      localRole = (MASTER_CAREER_ROLES || []).find(
+        (r) =>
+          r.id === cleanSlug ||
+          r.id.toLowerCase() === cleanSlug ||
+          (r.title && r.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug)
+      );
+    }
     if (localRole) {
-      const domainName = localRole.category;
+      const domainName = localRole.category || 'Technology';
       return {
         ...localRole,
         domain: {

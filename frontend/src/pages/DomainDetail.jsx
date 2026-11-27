@@ -189,10 +189,20 @@ export function DomainDetail() {
     list = [...list].sort((a, b) => {
       if (sortBy === 'alphabetical-asc') return (a.title || '').localeCompare(b.title || '');
       if (sortBy === 'alphabetical-desc') return (b.title || '').localeCompare(a.title || '');
-      if (sortBy === 'salary-desc') return (b.stats?.maxLpa || 0) - (a.stats?.maxLpa || 0);
-      if (sortBy === 'salary-asc') return (a.stats?.minLpa || 999) - (b.stats?.minLpa || 999);
+      if (sortBy === 'salary-desc') {
+        const aMax = Number(a.stats?.maxLpa || a.stats?.avgSalaryLPA || 0);
+        const bMax = Number(b.stats?.maxLpa || b.stats?.avgSalaryLPA || 0);
+        return bMax - aMax;
+      }
+      if (sortBy === 'salary-asc') {
+        const aMin = Number(a.stats?.minLpa || a.stats?.avgSalaryLPA || 999);
+        const bMin = Number(b.stats?.minLpa || b.stats?.avgSalaryLPA || 999);
+        return aMin - bMin;
+      }
       if (sortBy === 'skills-desc') {
-        return (b.technicalSkills || []).length - (a.technicalSkills || []).length;
+        const aLen = Array.isArray(a.technicalSkills) ? a.technicalSkills.length : 0;
+        const bLen = Array.isArray(b.technicalSkills) ? b.technicalSkills.length : 0;
+        return bLen - aLen;
       }
       return 0;
     });

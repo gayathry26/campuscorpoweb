@@ -1909,3 +1909,7 @@ export const CAREER_DOMAINS = [
     "sortOrder": 53
   }
 ];
+
+export const MASTER_CAREER_DOMAINS = CAREER_DOMAINS;
+
+

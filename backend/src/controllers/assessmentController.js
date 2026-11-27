@@ -693,7 +693,9 @@ function downloadLockExe(req, res) {
     return res.sendFile(exePath);
   }
 
-  const altPath = path.join(__dirname, '../../../desktop-lock/CampusCorp-SecureLock.exe');
+  const altPath = fs.existsSync(path.join(__dirname, '../../desktop-lock/CampusCorp-SecureLock.exe'))
+    ? path.join(__dirname, '../../desktop-lock/CampusCorp-SecureLock.exe')
+    : path.join(__dirname, '../../../desktop-lock/CampusCorp-SecureLock.exe');
   if (fs.existsSync(altPath)) {
     res.setHeader('Content-Disposition', 'attachment; filename="CampusCorp-SecureLock.exe"');
     res.setHeader('Content-Type', 'application/octet-stream');
@@ -715,7 +717,10 @@ function launchDesktopExe(req, res) {
   const { targetUrl } = req.body || {};
   const examUrl = targetUrl || 'http://localhost:5000/exam?testId=1';
 
-  let exePath = path.join(__dirname, '../../../desktop-lock/CampusCorp-SecureLock.exe');
+  let exePath = path.join(__dirname, '../../desktop-lock/CampusCorp-SecureLock.exe');
+  if (!fs.existsSync(exePath)) {
+    exePath = path.join(__dirname, '../../../desktop-lock/CampusCorp-SecureLock.exe');
+  }
   if (!fs.existsSync(exePath)) {
     exePath = path.join(__dirname, '../../public/downloads/CampusCorp-SecureLock.exe');
   }

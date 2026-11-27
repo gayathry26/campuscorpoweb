@@ -14,11 +14,13 @@ export function CompactRoleCard({
   isCompared = false,
   canAddCompare = true,
 }) {
+  if (!role) return null;
+
   const {
-    id,
-    title,
-    category,
-    shortDescription,
+    id = '',
+    title = 'Untitled Role',
+    category = '',
+    shortDescription = '',
     technicalSkills = [],
     stats = {},
   } = role;
@@ -32,13 +34,16 @@ export function CompactRoleCard({
           .replace(/(^-|-$)/g, '')
       : 'all');
 
-  // Extract clean salary range
+  // Extract clean salary range safely
+  const safeStats = stats || {};
   const salaryText =
-    stats.averageSalary ||
-    (stats.minLpa && stats.maxLpa
-      ? `₹${stats.minLpa} - ₹${stats.maxLpa} LPA`
-      : stats.minLpa
-      ? `From ₹${stats.minLpa} LPA`
+    safeStats.averageSalary ||
+    (safeStats.minLpa && safeStats.maxLpa
+      ? `₹${safeStats.minLpa} - ₹${safeStats.maxLpa} LPA`
+      : safeStats.minLpa
+      ? `From ₹${safeStats.minLpa} LPA`
+      : safeStats.avgSalaryLPA
+      ? `₹${safeStats.avgSalaryLPA} LPA Avg`
       : null);
 
   // Exactly 3 to 4 core skills

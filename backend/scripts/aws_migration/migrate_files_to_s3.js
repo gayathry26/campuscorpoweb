@@ -9,8 +9,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const UPLOADS_DIR = path.join(__dirname, '../../backend/uploads');
-const DOWNLOADS_DIR = path.join(__dirname, '../../backend/public/downloads');
+const UPLOADS_DIR = path.join(__dirname, '../../uploads');
+const DOWNLOADS_DIR = path.join(__dirname, '../../public/downloads');
 const MANIFEST_PATH = path.join(__dirname, '../../backups/file_migration_manifest.json');
 
 const BUCKET_NAME = process.env.AWS_S3_BUCKET;

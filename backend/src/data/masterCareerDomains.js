@@ -1909,3 +1909,15 @@ export const CAREER_DOMAINS = [
     "sortOrder": 53
   }
 ];
+
+export const MASTER_CAREER_DOMAINS = CAREER_DOMAINS;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    CAREER_FAMILIES,
+    CAREER_LEVELS,
+    CAREER_DOMAINS,
+    MASTER_CAREER_DOMAINS: CAREER_DOMAINS
+  };
+}
+
