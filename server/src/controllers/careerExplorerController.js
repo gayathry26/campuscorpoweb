@@ -1,4 +1,6 @@
 const { queryCommon } = require('../config/db');
+const { MASTER_CAREER_DOMAINS } = require('../data/masterCareerDomains');
+const { MASTER_CAREER_ROLES } = require('../data/masterCareerRoles');
 
 /**
  * Format a raw SQL career_roles row into the frontend role object structure
@@ -112,26 +114,48 @@ async function getDomains(req, res) {
       try { return JSON.parse(val); } catch (e) { return fb; }
     };
 
-    const domains = rows.map((r) => ({
-      id: r.id,
-      name: r.name,
-      family: r.family || 'Software & Web Engineering',
-      icon: r.icon || 'Compass',
-      shortDescription: r.short_description || r.description || '',
-      overview: r.overview || '',
-      whatProfessionalsDo: parseJson(r.what_professionals_do, []),
-      coreTechnologies: parseJson(r.core_technologies, []),
-      prerequisites: parseJson(r.prerequisites, []),
-      relatedDomains: parseJson(r.related_domains, []),
-      careerProgression: r.career_progression || '',
-      roleCount: Number(r.role_count || 0),
-      sampleRoles: r.sample_roles ? r.sample_roles.split('||').slice(0, 3) : [],
-      sortOrder: r.sort_order || 0,
-    }));
+    const domains = (rows && rows.length > 0)
+      ? rows.map((r) => ({
+          id: r.id,
+          name: r.name,
+          family: r.family || 'Software & Web Engineering',
+          icon: r.icon || 'Compass',
+          shortDescription: r.short_description || r.description || '',
+          overview: r.overview || '',
+          whatProfessionalsDo: parseJson(r.what_professionals_do, []),
+          coreTechnologies: parseJson(r.core_technologies, []),
+          prerequisites: parseJson(r.prerequisites, []),
+          relatedDomains: parseJson(r.related_domains, []),
+          careerProgression: r.career_progression || '',
+          roleCount: Number(r.role_count || 0),
+          sampleRoles: r.sample_roles ? r.sample_roles.split('||').slice(0, 3) : [],
+          sortOrder: r.sort_order || 0,
+        }))
+      : MASTER_CAREER_DOMAINS.map((d) => ({
+          id: d.id,
+          name: d.name,
+          family: d.family,
+          icon: d.icon,
+          shortDescription: d.shortDescription || '',
+          overview: d.overview || '',
+          whatProfessionalsDo: d.whatProfessionalsDo || [],
+          coreTechnologies: d.coreTechnologies || [],
+          prerequisites: d.prerequisites || [],
+          relatedDomains: d.relatedDomains || [],
+          careerProgression: d.careerProgression || '',
+          roleCount: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).length,
+          sampleRoles: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).slice(0, 3).map((r) => r.title),
+          sortOrder: d.sortOrder || 0,
+        }));
 
     // Calculate total distinct roles in system
-    const totalRolesRow = await queryCommon('SELECT COUNT(*) as c FROM career_roles');
-    const totalRoles = totalRolesRow && totalRolesRow.length > 0 ? totalRolesRow[0].c : 0;
+    let totalRoles = 0;
+    try {
+      const totalRolesRow = await queryCommon('SELECT COUNT(*) as c FROM career_roles');
+      totalRoles = totalRolesRow && totalRolesRow.length > 0 ? totalRolesRow[0].c : MASTER_CAREER_ROLES.length;
+    } catch (e) {
+      totalRoles = MASTER_CAREER_ROLES.length;
+    }
 
     return res.json({
       success: true,
@@ -139,16 +163,37 @@ async function getDomains(req, res) {
       data: {
         categories: ['All Domains', ...domains.map((d) => d.name)],
         domains,
-        totalRoles,
+        totalRoles: totalRoles || MASTER_CAREER_ROLES.length,
         totalDomains: domains.length,
       },
     });
   } catch (error) {
-    console.error('Error in getDomains:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to retrieve career domains from SQL database.',
-      error: error.message,
+    console.error('Error in getDomains (falling back to master dataset):', error.message);
+    const fallbackDomains = MASTER_CAREER_DOMAINS.map((d) => ({
+      id: d.id,
+      name: d.name,
+      family: d.family,
+      icon: d.icon,
+      shortDescription: d.shortDescription || '',
+      overview: d.overview || '',
+      whatProfessionalsDo: d.whatProfessionalsDo || [],
+      coreTechnologies: d.coreTechnologies || [],
+      prerequisites: d.prerequisites || [],
+      relatedDomains: d.relatedDomains || [],
+      careerProgression: d.careerProgression || '',
+      roleCount: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).length,
+      sampleRoles: MASTER_CAREER_ROLES.filter((r) => (r.domainIds && r.domainIds.includes(d.id)) || r.category === d.name).slice(0, 3).map((r) => r.title),
+      sortOrder: d.sortOrder || 0,
+    }));
+    return res.json({
+      success: true,
+      domains: fallbackDomains,
+      data: {
+        categories: ['All Domains', ...fallbackDomains.map((d) => d.name)],
+        domains: fallbackDomains,
+        totalRoles: MASTER_CAREER_ROLES.length,
+        totalDomains: fallbackDomains.length,
+      },
     });
   }
 }
@@ -175,9 +220,92 @@ async function getDomainBySlug(req, res) {
     );
 
     if (domainRows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: `Career domain '${slug}' not found.`,
+      const cleanSlug = slug.toLowerCase();
+      const matchedMaster = MASTER_CAREER_DOMAINS.find(
+        (d) =>
+          d.id.toLowerCase() === cleanSlug ||
+          d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug ||
+          d.name.toLowerCase() === cleanSlug
+      );
+      if (!matchedMaster) {
+        return res.status(404).json({
+          success: false,
+          message: `Career domain '${slug}' not found.`,
+        });
+      }
+
+      const domainRoles = MASTER_CAREER_ROLES.filter(
+        (r) =>
+          (r.domainIds && r.domainIds.some((d) => d.toLowerCase() === matchedMaster.id.toLowerCase())) ||
+          r.category.toLowerCase() === matchedMaster.name.toLowerCase()
+      );
+
+      let withSalary = 0;
+      let withSkills = 0;
+      let minSalary = Infinity;
+      let maxSalary = 0;
+      const skillCounts = {};
+      const toolsSet = new Set();
+
+      domainRoles.forEach((r) => {
+        if (r.stats && r.stats.averageSalary) {
+          withSalary++;
+          if (typeof r.stats.minLpa === 'number' && r.stats.minLpa < minSalary) minSalary = r.stats.minLpa;
+          if (typeof r.stats.maxLpa === 'number' && r.stats.maxLpa > maxSalary) maxSalary = r.stats.maxLpa;
+        }
+        const skills = Array.isArray(r.technicalSkills) ? r.technicalSkills : [];
+        if (skills.length > 0) {
+          withSkills++;
+          skills.forEach((s) => {
+            if (typeof s === 'string') {
+              const clean = s.split('/')[0].split('(')[0].trim();
+              skillCounts[clean] = (skillCounts[clean] || 0) + 1;
+            }
+          });
+        }
+        const roleToolsList = Array.isArray(r.tools) ? r.tools : [];
+        roleToolsList.forEach((t) => toolsSet.add(t));
+      });
+
+      const topSkills = Object.entries(skillCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([skill, count]) => ({ skill, count }));
+
+      const domainData = {
+        id: matchedMaster.id,
+        name: matchedMaster.name,
+        family: matchedMaster.family,
+        icon: matchedMaster.icon,
+        shortDescription: matchedMaster.shortDescription || '',
+        overview: matchedMaster.overview || '',
+        whatProfessionalsDo: matchedMaster.whatProfessionalsDo || [],
+        coreTechnologies: matchedMaster.coreTechnologies || [],
+        prerequisites: matchedMaster.prerequisites || [],
+        relatedDomains: matchedMaster.relatedDomains || [],
+        careerProgression: matchedMaster.careerProgression || '',
+        roleCount: domainRoles.length,
+      };
+
+      const statsData = {
+        totalRoles: domainRoles.length,
+        rolesWithSalary: withSalary,
+        rolesWithSkills: withSkills,
+        minLpa: minSalary === Infinity ? null : minSalary,
+        maxLpa: maxSalary === 0 ? null : maxSalary,
+        topSkills,
+        totalTools: toolsSet.size,
+      };
+
+      return res.json({
+        success: true,
+        domain: domainData,
+        roles: domainRoles,
+        stats: statsData,
+        data: {
+          domain: domainData,
+          roles: domainRoles,
+          stats: statsData,
+        },
       });
     }
 
@@ -289,7 +417,88 @@ async function getDomainBySlug(req, res) {
       },
     });
   } catch (error) {
-    console.error('Error in getDomainBySlug:', error);
+    console.error('Error in getDomainBySlug (falling back to master in-memory dataset):', error.message);
+    try {
+      const { slug } = req.params;
+      const cleanSlug = (slug || '').toLowerCase();
+      const matchedMaster = MASTER_CAREER_DOMAINS.find(
+        (d) =>
+          d.id.toLowerCase() === cleanSlug ||
+          d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug ||
+          d.name.toLowerCase() === cleanSlug
+      );
+      if (matchedMaster) {
+        const domainRoles = MASTER_CAREER_ROLES.filter(
+          (r) =>
+            (r.domainIds && r.domainIds.some((d) => d.toLowerCase() === matchedMaster.id.toLowerCase())) ||
+            r.category.toLowerCase() === matchedMaster.name.toLowerCase()
+        );
+        let withSalary = 0;
+        let withSkills = 0;
+        let minSalary = Infinity;
+        let maxSalary = 0;
+        const skillCounts = {};
+        const toolsSet = new Set();
+        domainRoles.forEach((r) => {
+          if (r.stats && r.stats.averageSalary) {
+            withSalary++;
+            if (typeof r.stats.minLpa === 'number' && r.stats.minLpa < minSalary) minSalary = r.stats.minLpa;
+            if (typeof r.stats.maxLpa === 'number' && r.stats.maxLpa > maxSalary) maxSalary = r.stats.maxLpa;
+          }
+          const skills = Array.isArray(r.technicalSkills) ? r.technicalSkills : [];
+          if (skills.length > 0) {
+            withSkills++;
+            skills.forEach((s) => {
+              if (typeof s === 'string') {
+                const clean = s.split('/')[0].split('(')[0].trim();
+                skillCounts[clean] = (skillCounts[clean] || 0) + 1;
+              }
+            });
+          }
+          const roleToolsList = Array.isArray(r.tools) ? r.tools : [];
+          roleToolsList.forEach((t) => toolsSet.add(t));
+        });
+        const topSkills = Object.entries(skillCounts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([skill, count]) => ({ skill, count }));
+        const domainData = {
+          id: matchedMaster.id,
+          name: matchedMaster.name,
+          family: matchedMaster.family,
+          icon: matchedMaster.icon,
+          shortDescription: matchedMaster.shortDescription || '',
+          overview: matchedMaster.overview || '',
+          whatProfessionalsDo: matchedMaster.whatProfessionalsDo || [],
+          coreTechnologies: matchedMaster.coreTechnologies || [],
+          prerequisites: matchedMaster.prerequisites || [],
+          relatedDomains: matchedMaster.relatedDomains || [],
+          careerProgression: matchedMaster.careerProgression || '',
+          roleCount: domainRoles.length,
+        };
+        const statsData = {
+          totalRoles: domainRoles.length,
+          rolesWithSalary: withSalary,
+          rolesWithSkills: withSkills,
+          minLpa: minSalary === Infinity ? 4.5 : minSalary,
+          maxLpa: maxSalary === 0 ? 25.0 : maxSalary,
+          topSkills,
+          totalTools: toolsSet.size,
+        };
+        return res.json({
+          success: true,
+          domain: domainData,
+          roles: domainRoles,
+          stats: statsData,
+          data: {
+            domain: domainData,
+            roles: domainRoles,
+            stats: statsData,
+          },
+        });
+      }
+    } catch (fallbackErr) {
+      console.error('Fallback error in getDomainBySlug:', fallbackErr);
+    }
     return res.status(500).json({
       success: false,
       message: 'Failed to retrieve domain details.',

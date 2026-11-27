@@ -161,13 +161,26 @@ async function getDomainBySlug(req, res) {
         overview: domain.overview,
         technologies: domain.technologies,
         careerProgression: domain.careerProgression,
-        totalModules: domain.modulesCount,
-        estimatedLearningHours: domain.estimatedLearningHours,
+        totalModules: domain.modulesCount || 12,
+        estimatedLearningHours: domain.estimatedLearningHours || 32,
         modules: modulesSummary,
+        introduction: domain.introduction,
+        subdomains: domain.subdomains || [],
+        careerRoles: domain.careerRoles || [],
+        techStack: domain.techStack || {},
+        skills: domain.skills || {},
+        learningRoadmap: domain.learningRoadmap || [],
+        projects: domain.projects || [],
+        interviews: domain.interviews || [],
+        industryApplications: domain.industryApplications || [],
+        certifications: domain.certifications || [],
+        industryTrends: domain.industryTrends || {},
+        salaryIntelligence: domain.salaryIntelligence || {},
+        academicNotes: domain.academicNotes || {},
         userProgress: {
           completedModules: completedModuleNumbers.length,
           completedModuleNumbers,
-          percentage: Math.round((completedModuleNumbers.length / domain.modulesCount) * 100),
+          percentage: Math.round((completedModuleNumbers.length / (domain.modulesCount || 12)) * 100),
           bookmarkedTopics
         }
       }
@@ -282,11 +295,26 @@ async function getFullSyllabus(req, res) {
         id: domain.id,
         name: domain.name,
         family: domain.family,
+        icon: domain.icon,
+        shortDescription: domain.shortDescription,
         overview: domain.overview,
         technologies: domain.technologies,
         careerProgression: domain.careerProgression,
-        totalModules: domain.modules.length,
-        modules: domain.modules
+        totalModules: domain.modules?.length || 12,
+        modules: domain.modules || [],
+        introduction: domain.introduction,
+        subdomains: domain.subdomains || [],
+        careerRoles: domain.careerRoles || [],
+        techStack: domain.techStack || {},
+        skills: domain.skills || {},
+        learningRoadmap: domain.learningRoadmap || [],
+        projects: domain.projects || [],
+        interviews: domain.interviews || [],
+        industryApplications: domain.industryApplications || [],
+        certifications: domain.certifications || [],
+        industryTrends: domain.industryTrends || {},
+        salaryIntelligence: domain.salaryIntelligence || {},
+        academicNotes: domain.academicNotes || {}
       }
     });
   } catch (err) {

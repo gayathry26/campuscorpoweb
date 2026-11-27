@@ -146,13 +146,26 @@ export const domainKnowledgeService = {
       overview: domain.overview,
       technologies: domain.technologies,
       careerProgression: domain.careerProgression,
-      totalModules: domain.modulesCount,
-      estimatedLearningHours: domain.estimatedLearningHours,
+      totalModules: domain.modulesCount || 12,
+      estimatedLearningHours: domain.estimatedLearningHours || 32,
       modules: modulesSummary,
+      introduction: domain.introduction,
+      subdomains: domain.subdomains || [],
+      careerRoles: domain.careerRoles || [],
+      techStack: domain.techStack || {},
+      skills: domain.skills || {},
+      learningRoadmap: domain.learningRoadmap || [],
+      projects: domain.projects || [],
+      interviews: domain.interviews || [],
+      industryApplications: domain.industryApplications || [],
+      certifications: domain.certifications || [],
+      industryTrends: domain.industryTrends || {},
+      salaryIntelligence: domain.salaryIntelligence || {},
+      academicNotes: domain.academicNotes || {},
       userProgress: {
         completedModules: completedNums.length,
         completedModuleNumbers: completedNums,
-        percentage: Math.round((completedNums.length / domain.modulesCount) * 100),
+        percentage: Math.round((completedNums.length / (domain.modulesCount || 12)) * 100),
         bookmarkedTopics: bookmarks
       },
       source: 'local'
@@ -235,11 +248,26 @@ export const domainKnowledgeService = {
       id: domain.id,
       name: domain.name,
       family: domain.family,
+      icon: domain.icon,
+      shortDescription: domain.shortDescription,
       overview: domain.overview,
       technologies: domain.technologies,
       careerProgression: domain.careerProgression,
-      totalModules: domain.modules.length,
-      modules: domain.modules,
+      totalModules: domain.modules?.length || 12,
+      modules: domain.modules || [],
+      introduction: domain.introduction,
+      subdomains: domain.subdomains || [],
+      careerRoles: domain.careerRoles || [],
+      techStack: domain.techStack || {},
+      skills: domain.skills || {},
+      learningRoadmap: domain.learningRoadmap || [],
+      projects: domain.projects || [],
+      interviews: domain.interviews || [],
+      industryApplications: domain.industryApplications || [],
+      certifications: domain.certifications || [],
+      industryTrends: domain.industryTrends || {},
+      salaryIntelligence: domain.salaryIntelligence || {},
+      academicNotes: domain.academicNotes || {},
       source: 'local'
     };
   },
@@ -473,33 +501,174 @@ export const domainKnowledgeService = {
         ` : ''}
       `;
     } else {
-      // Full 12-Module Domain Notes
+      // Full 14-Section Domain Academic Compendium & Notes
+      const intro = domain.introduction || {};
+      const subdomains = domain.subdomains || [];
+      const roles = domain.careerRoles || domain.roles || [];
+      const techStack = domain.techStack || domain.techStackCategories || {};
+      const skills = domain.skills || domain.skillsRequired || {};
+      const roadmap = domain.learningRoadmap || [];
+      const projects = domain.projects || [];
+      const interviewQuestions = domain.interviews || domain.interviewQuestions || [];
+      const industryApps = domain.industryApplications || [];
+      const certs = domain.certifications || [];
+      const trends = domain.industryTrends || {};
+      const salary = domain.salaryIntelligence || domain.salaryDemand || {};
+
       bodyHtml = `
         <div class="cover-page">
-          <div class="logo">CAMPUSCORP TECHNICAL EDUCATION BOARD</div>
+          <div class="logo">CAMPUSCORP TECHNICAL EDUCATION BOARD • CURRICULUM PUBLICATION</div>
           <h1 class="main-title">${domain.name}</h1>
-          <p class="subtitle">Complete Technical Notes & Master Learning Curriculum (Modules 1 - 12)</p>
+          <p class="subtitle">Complete Technical Compendium, Academic Notes & Career Blueprint</p>
           <div class="meta-box">
             <p><strong>Career Family:</strong> ${domain.family}</p>
-            <p><strong>Core Stack:</strong> ${domain.technologies.join(', ')}</p>
-            <p><strong>Curriculum Scope:</strong> 12 Rigorous Modules • Foundational to Enterprise Level</p>
-            <p><strong>Placement Progression:</strong> ${domain.careerProgression}</p>
+            <p><strong>Core Stack:</strong> ${(domain.technologies || []).join(', ')}</p>
+            <p><strong>Curriculum Scope:</strong> 12 Rigorous Modules • 9 Practical Projects • 90 Interview Q&As</p>
+            <p><strong>Placement Progression:</strong> ${domain.careerProgression || 'Associate -> Specialist -> Lead Architect'}</p>
+            <p><strong>Salary Horizon:</strong> Entry: ${salary.entryLevel || '₹4.5 - 8.5 LPA'} • Mid: ${salary.midLevel || '₹10 - 20 LPA'} • Senior: ${salary.seniorLevel || '₹22 - 45+ LPA'}</p>
           </div>
         </div>
 
         <div class="page-break"></div>
         <h2 class="section-title">Table of Contents</h2>
-        <ol class="toc-list">
-          ${domain.modules.map((m) => `
-            <li><strong>Module ${m.moduleNumber}:</strong> ${m.title} <em>(${m.estimatedMinutes} mins)</em></li>
-          `).join('')}
+        <ol class="toc-list" style="columns: 2; column-gap: 30px;">
+          <li><strong>Part 1:</strong> Executive Domain Introduction</li>
+          <li><strong>Part 2:</strong> Subdomains & Specialized Tracks</li>
+          <li><strong>Part 3:</strong> Professional Career Roles & Profiles</li>
+          <li><strong>Part 4:</strong> Enterprise Technology Stack Architecture</li>
+          <li><strong>Part 5:</strong> Core Competencies & Skills Matrix</li>
+          <li><strong>Part 6:</strong> 6-Stage Mastery Learning Roadmap</li>
+          <li><strong>Part 7:</strong> 12 Structured Learning Modules</li>
+          <li><strong>Part 8:</strong> Practical Industry Projects (9 Projects)</li>
+          <li><strong>Part 9:</strong> Technical Interview Mastery (90 Questions)</li>
+          <li><strong>Part 10:</strong> Enterprise Industry Applications</li>
+          <li><strong>Part 11:</strong> Professional Certifications Roadmap</li>
+          <li><strong>Part 12:</strong> Future Outlook, AI Impact & 5-Year Trends</li>
+          <li><strong>Part 13:</strong> Salary & Market Demand Intelligence</li>
         </ol>
 
+        <!-- Part 1: Domain Introduction -->
+        <div class="page-break"></div>
+        <h2 class="section-title">Part 1: Executive Domain Introduction</h2>
+        <hr class="divider"/>
+        <div class="content-section">
+          <h3>Domain Definition & Overview</h3>
+          <p class="text-content">${intro.definition || domain.description || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>What Professionals in this Domain Actually Do</h3>
+          <p class="text-content">${intro.whatItDoes || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>Why This Domain Exists in Enterprise IT</h3>
+          <p class="text-content">${intro.whyItExists || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>Real-World Industry Applications</h3>
+          <p class="text-content">${intro.realWorldUse || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>Importance & Future Opportunities</h3>
+          <p class="text-content"><strong>Current Relevance:</strong> ${intro.currentRelevance || ''}</p>
+          <p class="text-content"><strong>Strategic IT Value:</strong> ${intro.importanceInIT || ''}</p>
+          <p class="text-content"><strong>Future Horizon:</strong> ${intro.futureOpportunities || ''}</p>
+        </div>
+
+        <!-- Part 2: Subdomains -->
+        ${subdomains.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 2: Subdomains & Specialization Tracks</h2>
+          <hr class="divider"/>
+          ${subdomains.map((sd, i) => `
+            <div class="content-section" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+              <h3 style="margin-top: 0; color: #6d28d9;">${i + 1}. ${sd.name}</h3>
+              <p class="text-content">${sd.description}</p>
+              <p style="font-size: 9pt; margin: 6px 0 0 0;"><strong>Core Stack:</strong> ${(sd.tools || []).join(', ')}</p>
+              <p style="font-size: 9pt; margin: 4px 0 0 0;"><strong>Primary Target Roles:</strong> ${(sd.roles || []).join(', ')}</p>
+            </div>
+          `).join('')}
+        ` : ''}
+
+        <!-- Part 3: Career Roles -->
+        ${roles.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 3: Professional Career Roles</h2>
+          <hr class="divider"/>
+          ${roles.map((r) => `
+            <div class="content-section" style="border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 16px;">
+              <h3 style="color: #0f172a; margin-bottom: 4px;">${r.title || r.name}</h3>
+              <p style="font-size: 8.5pt; color: #64748b; margin-top: 0;">Typical Experience: ${r.experienceLevel || 'Entry to Mid'} • Salary: ${r.salaryRange || '₹6.5 - 18 LPA'}</p>
+              <p class="text-content"><strong>Role Mission:</strong> ${r.whatItDoes || r.overview || ''}</p>
+              <div style="font-size: 9pt; margin-top: 8px;">
+                <p style="margin: 3px 0;"><strong>Daily Responsibilities:</strong> ${(Array.isArray(r.dailyResponsibilities) ? r.dailyResponsibilities.join(' • ') : r.dailyResponsibilities || '')}</p>
+                <p style="margin: 3px 0;"><strong>Required Technical Skills:</strong> ${(Array.isArray(r.requiredSkills) ? r.requiredSkills.join(', ') : r.requiredSkills || '')}</p>
+                <p style="margin: 3px 0;"><strong>Career Progression:</strong> ${r.careerProgression || ''}</p>
+              </div>
+            </div>
+          `).join('')}
+        ` : ''}
+
+        <!-- Part 4: Technology Stack -->
+        ${Object.keys(techStack).length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 4: Enterprise Technology Stack Architecture</h2>
+          <hr class="divider"/>
+          <table class="academic-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Stack Layer</th>
+                <th style="width: 40%;">Standard Industry Technologies</th>
+                <th style="width: 35%;">Professional Purpose & Justification</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.entries(techStack).map(([layer, items]) => `
+                <tr>
+                  <td><strong style="text-transform: capitalize;">${layer.replace(/([A-Z])/g, ' $1')}</strong></td>
+                  <td>${Array.isArray(items) ? items.join(', ') : items}</td>
+                  <td>Core industry standard layer ensuring reliability, throughput, and scalability.</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : ''}
+
+        <!-- Part 5: Skills Matrix -->
+        ${Object.keys(skills).length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 5: Core Competencies & Skills Required</h2>
+          <hr class="divider"/>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            ${Object.entries(skills).map(([category, skillList]) => `
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
+                <h4 style="margin: 0 0 6px 0; color: #1e1b4b; text-transform: capitalize;">${category.replace(/([A-Z])/g, ' $1')}</h4>
+                <p style="font-size: 9pt; color: #334155; margin: 0;">${Array.isArray(skillList) ? skillList.join(', ') : skillList}</p>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <!-- Part 6: Learning Roadmap -->
+        ${roadmap.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 6: 6-Stage Mastery Learning Roadmap</h2>
+          <hr class="divider"/>
+          ${roadmap.map((stage) => `
+            <div class="content-section" style="border-left: 3px solid #7c3aed; padding-left: 12px; margin-bottom: 14px;">
+              <h4 style="margin: 0; color: #0f172a;">${stage.stage || stage.level}: ${stage.title}</h4>
+              <p style="font-size: 8.5pt; color: #6d28d9; margin: 2px 0;">Duration: ${stage.duration || '4-6 Weeks'} • Focus: ${stage.focus || ''}</p>
+              <p class="text-content" style="margin: 4px 0 0 0;"><strong>Key Topics:</strong> ${(stage.topics || []).join(' • ')}</p>
+              <p class="text-content" style="margin: 4px 0 0 0;"><strong>Milestone Capstone:</strong> ${stage.milestone || ''}</p>
+            </div>
+          `).join('')}
+        ` : ''}
+
+        <!-- Part 7: Modules 1 - 12 -->
         ${domain.modules.map((m) => `
           <div class="page-break"></div>
           <div class="module-wrapper">
             <div class="header-bar">
-              <span class="badge">Module ${m.moduleNumber}</span>
+              <span class="badge">Module ${m.moduleNumber} of 12</span>
               <span class="institution">${domain.name}</span>
             </div>
             <h2 class="chapter-title">Module ${m.moduleNumber}: ${m.title}</h2>
@@ -575,6 +744,124 @@ export const domainKnowledgeService = {
             ` : ''}
           </div>
         `).join('')}
+
+        <!-- Part 8: Practical Projects Portfolio -->
+        ${projects.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 8: Practical Capstone Projects Portfolio</h2>
+          <hr class="divider"/>
+          ${projects.map((p, i) => `
+            <div class="content-section" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 16px; background: #fafafa;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <h3 style="margin: 0; color: #0f172a;">Project ${i + 1}: ${p.title}</h3>
+                <span class="badge ${p.level === 'Beginner' ? '' : p.level === 'Intermediate' ? 'secondary' : ''}">${p.level}</span>
+              </div>
+              <p class="text-content" style="margin: 4px 0;"><strong>Problem Statement:</strong> ${p.problemStatement}</p>
+              <p class="text-content" style="margin: 4px 0;"><strong>Industry Use Case:</strong> ${p.industryUseCase}</p>
+              <p class="text-content" style="margin: 4px 0;"><strong>Architecture:</strong> ${p.architectureOverview}</p>
+              <p style="font-size: 8.5pt; color: #475569; margin: 4px 0;"><strong>Tech Stack:</strong> ${(p.techStack || []).join(', ')}</p>
+              <div style="font-size: 8.5pt; margin-top: 6px;">
+                <strong>Resume Description:</strong>
+                <ul style="padding-left: 18px; margin: 4px 0;">
+                  ${(p.resumeDescription || []).map((bullet) => `<li>${bullet}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          `).join('')}
+        ` : ''}
+
+        <!-- Part 9: Technical Interview Preparation (90 Curated Questions) -->
+        ${interviewQuestions.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 9: Curated Technical Interview Preparation</h2>
+          <p class="chapter-subtitle">Verified Interview Questions & Model Technical Explanations</p>
+          <hr class="divider"/>
+          ${interviewQuestions.map((qa, i) => `
+            <div class="interview-box">
+              <p class="q"><span class="q-badge">${qa.level}</span> <strong>Q${i + 1}: ${qa.question}</strong></p>
+              <p class="a"><strong>Model Answer:</strong> ${qa.answer.replace(/\n/g, '<br/>')}</p>
+            </div>
+          `).join('')}
+        ` : ''}
+
+        <!-- Part 10: Industry Applications -->
+        ${industryApps.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 10: Enterprise Industry Applications</h2>
+          <hr class="divider"/>
+          <table class="academic-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Enterprise Sector</th>
+                <th style="width: 75%;">Real-World Use Case & Architectural Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${industryApps.map((app) => `
+                <tr>
+                  <td><strong>${app.sector}</strong></td>
+                  <td>${app.useCase}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : ''}
+
+        <!-- Part 11: Certifications -->
+        ${certs.length > 0 ? `
+          <div class="page-break"></div>
+          <h2 class="section-title">Part 11: Professional Industry Certifications</h2>
+          <hr class="divider"/>
+          <table class="academic-table">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Certification Title</th>
+                <th>Issuing Authority</th>
+                <th>Recommended Prerequisite</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${certs.map((c) => `
+                <tr>
+                  <td><span class="badge">${c.tier}</span></td>
+                  <td><strong>${c.title}</strong></td>
+                  <td>${c.issuer}</td>
+                  <td>${c.prerequisites || 'Foundational knowledge'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : ''}
+
+        <!-- Part 12 & 13: Trends, AI Impact & Salary Demand -->
+        <div class="page-break"></div>
+        <h2 class="section-title">Part 12 & 13: Industry Trends, AI Impact & Salary Demand</h2>
+        <hr class="divider"/>
+        <div class="content-section">
+          <h3>Emerging Technologies & Breakthroughs</h3>
+          <p class="text-content">${Array.isArray(trends.emergingTools) ? trends.emergingTools.join(', ') : trends.emergingTools || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>Enterprise Adoption & Market Evolution</h3>
+          <p class="text-content">${trends.enterpriseAdoption || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>AI Disruption & Autonomous Impact</h3>
+          <p class="text-content">${trends.aiTransformation || trends.aiImpact || ''}</p>
+        </div>
+        <div class="content-section">
+          <h3>5-to-10 Year Strategic Outlook</h3>
+          <p class="text-content">${trends.fiveToTenYearOutlook || trends.fiveYearOutlook || ''}</p>
+        </div>
+        <div class="content-section" style="background: #f1f5f9; border-radius: 8px; padding: 16px; margin-top: 20px;">
+          <h3 style="margin-top: 0; color: #0f172a;">Compensation Trajectory & Hot Market Skills</h3>
+          <p><strong>Entry-Level Range (0-2 Yrs):</strong> ${salary.salaryBands?.fresher?.rangeLpa || salary.entryLevel || '₹4.5 - 8.5 LPA'}</p>
+          <p><strong>Mid-Level Range (3-5 Yrs):</strong> ${salary.salaryBands?.midLevel?.rangeLpa || salary.midLevel || '₹10 - 20 LPA'}</p>
+          <p><strong>Senior & Lead Range (6-10+ Yrs):</strong> ${salary.salaryBands?.senior?.rangeLpa || salary.seniorLevel || '₹22 - 45+ LPA'}</p>
+          <p><strong>Global Context:</strong> US: ${salary.globalSalaryContext?.usMarket || '$115k-$175k'} • Europe: ${salary.globalSalaryContext?.europeanMarket || '€75k-€110k'} • Remote: ${salary.globalSalaryContext?.remoteGlobalTier || '$90k-$160k'}</p>
+          <p><strong>High-Premium In-Demand Skills:</strong> ${(salary.highDemandSkills || salary.hotSkills || []).join(', ')}</p>
+        </div>
       `;
     }
 

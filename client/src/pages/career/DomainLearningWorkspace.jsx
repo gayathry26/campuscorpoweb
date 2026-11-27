@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   BookOpen,
@@ -25,6 +25,18 @@ import {
   Search,
   ChevronUp,
   X,
+  Briefcase,
+  Wrench,
+  Shield,
+  TrendingUp,
+  DollarSign,
+  Building2,
+  Terminal,
+  Cpu,
+  Filter,
+  Printer,
+  CheckSquare,
+  Network
 } from 'lucide-react';
 import domainKnowledgeService from '../../services/domainKnowledgeService';
 import { DOMAIN_ICONS } from '../../components/career/InteractiveDomainGrid';
@@ -35,1222 +47,1470 @@ export function DomainLearningWorkspace() {
 
   // 1. Data States
   const [domain, setDomain] = useState(null);
-  const [modules, setModules] = useState([]);
-  const [activeModuleNumber, setActiveModuleNumber] = useState(parseInt(moduleNumber || '1', 10));
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 2. Interactive States per Module
-  const [completedMap, setCompletedMap] = useState({});
-  const [bookmarksMap, setBookmarksMap] = useState({});
-  const [copiedCodeMod, setCopiedCodeMod] = useState(null);
-  const [quizStates, setQuizStates] = useState({}); // { [modNum]: { selectedAnswers: {}, submitted: false, score: 0 } }
-  const [expandedInterviewMap, setExpandedInterviewMap] = useState({}); // { [modNum]: questionIndex }
-  const [projectTabs, setProjectTabs] = useState({}); // { [modNum]: 'beginner' | 'intermediate' | 'advanced' }
-  const [topicSearch, setTopicSearch] = useState('');
-  const [showSearchResults, setShowSearchResults] = useState(false);
+  // 2. Active View Tab (14 Tabs)
+  const [activeTab, setActiveTab] = useState('overview');
 
-  // 3. Scroll & Element References
-  const rightPanelRef = useRef(null);
-  const sidebarNavRef = useRef(null);
-  const moduleSectionRefs = useRef({});
-  const sidebarModuleRefs = useRef({});
-  const isProgrammaticScrollRef = useRef(false);
-  const scrollTimeoutRef = useRef(null);
+  // 3. Sub-States for specific tabs
+  const [activeModuleIndex, setActiveModuleIndex] = useState(0);
+  const [activeProjectFilter, setActiveProjectFilter] = useState('All');
+  const [activeInterviewFilter, setActiveInterviewFilter] = useState('All');
+  const [expandedInterviewIndex, setExpandedInterviewIndex] = useState(null);
+  const [interviewSearch, setInterviewSearch] = useState('');
+  const [copiedCodeId, setCopiedCodeId] = useState(null);
 
-  // Load domain metadata, 12 modules, and saved local progress
+  // 4. Progress, Quiz & Bookmark States
+  const [completedModules, setCompletedModules] = useState(new Set());
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState({});
+
+  // Fetch complete 14-section syllabus
   useEffect(() => {
     let isMounted = true;
-    async function loadFullCurriculum() {
+    async function loadData() {
       try {
         setLoading(true);
-        const fullDomain = await domainKnowledgeService.getFullSyllabus(domainSlug);
+        setError(null);
+        const data = await domainKnowledgeService.getFullSyllabus(domainSlug);
         if (!isMounted) return;
+        if (!data) {
+          setError(`Domain '${domainSlug}' not found.`);
+        } else {
+          setDomain(data);
+          // Set page title dynamically
+          document.title = `${data.name} — IT Domain Knowledge Hub | CampusCorpo`;
 
-        if (fullDomain) {
-          setDomain(fullDomain);
-          const modList = fullDomain.modules || [];
-          setModules(modList);
-
-          // Populate initial completion and bookmark maps from local storage service
-          const completedInit = {};
-          const bookmarksInit = {};
-          const quizInit = {};
-
-          for (const m of modList) {
-            const modNum = m.moduleNumber;
-            // Get module details to retrieve stored user progress
-            const detail = await domainKnowledgeService.getModuleDetails(domainSlug, modNum);
-            if (detail?.userState) {
-              completedInit[modNum] = Boolean(detail.userState.isCompleted);
-              bookmarksInit[modNum] = detail.userState.bookmarks || [];
-              if (detail.userState.quizScore > 0) {
-                quizInit[modNum] = {
-                  selectedAnswers: {},
-                  submitted: true,
-                  score: detail.userState.quizScore,
-                };
-              }
+          // If moduleNumber param was provided, switch directly to 12-modules tab
+          if (moduleNumber) {
+            const modNum = parseInt(moduleNumber, 10);
+            if (modNum >= 1 && modNum <= 12) {
+              setActiveTab('modules');
+              setActiveModuleIndex(modNum - 1);
             }
-          }
-
-          setCompletedMap(completedInit);
-          setBookmarksMap(bookmarksInit);
-          setQuizStates(quizInit);
-
-          // Synchronize URL moduleNumber parameter
-          const reqMod = parseInt(moduleNumber || '1', 10);
-          if (reqMod >= 1 && reqMod <= (modList.length || 12)) {
-            setActiveModuleNumber(reqMod);
           }
         }
       } catch (err) {
-        console.error('Failed to load complete domain knowledge curriculum:', err);
+        if (!isMounted) return;
+        setError(err.message || 'Failed to load domain knowledge data.');
       } finally {
         if (isMounted) setLoading(false);
       }
     }
 
-    loadFullCurriculum();
+    loadData();
     return () => {
       isMounted = false;
     };
   }, [domainSlug, moduleNumber]);
 
-  // Initial scroll to requested module when loaded
-  useEffect(() => {
-    if (!loading && modules.length > 0) {
-      const initialMod = parseInt(moduleNumber || '1', 10);
-      if (initialMod > 1) {
-        setTimeout(() => {
-          const target = moduleSectionRefs.current[initialMod];
-          if (target && rightPanelRef.current) {
-            isProgrammaticScrollRef.current = true;
-            target.scrollIntoView({ behavior: 'auto', block: 'start' });
-            setTimeout(() => {
-              isProgrammaticScrollRef.current = false;
-            }, 500);
-          }
-        }, 150);
+  // Copy code helper
+  const handleCopyCode = (text, id) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedCodeId(id);
+    setTimeout(() => setCopiedCodeId(null), 2500);
+  };
+
+  // Toggle module completion
+  const handleToggleModuleComplete = (modNum) => {
+    setCompletedModules((prev) => {
+      const next = new Set(prev);
+      if (next.has(modNum)) {
+        next.delete(modNum);
+      } else {
+        next.add(modNum);
       }
+      // Save to service
+      domainKnowledgeService.saveProgress(domain?.id, modNum, next.has(modNum));
+      return next;
+    });
+  };
+
+  // Toggle bookmark
+  const handleToggleBookmark = (itemKey) => {
+    setBookmarkedItems((prev) => {
+      const next = new Set(prev);
+      if (next.has(itemKey)) {
+        next.delete(itemKey);
+      } else {
+        next.add(itemKey);
+      }
+      return next;
+    });
+  };
+
+  // Quiz submission
+  const handleSelectQuizAnswer = (qId, optionIdx) => {
+    setQuizAnswers((prev) => ({ ...prev, [qId]: optionIdx }));
+  };
+
+  const handleSubmitQuiz = (modNum) => {
+    setQuizSubmitted((prev) => ({ ...prev, [modNum]: true }));
+    handleToggleModuleComplete(modNum);
+  };
+
+  // Handle PDF Export
+  const handleExportPdf = () => {
+    if (domain) {
+      domainKnowledgeService.exportPrintableDocument(domain);
     }
-  }, [loading, modules.length, moduleNumber]);
+  };
 
-  // IntersectionObserver: Track active module automatically as student scrolls through right content
-  useEffect(() => {
-    const container = rightPanelRef.current;
-    if (!container || modules.length === 0) return;
+  // Filtered interview questions
+  const filteredInterviews = useMemo(() => {
+    if (!domain?.interviews) return [];
+    let list = domain.interviews;
 
-    const observerCallback = (entries) => {
-      if (isProgrammaticScrollRef.current) return;
-
-      const intersecting = entries.filter((entry) => entry.isIntersecting);
-      if (intersecting.length > 0) {
-        // Pick the intersecting section closest to the top
-        intersecting.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        const modNumAttr = intersecting[0].target.getAttribute('data-module-number');
-        if (modNumAttr) {
-          const modNum = parseInt(modNumAttr, 10);
-          if (modNum && modNum !== activeModuleNumber) {
-            setActiveModuleNumber(modNum);
-          }
-        }
-      }
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      root: container,
-      rootMargin: '-10% 0px -70% 0px',
-      threshold: [0, 0.2, 0.5],
-    });
-
-    modules.forEach((m) => {
-      const el = moduleSectionRefs.current[m.moduleNumber];
-      if (el) observer.observe(el);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [modules, activeModuleNumber]);
-
-  // Automatic visibility in left navigation: Keep active module button visible
-  useEffect(() => {
-    const activeBtn = sidebarModuleRefs.current[activeModuleNumber];
-    if (activeBtn) {
-      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (activeInterviewFilter !== 'All') {
+      list = list.filter((item) => item.level === activeInterviewFilter);
     }
-  }, [activeModuleNumber]);
 
-  // Smooth click-to-scroll handler for sidebar module buttons
-  const handleScrollToModule = useCallback(
-    (modNum) => {
-      setActiveModuleNumber(modNum);
-      const target = moduleSectionRefs.current[modNum];
-      if (target) {
-        isProgrammaticScrollRef.current = true;
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-        scrollTimeoutRef.current = setTimeout(() => {
-          isProgrammaticScrollRef.current = false;
-        }, 850);
-      }
-    },
-    []
-  );
-
-  // Toggle Module Completion State
-  const handleToggleCompleted = async (modNum) => {
-    const currentState = Boolean(completedMap[modNum]);
-    const nextState = !currentState;
-
-    setCompletedMap((prev) => ({ ...prev, [modNum]: nextState }));
-
-    const currentModData = modules.find((m) => m.moduleNumber === modNum);
-    const score = quizStates[modNum]?.score || 0;
-
-    await domainKnowledgeService.saveProgress(
-      domainSlug,
-      modNum,
-      nextState,
-      score,
-      currentModData?.title
-    );
-
-    // Refresh overall domain progress in header
-    const updatedDomain = await domainKnowledgeService.getDomainBySlug(domainSlug);
-    if (updatedDomain) setDomain(updatedDomain);
-  };
-
-  // Toggle Bookmark for a topic heading
-  const handleToggleBookmark = async (modNum, topicHeading) => {
-    const currentList = bookmarksMap[modNum] || [];
-    const isBookmarked = currentList.includes(topicHeading);
-
-    await domainKnowledgeService.toggleBookmark(domainSlug, modNum, topicHeading);
-
-    setBookmarksMap((prev) => ({
-      ...prev,
-      [modNum]: isBookmarked
-        ? (prev[modNum] || []).filter((h) => h !== topicHeading)
-        : [...(prev[modNum] || []), topicHeading],
-    }));
-  };
-
-  // Copy Code Lab Snippet
-  const handleCopyCode = (modNum, codeText) => {
-    if (!codeText) return;
-    navigator.clipboard.writeText(codeText);
-    setCopiedCodeMod(modNum);
-    setTimeout(() => {
-      setCopiedCodeMod(null);
-    }, 2000);
-  };
-
-  // Interactive Quiz Handlers
-  const handleSelectQuizOption = (modNum, qIdx, optIdx) => {
-    const modQuiz = quizStates[modNum] || { selectedAnswers: {}, submitted: false, score: 0 };
-    if (modQuiz.submitted) return;
-
-    setQuizStates((prev) => ({
-      ...prev,
-      [modNum]: {
-        ...modQuiz,
-        selectedAnswers: {
-          ...modQuiz.selectedAnswers,
-          [qIdx]: optIdx,
-        },
-      },
-    }));
-  };
-
-  const handleSubmitQuiz = async (modNum) => {
-    const modData = modules.find((m) => m.moduleNumber === modNum);
-    if (!modData?.assessments) return;
-
-    const modQuiz = quizStates[modNum] || { selectedAnswers: {}, submitted: false, score: 0 };
-    let correctCount = 0;
-
-    modData.assessments.forEach((q, idx) => {
-      if (modQuiz.selectedAnswers[idx] === q.correctIndex) {
-        correctCount += 1;
-      }
-    });
-
-    const percentage = Math.round((correctCount / modData.assessments.length) * 100);
-
-    setQuizStates((prev) => ({
-      ...prev,
-      [modNum]: {
-        ...modQuiz,
-        submitted: true,
-        score: percentage,
-      },
-    }));
-
-    // Auto mark module completed if score >= 80%
-    if (percentage >= 80 && !completedMap[modNum]) {
-      setCompletedMap((prev) => ({ ...prev, [modNum]: true }));
-      await domainKnowledgeService.saveProgress(domainSlug, modNum, true, percentage);
-      const updatedDomain = await domainKnowledgeService.getDomainBySlug(domainSlug);
-      if (updatedDomain) setDomain(updatedDomain);
-    } else {
-      await domainKnowledgeService.saveProgress(
-        domainSlug,
-        modNum,
-        Boolean(completedMap[modNum]),
-        percentage
+    if (interviewSearch.trim()) {
+      const q = interviewSearch.toLowerCase().trim();
+      list = list.filter(
+        (item) =>
+          item.question.toLowerCase().includes(q) ||
+          item.answer.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q)
       );
     }
-  };
 
-  const handleRetakeQuiz = (modNum) => {
-    setQuizStates((prev) => ({
-      ...prev,
-      [modNum]: {
-        selectedAnswers: {},
-        submitted: false,
-        score: 0,
-      },
-    }));
-  };
-
-  // PDF Download Handlers
-  const handleDownloadFullPdf = async () => {
-    if (domain) {
-      domainKnowledgeService.exportPrintableDocument({
-        domain,
-        moduleData: null,
-      });
-    }
-  };
-
-  const handleDownloadModulePdf = (modNum) => {
-    const modData = modules.find((m) => m.moduleNumber === modNum);
-    if (domain && modData) {
-      domainKnowledgeService.exportPrintableDocument({
-        domain,
-        moduleData: modData,
-      });
-    }
-  };
-
-  // Topic Search Index & Smooth Jump with Temporary Highlight
-  const searchableTopics = useMemo(() => {
-    const list = [];
-    modules.forEach((mod) => {
-      (mod.sections || []).forEach((sec, sIdx) => {
-        list.push({
-          moduleNumber: mod.moduleNumber,
-          moduleTitle: mod.title,
-          heading: sec.heading,
-          sectionIdx: sIdx,
-          preview: sec.content.slice(0, 140),
-        });
-      });
-    });
     return list;
-  }, [modules]);
+  }, [domain, activeInterviewFilter, interviewSearch]);
 
-  const searchResults = useMemo(() => {
-    if (!topicSearch.trim()) return [];
-    const q = topicSearch.toLowerCase().trim();
-    return searchableTopics
-      .filter((t) => t.heading.toLowerCase().includes(q) || t.preview.toLowerCase().includes(q))
-      .slice(0, 8);
-  }, [searchableTopics, topicSearch]);
-
-  const handleJumpToTopic = (modNum, secIdx) => {
-    setShowSearchResults(false);
-    setTopicSearch('');
-    handleScrollToModule(modNum);
-
-    setTimeout(() => {
-      const topicId = `topic-heading-${modNum}-${secIdx}`;
-      const el = document.getElementById(topicId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.classList.add('topic-highlight-active');
-        setTimeout(() => {
-          el.classList.remove('topic-highlight-active');
-        }, 2500);
-      }
-    }, 400);
-  };
-
-  const activeModuleData = useMemo(() => {
-    return modules.find((m) => m.moduleNumber === activeModuleNumber) || modules[0];
-  }, [modules, activeModuleNumber]);
+  // Filtered projects
+  const filteredProjects = useMemo(() => {
+    if (!domain?.projects) return [];
+    if (activeProjectFilter === 'All') return domain.projects;
+    return domain.projects.filter((p) => p.level === activeProjectFilter);
+  }, [domain, activeProjectFilter]);
 
   if (loading) {
     return (
-      <div className="py-24 flex flex-col items-center justify-center text-center space-y-3">
-        <RefreshCw className="w-8 h-8 text-purple-600 animate-spin" />
-        <p className="text-sm font-semibold text-foreground">Loading curriculum workspace...</p>
+      <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 py-10 animate-pulse">
+        <div className="h-6 w-48 bg-neutral-200 dark:bg-neutral-800 rounded-lg" />
+        <div className="h-44 bg-neutral-200 dark:bg-neutral-800 rounded-3xl" />
+        <div className="h-12 bg-neutral-200 dark:bg-neutral-800 rounded-2xl" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+          <div className="h-80 bg-neutral-200 dark:bg-neutral-800 rounded-3xl" />
+          <div className="h-80 bg-neutral-200 dark:bg-neutral-800 rounded-3xl" />
+          <div className="h-80 bg-neutral-200 dark:bg-neutral-800 rounded-3xl" />
+        </div>
       </div>
     );
   }
 
-  if (!domain) {
+  if (error || !domain) {
     return (
-      <div className="py-24 text-center max-w-lg mx-auto space-y-4">
-        <BookOpen className="w-12 h-12 text-muted-foreground mx-auto" />
-        <h2 className="text-xl font-bold text-foreground">Domain Curriculum Not Found</h2>
-        <p className="text-sm text-muted-foreground">
-          The requested domain notes could not be located in the Knowledge Hub.
-        </p>
-        <Link
-          to="/career-explorer/knowledge-hub"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-foreground text-background"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Knowledge Hub</span>
-        </Link>
+      <div className="max-w-xl mx-auto text-center py-20 px-4 space-y-5">
+        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mx-auto flex items-center justify-center">
+          <Compass className="w-8 h-8" />
+        </div>
+        <div className="space-y-1.5">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
+            Knowledge Hub Domain Not Found
+          </h2>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            We couldn't locate curriculum records for <code className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 font-mono text-xs">"{domainSlug}"</code>.
+          </p>
+        </div>
+        <div>
+          <Link
+            to="/career-explorer/knowledge-hub"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-all shadow-xs"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to All 38 Domains</span>
+          </Link>
+        </div>
       </div>
     );
   }
 
-  const IconComponent = DOMAIN_ICONS[domain.name] || Layers;
-  const completedCount = Object.values(completedMap).filter(Boolean).length;
-  const progressPercent = Math.round((completedCount / (modules.length || 12)) * 100);
+  const DomainIcon = DOMAIN_ICONS[domain.name] || Layers;
+  const progressPercent = Math.round((completedModules.size / 12) * 100);
+
+  // Define the 14 Tabs
+  const TABS = [
+    { id: 'overview', label: 'Overview', icon: BookOpen },
+    { id: 'subdomains', label: `Subdomains (${domain.subdomains?.length || 6})`, icon: Layers },
+    { id: 'roles', label: `Career Roles (${domain.careerRoles?.length || 0})`, icon: Briefcase },
+    { id: 'skills', label: 'Required Skills', icon: Sparkles },
+    { id: 'tech-stack', label: 'Tech Stack', icon: Wrench },
+    { id: 'roadmap', label: 'Learning Roadmap', icon: Compass },
+    { id: 'modules', label: '12 Modules', icon: Code2, badge: `${completedModules.size}/12` },
+    { id: 'projects', label: `9 Projects (${domain.projects?.length || 9})`, icon: FolderGit2 },
+    { id: 'interviews', label: `Interview Prep (${domain.interviews?.length || 90})`, icon: HelpCircle },
+    { id: 'industry-apps', label: 'Industry Use Cases', icon: Building2 },
+    { id: 'certifications', label: 'Certifications', icon: Award },
+    { id: 'trends', label: 'Industry Trends & AI', icon: TrendingUp },
+    { id: 'salary', label: 'Salary & Demand', icon: DollarSign },
+    { id: 'pdf', label: 'Download Academic PDF', icon: Printer, action: handleExportPdf },
+  ];
 
   return (
-    <div className="space-y-6 pb-20 max-w-7xl mx-auto px-4 sm:px-6 animate-in fade-in duration-200">
-      {/* ================= 1. TOP HEADER & BREADCRUMBS ================= */}
-      <div className="bg-card text-card-foreground border border-border rounded-3xl p-5 sm:p-7 shadow-xs space-y-4">
-        {/* Breadcrumb Navigation */}
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-muted-foreground">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <Link to="/career-explorer" className="hover:text-foreground transition-colors">
-              Career Explorer
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link
-              to="/career-explorer/knowledge-hub"
-              className="hover:text-foreground transition-colors font-medium"
-            >
-              Domain Knowledge Hub
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-foreground font-bold">{domain.name}</span>
-          </div>
+    <div className="space-y-6 pb-24 max-w-7xl mx-auto px-4 sm:px-6 font-sans">
+      {/* 1. TOP BREADCRUMB & ACTIONS */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-neutral-500 dark:text-neutral-400 flex-wrap">
+          <Link to="/career-explorer/knowledge-hub" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
+            Knowledge Hub
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <span className="text-neutral-900 dark:text-white font-semibold truncate">
+            {domain.name}
+          </span>
+        </nav>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleDownloadFullPdf}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground border border-border transition-colors cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5 text-purple-600" />
-              <span>Download Complete Notes (PDF)</span>
-            </button>
-          </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleExportPdf}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 border border-neutral-200 dark:border-neutral-800 transition-colors shadow-2xs cursor-pointer"
+          >
+            <Printer className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+            <span>Printable Academic PDF</span>
+          </button>
+
+          <Link
+            to="/career-explorer/knowledge-hub"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>All Domains</span>
+          </Link>
         </div>
+      </div>
 
-        {/* Domain Title & Overall Progress */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-1">
+      {/* 2. HERO BANNER */}
+      <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-xs space-y-5">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 flex items-center justify-center shrink-0 shadow-2xs">
-              <IconComponent className="w-7 h-7" />
+            <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-100 dark:border-purple-900/50 flex items-center justify-center shrink-0 shadow-xs">
+              <DomainIcon className="w-7 h-7" />
             </div>
-
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-secondary text-foreground border border-border">
+            <div className="space-y-2 max-w-3xl">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                  {domain.name}
+                </h1>
+                <span className="px-3 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60">
                   {domain.family}
                 </span>
-                <span className="text-xs text-muted-foreground font-semibold">
-                  • 12 Comprehensive Modules
-                </span>
-                <span className="text-xs text-muted-foreground font-semibold">
-                  • ~{domain.estimatedLearningHours || 15} Hours
-                </span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight mt-1">
-                {domain.name}
-              </h1>
+              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                {domain.shortDescription || domain.overview}
+              </p>
             </div>
           </div>
 
-          {/* Overall Domain Progress Bar */}
-          <div className="md:w-64 bg-secondary/50 p-3 rounded-2xl border border-border/80 space-y-1.5 shrink-0">
-            <div className="flex items-center justify-between text-xs font-bold text-foreground">
-              <span>Domain Progress</span>
-              <span>
-                {completedCount} / {modules.length || 12} ({progressPercent}%)
-              </span>
+          {/* Quick Metrics Badge */}
+          <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 p-4 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/80 shrink-0">
+            <div className="text-left sm:text-right">
+              <span className="text-[11px] uppercase tracking-wider font-bold text-neutral-400 block">Curriculum Progress</span>
+              <span className="text-xl font-black text-purple-600 dark:text-purple-400">{progressPercent}% Completed</span>
             </div>
-            <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
-              <div
-                className="bg-purple-600 h-full rounded-full transition-all duration-300"
-                style={{ width: `${progressPercent}%` }}
-              />
+            <div className="w-32 bg-neutral-200 dark:bg-neutral-700 h-2 rounded-full overflow-hidden">
+              <div className="bg-purple-600 h-full transition-all duration-500 rounded-full" style={{ width: `${progressPercent}%` }} />
             </div>
           </div>
         </div>
       </div>
 
-      {/* ================= 2. TWO-COLUMN WORKSPACE: INDEPENDENT SCROLL AREAS ================= */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch lg:h-[calc(100vh-140px)]">
-        {/* ================= LEFT SIDEBAR: 12-MODULE NAVIGATION (INDEPENDENT SCROLL) ================= */}
-        <aside className="lg:col-span-4 bg-card text-card-foreground border border-border rounded-3xl p-4 sm:p-5 shadow-xs lg:h-full lg:max-h-full flex flex-col overflow-hidden space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-purple-600" />
-              <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
-                12 Learning Modules
-              </h2>
-            </div>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-secondary text-muted-foreground">
-              {modules.length || 12} Total
-            </span>
-          </div>
-
-          {/* Quick Topic Search within Workspace */}
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search topics across all modules..."
-              value={topicSearch}
-              onChange={(e) => {
-                setTopicSearch(e.target.value);
-                setShowSearchResults(true);
-              }}
-              onFocus={() => setShowSearchResults(true)}
-              className="w-full pl-8 pr-7 py-2 rounded-xl bg-secondary/50 border border-border/80 text-xs text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-purple-500"
-            />
-            {topicSearch && (
-              <button
-                type="button"
-                onClick={() => {
-                  setTopicSearch('');
-                  setShowSearchResults(false);
-                }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5 cursor-pointer"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-
-            {/* Search Results Dropdown */}
-            {showSearchResults && searchResults.length > 0 && (
-              <div className="absolute left-0 right-0 top-full mt-1 bg-card border border-border rounded-2xl shadow-xl z-30 max-h-60 overflow-y-auto overscroll-contain knowledge-scroll-area p-1.5 space-y-1">
-                {searchResults.map((res, rIdx) => (
-                  <button
-                    key={rIdx}
-                    type="button"
-                    onClick={() => handleJumpToTopic(res.moduleNumber, res.sectionIdx)}
-                    className="w-full text-left p-2.5 rounded-xl hover:bg-secondary text-xs transition-colors cursor-pointer space-y-0.5"
-                  >
-                    <div className="flex items-center justify-between text-muted-foreground text-[10px] font-bold uppercase">
-                      <span>Module {res.moduleNumber}</span>
-                      <span>Jump →</span>
-                    </div>
-                    <div className="font-bold text-foreground line-clamp-1">{res.heading}</div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Module List Scroll Area: Independent Smooth Scroll with minimal scrollbar */}
-          <nav
-            ref={sidebarNavRef}
-            className="overflow-y-auto overscroll-contain knowledge-scroll-area space-y-1.5 pr-1 flex-1"
-          >
-            {modules.map((m) => {
-              const isSelected = m.moduleNumber === activeModuleNumber;
-              const isDone = Boolean(completedMap[m.moduleNumber]);
-
-              return (
-                <button
-                  key={m.moduleNumber}
-                  ref={(el) => (sidebarModuleRefs.current[m.moduleNumber] = el)}
-                  type="button"
-                  onClick={() => handleScrollToModule(m.moduleNumber)}
-                  className={`group relative w-full text-left p-3 rounded-2xl transition-all duration-200 ease-out hover:translate-x-1 flex items-start gap-3 cursor-pointer ${
-                    isSelected
-                      ? 'translate-x-1 text-foreground font-bold before:absolute before:left-0 before:top-2.5 before:bottom-2.5 before:w-1 before:bg-foreground before:rounded-r-full'
-                      : 'text-muted-foreground hover:text-foreground font-medium'
-                  }`}
-                >
-                  <span
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 mt-0.5 transition-colors ${
-                      isSelected
-                        ? 'bg-foreground text-background'
-                        : isDone
-                        ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                        : 'bg-secondary text-muted-foreground group-hover:bg-neutral-200 dark:group-hover:bg-neutral-700'
-                    }`}
-                  >
-                    {isDone ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : m.moduleNumber}
-                  </span>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="text-xs sm:text-sm line-clamp-1">{m.title}</span>
-                    </div>
-                    <span
-                      className={`text-[11px] block mt-0.5 line-clamp-1 ${
-                        isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'
-                      }`}
-                    >
-                      {m.subtitle || `${m.estimatedMinutes || 20} mins study`}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Bottom Sidebar Action: Full Handbook & Download */}
-          <div className="pt-3 border-t border-border/80 flex items-center justify-between text-xs shrink-0">
-            <Link
-              to="/career-explorer/knowledge-hub"
-              className="inline-flex items-center gap-1 font-semibold text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>All 38 Domains</span>
-            </Link>
+      {/* 3. STICKY 14-TAB NAVIGATION BAR */}
+      <div className="sticky top-2 z-30 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md p-1.5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm overflow-x-auto scrollbar-none flex items-center gap-1">
+        {TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
             <button
+              key={tab.id}
               type="button"
-              onClick={handleDownloadFullPdf}
-              className="inline-flex items-center gap-1 font-bold text-purple-600 dark:text-purple-400 hover:underline cursor-pointer"
+              onClick={() => {
+                if (tab.action) {
+                  tab.action();
+                } else {
+                  setActiveTab(tab.id);
+                }
+              }}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+                isActive
+                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-xs'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800'
+              }`}
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>Full PDF</span>
-            </button>
-          </div>
-        </aside>
-
-        {/* ================= RIGHT READING CANVAS: CONTINUOUS 12-MODULE STREAM (INDEPENDENT SCROLL) ================= */}
-        <main
-          ref={rightPanelRef}
-          className="lg:col-span-8 bg-card text-card-foreground border border-border rounded-3xl shadow-xs lg:h-full lg:max-h-full overflow-y-auto overscroll-contain knowledge-scroll-area relative scroll-smooth p-6 sm:p-9 min-w-0"
-        >
-          {/* STICKY READING HEADER: Synchronized with Active Scrolling Module */}
-          <div className="sticky top-0 z-20 backdrop-blur-md bg-card/95 border-b border-border/80 px-6 py-3.5 -mx-6 sm:-mx-9 -mt-6 sm:-mt-9 mb-8 flex flex-wrap items-center justify-between gap-3 shadow-xs">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 shrink-0">
-                Module {activeModuleNumber} of {modules.length || 12}
-              </span>
-              <span className="text-sm font-bold text-foreground truncate max-w-[200px] sm:max-w-xs md:max-w-md">
-                {activeModuleData?.title}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Mark Completed Button */}
-              <button
-                type="button"
-                onClick={() => handleToggleCompleted(activeModuleNumber)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer shadow-2xs ${
-                  completedMap[activeModuleNumber]
-                    ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
-                    : 'bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground border-border'
-                }`}
-              >
-                <CheckCircle2
-                  className={`w-4 h-4 ${
-                    completedMap[activeModuleNumber]
-                      ? 'text-emerald-600 dark:text-emerald-400'
-                      : 'text-muted-foreground'
-                  }`}
-                />
-                <span className="hidden sm:inline">
-                  {completedMap[activeModuleNumber] ? 'Completed ✓' : 'Mark Completed'}
+              <Icon className="w-3.5 h-3.5 shrink-0" />
+              <span>{tab.label}</span>
+              {tab.badge && (
+                <span className={`px-1.5 py-0.2 rounded-md text-[10px] font-bold ${
+                  isActive ? 'bg-white/20 text-white dark:bg-black/20 dark:text-neutral-900' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300'
+                }`}>
+                  {tab.badge}
                 </span>
-              </button>
-
-              {/* Module PDF */}
-              <button
-                type="button"
-                onClick={() => handleDownloadModulePdf(activeModuleNumber)}
-                title="Download this module as PDF"
-                className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-muted-foreground hover:text-foreground hover:bg-secondary border border-border transition-colors cursor-pointer inline-flex items-center gap-1"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Module PDF</span>
-              </button>
-
-              {/* Quick Jump Next */}
-              {activeModuleNumber < modules.length && (
-                <button
-                  type="button"
-                  onClick={() => handleScrollToModule(activeModuleNumber + 1)}
-                  className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-xs font-bold bg-foreground text-background hover:opacity-90 transition-opacity cursor-pointer inline-flex items-center gap-1"
-                  title="Next module"
-                >
-                  <span className="hidden md:inline">Next Module</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
               )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 4. TAB CONTENTS */}
+      <div className="pt-2">
+        {/* TAB 1: OVERVIEW */}
+        {activeTab === 'overview' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-8 space-y-6">
+              {/* Detailed Definition */}
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold text-xs uppercase tracking-wider">
+                  <Compass className="w-4 h-4" />
+                  <span>Domain Definition</span>
+                </div>
+                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                  What is {domain.name}?
+                </h2>
+                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.introduction?.definition || domain.overview}
+                </p>
+              </div>
+
+              {/* What this domain actually does */}
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold text-xs uppercase tracking-wider">
+                  <Briefcase className="w-4 h-4" />
+                  <span>Core Responsibilities</span>
+                </div>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                  What Engineers & Professionals in this Domain Actually Do
+                </h3>
+                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.introduction?.whatItDoes}
+                </p>
+                {Array.isArray(domain.whatProfessionalsDo) && domain.whatProfessionalsDo.length > 0 && (
+                  <div className="space-y-2 pt-2">
+                    {domain.whatProfessionalsDo.map((task, idx) => (
+                      <div key={idx} className="p-3 rounded-2xl bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200/70 dark:border-neutral-700/60 flex items-start gap-2.5 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">
+                        <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                        <span>{task}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Why it exists & Real World Usage */}
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold text-xs uppercase tracking-wider">
+                  <Building2 className="w-4 h-4" />
+                  <span>Enterprise Relevance</span>
+                </div>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                  Why this Domain Exists & Problems it Solves
+                </h3>
+                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.introduction?.whyItExists}
+                </p>
+              </div>
+            </div>
+
+            {/* Right Column: Strategic Pillars */}
+            <div className="lg:col-span-4 space-y-6">
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+                  Real-World Industries
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {(domain.introduction?.realWorldIndustries || ['IT Services', 'Product SaaS', 'Fintech', 'Healthcare', 'E-Commerce']).map((ind, idx) => (
+                    <span key={idx} className="px-3 py-1 rounded-xl text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700">
+                      {ind}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                  Importance in IT Industry
+                </h4>
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.introduction?.industryImportance}
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  Future Opportunities (2026–2035)
+                </h4>
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.introduction?.futureOpportunities}
+                </p>
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Continuous Sequence of all 12 Modules */}
-          {modules.map((m) => {
-            const modNum = m.moduleNumber;
-            const isCompleted = Boolean(completedMap[modNum]);
-            const bookmarkedTopics = bookmarksMap[modNum] || [];
-            const modQuiz = quizStates[modNum] || { selectedAnswers: {}, submitted: false, score: 0 };
-            const activeProjectTab = projectTabs[modNum] || 'beginner';
-            const expandedInterviewIdx = expandedInterviewMap[modNum] ?? null;
+        {/* TAB 2: SUBDOMAINS (6-8 SPECIALIZATIONS) */}
+        {activeTab === 'subdomains' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                  Subdomains & Specialized Technical Tracks
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                  Explore major engineering specializations, key tools, and problems solved in this field.
+                </p>
+              </div>
+              <span className="text-xs font-semibold text-neutral-400">
+                {domain.subdomains?.length || 6} Specializations
+              </span>
+            </div>
 
-            return (
-              <section
-                key={modNum}
-                id={`module-section-${modNum}`}
-                ref={(el) => (moduleSectionRefs.current[modNum] = el)}
-                data-module-number={modNum}
-                className="scroll-mt-24 border-b border-border/70 pb-12 mb-12 last:border-b-0 last:pb-0 last:mb-0 space-y-8"
-              >
-                {/* Module Header */}
-                <div className="space-y-3 pb-6 border-b border-border/80">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
-                        Module {modNum} of {modules.length || 12}
-                      </span>
-                      <span className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" />
-                        ~{m.estimatedMinutes || 25} mins
-                      </span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {(domain.subdomains || []).map((sub, idx) => (
+                <div key={sub.id || idx} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-300 flex items-center justify-center font-bold text-xs">
+                      0{idx + 1}
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleToggleCompleted(modNum)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
-                          isCompleted
-                            ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
-                            : 'bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground border-border'
-                        }`}
-                      >
-                        <CheckCircle2
-                          className={`w-3.5 h-3.5 ${
-                            isCompleted ? 'text-emerald-600 dark:text-emerald-400' : 'text-muted-foreground'
-                          }`}
-                        />
-                        <span>{isCompleted ? 'Completed' : 'Mark Completed'}</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleDownloadModulePdf(modNum)}
-                        title="Download module PDF"
-                        className="p-1.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary border border-border transition-colors cursor-pointer"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-                      {m.title}
-                    </h2>
-                    <p className="text-sm sm:text-base text-muted-foreground mt-1 font-medium">
-                      {m.subtitle}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Section Notes Content */}
-                <div className="space-y-7">
-                  {(m.sections || []).map((sec, secIdx) => {
-                    const isBookmarked = bookmarkedTopics.includes(sec.heading);
-                    const topicElementId = `topic-heading-${modNum}-${secIdx}`;
-
-                    return (
-                      <article
-                        key={secIdx}
-                        id={topicElementId}
-                        className="space-y-3 scroll-mt-28 p-3 -m-3 rounded-2xl transition-all"
-                      >
-                        <div className="flex items-center justify-between gap-3 group">
-                          <h3 className="text-lg sm:text-xl font-bold text-foreground tracking-tight">
-                            {sec.heading}
-                          </h3>
-
-                          <button
-                            type="button"
-                            onClick={() => handleToggleBookmark(modNum, sec.heading)}
-                            className="p-1 rounded-lg text-muted-foreground hover:text-purple-600 transition-colors cursor-pointer"
-                            title={isBookmarked ? 'Remove bookmark' : 'Bookmark topic'}
-                          >
-                            <Bookmark
-                              className={`w-4 h-4 ${
-                                isBookmarked ? 'fill-purple-600 text-purple-600' : ''
-                              }`}
-                            />
-                          </button>
-                        </div>
-
-                        <div className="text-sm sm:text-base text-foreground/90 leading-relaxed space-y-3 font-normal">
-                          {sec.content.split('\n\n').map((paragraph, pIdx) => {
-                            if (paragraph.startsWith('- ') || paragraph.startsWith('• ')) {
-                              const bulletItems = paragraph.split('\n').filter((b) => b.trim());
-                              return (
-                                <ul
-                                  key={pIdx}
-                                  className="space-y-1.5 pl-4 list-disc marker:text-purple-600"
-                                >
-                                  {bulletItems.map((item, bIdx) => (
-                                    <li key={bIdx} className="leading-relaxed">
-                                      {item.replace(/^[-•]\s*/, '')}
-                                    </li>
-                                  ))}
-                                </ul>
-                              );
-                            }
-                            return (
-                              <p key={pIdx} className="leading-relaxed">
-                                {paragraph}
-                              </p>
-                            );
-                          })}
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-
-                {/* CODE LAB SNIPPET (Module 5 or relevant) */}
-                {m.codeSnippet && (
-                  <div className="space-y-3 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Code2 className="w-5 h-5 text-purple-600" />
-                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                          Executable Implementation Lab
-                        </h3>
-                        <span className="text-xs font-mono uppercase bg-secondary px-2 py-0.5 rounded text-foreground font-semibold">
-                          {m.codeSnippet.language}
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => handleCopyCode(modNum, m.codeSnippet.code)}
-                        className="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-semibold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-colors cursor-pointer"
-                      >
-                        {copiedCodeMod === modNum ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5" />
-                        )}
-                        <span>{copiedCodeMod === modNum ? 'Copied' : 'Copy Code'}</span>
-                      </button>
-                    </div>
-
-                    <div className="rounded-2xl bg-neutral-950 text-neutral-100 p-4 sm:p-5 overflow-x-auto font-mono text-xs sm:text-sm border border-neutral-800 shadow-inner">
-                      <pre className="leading-relaxed whitespace-pre font-mono">
-                        <code>{m.codeSnippet.code}</code>
-                      </pre>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed p-3.5 rounded-xl bg-secondary/50 border border-border/80">
-                      <strong className="text-foreground font-semibold">Technical Walkthrough: </strong>
-                      {m.codeSnippet.explanation}
-                    </p>
-                  </div>
-                )}
-
-                {/* COMPARATIVE TECHNOLOGY EVALUATION TABLE (Module 4) */}
-                {m.toolsComparison && m.toolsComparison.length > 0 && (
-                  <div className="space-y-3 pt-4 border-t border-border">
-                    <h3 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
-                      <Layers className="w-5 h-5 text-indigo-600" />
-                      <span>Comparative Technology Evaluation Matrix</span>
+                    <h3 className="text-base font-bold text-neutral-900 dark:text-white">
+                      {sub.title}
                     </h3>
-
-                    <div className="overflow-x-auto rounded-2xl border border-border">
-                      <table className="w-full text-left text-xs sm:text-sm">
-                        <thead className="bg-secondary/70 border-b border-border text-foreground font-bold">
-                          <tr>
-                            <th className="p-3 sm:p-3.5">Evaluation Criteria</th>
-                            <th className="p-3 sm:p-3.5">Standard Tool (A)</th>
-                            <th className="p-3 sm:p-3.5">Alternative Tool (B)</th>
-                            <th className="p-3 sm:p-3.5">CampusCorp Placement Guidance</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border">
-                          {m.toolsComparison.map((row, idx) => (
-                            <tr key={idx} className="hover:bg-secondary/30 transition-colors">
-                              <td className="p-3 sm:p-3.5 font-bold text-foreground">{row.criteria}</td>
-                              <td className="p-3 sm:p-3.5 font-mono text-xs text-foreground/90">{row.toolA}</td>
-                              <td className="p-3 sm:p-3.5 font-mono text-xs text-muted-foreground">{row.toolB}</td>
-                              <td className="p-3 sm:p-3.5 text-foreground leading-relaxed">{row.recommendation}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                    <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      {sub.description}
+                    </p>
                   </div>
-                )}
 
-                {/* PROJECTS & PRACTICAL LEARNING (Module 8) */}
-                {m.projects && (
-                  <div className="space-y-4 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <FolderGit2 className="w-5 h-5 text-emerald-600" />
-                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                          Production Capstone Projects
-                        </h3>
-                      </div>
-
-                      {/* Level Tabs */}
-                      <div className="flex items-center gap-1 bg-secondary p-1 rounded-xl text-xs font-bold">
-                        {['beginner', 'intermediate', 'advanced'].map((lvl) => (
-                          <button
-                            key={lvl}
-                            type="button"
-                            onClick={() =>
-                              setProjectTabs((prev) => ({ ...prev, [modNum]: lvl }))
-                            }
-                            className={`px-3 py-1 rounded-lg capitalize cursor-pointer transition-all ${
-                              activeProjectTab === lvl
-                                ? 'bg-foreground text-background shadow-xs'
-                                : 'text-muted-foreground hover:text-foreground'
-                            }`}
-                          >
-                            {lvl} (3)
-                          </button>
+                  <div className="space-y-3 pt-3 border-t border-neutral-100 dark:border-neutral-800">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1.5">
+                        Key Technologies
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(sub.keyTechnologies || []).map((t, tidx) => (
+                          <span key={tidx} className="px-2 py-0.5 rounded-lg text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+                            {t}
+                          </span>
                         ))}
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3.5">
-                      {(m.projects[activeProjectTab] || []).map((proj, pIdx) => (
-                        <div
-                          key={pIdx}
-                          className="p-4 sm:p-5 rounded-2xl bg-secondary/30 border border-border/80 space-y-2.5 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors"
-                        >
-                          <div className="flex items-center justify-between">
-                            <h4 className="text-base font-bold text-foreground">{proj.title}</h4>
-                            <span className="px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-purple-500/10 text-purple-700 dark:text-purple-300">
-                              {activeProjectTab}
-                            </span>
-                          </div>
-                          <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed">
-                            <strong className="text-foreground">Objective: </strong>
-                            {proj.objectives}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                            <span className="text-xs font-semibold text-muted-foreground mr-1">
-                              Stack:
-                            </span>
-                            {(proj.technologies || []).map((t) => (
-                              <span
-                                key={t}
-                                className="px-2 py-0.5 rounded text-xs font-medium bg-card border border-border text-foreground"
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                          {proj.expectedOutput && (
-                            <div className="p-3 rounded-xl bg-card border border-border text-xs text-muted-foreground leading-relaxed mt-2">
-                              <strong className="text-foreground">Expected Output: </strong>
-                              {proj.expectedOutput}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* TECHNICAL INTERVIEW PREPARATION (Module 10) */}
-                {m.interviews && m.interviews.length > 0 && (
-                  <div className="space-y-4 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <HelpCircle className="w-5 h-5 text-purple-600" />
-                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                          Campus Recruitment Interview Questions
-                        </h3>
-                      </div>
-                      <span className="text-xs font-semibold text-muted-foreground">
-                        {m.interviews.length} Questions
-                      </span>
-                    </div>
-
-                    <div className="space-y-2.5">
-                      {m.interviews.map((qa, qIdx) => {
-                        const isExpanded = expandedInterviewIdx === qIdx;
-
-                        return (
-                          <div
-                            key={qIdx}
-                            className="rounded-2xl border border-border bg-secondary/30 overflow-hidden transition-colors"
-                          >
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setExpandedInterviewMap((prev) => ({
-                                  ...prev,
-                                  [modNum]: isExpanded ? null : qIdx,
-                                }))
-                              }
-                              className="w-full text-left p-4 text-sm sm:text-base font-semibold text-foreground flex items-center justify-between gap-3 cursor-pointer hover:bg-secondary/60 transition-colors"
-                            >
-                              <span className="flex items-center gap-2.5">
-                                <span className="px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-foreground text-background shrink-0">
-                                  {qa.level}
-                                </span>
-                                <span>{qa.question}</span>
-                              </span>
-                              <ChevronDown
-                                className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200 ${
-                                  isExpanded ? 'rotate-180 text-purple-600' : ''
-                                }`}
-                              />
-                            </button>
-
-                            {isExpanded && (
-                              <div className="px-4 pb-4 pt-1 text-sm text-foreground/90 border-t border-border/60 bg-card leading-relaxed space-y-2">
-                                <strong className="text-foreground font-bold block">
-                                  Recommended Model Answer:
-                                </strong>
-                                <p className="whitespace-pre-line">{qa.answer}</p>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* INTERACTIVE SELF-ASSESSMENT QUIZ (Module 11) */}
-                {m.assessments && m.assessments.length > 0 && (
-                  <div className="space-y-4 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Award className="w-5 h-5 text-amber-500" />
-                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                          Module Knowledge Self-Assessment
-                        </h3>
-                      </div>
-                      {modQuiz.submitted && (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
-                          Score: {modQuiz.score}%
+                    {Array.isArray(sub.problemsSolved) && (
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
+                          Problems Solved
                         </span>
-                      )}
-                    </div>
-
-                    <div className="space-y-4">
-                      {m.assessments.map((a, qIdx) => {
-                        const selectedOpt = modQuiz.selectedAnswers[qIdx];
-                        const isCorrect = selectedOpt === a.correctIndex;
-
-                        return (
-                          <div
-                            key={qIdx}
-                            className="p-4 sm:p-5 rounded-2xl bg-secondary/30 border border-border/80 space-y-3"
-                          >
-                            <p className="text-sm sm:text-base font-bold text-foreground">
-                              {qIdx + 1}. {a.question}
-                            </p>
-
-                            <div className="space-y-2">
-                              {a.options.map((opt, optIdx) => {
-                                const isThisSelected = selectedOpt === optIdx;
-                                let btnClass = 'bg-card border-border hover:bg-secondary text-foreground';
-
-                                if (modQuiz.submitted) {
-                                  if (optIdx === a.correctIndex) {
-                                    btnClass =
-                                      'bg-emerald-500/10 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold';
-                                  } else if (isThisSelected && !isCorrect) {
-                                    btnClass =
-                                      'bg-rose-500/10 border-rose-500 text-rose-800 dark:text-rose-200';
-                                  }
-                                } else if (isThisSelected) {
-                                  btnClass =
-                                    'bg-foreground text-background border-foreground font-bold shadow-xs';
-                                }
-
-                                return (
-                                  <button
-                                    key={optIdx}
-                                    type="button"
-                                    disabled={modQuiz.submitted}
-                                    onClick={() => handleSelectQuizOption(modNum, qIdx, optIdx)}
-                                    className={`w-full text-left p-3 rounded-xl border text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-between gap-3 ${btnClass}`}
-                                  >
-                                    <span>
-                                      <strong className="mr-2">
-                                        {String.fromCharCode(65 + optIdx)})
-                                      </strong>
-                                      {opt}
-                                    </span>
-                                    {modQuiz.submitted && optIdx === a.correctIndex && (
-                                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
-
-                            {modQuiz.submitted && (
-                              <p className="text-xs text-muted-foreground pt-1 leading-relaxed">
-                                <strong className="text-foreground">Rationale: </strong>
-                                {a.explanation}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
-
-                      <div className="flex items-center justify-between pt-2">
-                        {!modQuiz.submitted ? (
-                          <button
-                            type="button"
-                            onClick={() => handleSubmitQuiz(modNum)}
-                            disabled={
-                              Object.keys(modQuiz.selectedAnswers).length < m.assessments.length
-                            }
-                            className="px-5 py-2.5 rounded-xl text-sm font-bold bg-foreground text-background hover:opacity-90 disabled:opacity-40 transition-opacity cursor-pointer shadow-xs"
-                          >
-                            Submit Assessment & Verify
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => handleRetakeQuiz(modNum)}
-                            className="px-4 py-2 rounded-xl text-xs font-bold bg-secondary hover:bg-neutral-200 text-foreground cursor-pointer"
-                          >
-                            Retake Assessment
-                          </button>
-                        )}
+                        <ul className="text-xs text-neutral-600 dark:text-neutral-400 space-y-1">
+                          {sub.problemsSolved.map((p, pidx) => (
+                            <li key={pidx} className="flex items-start gap-1.5">
+                              <span className="text-purple-500 font-bold">•</span>
+                              <span>{p}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* LEARNING ROADMAP STAGES (Module 12) */}
-                {m.roadmapStages && m.roadmapStages.length > 0 && (
-                  <div className="space-y-4 pt-4 border-t border-border">
-                    <h3 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
-                      <Compass className="w-5 h-5 text-purple-600" />
-                      <span>Mastery Milestones & Study Roadmap</span>
-                    </h3>
-
-                    <div className="space-y-3">
-                      {m.roadmapStages.map((stage, sIdx) => (
-                        <div
-                          key={sIdx}
-                          className="p-4 sm:p-5 rounded-2xl bg-secondary/30 border border-border space-y-2"
-                        >
-                          <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 block">
-                            {stage.stage}
-                          </span>
-                          <ul className="space-y-1.5 text-xs sm:text-sm text-foreground/90 pl-4 list-disc marker:text-purple-600">
-                            {stage.milestones.map((ms, mIdx) => (
-                              <li key={mIdx} className="leading-relaxed">
-                                {ms}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* CURATED OFFICIAL RESOURCES (Module 12) */}
-                {m.curatedResources && m.curatedResources.length > 0 && (
-                  <div className="space-y-3 pt-4 border-t border-border">
-                    <h3 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
-                      <ExternalLink className="w-5 h-5 text-purple-600" />
-                      <span>Recognized Standards & Official Documentation</span>
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {m.curatedResources.map((res, rIdx) => (
-                        <a
-                          key={rIdx}
-                          href={res.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-3.5 rounded-xl bg-secondary/40 hover:bg-secondary border border-border flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold text-foreground transition-colors group"
-                        >
-                          <div className="space-y-0.5">
-                            <div className="group-hover:text-purple-600 transition-colors">
-                              {res.title}
-                            </div>
-                            <span className="text-xs text-muted-foreground font-normal">
-                              {res.type}
-                            </span>
-                          </div>
-                          <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-purple-600 shrink-0" />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Navigation Controls at Bottom of Each Module */}
-                <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    {modNum > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => handleScrollToModule(modNum - 1)}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground transition-colors cursor-pointer"
-                      >
-                        <ArrowLeft className="w-4 h-4" />
-                        <span>Previous: Module {modNum - 1}</span>
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleCompleted(modNum)}
-                      className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer shadow-xs ${
-                        isCompleted
-                          ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
-                          : 'bg-foreground text-background border-foreground'
-                      }`}
-                    >
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>{isCompleted ? 'Module Completed ✓' : 'Mark Completed'}</span>
-                    </button>
-
-                    {modNum < modules.length ? (
-                      <button
-                        type="button"
-                        onClick={() => handleScrollToModule(modNum + 1)}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-purple-600 hover:bg-purple-700 text-white transition-colors cursor-pointer shadow-xs"
-                      >
-                        <span>Next: Module {modNum + 1}</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          rightPanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-secondary hover:bg-neutral-200 text-foreground cursor-pointer"
-                      >
-                        <ChevronUp className="w-4 h-4" />
-                        <span>Back to Top</span>
-                      </button>
                     )}
                   </div>
                 </div>
-              </section>
-            );
-          })}
-        </main>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: CAREER ROLES & LADDERS */}
+        {activeTab === 'roles' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                  Industry Career Roles & Job Opportunities
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                  Verified roles mapped from entry-level graduates to principal architects.
+                </p>
+              </div>
+              <span className="text-xs font-semibold text-neutral-400">
+                {domain.careerRoles?.length || 0} Industry Roles
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {(domain.careerRoles || []).map((role) => (
+                <div key={role.id} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                        {role.level || 'Professional Role'}
+                      </span>
+                      <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                        {role.title}
+                      </h3>
+                    </div>
+                    {role.stats?.averageSalary && (
+                      <span className="px-3 py-1 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                        {role.stats.averageSalary}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    {role.shortDescription}
+                  </p>
+
+                  {/* Skills & Tools */}
+                  <div className="space-y-3 pt-3 border-t border-neutral-100 dark:border-neutral-800">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block mb-1.5">
+                        Technical Competencies
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(role.technicalSkills || []).slice(0, 5).map((s, sidx) => (
+                          <span key={sidx} className="px-2.5 py-1 rounded-lg text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-2">
+                      <Link
+                        to={`/domains/${domain.id}/${role.id}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline"
+                      >
+                        <span>View Role Roadmap & Deliverables</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: REQUIRED SKILLS */}
+        {activeTab === 'skills' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Core Competencies & Skills Required
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                Categorized breakdown of technical, algorithmic, toolchain, and communication skills.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Object.entries(domain.skills || {}).map(([key, items], idx) => {
+                const titleMap = {
+                  technicalSkills: 'Technical Engineering Skills',
+                  programmingSkills: 'Programming & Syntax Fluency',
+                  coreConcepts: 'Foundational CS Concepts',
+                  toolsAndPlatforms: 'Tools & Platforms',
+                  problemSolving: 'Problem-Solving & Debugging',
+                  communicationCollaboration: 'Communication & Agile Workflow',
+                  industrySpecificKnowledge: 'Industry Standards & Compliance'
+                };
+                return (
+                  <div key={key} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-300 flex items-center justify-center font-bold text-xs">
+                        0{idx + 1}
+                      </div>
+                      <h3 className="text-sm font-bold text-neutral-900 dark:text-white">
+                        {titleMap[key] || key}
+                      </h3>
+                    </div>
+                    <ul className="space-y-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      {(items || []).map((skill, sidx) => (
+                        <li key={sidx} className="flex items-start gap-2">
+                          <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <span>{skill}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 5: TECH STACK */}
+        {activeTab === 'tech-stack' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Complete Technology Stack & Enterprise Toolchains
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                11-Tier functional architecture explaining tools and why enterprise engineers use them.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {Object.entries(domain.techStack || {}).map(([tierKey, items]) => {
+                const labelMap = {
+                  programmingLanguages: 'Programming Languages',
+                  frameworks: 'Application Frameworks',
+                  libraries: 'Essential Libraries',
+                  developmentTools: 'Development & Build Tools',
+                  platforms: 'Runtimes & Server Platforms',
+                  databases: 'Databases & In-Memory Stores',
+                  cloudServices: 'Cloud Services & Infrastructure',
+                  industrySoftware: 'Enterprise & Container Software',
+                  testingTools: 'Testing & Quality Verification',
+                  monitoringTools: 'Telemetry & Observability',
+                  deploymentTools: 'CI/CD & Deployment Automation'
+                };
+                return (
+                  <div key={tierKey} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-4">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                      {labelMap[tierKey] || tierKey}
+                    </h3>
+                    <div className="space-y-3">
+                      {(items || []).map((techItem, tidx) => (
+                        <div key={tidx} className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 space-y-1">
+                          <span className="text-sm font-bold text-neutral-900 dark:text-white block">
+                            {techItem.name}
+                          </span>
+                          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                            {techItem.reason}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: LEARNING ROADMAP (6 LEVELS) */}
+        {activeTab === 'roadmap' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Beginner-to-Advanced 6-Level Learning Roadmap
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                Ordered progression from academic foundations to enterprise technical leadership.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {(domain.learningRoadmap || []).map((lvl) => (
+                <div key={lvl.level} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-100 dark:border-neutral-800">
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-sm">
+                        L{lvl.level}
+                      </span>
+                      <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                        {lvl.title}
+                      </h3>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+                      Duration: {lvl.duration}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <span className="text-xs font-bold uppercase tracking-wider text-neutral-400 block">
+                        Core Syllabus Topics
+                      </span>
+                      <ul className="space-y-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                        {(lvl.topics || []).map((topic, tidx) => (
+                          <li key={tidx} className="flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 shrink-0" />
+                            <span>{topic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="space-y-3">
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block">
+                        Hands-On Milestones & Outcomes
+                      </span>
+                      <ul className="space-y-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                        {(lvl.handsOnMilestones || []).map((ms, midx) => (
+                          <li key={midx} className="flex items-start gap-2">
+                            <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                            <span>{ms}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 7: 12 STRUCTURED MODULES */}
+        {activeTab === 'modules' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Module Directory Navigation */}
+            <div className="lg:col-span-4 space-y-3">
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-4 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-2">
+                <div className="flex items-center justify-between px-2 py-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">12 Learning Modules</span>
+                  <span className="text-xs font-bold text-purple-600">{completedModules.size} of 12 Completed</span>
+                </div>
+
+                <div className="space-y-1.5 max-h-[600px] overflow-y-auto pr-1">
+                  {(domain.modules || []).map((m, idx) => {
+                    const isSelected = activeModuleIndex === idx;
+                    const isDone = completedModules.has(m.moduleNumber);
+                    return (
+                      <button
+                        key={m.moduleNumber}
+                        type="button"
+                        onClick={() => setActiveModuleIndex(idx)}
+                        className={`w-full text-left p-3 rounded-2xl transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                          isSelected
+                            ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-xs'
+                            : 'hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-300'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${
+                            isSelected
+                              ? 'bg-white/20 text-white dark:bg-black/20 dark:text-neutral-900'
+                              : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300'
+                          }`}>
+                            {m.moduleNumber}
+                          </span>
+                          <span className="text-xs font-semibold truncate">
+                            {m.title}
+                          </span>
+                        </div>
+
+                        {isDone && (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Module Interactive Workspace */}
+            <div className="lg:col-span-8 space-y-6">
+              {(() => {
+                const activeMod = domain.modules?.[activeModuleIndex] || domain.modules?.[0];
+                if (!activeMod) return null;
+                const isDone = completedModules.has(activeMod.moduleNumber);
+
+                return (
+                  <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-8 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6">
+                    {/* Module Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-100 dark:border-neutral-800">
+                      <div className="space-y-1">
+                        <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                          Module {activeMod.moduleNumber} of 12
+                        </span>
+                        <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white">
+                          {activeMod.title}
+                        </h2>
+                        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                          {activeMod.subtitle} • Est. Time: {activeMod.estimatedMinutes} Mins
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleToggleModuleComplete(activeMod.moduleNumber)}
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0 ${
+                          isDone
+                            ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                            : 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90'
+                        }`}
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>{isDone ? 'Completed' : 'Mark Complete'}</span>
+                      </button>
+                    </div>
+
+                    {/* Learning Objectives */}
+                    <div className="bg-neutral-50 dark:bg-neutral-800/50 rounded-2xl p-5 border border-neutral-200/70 dark:border-neutral-700/60 space-y-2.5">
+                      <span className="text-xs font-bold uppercase tracking-wider text-neutral-400 block">
+                        Module Learning Objectives
+                      </span>
+                      <ul className="space-y-1.5 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                        {(activeMod.learningObjectives || []).map((obj, oidx) => (
+                          <li key={oidx} className="flex items-start gap-2">
+                            <Check className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                            <span>{obj}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Core Conceptual Theory */}
+                    <div className="space-y-4">
+                      {(activeMod.coreConcepts || []).map((cc, cidx) => (
+                        <div key={cidx} className="space-y-1.5">
+                          <h4 className="text-sm font-bold text-neutral-900 dark:text-white">
+                            {cc.heading}
+                          </h4>
+                          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                            {cc.content}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Hands-On Code Lab */}
+                    {activeMod.codeLab && (
+                      <div className="space-y-2 pt-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-xs font-bold text-neutral-800 dark:text-neutral-200">
+                            <Code2 className="w-4 h-4 text-purple-600" />
+                            <span>{activeMod.codeLab.codeTitle}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyCode(activeMod.codeLab.codeSnippet, `mod-${activeMod.moduleNumber}`)}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors cursor-pointer"
+                          >
+                            {copiedCodeId === `mod-${activeMod.moduleNumber}` ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                <span>Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                <span>Copy Code</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                        <pre className="p-4 rounded-2xl bg-neutral-900 text-neutral-100 font-mono text-xs overflow-x-auto leading-relaxed border border-neutral-800">
+                          <code>{activeMod.codeLab.codeSnippet}</code>
+                        </pre>
+                        {activeMod.codeLab.explanation && (
+                          <p className="text-xs text-neutral-500 dark:text-neutral-400 italic">
+                            {activeMod.codeLab.explanation}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Practical Exercises */}
+                    {activeMod.practicalExercises && activeMod.practicalExercises.length > 0 && (
+                      <div className="space-y-2 pt-2 border-t border-neutral-100 dark:border-neutral-800">
+                        <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 block">
+                          Hands-On Practical Exercises
+                        </span>
+                        <ul className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-400">
+                          {activeMod.practicalExercises.map((ex, eidx) => (
+                            <li key={eidx} className="flex items-start gap-2">
+                              <span className="font-bold text-neutral-400">{eidx + 1}.</span>
+                              <span>{ex}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Assessment Quiz */}
+                    {activeMod.assessments && activeMod.assessments.length > 0 && (
+                      <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            Module Knowledge Check ({activeMod.assessments.length} Questions)
+                          </span>
+                        </div>
+
+                        <div className="space-y-4">
+                          {activeMod.assessments.map((q, qidx) => {
+                            const selected = quizAnswers[q.id];
+                            const submitted = quizSubmitted[activeMod.moduleNumber];
+                            const isCorrect = selected === q.correctAnswer;
+
+                            return (
+                              <div key={q.id} className="p-4 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/80 dark:border-neutral-700/80 space-y-3">
+                                <span className="text-xs font-bold text-neutral-900 dark:text-white block">
+                                  {qidx + 1}. {q.question}
+                                </span>
+
+                                <div className="space-y-1.5">
+                                  {q.options.map((opt, oidx) => {
+                                    let btnStyle = 'bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-neutral-200 dark:border-neutral-700';
+                                    if (selected === oidx) {
+                                      btnStyle = 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border-purple-400';
+                                    }
+                                    if (submitted) {
+                                      if (oidx === q.correctAnswer) {
+                                        btnStyle = 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-500 font-semibold';
+                                      } else if (selected === oidx) {
+                                        btnStyle = 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-rose-500';
+                                      }
+                                    }
+
+                                    return (
+                                      <button
+                                        key={oidx}
+                                        type="button"
+                                        disabled={submitted}
+                                        onClick={() => handleSelectQuizAnswer(q.id, oidx)}
+                                        className={`w-full text-left px-3.5 py-2 rounded-xl text-xs border transition-all cursor-pointer ${btnStyle}`}
+                                      >
+                                        <span>{opt}</span>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+
+                                {submitted && (
+                                  <p className="text-xs text-neutral-500 dark:text-neutral-400 italic pt-1">
+                                    {q.explanation}
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {!quizSubmitted[activeMod.moduleNumber] ? (
+                          <button
+                            type="button"
+                            onClick={() => handleSubmitQuiz(activeMod.moduleNumber)}
+                            className="px-5 py-2.5 rounded-xl text-xs font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-all cursor-pointer shadow-xs"
+                          >
+                            Submit Knowledge Check Answers
+                          </button>
+                        ) : (
+                          <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 text-xs font-semibold flex items-center gap-2 border border-emerald-200 dark:border-emerald-800">
+                            <CheckCircle2 className="w-4 h-4 shrink-0" />
+                            <span>Assessment evaluated and module completed!</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 8: 9 PRACTICAL PROJECTS */}
+        {activeTab === 'projects' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                  9 Practical Industry Capstones
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                  3 Beginner, 3 Intermediate, and 3 Advanced production-grade portfolio projects.
+                </p>
+              </div>
+
+              {/* Project Level Filter Buttons */}
+              <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+                {['All', 'Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
+                  <button
+                    key={lvl}
+                    type="button"
+                    onClick={() => setActiveProjectFilter(lvl)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                      activeProjectFilter === lvl
+                        ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-2xs'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {lvl}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProjects.map((proj) => {
+                const levelColor =
+                  proj.level === 'Beginner'
+                    ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border-blue-200 dark:border-blue-800'
+                    : proj.level === 'Intermediate'
+                    ? 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border-purple-200 dark:border-purple-800'
+                    : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
+
+                return (
+                  <div key={proj.id} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs flex flex-col justify-between space-y-4 hover:border-purple-500/40 transition-all">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${levelColor}`}>
+                          {proj.level}
+                        </span>
+                      </div>
+
+                      <h3 className="text-base font-bold text-neutral-900 dark:text-white">
+                        {proj.title}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                        {proj.problemStatement}
+                      </p>
+                    </div>
+
+                    <div className="space-y-3 pt-3 border-t border-neutral-100 dark:border-neutral-800 text-xs">
+                      <div>
+                        <span className="font-bold text-neutral-400 block mb-1">Architecture</span>
+                        <p className="text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                          {proj.architectureOverview}
+                        </p>
+                      </div>
+
+                      <div>
+                        <span className="font-bold text-neutral-400 block mb-1">Tech Stack</span>
+                        <div className="flex flex-wrap gap-1">
+                          {(proj.techStack || []).map((t, tidx) => (
+                            <span key={tidx} className="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-[11px] font-medium">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {Array.isArray(proj.resumeDescription) && proj.resumeDescription.length > 0 && (
+                        <div className="pt-2">
+                          <button
+                            type="button"
+                            onClick={() => handleCopyCode(proj.resumeDescription.join('\n'), proj.id)}
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline cursor-pointer"
+                          >
+                            {copiedCodeId === proj.id ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                <span>Resume Bullets Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                <span>Copy Resume Bullets</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 9: INTERVIEW PREP (90 Q&AS) */}
+        {activeTab === 'interviews' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                  Technical Interview Preparation (90 Questions & Answers)
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                  Comprehensive answers across 30 Beginner, 30 Intermediate, and 30 Advanced questions.
+                </p>
+              </div>
+
+              {/* Filter Tabs */}
+              <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+                {['All', 'Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
+                  <button
+                    key={lvl}
+                    type="button"
+                    onClick={() => setActiveInterviewFilter(lvl)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                      activeInterviewFilter === lvl
+                        ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-2xs'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {lvl}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Search Bar within Interviews */}
+            <div className="relative max-w-md">
+              <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search interview questions by keyword or topic..."
+                value={interviewSearch}
+                onChange={(e) => setInterviewSearch(e.target.value)}
+                className="w-full h-10 pl-10 pr-4 rounded-xl text-xs sm:text-sm bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-purple-600"
+              />
+            </div>
+
+            {/* Questions Accordion List */}
+            <div className="space-y-3">
+              {filteredInterviews.slice(0, 45).map((item, idx) => {
+                const isExpanded = expandedInterviewIndex === idx;
+                return (
+                  <div key={item.id} className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedInterviewIndex(isExpanded ? null : idx)}
+                      className="w-full text-left p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                          {item.questionNumber}
+                        </span>
+                        <div className="space-y-1">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 block">
+                            {item.level} • {item.category}
+                          </span>
+                          <h3 className="text-sm sm:text-base font-bold text-neutral-900 dark:text-white">
+                            {item.question}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {isExpanded ? (
+                        <ChevronUp className="w-4 h-4 text-neutral-400 shrink-0 mt-1" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-neutral-400 shrink-0 mt-1" />
+                      )}
+                    </button>
+
+                    {isExpanded && (
+                      <div className="p-4 sm:p-6 pt-0 border-t border-neutral-100 dark:border-neutral-800 space-y-4">
+                        <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed whitespace-pre-line pt-4">
+                          {item.answer}
+                        </p>
+
+                        {Array.isArray(item.keyTakeaways) && item.keyTakeaways.length > 0 && (
+                          <div className="p-3.5 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/50 space-y-1.5">
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300 block">
+                              What Interviewers Evaluate
+                            </span>
+                            <ul className="text-xs text-purple-900 dark:text-purple-200 space-y-1">
+                              {item.keyTakeaways.map((kt, ktidx) => (
+                                <li key={ktidx} className="flex items-start gap-1.5">
+                                  <span className="font-bold">•</span>
+                                  <span>{kt}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {filteredInterviews.length > 45 && (
+                <div className="text-center py-4">
+                  <p className="text-xs text-neutral-400">
+                    Showing top 45 of {filteredInterviews.length} questions. Use search bar to find specific topics.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 10: INDUSTRY USE CASES (8 SECTORS) */}
+        {activeTab === 'industry-apps' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Enterprise Industry Applications & Real-World Use Cases
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                Detailed architectural deployments across 8 major global enterprise sectors.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {(domain.industryApplications || []).map((app, idx) => (
+                <div key={idx} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-4">
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                      Sector 0{idx + 1}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
+                      {app.sector}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    {app.overview}
+                  </p>
+
+                  <div className="space-y-2 pt-2 border-t border-neutral-100 dark:border-neutral-800">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+                      Production Case Studies
+                    </span>
+                    <ul className="space-y-1.5 text-xs text-neutral-700 dark:text-neutral-300">
+                      {(app.realWorldUseCases || []).map((cs, cidx) => (
+                        <li key={cidx} className="flex items-start gap-2">
+                          <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                          <span>{cs}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {(app.examples || []).map((ex, eidx) => (
+                      <span key={eidx} className="px-2.5 py-0.5 rounded-lg text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+                        {ex}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 11: CERTIFICATIONS */}
+        {activeTab === 'certifications' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Recognized Certifications & Professional Development
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                Official credentials from global vendor boards and industry standards bodies.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {(domain.certifications || []).map((cert, idx) => (
+                <div key={idx} className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                      {cert.tier}
+                    </span>
+                    <h3 className="text-base font-bold text-neutral-900 dark:text-white">
+                      {cert.title}
+                    </h3>
+                    <span className="text-xs font-semibold text-neutral-500 block">
+                      Issuing Body: {cert.issuingBody}
+                    </span>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      {cert.examFocus}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-neutral-100 dark:border-neutral-800 space-y-2">
+                    <span className="text-[11px] font-bold text-neutral-400 block">
+                      Recommended Prep: {cert.preparationDuration}
+                    </span>
+                    <a
+                      href={cert.officialLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline"
+                    >
+                      <span>Official Exam Portal</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 12: INDUSTRY TRENDS & AI */}
+        {activeTab === 'trends' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Industry Trends, Enterprise Adoption & AI Impact
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                Strategic perspective on how AI and emerging paradigms are reshaping this discipline.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                  AI & Agentic Disruption
+                </span>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                  How AI & Autonomous Workflows are Transforming {domain.name}
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.industryTrends?.aiTransformation}
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                  Enterprise Adoption Patterns
+                </span>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                  Global 2000 Modernization Trends
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.industryTrends?.enterpriseAdoption}
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  Emerging Frameworks & Tools
+                </span>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                  Next-Generation Technologies
+                </h3>
+                <ul className="space-y-1.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
+                  {(domain.industryTrends?.emergingTools || []).map((tool, tidx) => (
+                    <li key={tidx} className="flex items-start gap-2">
+                      <span className="text-purple-500 font-bold">•</span>
+                      <span>{tool}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-7 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                  Strategic Horizon
+                </span>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
+                  Next 5 to 10 Years Industry Outlook
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {domain.industryTrends?.fiveToTenYearOutlook}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 13: SALARY & DEMAND INTELLIGENCE */}
+        {activeTab === 'salary' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
+                Salary Bands & Global Job Demand Intelligence
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                Verified compensation benchmarks across India and global remote markets.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {Object.entries(domain.salaryIntelligence?.salaryBands || {}).map(([bandKey, band]) => {
+                const labelMap = {
+                  fresher: 'Entry-Level / Graduate (0–1y)',
+                  midLevel: 'Mid-Level Engineer (2–5y)',
+                  senior: 'Senior Engineer (5–8y)',
+                  leadArchitect: 'Lead / Principal (8y+)'
+                };
+                return (
+                  <div key={bandKey} className="bg-white dark:bg-neutral-900 rounded-3xl p-5 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-2 text-center">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+                      {labelMap[bandKey] || bandKey}
+                    </span>
+                    <span className="text-xl sm:text-2xl font-black text-purple-600 dark:text-purple-400 block">
+                      ₹{band.minLpa} – ₹{band.maxLpa} LPA
+                    </span>
+                    <span className="text-[11px] text-neutral-500 block">Annual Fixed + CTC</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                  Global Market Context (USD Equivalent)
+                </h3>
+                <div className="space-y-2 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">
+                  <div className="flex justify-between p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800">
+                    <span className="font-semibold">US Engineering Hubs:</span>
+                    <span className="font-mono font-bold text-emerald-600">{domain.salaryIntelligence?.globalSalaryContext?.usMarket}</span>
+                  </div>
+                  <div className="flex justify-between p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800">
+                    <span className="font-semibold">European Tech Hubs:</span>
+                    <span className="font-mono font-bold text-emerald-600">{domain.salaryIntelligence?.globalSalaryContext?.europeanMarket}</span>
+                  </div>
+                  <div className="flex justify-between p-2.5 rounded-xl bg-neutral-50 dark:bg-neutral-800">
+                    <span className="font-semibold">Global Remote Roles:</span>
+                    <span className="font-mono font-bold text-emerald-600">{domain.salaryIntelligence?.globalSalaryContext?.remoteGlobalTier}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-900 rounded-3xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  Top In-Demand Skills Commanding Premium
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {(domain.salaryIntelligence?.highDemandSkills || []).map((sk, skidx) => (
+                    <span key={skidx} className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                      {sk}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 14: ACADEMIC NOTES & PRINTABLE PDF */}
+        {activeTab === 'pdf' && (
+          <div className="bg-white dark:bg-neutral-900 rounded-3xl p-8 border border-neutral-200 dark:border-neutral-800 shadow-xs text-center space-y-6 max-w-2xl mx-auto">
+            <div className="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-300 flex items-center justify-center mx-auto shadow-xs">
+              <Printer className="w-8 h-8" />
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">
+                Download Academic Curriculum & Notes
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Export the complete university-grade curriculum covering all 12 modules, 9 practical projects, and 90 interview questions for {domain.name}.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-neutral-50 dark:bg-neutral-800 text-left text-xs text-neutral-600 dark:text-neutral-400 space-y-2">
+              <div className="flex justify-between">
+                <span>Document Format:</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">Print-Optimized Academic PDF</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Content Scope:</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">Full 14-Section Consolidated Textbook</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Modules & Labs:</span>
+                <span className="font-semibold text-neutral-900 dark:text-white">12 Modules + 9 Capstones + 90 Q&As</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleExportPdf}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-all shadow-md cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>Launch Print / Save as PDF Dialog</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

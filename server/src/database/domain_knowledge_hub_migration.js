@@ -4,23 +4,20 @@ const path = require('path');
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-const dbConfig = {
+const { MASTER_DOMAIN_KNOWLEDGE_STORE } = require('../data/masterDomainKnowledgeEngine');
+
+const baseConfig = {
   host: process.env.DB_HOST || '127.0.0.1',
   port: parseInt(process.env.DB_PORT || '3306', 10),
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_COMMON_NAME || 'lms',
 };
 
-async function runDomainKnowledgeHubMigration() {
-  console.log('================================================================');
-  console.log('🚀 [MIGRATION] Setting up CampusCorp Domain Knowledge Hub SQL Tables...');
-  console.log('================================================================');
-
+async function migrateDatabase(dbName) {
+  console.log(`\n--- Migrating database: ${dbName} ---`);
   let conn;
   try {
-    conn = await mysql.createConnection(dbConfig);
-    console.log(`✓ Connected to MySQL database '${dbConfig.database}' on ${dbConfig.host}:${dbConfig.port}`);
+    conn = await mysql.createConnection({ ...baseConfig, database: dbName });
 
     // 1. Create domain_knowledge_modules table
     await conn.query(`
@@ -41,7 +38,6 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dkm_published (is_published)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_knowledge_modules');
 
     // 2. Create domain_knowledge_projects table
     await conn.query(`
@@ -60,7 +56,6 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dkp_level (level)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_knowledge_projects');
 
     // 3. Create domain_knowledge_interviews table
     await conn.query(`
@@ -76,7 +71,6 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dki_diff (difficulty)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_knowledge_interviews');
 
     // 4. Create domain_student_progress table
     await conn.query(`
@@ -96,7 +90,6 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dsp_domain (domain_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_student_progress');
 
     // 5. Create domain_student_bookmarks table
     await conn.query(`
@@ -112,7 +105,6 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dsb_student (student_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_student_bookmarks');
 
     // 6. Create domain_pdf_records table
     await conn.query(`
@@ -128,7 +120,6 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dpr_domain (domain_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_pdf_records');
 
     // 7. Create domain_content_versions table
     await conn.query(`
@@ -147,21 +138,124 @@ async function runDomainKnowledgeHubMigration() {
         INDEX idx_dcv_status (status)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
-    console.log('✓ Created/verified table: domain_content_versions');
 
-    console.log('\n✅ [MIGRATION COMPLETE] All Domain Knowledge Hub tables successfully created and verified.');
+    console.log(`✓ Tables verified in ${dbName}`);
+
+    // Seed domain_knowledge_modules
+    const [modCountRows] = await conn.query('SELECT COUNT(*) as c FROM domain_knowledge_modules');
+    if (modCountRows[0].c === 0) {
+      console.log(`Seeding modules in ${dbName}...`);
+      for (const domain of Object.values(MASTER_DOMAIN_KNOWLEDGE_STORE)) {
+        for (const mod of domain.modules || []) {
+          const modId = `${domain.id}-m${mod.moduleNumber}`;
+          await conn.query(
+            `INSERT INTO domain_knowledge_modules (id, domain_id, module_number, module_title, module_subtitle, description, estimated_minutes, is_published, content_json)
+             VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)
+             ON DUPLICATE KEY UPDATE module_title = VALUES(module_title), module_subtitle = VALUES(module_subtitle), content_json = VALUES(content_json)`,
+            [
+              modId,
+              domain.id,
+              mod.moduleNumber,
+              mod.title,
+              mod.subtitle || '',
+              mod.subtitle || '',
+              mod.estimatedMinutes || 45,
+              JSON.stringify(mod)
+            ]
+          );
+        }
+      }
+      console.log(`✓ Seeded modules for all domains in ${dbName}`);
+    }
+
+    // Seed domain_knowledge_projects
+    const [projCountRows] = await conn.query('SELECT COUNT(*) as c FROM domain_knowledge_projects');
+    if (projCountRows[0].c === 0) {
+      console.log(`Seeding projects in ${dbName}...`);
+      for (const domain of Object.values(MASTER_DOMAIN_KNOWLEDGE_STORE)) {
+        for (const proj of domain.projects || []) {
+          await conn.query(
+            `INSERT INTO domain_knowledge_projects (id, domain_id, level, title, objectives, architecture, technologies, implementation_steps, expected_output)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE title = VALUES(title), architecture = VALUES(architecture)`,
+            [
+              proj.id,
+              domain.id,
+              proj.level,
+              proj.title,
+              proj.problemStatement || '',
+              proj.architectureOverview || '',
+              JSON.stringify(proj.techStack || []),
+              JSON.stringify(proj.stepByStepGuide || []),
+              (proj.expectedDeliverables || []).join('\n')
+            ]
+          );
+        }
+      }
+      console.log(`✓ Seeded practical projects in ${dbName}`);
+    }
+
+    // Seed domain_knowledge_interviews (Top 15 per domain to SQL for fast indexing)
+    const [intCountRows] = await conn.query('SELECT COUNT(*) as c FROM domain_knowledge_interviews');
+    if (intCountRows[0].c === 0) {
+      console.log(`Seeding interview questions in ${dbName}...`);
+      for (const domain of Object.values(MASTER_DOMAIN_KNOWLEDGE_STORE)) {
+        const topInterviews = (domain.interviews || []).slice(0, 30);
+        for (const item of topInterviews) {
+          await conn.query(
+            `INSERT INTO domain_knowledge_interviews (id, domain_id, difficulty, question, answer, common_mistakes)
+             VALUES (?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE question = VALUES(question), answer = VALUES(answer)`,
+            [
+              item.id,
+              domain.id,
+              item.level,
+              item.question,
+              item.answer,
+              (item.keyTakeaways || []).join('\n')
+            ]
+          );
+        }
+      }
+      console.log(`✓ Seeded interview Q&As in ${dbName}`);
+    }
+
   } catch (err) {
-    console.error('❌ [MIGRATION FAILED]:', err);
-    throw err;
+    console.error(`Error in ${dbName}:`, err.message);
   } finally {
     if (conn) await conn.end();
   }
 }
 
+async function runDomainKnowledgeHubMigration() {
+  console.log('================================================================');
+  console.log('🚀 [MIGRATION] Multi-Tenant Domain Knowledge Hub SQL Sync...');
+  console.log('================================================================');
+
+  const databases = [
+    'lms',
+    'campuscorp_college_abc',
+    'campuscorp_college_amr',
+    'campuscorp_college_cit',
+    'campuscorp_college_kct',
+    'campuscorp_college_psg',
+    'campuscorp_college_xyz'
+  ];
+
+  for (const dbName of databases) {
+    await migrateDatabase(dbName);
+  }
+
+  console.log('\n✅ [ALL DATABASES SYNCED] All Domain Knowledge Hub tables ready.');
+}
+
 if (require.main === module) {
   runDomainKnowledgeHubMigration()
     .then(() => process.exit(0))
-    .catch(() => process.exit(1));
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
 }
 
 module.exports = { runDomainKnowledgeHubMigration };

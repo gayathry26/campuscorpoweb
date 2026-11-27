@@ -4,8 +4,8 @@
  * Preserves 100% backward compatibility with all existing imports.
  */
 
-import { CAREER_DOMAINS, CAREER_FAMILIES, CAREER_LEVELS } from './masterCareerDomains';
-import { MASTER_CAREER_ROLES } from './masterCareerRoles';
+import { CAREER_DOMAINS, CAREER_FAMILIES, CAREER_LEVELS } from './masterCareerDomains.js';
+import { MASTER_CAREER_ROLES } from './masterCareerRoles.js';
 
 export { CAREER_DOMAINS, CAREER_FAMILIES, CAREER_LEVELS };
 export { MASTER_CAREER_ROLES };

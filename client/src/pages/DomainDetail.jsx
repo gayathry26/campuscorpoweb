@@ -82,6 +82,16 @@ export function DomainDetail() {
     };
   }, [currentSlug]);
 
+  // Dynamic Document Title Sync
+  useEffect(() => {
+    if (domainData?.domain?.name) {
+      document.title = `${domainData.domain.name} — Career Explorer | CampusCorpo`;
+    } else if (currentSlug) {
+      const formatted = currentSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      document.title = `${formatted} — Career Explorer | CampusCorpo`;
+    }
+  }, [domainData, currentSlug]);
+
   // Sync Compare Roles to localStorage
   useEffect(() => {
     try {
@@ -233,7 +243,9 @@ export function DomainDetail() {
     );
   }
 
-  const { domain, roles, stats } = domainData;
+  const domain = domainData?.domain || {};
+  const roles = Array.isArray(domainData?.roles) ? domainData.roles : [];
+  const stats = domainData?.stats || {};
   const hasActiveFilters = searchQuery.trim().length > 0 || Boolean(selectedTag);
 
   return (
@@ -344,10 +356,10 @@ export function DomainDetail() {
       <div className="space-y-4">
         <div className="flex items-center justify-between px-1">
           <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
-            Career Roles in {domain?.name}
+            Career Roles in {domain?.name || 'Domain'}
           </h2>
           <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-            Showing {filteredRoles.length} of {roles.length} roles
+            Showing {filteredRoles.length} of {roles?.length || 0} roles
           </span>
         </div>
 

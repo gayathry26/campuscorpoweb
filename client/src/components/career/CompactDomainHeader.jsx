@@ -144,9 +144,9 @@ export function CompactDomainHeader({
                     </h3>
                   </div>
                   <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    {domain.overview || domain.description || domain.shortDescription}
+                    {domain?.overview || domain?.description || domain?.shortDescription || 'Comprehensive domain curriculum and career progression pathways.'}
                   </p>
-                  {Array.isArray(domain.whatProfessionalsDo) && domain.whatProfessionalsDo.length > 0 && (
+                  {Array.isArray(domain?.whatProfessionalsDo) && domain.whatProfessionalsDo.length > 0 && (
                     <div className="space-y-2 pt-1">
                       {domain.whatProfessionalsDo.map((task, idx) => (
                         <div
@@ -164,7 +164,7 @@ export function CompactDomainHeader({
                 {/* Right: Prerequisites & Career Progression */}
                 <div className="lg:col-span-5 space-y-4">
                   {/* Beginner Prerequisites */}
-                  {Array.isArray(domain.prerequisites) && domain.prerequisites.length > 0 && (
+                  {Array.isArray(domain?.prerequisites) && domain.prerequisites.length > 0 && (
                     <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 rounded-xl p-4 space-y-2.5">
                       <div className="flex items-center gap-2 pb-1.5 border-b border-neutral-200/60 dark:border-neutral-700/60">
                         <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
@@ -184,7 +184,7 @@ export function CompactDomainHeader({
                   )}
 
                   {/* Career Progression Track */}
-                  {domain.careerProgression && (
+                  {domain?.careerProgression && typeof domain.careerProgression === 'string' && (
                     <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-700/60 rounded-xl p-4 space-y-2.5">
                       <div className="flex items-center gap-2 pb-1.5 border-b border-neutral-200/60 dark:border-neutral-700/60">
                         <Compass className="w-4 h-4 text-purple-600 dark:text-purple-400" />
