@@ -78,6 +78,7 @@ router.get('/dashboard/metrics', authenticateToken, dashCtrl.getDashboardMetrics
 router.get('/students', authenticateToken, studentCtrl.getAllStudents);
 router.get('/students/:id', authenticateToken, studentCtrl.getStudentById);
 router.put('/students/:id/profile', authenticateToken, studentCtrl.updateStudentProfile);
+router.put('/students/:id/academic-records', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER', 'FACULTY_COORDINATOR']), studentCtrl.updateStudentAcademicRecords);
 router.post('/students/sync-erp', authenticateToken, studentCtrl.syncFromErp);
 
 // 4. Companies & Placement Drives (Module: RECRUITMENT)

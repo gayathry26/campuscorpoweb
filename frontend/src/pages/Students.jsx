@@ -5,7 +5,7 @@ import { useToast } from '../context/ToastContext';
 import { StatusBadge, Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { Search, Filter, Eye, GraduationCap, Award, BookOpen } from 'lucide-react';
+import { Search, Filter, Eye, GraduationCap, Award, BookOpen, Save, ShieldCheck } from 'lucide-react';
 
 export function Students() {
   const { user } = useAuth();
@@ -17,6 +17,19 @@ export function Students() {
   const [search, setSearch] = useState('');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
+  const [savingAcademic, setSavingAcademic] = useState(false);
+  const [academicForm, setAcademicForm] = useState({
+    active_backlogs: 0,
+    history_of_backlogs: 0,
+    cgpa: 0,
+    tenth_percentage: 0,
+    twelfth_percentage: 0,
+    current_semester: 7,
+    placement_status: 'REGISTERED',
+    placement_readiness_score: 75,
+  });
+
+  const canEditAcademics = ['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER', 'FACULTY_COORDINATOR'].includes(user?.roleName);
 
   useEffect(() => {
     fetchStudents();
@@ -46,11 +59,43 @@ export function Students() {
     try {
       const res = await apiClient.get(`/students/${studentId}`);
       setSelectedStudent(res.data);
+      const st = res.data?.student || {};
+      setAcademicForm({
+        active_backlogs: st.active_backlogs ?? 0,
+        history_of_backlogs: st.history_of_backlogs ?? 0,
+        cgpa: st.cgpa ?? 0,
+        tenth_percentage: st.tenth_percentage ?? 0,
+        twelfth_percentage: st.twelfth_percentage ?? 0,
+        current_semester: st.current_semester ?? 7,
+        placement_status: st.placement_status || 'REGISTERED',
+        placement_readiness_score: st.placement_readiness_score ?? 75,
+      });
     } catch (err) {
       console.error('Failed to fetch student details:', err);
       showToast('Failed to fetch student details.', 'error');
     } finally {
       setModalLoading(false);
+    }
+  };
+
+  const handleSaveAcademicRecords = async (e) => {
+    e.preventDefault();
+    if (!selectedStudent?.student?.id) return;
+    setSavingAcademic(true);
+    try {
+      const res = await apiClient.put(`/students/${selectedStudent.student.id}/academic-records`, academicForm);
+      showToast('Official academic & backlog records updated.', 'success');
+      if (res.data?.data) {
+        setSelectedStudent((prev) => ({
+          ...prev,
+          student: { ...prev.student, ...res.data.data },
+        }));
+      }
+      fetchStudents();
+    } catch (err) {
+      showToast('Failed to update academic records: ' + (err.response?.data?.message || err.message), 'error');
+    } finally {
+      setSavingAcademic(false);
     }
   };
 
@@ -215,15 +260,140 @@ export function Students() {
               <StatusBadge status={selectedStudent.student.placement_status} />
             </div>
 
-            {/* Department-Isolated DB Records */}
+            {/* Admin-Only Official Academic & Backlog Management */}
+            {canEditAcademics && (
+              <form onSubmit={handleSaveAcademicRecords} className="p-4 rounded-xl bg-[#F7F6F7] dark:bg-[#262126] border border-border space-y-3.5">
+                <div className="flex items-center justify-between gap-2 pb-2 border-b border-border">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-[#8B2942]" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-foreground">
+                      Admin Control: Backlogs & Official Academic Records
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7]">
+                    Admin Only
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">Active Backlogs</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="30"
+                      value={academicForm.active_backlogs}
+                      onChange={(e) => setAcademicForm({ ...academicForm, active_backlogs: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">Backlog History</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="30"
+                      value={academicForm.history_of_backlogs}
+                      onChange={(e) => setAcademicForm({ ...academicForm, history_of_backlogs: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">CGPA (0–10)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      max="10"
+                      value={academicForm.cgpa}
+                      onChange={(e) => setAcademicForm({ ...academicForm, cgpa: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">Semester</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={academicForm.current_semester}
+                      onChange={(e) => setAcademicForm({ ...academicForm, current_semester: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">10th %</label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      value={academicForm.tenth_percentage}
+                      onChange={(e) => setAcademicForm({ ...academicForm, tenth_percentage: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">12th / Diploma %</label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      value={academicForm.twelfth_percentage}
+                      onChange={(e) => setAcademicForm({ ...academicForm, twelfth_percentage: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">Readiness (0–100)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={academicForm.placement_readiness_score}
+                      onChange={(e) => setAcademicForm({ ...academicForm, placement_readiness_score: e.target.value })}
+                      className="w-full h-8 px-2.5 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-foreground mb-1">Placement Status</label>
+                    <select
+                      value={academicForm.placement_status}
+                      onChange={(e) => setAcademicForm({ ...academicForm, placement_status: e.target.value })}
+                      className="w-full h-8 px-2 rounded-lg border border-border bg-card text-foreground text-xs focus:outline-none focus:border-[#8B2942]"
+                    >
+                      <option value="REGISTERED">Registered</option>
+                      <option value="PLACED">Placed</option>
+                      <option value="MULTIPLE_OFFERS">Multiple Offers</option>
+                      <option value="OPTED_OUT">Opted Out</option>
+                      <option value="NOT_REGISTERED">Not Registered</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <button
+                    type="submit"
+                    disabled={savingAcademic}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#8B2942] hover:bg-[#702038] text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-60"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    <span>{savingAcademic ? 'Saving...' : 'Save Academic Records'}</span>
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* Verified Semester GPAs */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-1.5 font-bold text-foreground text-sm">
-                  <BookOpen className="w-4 h-4 text-foreground" />
-                  <span>Verified Semester GPAs (Academic Isolation: `lms_{selectedStudent.student.department_code?.toLowerCase()}`)</span>
+                  <BookOpen className="w-4 h-4 text-[#8B2942]" />
+                  <span>Verified Semester GPAs ({selectedStudent.student.department_code} Department)</span>
                 </div>
                 <span className="text-xs font-semibold bg-secondary text-foreground px-2.5 py-0.5 rounded border border-border">
-                  Isolated SQL Storage
+                  Verified Record
                 </span>
               </div>
 
