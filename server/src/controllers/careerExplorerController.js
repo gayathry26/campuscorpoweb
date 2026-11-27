@@ -51,7 +51,14 @@ function formatRoleRow(row, roleDomains = []) {
     deliverables: parseJsonSafe(row.deliverables, []),
     technicalSkills: parseJsonSafe(row.technical_skills, []),
     softSkills: parseJsonSafe(row.soft_skills, []),
-    tools: parseJsonSafe(row.tools, []),
+    tools: (() => {
+      const parsed = parseJsonSafe(row.tools, []);
+      if (Array.isArray(parsed)) return parsed;
+      if (typeof parsed === 'object' && parsed !== null) {
+        return Object.values(parsed).flat().filter((t) => typeof t === 'string');
+      }
+      return [];
+    })(),
     stats: {
       ...stats,
       minLpa,
@@ -233,7 +240,12 @@ async function getDomainBySlug(req, res) {
         });
       }
 
-      (r.tools || []).forEach((t) => toolsSet.add(t));
+      const roleToolsList = Array.isArray(r.tools)
+        ? r.tools
+        : typeof r.tools === 'object' && r.tools !== null
+        ? Object.values(r.tools).flat().filter((t) => typeof t === 'string')
+        : [];
+      roleToolsList.forEach((t) => toolsSet.add(t));
     });
 
     const topSkills = Object.entries(skillCounts)

@@ -58,9 +58,6 @@ export const careerService = {
         };
       }
     } catch (err) {
-      if (err.response?.status === 404) {
-        return { notFound: true, message: `Domain '${slug}' not found.` };
-      }
       console.warn('[careerService] Fallback to local dataset for domain by slug:', err.message);
     }
 
@@ -94,7 +91,12 @@ export const careerService = {
         const clean = s.split('/')[0].split('(')[0].trim();
         skillCounts[clean] = (skillCounts[clean] || 0) + 1;
       });
-      (r.tools || []).forEach((t) => toolsSet.add(t));
+      const roleToolsList = Array.isArray(r.tools)
+        ? r.tools
+        : typeof r.tools === 'object' && r.tools !== null
+        ? Object.values(r.tools).flat().filter((t) => typeof t === 'string')
+        : [];
+      roleToolsList.forEach((t) => toolsSet.add(t));
     });
 
     return {

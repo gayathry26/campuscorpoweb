@@ -13,15 +13,21 @@ const dbConfig = {
   database: process.env.DB_COMMON_NAME || 'lms',
 };
 
-async function runCareerExplorerMigration() {
+async function runCareerExplorerMigration(targetDb = null) {
+  const activeDatabase = targetDb || process.env.DB_COMMON_NAME || 'lms';
+  const connectionConfig = {
+    ...dbConfig,
+    database: activeDatabase,
+  };
+
   console.log('================================================================');
-  console.log('🚀 [MIGRATION] Setting up CampusCorp 38 IT Domains & Roles SQL Tables...');
+  console.log(`🚀 [MIGRATION] Setting up CampusCorp IT Domains & Roles SQL Tables on ${activeDatabase}...`);
   console.log('================================================================');
 
   let conn;
   try {
-    conn = await mysql.createConnection(dbConfig);
-    console.log(`✓ Connected to MySQL database '${dbConfig.database}' on ${dbConfig.host}:${dbConfig.port}`);
+    conn = await mysql.createConnection(connectionConfig);
+    console.log(`✓ Connected to MySQL database '${activeDatabase}' on ${connectionConfig.host}:${connectionConfig.port}`);
 
     // 1. Create career_domains table
     await conn.query(`

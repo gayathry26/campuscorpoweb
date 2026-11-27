@@ -45,7 +45,12 @@ export function AdaptiveDomainStats({ domain = {}, roles = [], stats = {} }) {
 
   roles.forEach((r) => {
     (r.technicalSkills || []).forEach((s) => uniqueSkills.add(s));
-    (r.tools || []).forEach((t) => uniqueTools.add(t));
+    const roleTools = Array.isArray(r.tools)
+      ? r.tools
+      : typeof r.tools === 'object' && r.tools !== null
+      ? Object.values(r.tools).flat().filter((t) => typeof t === 'string')
+      : [];
+    roleTools.forEach((t) => uniqueTools.add(t));
     if (r.projects) {
       const getProjCount = (p) => (Array.isArray(p) ? p.length : p ? 1 : 0);
       totalProjects += getProjCount(r.projects.beginner);

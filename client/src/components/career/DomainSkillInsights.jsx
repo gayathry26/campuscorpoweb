@@ -23,7 +23,12 @@ export function DomainSkillInsights({ roles = [], domainName = '' }) {
         }
       });
 
-      (r.tools || []).forEach((tool) => toolsSet.add(tool.trim()));
+      const roleTools = Array.isArray(r.tools)
+        ? r.tools
+        : typeof r.tools === 'object' && r.tools !== null
+        ? Object.values(r.tools).flat().filter((t) => typeof t === 'string')
+        : [];
+      roleTools.forEach((tool) => toolsSet.add(tool.trim()));
     });
 
     const shared = [];

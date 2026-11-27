@@ -358,7 +358,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "Git",
+        "Figma",
+        "Chrome DevTools",
+        "Vite",
+        "Vercel"
+      ]
+    }
   },
   {
     "id": "ui-engineer",
@@ -710,7 +720,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Storybook",
+        "Figma",
+        "Chromatic",
+        "NPM",
+        "GitHub Actions"
+      ]
+    }
   },
   {
     "id": "web-performance-engineer",
@@ -1058,7 +1077,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Chrome DevTools",
+        "Lighthouse CI",
+        "WebPageTest",
+        "Cloudflare",
+        "Datadog"
+      ]
+    }
   },
   {
     "id": "backend-developer",
@@ -1414,7 +1442,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Postman",
+        "Docker",
+        "DBeaver",
+        "Git",
+        "Redis Insight",
+        "Swagger"
+      ]
+    }
   },
   {
     "id": "distributed-systems-engineer",
@@ -1767,7 +1805,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kafka",
+        "Kubernetes",
+        "Envoy",
+        "Jaeger Tracing",
+        "Prometheus"
+      ]
+    }
   },
   {
     "id": "api-platform-engineer",
@@ -2114,7 +2161,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kong Gateway",
+        "Postman",
+        "Docker",
+        "Datadog",
+        "Kubernetes"
+      ]
+    }
   },
   {
     "id": "full-stack-developer",
@@ -2469,7 +2525,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "GitHub",
+        "Postman",
+        "Docker",
+        "Vercel"
+      ]
+    }
   },
   {
     "id": "enterprise-software-architect",
@@ -2813,7 +2878,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Enterprise Architect",
+        "Lucidchart",
+        "ArchiMate",
+        "AWS Console"
+      ]
+    }
   },
   {
     "id": "saas-application-engineer",
@@ -3162,7 +3235,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "Docker",
+        "Stripe CLI",
+        "Supabase",
+        "GitHub Actions"
+      ]
+    }
   },
   {
     "id": "mobile-app-developer",
@@ -3512,7 +3594,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Android Studio",
+        "Xcode",
+        "VS Code",
+        "Firebase Console",
+        "TestFlight"
+      ]
+    }
   },
   {
     "id": "ios-native-engineer",
@@ -3858,7 +3949,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Xcode",
+        "Instruments",
+        "TestFlight",
+        "Fastlane",
+        "CocoaPods / SPM"
+      ]
+    }
   },
   {
     "id": "android-native-engineer",
@@ -4204,7 +4304,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Android Studio",
+        "Gradle",
+        "Firebase",
+        "Play Console",
+        "LeakCanary"
+      ]
+    }
   },
   {
     "id": "embedded-software-engineer",
@@ -4554,7 +4663,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "STM32CubeIDE",
+        "Keil MDK",
+        "Saleae Logic Analyzer",
+        "J-Link",
+        "Git"
+      ]
+    }
   },
   {
     "id": "systems-software-engineer",
@@ -4901,7 +5019,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Clang/GCC",
+        "GDB",
+        "Valgrind",
+        "Perf",
+        "CMake"
+      ]
+    }
   },
   {
     "id": "real-time-os-engineer",
@@ -5246,7 +5373,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "QNX Momentics",
+        "JTAG Debugger",
+        "Oscilloscope",
+        "GCC",
+        "Git"
+      ]
+    }
   },
   {
     "id": "data-analyst",
@@ -5594,7 +5730,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Power BI",
+        "Tableau",
+        "PostgreSQL",
+        "Excel",
+        "Jupyter"
+      ]
+    }
   },
   {
     "id": "analytics-engineer",
@@ -5944,7 +6089,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "dbt Cloud",
+        "Snowflake",
+        "BigQuery",
+        "GitHub",
+        "Fivetran"
+      ]
+    }
   },
   {
     "id": "bi-solutions-architect",
@@ -6290,7 +6444,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Power BI Admin",
+        "Tableau Server",
+        "Snowflake",
+        "Collibra",
+        "Lucidchart"
+      ]
+    }
   },
   {
     "id": "data-scientist",
@@ -6638,7 +6801,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "JupyterLab",
+        "Scikit-Learn",
+        "MLflow",
+        "FastAPI",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "applied-research-scientist",
@@ -6986,7 +7158,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PyTorch",
+        "JAX",
+        "Weights & Biases",
+        "LaTeX",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "quantitative-data-scientist",
@@ -7331,7 +7512,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Python",
+        "RStudio",
+        "Jupyter",
+        "PostgreSQL",
+        "NumPy"
+      ]
+    }
   },
   {
     "id": "ai-ml-engineer",
@@ -7682,7 +7872,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PyTorch",
+        "Hugging Face",
+        "CUDA",
+        "Docker",
+        "Triton"
+      ]
+    }
   },
   {
     "id": "computer-vision-engineer",
@@ -8030,7 +8229,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "OpenCV",
+        "PyTorch",
+        "CUDA",
+        "TensorRT",
+        "Roboflow"
+      ]
+    }
   },
   {
     "id": "nlp-speech-engineer",
@@ -8378,7 +8586,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Hugging Face",
+        "PyTorch",
+        "Whisper",
+        "Librosa",
+        "Weights & Biases"
+      ]
+    }
   },
   {
     "id": "generative-ai-engineer",
@@ -8729,7 +8946,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "OpenAI API",
+        "Hugging Face",
+        "vLLM",
+        "ChromaDB",
+        "Ollama"
+      ]
+    }
   },
   {
     "id": "ai-agent-architect",
@@ -9074,7 +9300,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "LangGraph",
+        "AutoGen",
+        "vLLM",
+        "Qdrant",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "llm-fine-tuning-engineer",
@@ -9422,7 +9657,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "DeepSpeed",
+        "PyTorch",
+        "Hugging Face TGI",
+        "Weights & Biases",
+        "CUDA"
+      ]
+    }
   },
   {
     "id": "data-engineer",
@@ -9775,7 +10019,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Apache Airflow",
+        "Snowflake",
+        "dbt",
+        "PySpark",
+        "Kafka"
+      ]
+    }
   },
   {
     "id": "streaming-data-engineer",
@@ -10124,7 +10377,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Flink",
+        "Kafka",
+        "Apache Iceberg",
+        "Kubernetes",
+        "Prometheus"
+      ]
+    }
   },
   {
     "id": "big-data-infrastructure-architect",
@@ -10470,7 +10732,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Databricks",
+        "AWS EMR",
+        "Terraform",
+        "Trino",
+        "Kubernetes"
+      ]
+    }
   },
   {
     "id": "database-administrator",
@@ -10818,7 +11089,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "pgAdmin",
+        "DBeaver",
+        "Percona Toolkit",
+        "Prometheus",
+        "Bash"
+      ]
+    }
   },
   {
     "id": "cloud-data-warehouse-architect",
@@ -11168,7 +11448,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Snowflake",
+        "BigQuery",
+        "Databricks",
+        "Terraform",
+        "dbt"
+      ]
+    }
   },
   {
     "id": "nosql-distributed-database-engineer",
@@ -11517,7 +11806,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "MongoDB Compass",
+        "cqlsh",
+        "RedisInsight",
+        "Docker",
+        "AWS DynamoDB"
+      ]
+    }
   },
   {
     "id": "cloud-engineer",
@@ -11864,7 +12162,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AWS Console",
+        "Terraform",
+        "Docker",
+        "Git",
+        "Linux CLI"
+      ]
+    }
   },
   {
     "id": "multi-cloud-solutions-architect",
@@ -12211,7 +12518,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Terraform Cloud",
+        "Lucidchart"
+      ]
+    }
   },
   {
     "id": "cloud-finops-engineer",
@@ -12557,7 +12873,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kubecost",
+        "AWS Cost Explorer",
+        "CloudHealth",
+        "Datadog",
+        "Excel"
+      ]
+    }
   },
   {
     "id": "devops-engineer",
@@ -12905,7 +13230,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kubernetes",
+        "Docker",
+        "GitHub Actions",
+        "Terraform",
+        "Grafana"
+      ]
+    }
   },
   {
     "id": "site-reliability-engineer",
@@ -13253,7 +13587,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Prometheus",
+        "Datadog",
+        "Chaos Mesh",
+        "PagerDuty",
+        "Grafana"
+      ]
+    }
   },
   {
     "id": "platform-engineer",
@@ -13601,7 +13944,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Backstage",
+        "ArgoCD",
+        "Crossplane",
+        "Kubernetes",
+        "Helm"
+      ]
+    }
   },
   {
     "id": "network-engineer",
@@ -13949,7 +14301,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Wireshark",
+        "Cisco Packet Tracer",
+        "GNS3",
+        "Python",
+        "PuTTY"
+      ]
+    }
   },
   {
     "id": "cloud-networking-architect",
@@ -14292,7 +14653,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AWS Transit Gateway",
+        "Fortinet / Palo Alto",
+        "Terraform",
+        "Wireshark"
+      ]
+    }
   },
   {
     "id": "network-automation-engineer",
@@ -14639,7 +15008,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Ansible",
+        "NetBox",
+        "Git",
+        "Wireshark",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "systems-administrator",
@@ -14987,7 +15365,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Active Directory",
+        "VMware vSphere",
+        "PowerShell",
+        "Bash",
+        "Zabbix"
+      ]
+    }
   },
   {
     "id": "datacenter-virtualization-engineer",
@@ -15331,7 +15718,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "vSphere",
+        "Nutanix Prism",
+        "iLO / iDRAC",
+        "Zabbix",
+        "PowerShell"
+      ]
+    }
   },
   {
     "id": "infrastructure-architect",
@@ -15675,7 +16071,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Enterprise Architect",
+        "Lucidchart",
+        "Visio",
+        "VMware Suite",
+        "AWS"
+      ]
+    }
   },
   {
     "id": "cybersecurity-analyst",
@@ -16025,7 +16430,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Splunk",
+        "Nessus",
+        "Wireshark",
+        "Sentinel",
+        "CrowdStrike"
+      ]
+    }
   },
   {
     "id": "cloud-security-architect",
@@ -16371,7 +16785,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Prisma Cloud",
+        "Snyk",
+        "Falco",
+        "Terraform",
+        "HashiCorp Vault"
+      ]
+    }
   },
   {
     "id": "identity-access-architect",
@@ -16715,7 +17138,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Okta",
+        "Entra ID",
+        "CyberArk",
+        "Postman",
+        "PowerShell"
+      ]
+    }
   },
   {
     "id": "penetration-tester",
@@ -17063,7 +17495,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Burp Suite",
+        "Kali Linux",
+        "Metasploit",
+        "Nmap",
+        "SQLMap"
+      ]
+    }
   },
   {
     "id": "red-team-specialist",
@@ -17407,7 +17848,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Cobalt Strike",
+        "BloodHound",
+        "Mimikatz",
+        "Mythic C2",
+        "Ghidra"
+      ]
+    }
   },
   {
     "id": "application-security-analyst",
@@ -17751,7 +18201,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Checkmarx",
+        "Snyk",
+        "Burp Suite",
+        "OWASP ZAP",
+        "GitHub Advanced Security"
+      ]
+    }
   },
   {
     "id": "digital-forensics-investigator",
@@ -18098,7 +18557,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Autopsy",
+        "FTK Imager",
+        "Volatility 3",
+        "EnCase",
+        "Wireshark"
+      ]
+    }
   },
   {
     "id": "threat-intelligence-analyst",
@@ -18443,7 +18911,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Ghidra",
+        "ANY.RUN",
+        "MISP",
+        "IDA Free",
+        "Wireshark"
+      ]
+    }
   },
   {
     "id": "security-compliance-auditor",
@@ -18788,7 +19265,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "OneTrust",
+        "Vanta",
+        "ServiceNow GRC",
+        "Excel",
+        "Jira"
+      ]
+    }
   },
   {
     "id": "qa-automation-engineer",
@@ -19137,7 +19623,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Playwright",
+        "Selenium",
+        "Postman",
+        "Jira",
+        "GitHub Actions"
+      ]
+    }
   },
   {
     "id": "performance-test-engineer",
@@ -19484,7 +19979,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "JMeter",
+        "k6",
+        "Grafana",
+        "Datadog",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "security-qa-test-engineer",
@@ -19828,7 +20332,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "OWASP ZAP",
+        "Postman",
+        "GitLab CI",
+        "Docker",
+        "Python"
+      ]
+    }
   },
   {
     "id": "it-support-specialist",
@@ -20176,7 +20689,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "ServiceNow",
+        "Jira Service Desk",
+        "Active Directory",
+        "TeamViewer",
+        "Windows 11"
+      ]
+    }
   },
   {
     "id": "itsm-platform-administrator",
@@ -20521,7 +21043,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "ServiceNow Studio",
+        "Postman",
+        "JavaScript",
+        "Active Directory",
+        "Jira"
+      ]
+    }
   },
   {
     "id": "end-user-computing-engineer",
@@ -20865,7 +21396,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Microsoft Intune",
+        "Endpoint Manager",
+        "PowerShell",
+        "Windows 11",
+        "macOS MDM"
+      ]
+    }
   },
   {
     "id": "ui-ux-designer",
@@ -21213,7 +21753,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Figma",
+        "FigJam",
+        "Miro",
+        "Notion",
+        "Adobe Creative Cloud"
+      ]
+    }
   },
   {
     "id": "ux-researcher",
@@ -21558,7 +22107,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "UserTesting",
+        "Optimal Workshop",
+        "Hotjar",
+        "Figma",
+        "Dovetail"
+      ]
+    }
   },
   {
     "id": "design-systems-lead",
@@ -21903,7 +22461,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Figma",
+        "Storybook",
+        "Zeroheight",
+        "Tokens Studio",
+        "GitHub"
+      ]
+    }
   },
   {
     "id": "product-manager",
@@ -22248,7 +22815,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Jira",
+        "Confluence",
+        "Mixpanel",
+        "Figma",
+        "Notion"
+      ]
+    }
   },
   {
     "id": "it-business-analyst",
@@ -22595,7 +23171,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Jira",
+        "Visio",
+        "Lucidchart",
+        "SQL",
+        "Excel"
+      ]
+    }
   },
   {
     "id": "product-operations-manager",
@@ -22939,7 +23524,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Amplitude",
+        "LaunchDarkly",
+        "Pendo",
+        "Jira",
+        "SQL"
+      ]
+    }
   },
   {
     "id": "systems-architect",
@@ -23289,7 +23883,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "MuleSoft Anypoint",
+        "Apache Kafka",
+        "Lucidchart",
+        "Docker",
+        "AWS"
+      ]
+    }
   },
   {
     "id": "event-driven-systems-specialist",
@@ -23636,7 +24239,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kafka",
+        "Confluent Cloud",
+        "RabbitMQ",
+        "Docker",
+        "Prometheus"
+      ]
+    }
   },
   {
     "id": "api-integration-architect",
@@ -23980,7 +24592,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Dell Boomi",
+        "Postman",
+        "Swagger",
+        "Linux",
+        "Git"
+      ]
+    }
   },
   {
     "id": "erp-crm-consultant",
@@ -24324,7 +24945,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Salesforce Developer Console",
+        "SAP GUI",
+        "VS Code",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "salesforce-platform-developer",
@@ -24670,7 +25299,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "Salesforce DX",
+        "Workbench",
+        "Git",
+        "Copado"
+      ]
+    }
   },
   {
     "id": "sap-s4hana-technical-consultant",
@@ -25012,7 +25650,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "SAP GUI",
+        "Eclipse ADT",
+        "SAP BTP Cockpit",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "it-project-manager",
@@ -25359,7 +26005,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Jira",
+        "Confluence",
+        "Microsoft Project",
+        "Smartsheet",
+        "Miro"
+      ]
+    }
   },
   {
     "id": "technical-program-manager",
@@ -25703,7 +26358,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Jira Align",
+        "Confluence",
+        "Asana",
+        "GitHub Projects",
+        "Google Workspace"
+      ]
+    }
   },
   {
     "id": "scrum-master-agile-coach",
@@ -26047,7 +26711,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Jira",
+        "Miro",
+        "Mural",
+        "Slack",
+        "Confluence"
+      ]
+    }
   },
   {
     "id": "robotics-software-engineer",
@@ -26396,7 +27069,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "ROS 2 Humble",
+        "Gazebo",
+        "Linux Ubuntu",
+        "RViz",
+        "Git"
+      ]
+    }
   },
   {
     "id": "iot-solutions-architect",
@@ -26741,7 +27423,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AWS IoT Core",
+        "InfluxDB",
+        "Node-RED",
+        "Docker",
+        "Mosquitto MQTT"
+      ]
+    }
   },
   {
     "id": "plc-scada-automation-engineer",
@@ -27085,7 +27776,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Siemens TIA Portal",
+        "Rockwell RSLogix",
+        "Ignition SCADA",
+        "Wireshark"
+      ]
+    }
   },
   {
     "id": "game-developer",
@@ -27433,7 +28132,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Unreal Engine 5",
+        "Unity",
+        "Blender",
+        "Visual Studio",
+        "Git LFS"
+      ]
+    }
   },
   {
     "id": "real-time-3d-graphics-engineer",
@@ -27781,7 +28489,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "RenderDoc",
+        "NVIDIA Nsight",
+        "Visual Studio",
+        "Vulkan SDK",
+        "Git"
+      ]
+    }
   },
   {
     "id": "xr-spatial-computing-engineer",
@@ -28128,7 +28845,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Xcode (visionOS)",
+        "Meta Quest Developer Hub",
+        "Unity",
+        "Blender"
+      ]
+    }
   },
   {
     "id": "blockchain-developer",
@@ -28478,7 +29203,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Foundry",
+        "Hardhat",
+        "Remix IDE",
+        "MetaMask",
+        "Slither"
+      ]
+    }
   },
   {
     "id": "web3-security-auditor",
@@ -28823,7 +29557,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Slither",
+        "Mythril",
+        "Echidna",
+        "Foundry",
+        "Certora"
+      ]
+    }
   },
   {
     "id": "dapp-fullstack-engineer",
@@ -29170,7 +29913,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "MetaMask",
+        "The Graph Studio",
+        "Vercel",
+        "Hardhat"
+      ]
+    }
   },
   {
     "id": "hardware-design-engineer",
@@ -29516,7 +30268,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Xilinx Vivado",
+        "ModelSim / QuestaSim",
+        "Synopsys Design Compiler",
+        "Git"
+      ]
+    }
   },
   {
     "id": "embedded-hardware-pcb-engineer",
@@ -29861,7 +30621,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Altium Designer",
+        "KiCad",
+        "Oscilloscope",
+        "Multimeter",
+        "Logic Analyzer"
+      ]
+    }
   },
   {
     "id": "silicon-validation-engineer",
@@ -30204,7 +30973,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Python",
+        "LabVIEW",
+        "Tektronix Oscilloscopes",
+        "JTAG",
+        "Linux"
+      ]
+    }
   },
   {
     "id": "mlops-engineer",
@@ -30556,7 +31334,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kubeflow",
+        "MLflow",
+        "Kubernetes",
+        "Docker",
+        "Triton"
+      ]
+    }
   },
   {
     "id": "ai-governance-responsible-ai-officer",
@@ -30901,7 +31688,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Fairlearn",
+        "SHAP",
+        "Weights & Biases",
+        "OneTrust AI",
+        "Jupyter"
+      ]
+    }
   },
   {
     "id": "gpu-cluster-infrastructure-engineer",
@@ -31246,7 +32042,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kubernetes",
+        "Slurm",
+        "NVIDIA GPU Operator",
+        "Prometheus",
+        "Linux"
+      ]
+    }
   },
   {
     "id": "hpc-specialist",
@@ -31594,7 +32399,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Slurm",
+        "OpenMPI",
+        "CUDA",
+        "Linux",
+        "GDB"
+      ]
+    }
   },
   {
     "id": "computational-scientist-simulation",
@@ -31938,7 +32752,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "OpenFOAM",
+        "ParaView",
+        "NumPy / SciPy",
+        "Linux",
+        "Git"
+      ]
+    }
   },
   {
     "id": "quantum-computing-researcher",
@@ -32283,7 +33106,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Qiskit",
+        "Cirq",
+        "JupyterLab",
+        "Python",
+        "LaTeX"
+      ]
+    }
   },
   {
     "id": "technical-solutions-consultant",
@@ -32631,7 +33463,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PowerPoint",
+        "Lucidchart",
+        "Postman",
+        "Salesforce CRM",
+        "Excel"
+      ]
+    }
   },
   {
     "id": "it-strategy-transformation-consultant",
@@ -32976,7 +33817,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PowerPoint",
+        "Excel",
+        "Miro",
+        "Lucidchart",
+        "Jira"
+      ]
+    }
   },
   {
     "id": "enterprise-cloud-consultant",
@@ -33322,7 +34172,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AWS Pricing Calculator",
+        "Lucidchart",
+        "PowerPoint",
+        "Azure Migrate",
+        "Excel"
+      ]
+    }
   },
   {
     "id": "fintech-software-engineer",
@@ -33671,7 +34530,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Java / Spring Boot",
+        "Go",
+        "PostgreSQL",
+        "Docker",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "quant-algo-trading-engineer",
@@ -34016,7 +34884,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "GCC / Clang",
+        "GDB",
+        "Perf",
+        "Linux Kernel",
+        "Wireshark"
+      ]
+    }
   },
   {
     "id": "core-banking-systems-engineer",
@@ -34364,7 +35241,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PostgreSQL",
+        "Apache Kafka",
+        "Spring Boot",
+        "Docker",
+        "Prometheus"
+      ]
+    }
   },
   {
     "id": "healthtech-engineer",
@@ -34713,7 +35599,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "HAPI FHIR",
+        "Orthanc DICOM",
+        "PostgreSQL",
+        "Docker",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "clinical-data-systems-engineer",
@@ -35058,7 +35953,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "HAPI FHIR",
+        "Postman",
+        "Docker",
+        "Python",
+        "Jupyter"
+      ]
+    }
   },
   {
     "id": "medical-device-software-engineer",
@@ -35402,7 +36306,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Keil / IAR",
+        "Git",
+        "JIRA",
+        "Oscilloscope",
+        "Clang Static Analyzer"
+      ]
+    }
   },
   {
     "id": "gis-developer",
@@ -35750,7 +36663,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PostGIS",
+        "QGIS",
+        "Mapbox GL",
+        "GeoPandas",
+        "VS Code"
+      ]
+    }
   },
   {
     "id": "spatial-data-scientist",
@@ -36095,7 +37017,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Google Earth Engine",
+        "QGIS",
+        "Jupyter",
+        "PostGIS",
+        "Rasterio"
+      ]
+    }
   },
   {
     "id": "geospatial-web-developer",
@@ -36442,7 +37373,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "Mapbox Studio",
+        "QGIS",
+        "Postman",
+        "Git"
+      ]
+    }
   },
   {
     "id": "technical-writer",
@@ -36790,7 +37730,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Docusaurus",
+        "Postman",
+        "VS Code",
+        "GitHub",
+        "Grammarly"
+      ]
+    }
   },
   {
     "id": "developer-advocate",
@@ -37135,7 +38084,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "GitHub",
+        "OBS Studio",
+        "VS Code",
+        "Discord",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "api-documentation-specialist",
@@ -37480,7 +38438,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Stoplight",
+        "Swagger Editor",
+        "VS Code",
+        "Postman",
+        "Git"
+      ]
+    }
   },
   {
     "id": "technical-trainer",
@@ -37828,7 +38795,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Zoom",
+        "GitHub Classrooms",
+        "LMS Portals",
+        "Jupyter",
+        "VS Code"
+      ]
+    }
   },
   {
     "id": "instructional-designer-edtech",
@@ -38173,7 +39149,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Articulate 360",
+        "Docker",
+        "Moodle / Canvas",
+        "GitHub",
+        "Notion"
+      ]
+    }
   },
   {
     "id": "software-lab-mentor",
@@ -38516,7 +39501,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "VS Code",
+        "GitHub",
+        "Discord",
+        "HackerRank",
+        "LeetCode"
+      ]
+    }
   },
   {
     "id": "it-governance-manager",
@@ -38863,7 +39857,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "ServiceNow GRC",
+        "OneTrust",
+        "Excel",
+        "Jira",
+        "PowerPoint"
+      ]
+    }
   },
   {
     "id": "vciso-security-director",
@@ -39207,7 +40210,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Executive Dashboards",
+        "PowerPoint",
+        "OneTrust",
+        "ServiceNow",
+        "Jira"
+      ]
+    }
   },
   {
     "id": "it-audit-compliance-analyst",
@@ -39551,7 +40563,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement and industry demand across software enterprises, engineering centers, top tech consultancies, and digital enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AuditBoard",
+        "Excel",
+        "Jira",
+        "SharePoint",
+        "SAP GRC"
+      ]
+    }
   },
   {
     "id": "autonomous-ai-agent-engineer",
@@ -39872,7 +40893,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "Rapidly expanding corporate adoption across enterprise IT, customer operations, finance, and automated engineering platforms.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "LangSmith",
+        "Arize Phoenix",
+        "Docker",
+        "VS Code",
+        "Git",
+        "Postman"
+      ]
+    }
   },
   {
     "id": "ai-red-team-safety-engineer",
@@ -40187,7 +41218,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "Essential security practice mandated by NIST AI RMF, ISO 42001, and corporate risk boards across Fortune 500 enterprises.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PyRIT",
+        "Garak",
+        "NeMo Guardrails",
+        "Burp Suite",
+        "Python",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "ai-evaluation-benchmarking-engineer",
@@ -40502,7 +41543,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "Critical discipline solving the primary enterprise bottleneck: objectively proving that AI applications meet accuracy, safety, and business requirements.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Ragas",
+        "DeepEval",
+        "TruLens",
+        "LangSmith",
+        "Weights & Biases",
+        "Python"
+      ]
+    }
   },
   {
     "id": "platform-engineer-idp",
@@ -40823,7 +41874,18 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "Top strategic priority for large software organizations seeking to reduce cognitive load on product developers and enforce consistent governance.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Backstage",
+        "Crossplane",
+        "Kubernetes",
+        "ArgoCD",
+        "Terraform",
+        "Docker",
+        "GitLab/GitHub"
+      ]
+    }
   },
   {
     "id": "cloud-finops-analyst",
@@ -41138,7 +42200,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High demand across private and public sectors facing expanding cloud infrastructure and AI compute expenditures.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "AWS Cost Explorer",
+        "CloudHealth",
+        "Kubecost",
+        "Infracost",
+        "Excel (Advanced)",
+        "Power BI / Tableau"
+      ]
+    }
   },
   {
     "id": "iam-zero-trust-architect",
@@ -41457,7 +42529,18 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "Core defensive priority across enterprise IT, protecting corporate assets where identity has become the primary security perimeter.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "SailPoint",
+        "CyberArk",
+        "Microsoft Entra ID",
+        "HashiCorp Vault",
+        "Okta",
+        "Postman",
+        "Wireshark"
+      ]
+    }
   },
   {
     "id": "intelligent-process-automation-engineer",
@@ -41774,7 +42857,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High campus placement demand across Global Capability Centers (GCCs), IT services firms (TCS, Infosys, Cognizant, Wipro), and global banks.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "UiPath Studio & Orchestrator",
+        "Microsoft Power Automate",
+        "Automation Anywhere",
+        "VS Code",
+        "Postman",
+        "Git"
+      ]
+    }
   },
   {
     "id": "chief-technology-officer",
@@ -42088,7 +43181,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "Highest technical executive officer in tech companies, enterprise corporations, and digital ventures.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Enterprise Architecture Portals",
+        "Jira / Linear",
+        "Strategic Roadmapping Tools",
+        "Board Presentation Suites"
+      ]
+    }
   },
   {
     "id": "api-platform-sdk-engineer",
@@ -42386,7 +43487,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within API Engineering & Developer Tooling.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Postman",
+        "Speakeasy",
+        "Fern",
+        "Docker",
+        "Kong"
+      ]
+    }
   },
   {
     "id": "software-build-release-engineer",
@@ -42685,7 +43795,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Software Build, Release & Packaging Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Bazel",
+        "Turborepo",
+        "Artifactory",
+        "Docker",
+        "GitHub Actions"
+      ]
+    }
   },
   {
     "id": "systems-software-rust-engineer",
@@ -42982,7 +44101,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Desktop, Systems & Embedded Software.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Cargo",
+        "GDB",
+        "Perf",
+        "Valgrind",
+        "Flamegraphs"
+      ]
+    }
   },
   {
     "id": "webassembly-runtime-engineer",
@@ -43277,7 +44405,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "wasm-pack",
+        "Wasmtime",
+        "Emscripten",
+        "Chrome DevTools"
+      ]
+    }
   },
   {
     "id": "data-governance-engineer",
@@ -43573,7 +44709,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Data Governance, Quality & Observability.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Atlan",
+        "Collibra",
+        "Snowflake",
+        "BigQuery",
+        "Apache Atlas"
+      ]
+    }
   },
   {
     "id": "data-observability-quality-engineer",
@@ -43870,7 +45015,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Data Governance, Quality & Observability.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Monte Carlo",
+        "Great Expectations",
+        "dbt",
+        "Airflow",
+        "Snowflake"
+      ]
+    }
   },
   {
     "id": "knowledge-graph-engineer",
@@ -44169,7 +45323,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Knowledge Engineering & Semantic Architecture.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Neo4j Desktop",
+        "Protégé",
+        "Amazon Neptune",
+        "Graphistry",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "data-mesh-architect",
@@ -44466,7 +45629,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Data Engineering & Big Data.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Databricks",
+        "Snowflake",
+        "dbt Cloud",
+        "Kafka",
+        "Terraform"
+      ]
+    }
   },
   {
     "id": "multimodal-ai-engineer",
@@ -44761,7 +45933,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Generative AI & LLM Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "PyTorch",
+        "Hugging Face",
+        "Weights & Biases",
+        "vLLM",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "llmops-inference-optimization-engineer",
@@ -45059,7 +46240,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within MLOps, AI Infrastructure & Responsible AI.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "vLLM",
+        "TensorRT-LLM",
+        "Triton",
+        "Docker",
+        "Kubernetes",
+        "Ray"
+      ]
+    }
   },
   {
     "id": "vector-database-retrieval-architect",
@@ -45355,7 +46546,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Generative AI & LLM Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Qdrant",
+        "Pinecone",
+        "Milvus",
+        "pgvector",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "kubernetes-infrastructure-operator",
@@ -45654,7 +46854,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within DevOps, Platform Engineering & SRE.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Kubernetes",
+        "kubectl",
+        "Cilium",
+        "Istio",
+        "Helm",
+        "ArgoCD"
+      ]
+    }
   },
   {
     "id": "cloud-network-architect-mesh",
@@ -45948,7 +47158,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Wireshark",
+        "Terraform",
+        "AWS Network Manager",
+        "Cisco IOS"
+      ]
+    }
   },
   {
     "id": "chaos-resiliency-engineer",
@@ -46245,7 +47463,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within DevOps, Platform Engineering & SRE.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Chaos Mesh",
+        "Gremlin",
+        "Kubernetes",
+        "Grafana",
+        "JMeter"
+      ]
+    }
   },
   {
     "id": "cloud-security-posture-engineer",
@@ -46541,7 +47768,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Cloud Security, CNAPP & DevSecOps.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Wiz",
+        "Prisma Cloud",
+        "Checkov",
+        "Trivy",
+        "AWS Security Hub"
+      ]
+    }
   },
   {
     "id": "appsec-vulnerability-researcher",
@@ -46838,7 +48074,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Application Security (AppSec) & Supply Chain Security.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Semgrep",
+        "Snyk",
+        "Burp Suite",
+        "SonarQube",
+        "GitHub Advanced Security"
+      ]
+    }
   },
   {
     "id": "software-supply-chain-security-specialist",
@@ -47134,7 +48379,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Application Security (AppSec) & Supply Chain Security.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Cosign",
+        "Syft / Grype",
+        "Trivy",
+        "GitHub Actions",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "privacy-engineer-cryptographer",
@@ -47430,7 +48684,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "OpenSSL",
+        "LibreSSL",
+        "HashiCorp Vault",
+        "GnuPG"
+      ]
+    }
   },
   {
     "id": "digital-accessibility-a11y-engineer",
@@ -47730,7 +48992,17 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Digital Accessibility (A11y) & Design Systems.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Axe-core",
+        "NVDA",
+        "VoiceOver",
+        "Lighthouse",
+        "Storybook",
+        "Figma"
+      ]
+    }
   },
   {
     "id": "design-systems-engineer",
@@ -48027,7 +49299,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Digital Accessibility (A11y) & Design Systems.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Figma",
+        "Storybook",
+        "Chromatic",
+        "Style Dictionary",
+        "npm / Turborepo"
+      ]
+    }
   },
   {
     "id": "product-growth-operations-specialist",
@@ -48322,7 +49603,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Product Management & Business Analysis.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Mixpanel",
+        "Amplitude",
+        "Statsig / LaunchDarkly",
+        "Snowflake",
+        "Jira"
+      ]
+    }
   },
   {
     "id": "power-platform-solution-architect",
@@ -48617,7 +49907,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Intelligent Process Automation (IPA) & Enterprise RPA.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Power Apps Studio",
+        "Power Automate",
+        "Power Platform Admin Center",
+        "Azure DevOps"
+      ]
+    }
   },
   {
     "id": "ipaas-integration-consultant",
@@ -48912,7 +50210,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Anypoint Studio",
+        "Boomi AtomSphere",
+        "Postman",
+        "Git"
+      ]
+    }
   },
   {
     "id": "workday-technical-consultant",
@@ -49204,7 +50510,14 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Enterprise Applications, ERP & CRM.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Workday Studio (Eclipse)",
+        "Postman",
+        "Oxygen XML Editor"
+      ]
+    }
   },
   {
     "id": "bioinformatics-pipeline-developer",
@@ -49502,7 +50815,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Bioinformatics & Computational Genomics.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Nextflow",
+        "GATK",
+        "SAMtools",
+        "Docker",
+        "IGV (Integrative Genomics Viewer)"
+      ]
+    }
   },
   {
     "id": "autonomous-vehicle-perception-engineer",
@@ -49798,7 +51120,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Autonomous Mobility, Aerial & Drone Systems.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "ROS 2",
+        "CARLA",
+        "TensorRT",
+        "RViz",
+        "Docker"
+      ]
+    }
   },
   {
     "id": "drone-flight-software-engineer",
@@ -50095,7 +51426,16 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Autonomous Mobility, Aerial & Drone Systems.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "QGroundControl",
+        "Gazebo",
+        "PX4 Autopilot",
+        "Git",
+        "JTAG / Logic Analyzers"
+      ]
+    }
   },
   {
     "id": "digital-twin-simulation-engineer",
@@ -50390,7 +51730,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Robotics, IoT & Industrial Automation.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "NVIDIA Omniverse",
+        "Blender",
+        "Unreal Engine",
+        "VS Code"
+      ]
+    }
   },
   {
     "id": "quantum-software-developer",
@@ -50683,7 +52031,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Research Computing & Scientific Technology.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Qiskit",
+        "IBM Quantum Experience",
+        "Cirq",
+        "Jupyter Lab"
+      ]
+    }
   },
   {
     "id": "telco-5g-core-software-engineer",
@@ -50978,7 +52334,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Web Development & Frontend Engineering.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Wireshark (5G Protocols)",
+        "Open5GS",
+        "Docker",
+        "Kubernetes"
+      ]
+    }
   },
   {
     "id": "chief-information-security-officer",
@@ -51271,7 +52635,14 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Executive GRC Portals",
+        "SIEM / XDR Executive Dashboards",
+        "Board Presentation Suites"
+      ]
+    }
   },
   {
     "id": "chief-data-ai-officer",
@@ -51560,7 +52931,14 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Enterprise Data Catalogs",
+        "Executive BI Portals",
+        "Strategic Roadmapping Suites"
+      ]
+    }
   },
   {
     "id": "vp-software-engineering",
@@ -51852,7 +53230,15 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Jira Enterprise",
+        "Linear",
+        "GitHub Enterprise",
+        "Executive Dashboards"
+      ]
+    }
   },
   {
     "id": "director-technology-strategy",
@@ -52141,7 +53527,14 @@ export const MASTER_CAREER_ROLES = [
     "whyRoleExists": "High enterprise and technology sector demand within Executive Technology Leadership & C-Suite.",
     "onetCode": "15-1252.00",
     "verificationStandard": "O*NET / SFIA 9 / NIST NICE / CNCF",
-    "prerequisites": "Solid computer science foundations and relevant domain programming experience."
+    "prerequisites": "Solid computer science foundations and relevant domain programming experience.",
+    "toolsStack": {
+      "tools": [
+        "Gartner / Forrester Research Portals",
+        "Strategic Planning Suites",
+        "Architecture Modeling Tools"
+      ]
+    }
   },
   {
     "id": "developer-experience-dx-engineer",
@@ -52205,38 +53598,28 @@ export const MASTER_CAREER_ROLES = [
       "Cross-functional diplomacy",
       "Customer feedback synthesis"
     ],
-    "tools": {
-      "languages": [
-        "TypeScript",
-        "Go",
-        "Python",
-        "Bash",
-        "Rust"
-      ],
-      "frameworks": [
-        "Backstage.io",
-        "Docusaurus",
-        "Next.js",
-        "Oclif",
-        "Cobra"
-      ],
-      "tools": [
-        "Postman",
-        "Stoplight",
-        "GitHub Actions",
-        "Spectral",
-        "Fern"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "Cloudflare Workers",
-        "Vercel"
-      ],
-      "databases": [
-        "PostgreSQL",
-        "Redis"
-      ]
-    },
+    "tools": [
+      "TypeScript",
+      "Go",
+      "Python",
+      "Bash",
+      "Rust",
+      "Backstage.io",
+      "Docusaurus",
+      "Next.js",
+      "Oclif",
+      "Cobra",
+      "Postman",
+      "Stoplight",
+      "GitHub Actions",
+      "Spectral",
+      "Fern",
+      "AWS",
+      "Cloudflare Workers",
+      "Vercel",
+      "PostgreSQL",
+      "Redis"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 24,
@@ -52368,7 +53751,39 @@ export const MASTER_CAREER_ROLES = [
       "Developer churn due to cryptic APIs",
       "Slow team onboarding cycle times",
       "Inconsistent SDK libraries across programming languages"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "TypeScript",
+        "Go",
+        "Python",
+        "Bash",
+        "Rust"
+      ],
+      "frameworks": [
+        "Backstage.io",
+        "Docusaurus",
+        "Next.js",
+        "Oclif",
+        "Cobra"
+      ],
+      "tools": [
+        "Postman",
+        "Stoplight",
+        "GitHub Actions",
+        "Spectral",
+        "Fern"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "Cloudflare Workers",
+        "Vercel"
+      ],
+      "databases": [
+        "PostgreSQL",
+        "Redis"
+      ]
+    }
   },
   {
     "id": "api-governance-architect",
@@ -52430,34 +53845,24 @@ export const MASTER_CAREER_ROLES = [
       "Architecture review facilitation",
       "Strategic product vision"
     ],
-    "tools": {
-      "languages": [
-        "Go",
-        "TypeScript",
-        "Java",
-        "Python"
-      ],
-      "frameworks": [
-        "Spectral",
-        "Apollo Federation",
-        "Spring Cloud Gateway"
-      ],
-      "tools": [
-        "Kong Gateway",
-        "Google Cloud Apigee",
-        "Postman Enterprise",
-        "MuleSoft Anypoint"
-      ],
-      "cloudPlatforms": [
-        "AWS API Gateway",
-        "Azure API Management",
-        "GCP Apigee"
-      ],
-      "databases": [
-        "Redis",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "Go",
+      "TypeScript",
+      "Java",
+      "Python",
+      "Spectral",
+      "Apollo Federation",
+      "Spring Cloud Gateway",
+      "Kong Gateway",
+      "Google Cloud Apigee",
+      "Postman Enterprise",
+      "MuleSoft Anypoint",
+      "AWS API Gateway",
+      "Azure API Management",
+      "GCP Apigee",
+      "Redis",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 32,
@@ -52590,7 +53995,35 @@ export const MASTER_CAREER_ROLES = [
       "Sprawling undocumented shadow APIs",
       "Breaking changes impacting mobile/web users",
       "Inconsistent authentication across services"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Go",
+        "TypeScript",
+        "Java",
+        "Python"
+      ],
+      "frameworks": [
+        "Spectral",
+        "Apollo Federation",
+        "Spring Cloud Gateway"
+      ],
+      "tools": [
+        "Kong Gateway",
+        "Google Cloud Apigee",
+        "Postman Enterprise",
+        "MuleSoft Anypoint"
+      ],
+      "cloudPlatforms": [
+        "AWS API Gateway",
+        "Azure API Management",
+        "GCP Apigee"
+      ],
+      "databases": [
+        "Redis",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "release-orchestration-manager",
@@ -52651,34 +54084,24 @@ export const MASTER_CAREER_ROLES = [
       "Inter-team negotiation",
       "Calm under pressure"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "Bash",
-        "YAML",
-        "Groovy"
-      ],
-      "frameworks": [
-        "ArgoCD",
-        "FluxCD",
-        "Jenkins"
-      ],
-      "tools": [
-        "LaunchDarkly",
-        "ServiceNow",
-        "Jira Align",
-        "GitHub Enterprise",
-        "Datadog"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "Azure",
-        "GCP"
-      ],
-      "databases": [
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "Python",
+      "Bash",
+      "YAML",
+      "Groovy",
+      "ArgoCD",
+      "FluxCD",
+      "Jenkins",
+      "LaunchDarkly",
+      "ServiceNow",
+      "Jira Align",
+      "GitHub Enterprise",
+      "Datadog",
+      "AWS",
+      "Azure",
+      "GCP",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Moderate to High",
       "avgSalaryLPA": 22,
@@ -52811,7 +54234,35 @@ export const MASTER_CAREER_ROLES = [
       "Failed deployments causing system downtime",
       "Uncoordinated cross-team code clashes",
       "Non-compliant or unvetted changes hitting production"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "Bash",
+        "YAML",
+        "Groovy"
+      ],
+      "frameworks": [
+        "ArgoCD",
+        "FluxCD",
+        "Jenkins"
+      ],
+      "tools": [
+        "LaunchDarkly",
+        "ServiceNow",
+        "Jira Align",
+        "GitHub Enterprise",
+        "Datadog"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "Azure",
+        "GCP"
+      ],
+      "databases": [
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "build-infrastructure-systems-engineer",
@@ -52872,38 +54323,28 @@ export const MASTER_CAREER_ROLES = [
       "Performance benchmarking rigor",
       "Engineering enablement empathy"
     ],
-    "tools": {
-      "languages": [
-        "Starlark",
-        "Go",
-        "Rust",
-        "Python",
-        "C++"
-      ],
-      "frameworks": [
-        "Bazel",
-        "Buck2",
-        "Turborepo",
-        "Nx",
-        "Gradle Enterprise"
-      ],
-      "tools": [
-        "BuildBuddy",
-        "JFrog Artifactory",
-        "GitHub Actions Self-Hosted Runners",
-        "Docker",
-        "Kubernetes"
-      ],
-      "cloudPlatforms": [
-        "AWS EC2 Spot Fleets",
-        "GCP Compute Engine",
-        "Bare Metal"
-      ],
-      "databases": [
-        "Redis",
-        "MinIO/S3 (Remote Cache Storage)"
-      ]
-    },
+    "tools": [
+      "Starlark",
+      "Go",
+      "Rust",
+      "Python",
+      "C++",
+      "Bazel",
+      "Buck2",
+      "Turborepo",
+      "Nx",
+      "Gradle Enterprise",
+      "BuildBuddy",
+      "JFrog Artifactory",
+      "GitHub Actions Self-Hosted Runners",
+      "Docker",
+      "Kubernetes",
+      "AWS EC2 Spot Fleets",
+      "GCP Compute Engine",
+      "Bare Metal",
+      "Redis",
+      "MinIO/S3 (Remote Cache Storage)"
+    ],
     "stats": {
       "demand": "High & Specialized",
       "avgSalaryLPA": 28,
@@ -53036,7 +54477,39 @@ export const MASTER_CAREER_ROLES = [
       "Multi-hour compile times draining engineer productivity",
       "\"Works on my machine\" build discrepancies",
       "Corrupted binary dependencies and cache contamination"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Starlark",
+        "Go",
+        "Rust",
+        "Python",
+        "C++"
+      ],
+      "frameworks": [
+        "Bazel",
+        "Buck2",
+        "Turborepo",
+        "Nx",
+        "Gradle Enterprise"
+      ],
+      "tools": [
+        "BuildBuddy",
+        "JFrog Artifactory",
+        "GitHub Actions Self-Hosted Runners",
+        "Docker",
+        "Kubernetes"
+      ],
+      "cloudPlatforms": [
+        "AWS EC2 Spot Fleets",
+        "GCP Compute Engine",
+        "Bare Metal"
+      ],
+      "databases": [
+        "Redis",
+        "MinIO/S3 (Remote Cache Storage)"
+      ]
+    }
   },
   {
     "id": "data-privacy-compliance-engineer",
@@ -53099,38 +54572,28 @@ export const MASTER_CAREER_ROLES = [
       "Ethical responsibility",
       "Attention to data nuances"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "SQL",
-        "Java",
-        "Scala"
-      ],
-      "frameworks": [
-        "Apache Ranger",
-        "OpenLineage",
-        "OpenMetadata"
-      ],
-      "tools": [
-        "Immuta",
-        "Privacera",
-        "Collibra",
-        "BigID",
-        "OneTrust",
-        "Snowflake Data Clean Rooms"
-      ],
-      "cloudPlatforms": [
-        "AWS Macie",
-        "GCP Sensitive Data Protection",
-        "Azure Purview"
-      ],
-      "databases": [
-        "Snowflake",
-        "BigQuery",
-        "PostgreSQL",
-        "Databricks Unity Catalog"
-      ]
-    },
+    "tools": [
+      "Python",
+      "SQL",
+      "Java",
+      "Scala",
+      "Apache Ranger",
+      "OpenLineage",
+      "OpenMetadata",
+      "Immuta",
+      "Privacera",
+      "Collibra",
+      "BigID",
+      "OneTrust",
+      "Snowflake Data Clean Rooms",
+      "AWS Macie",
+      "GCP Sensitive Data Protection",
+      "Azure Purview",
+      "Snowflake",
+      "BigQuery",
+      "PostgreSQL",
+      "Databricks Unity Catalog"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 26,
@@ -53263,7 +54726,39 @@ export const MASTER_CAREER_ROLES = [
       "Accidental exposure of customer personal identification numbers",
       "Manual, error-prone response to consumer data deletion requests",
       "Untracked sensitive data spreading into development environments"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "SQL",
+        "Java",
+        "Scala"
+      ],
+      "frameworks": [
+        "Apache Ranger",
+        "OpenLineage",
+        "OpenMetadata"
+      ],
+      "tools": [
+        "Immuta",
+        "Privacera",
+        "Collibra",
+        "BigID",
+        "OneTrust",
+        "Snowflake Data Clean Rooms"
+      ],
+      "cloudPlatforms": [
+        "AWS Macie",
+        "GCP Sensitive Data Protection",
+        "Azure Purview"
+      ],
+      "databases": [
+        "Snowflake",
+        "BigQuery",
+        "PostgreSQL",
+        "Databricks Unity Catalog"
+      ]
+    }
   },
   {
     "id": "ontology-semantic-web-architect",
@@ -53327,37 +54822,27 @@ export const MASTER_CAREER_ROLES = [
       "Taxonomic rigor",
       "Patience with complex domain logic"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "SPARQL",
-        "Java",
-        "Turtle/N-Triples"
-      ],
-      "frameworks": [
-        "Apache Jena",
-        "RDFLib",
-        "OWL API",
-        "TopBraid Composer"
-      ],
-      "tools": [
-        "Protégé",
-        "GraphDB (Ontotext)",
-        "Stardog",
-        "AllegroGraph",
-        "PoolParty"
-      ],
-      "cloudPlatforms": [
-        "AWS Neptune",
-        "Azure Cosmos DB",
-        "GCP"
-      ],
-      "databases": [
-        "Stardog Knowledge Graph",
-        "Ontotext GraphDB",
-        "Neo4j"
-      ]
-    },
+    "tools": [
+      "Python",
+      "SPARQL",
+      "Java",
+      "Turtle/N-Triples",
+      "Apache Jena",
+      "RDFLib",
+      "OWL API",
+      "TopBraid Composer",
+      "Protégé",
+      "GraphDB (Ontotext)",
+      "Stardog",
+      "AllegroGraph",
+      "PoolParty",
+      "AWS Neptune",
+      "Azure Cosmos DB",
+      "GCP",
+      "Stardog Knowledge Graph",
+      "Ontotext GraphDB",
+      "Neo4j"
+    ],
     "stats": {
       "demand": "High & Growing",
       "avgSalaryLPA": 27,
@@ -53490,7 +54975,38 @@ export const MASTER_CAREER_ROLES = [
       "Disconnected data silos using conflicting business terminologies",
       "LLM hallucinations in mission-critical applications",
       "Inability to execute automated logical inference across domain data"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "SPARQL",
+        "Java",
+        "Turtle/N-Triples"
+      ],
+      "frameworks": [
+        "Apache Jena",
+        "RDFLib",
+        "OWL API",
+        "TopBraid Composer"
+      ],
+      "tools": [
+        "Protégé",
+        "GraphDB (Ontotext)",
+        "Stardog",
+        "AllegroGraph",
+        "PoolParty"
+      ],
+      "cloudPlatforms": [
+        "AWS Neptune",
+        "Azure Cosmos DB",
+        "GCP"
+      ],
+      "databases": [
+        "Stardog Knowledge Graph",
+        "Ontotext GraphDB",
+        "Neo4j"
+      ]
+    }
   },
   {
     "id": "taxonomy-metadata-specialist",
@@ -53551,34 +55067,24 @@ export const MASTER_CAREER_ROLES = [
       "User research empathy",
       "Cross-departmental collaboration"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "SQL",
-        "XML"
-      ],
-      "frameworks": [
-        "SKOS",
-        "Dublin Core",
-        "ISO 25964"
-      ],
-      "tools": [
-        "PoolParty Thesaurus Server",
-        "Synaptica",
-        "Collibra Data Intelligence",
-        "Alation Data Catalog",
-        "Apache Atlas"
-      ],
-      "cloudPlatforms": [
-        "AWS Glue Data Catalog",
-        "Azure Purview",
-        "Google Cloud Dataplex"
-      ],
-      "databases": [
-        "Elasticsearch",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "Python",
+      "SQL",
+      "XML",
+      "SKOS",
+      "Dublin Core",
+      "ISO 25964",
+      "PoolParty Thesaurus Server",
+      "Synaptica",
+      "Collibra Data Intelligence",
+      "Alation Data Catalog",
+      "Apache Atlas",
+      "AWS Glue Data Catalog",
+      "Azure Purview",
+      "Google Cloud Dataplex",
+      "Elasticsearch",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Moderate",
       "avgSalaryLPA": 14,
@@ -53712,7 +55218,35 @@ export const MASTER_CAREER_ROLES = [
       "Employees unable to find critical internal documents",
       "Misaligned reporting due to varying definitions of core business terms",
       "Inaccurate enterprise search results"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "SQL",
+        "XML"
+      ],
+      "frameworks": [
+        "SKOS",
+        "Dublin Core",
+        "ISO 25964"
+      ],
+      "tools": [
+        "PoolParty Thesaurus Server",
+        "Synaptica",
+        "Collibra Data Intelligence",
+        "Alation Data Catalog",
+        "Apache Atlas"
+      ],
+      "cloudPlatforms": [
+        "AWS Glue Data Catalog",
+        "Azure Purview",
+        "Google Cloud Dataplex"
+      ],
+      "databases": [
+        "Elasticsearch",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "internal-developer-platform-product-manager",
@@ -53774,33 +55308,23 @@ export const MASTER_CAREER_ROLES = [
       "Influence without authority",
       "Strategic trade-off judgment"
     ],
-    "tools": {
-      "languages": [
-        "SQL",
-        "Markdown"
-      ],
-      "frameworks": [
-        "DORA Metrics",
-        "SPACE Framework",
-        "Scrum / Kanban"
-      ],
-      "tools": [
-        "Jira Product Discovery",
-        "Productboard",
-        "Backstage.io",
-        "Miro",
-        "Datadog",
-        "Mixpanel"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "GCP",
-        "Azure"
-      ],
-      "databases": [
-        "Snowflake (Internal Analytics)"
-      ]
-    },
+    "tools": [
+      "SQL",
+      "Markdown",
+      "DORA Metrics",
+      "SPACE Framework",
+      "Scrum / Kanban",
+      "Jira Product Discovery",
+      "Productboard",
+      "Backstage.io",
+      "Miro",
+      "Datadog",
+      "Mixpanel",
+      "AWS",
+      "GCP",
+      "Azure",
+      "Snowflake (Internal Analytics)"
+    ],
     "stats": {
       "demand": "High & Rising",
       "avgSalaryLPA": 29,
@@ -53932,7 +55456,34 @@ export const MASTER_CAREER_ROLES = [
       "Internal developer tools with terrible UX and poor adoption",
       "Siloed infrastructure teams building conflicting custom solutions",
       "Executive inability to quantify the ROI of developer tooling investments"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "SQL",
+        "Markdown"
+      ],
+      "frameworks": [
+        "DORA Metrics",
+        "SPACE Framework",
+        "Scrum / Kanban"
+      ],
+      "tools": [
+        "Jira Product Discovery",
+        "Productboard",
+        "Backstage.io",
+        "Miro",
+        "Datadog",
+        "Mixpanel"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "GCP",
+        "Azure"
+      ],
+      "databases": [
+        "Snowflake (Internal Analytics)"
+      ]
+    }
   },
   {
     "id": "core-infrastructure-automation-engineer",
@@ -53995,37 +55546,27 @@ export const MASTER_CAREER_ROLES = [
       "Clear architectural documentation",
       "Engineering rigor"
     ],
-    "tools": {
-      "languages": [
-        "Go",
-        "Python",
-        "HCL (Terraform)",
-        "Bash"
-      ],
-      "frameworks": [
-        "Crossplane",
-        "Terratest",
-        "Ansible"
-      ],
-      "tools": [
-        "OpenTofu",
-        "Packer",
-        "HashiCorp Vault",
-        "Atlantis (PR automation)",
-        "GitLab CI"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "Google Cloud",
-        "Azure",
-        "Equinix Metal"
-      ],
-      "databases": [
-        "etcd",
-        "Consul",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "Go",
+      "Python",
+      "HCL (Terraform)",
+      "Bash",
+      "Crossplane",
+      "Terratest",
+      "Ansible",
+      "OpenTofu",
+      "Packer",
+      "HashiCorp Vault",
+      "Atlantis (PR automation)",
+      "GitLab CI",
+      "AWS",
+      "Google Cloud",
+      "Azure",
+      "Equinix Metal",
+      "etcd",
+      "Consul",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 25,
@@ -54158,7 +55699,38 @@ export const MASTER_CAREER_ROLES = [
       "Manual configuration drift between environments",
       "Slow multi-week server provisioning lead times",
       "Undocumented \"snowflake\" servers vulnerable to unpatched CVEs"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Go",
+        "Python",
+        "HCL (Terraform)",
+        "Bash"
+      ],
+      "frameworks": [
+        "Crossplane",
+        "Terratest",
+        "Ansible"
+      ],
+      "tools": [
+        "OpenTofu",
+        "Packer",
+        "HashiCorp Vault",
+        "Atlantis (PR automation)",
+        "GitLab CI"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "Google Cloud",
+        "Azure",
+        "Equinix Metal"
+      ],
+      "databases": [
+        "etcd",
+        "Consul",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "green-cloud-sustainability-architect",
@@ -54219,34 +55791,24 @@ export const MASTER_CAREER_ROLES = [
       "Data-backed persuasion",
       "Regulatory foresight"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "SQL",
-        "Bash"
-      ],
-      "frameworks": [
-        "Cloud Carbon Footprint (CCF)",
-        "Green Software Foundation SDK",
-        "Kepler (Kubernetes Efficient Power Level Exporter)"
-      ],
-      "tools": [
-        "Grafana",
-        "Prometheus",
-        "AWS Customer Carbon Footprint Tool",
-        "Google Cloud Carbon Footprint",
-        "Microsoft Sustainability Manager"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "Google Cloud",
-        "Microsoft Azure"
-      ],
-      "databases": [
-        "PostgreSQL",
-        "TimescaleDB"
-      ]
-    },
+    "tools": [
+      "Python",
+      "SQL",
+      "Bash",
+      "Cloud Carbon Footprint (CCF)",
+      "Green Software Foundation SDK",
+      "Kepler (Kubernetes Efficient Power Level Exporter)",
+      "Grafana",
+      "Prometheus",
+      "AWS Customer Carbon Footprint Tool",
+      "Google Cloud Carbon Footprint",
+      "Microsoft Sustainability Manager",
+      "AWS",
+      "Google Cloud",
+      "Microsoft Azure",
+      "PostgreSQL",
+      "TimescaleDB"
+    ],
     "stats": {
       "demand": "Emerging & Fast Growing",
       "avgSalaryLPA": 26,
@@ -54379,7 +55941,35 @@ export const MASTER_CAREER_ROLES = [
       "Unmonitored cloud computing carbon emissions violating ESG mandates",
       "Inefficient software architectures wasting gigawatt-hours of power",
       "Lack of visibility into digital infrastructure environmental impacts"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "SQL",
+        "Bash"
+      ],
+      "frameworks": [
+        "Cloud Carbon Footprint (CCF)",
+        "Green Software Foundation SDK",
+        "Kepler (Kubernetes Efficient Power Level Exporter)"
+      ],
+      "tools": [
+        "Grafana",
+        "Prometheus",
+        "AWS Customer Carbon Footprint Tool",
+        "Google Cloud Carbon Footprint",
+        "Microsoft Sustainability Manager"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "Google Cloud",
+        "Microsoft Azure"
+      ],
+      "databases": [
+        "PostgreSQL",
+        "TimescaleDB"
+      ]
+    }
   },
   {
     "id": "cloud-cost-optimization-lead",
@@ -54440,33 +56030,23 @@ export const MASTER_CAREER_ROLES = [
       "Cross-departmental diplomacy",
       "Analytical rigor"
     ],
-    "tools": {
-      "languages": [
-        "SQL",
-        "Python"
-      ],
-      "frameworks": [
-        "FinOps Foundation Principles",
-        "FOCUS (FinOps Open Cost & Usage Spec)"
-      ],
-      "tools": [
-        "CloudHealth by VMware",
-        "Apptio Cloudability",
-        "Kubecost",
-        "AWS Cost Explorer",
-        "Azure Cost Management",
-        "Tableau"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "Microsoft Azure",
-        "Google Cloud Platform"
-      ],
-      "databases": [
-        "Snowflake",
-        "BigQuery"
-      ]
-    },
+    "tools": [
+      "SQL",
+      "Python",
+      "FinOps Foundation Principles",
+      "FOCUS (FinOps Open Cost & Usage Spec)",
+      "CloudHealth by VMware",
+      "Apptio Cloudability",
+      "Kubecost",
+      "AWS Cost Explorer",
+      "Azure Cost Management",
+      "Tableau",
+      "AWS",
+      "Microsoft Azure",
+      "Google Cloud Platform",
+      "Snowflake",
+      "BigQuery"
+    ],
     "stats": {
       "demand": "Very High",
       "avgSalaryLPA": 30,
@@ -54599,7 +56179,34 @@ export const MASTER_CAREER_ROLES = [
       "Uncontrolled monthly cloud bill blowouts",
       "Huge waste from unutilized compute and storage resources",
       "Unfavorable multi-year vendor lock-in contracts"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "SQL",
+        "Python"
+      ],
+      "frameworks": [
+        "FinOps Foundation Principles",
+        "FOCUS (FinOps Open Cost & Usage Spec)"
+      ],
+      "tools": [
+        "CloudHealth by VMware",
+        "Apptio Cloudability",
+        "Kubecost",
+        "AWS Cost Explorer",
+        "Azure Cost Management",
+        "Tableau"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "Microsoft Azure",
+        "Google Cloud Platform"
+      ],
+      "databases": [
+        "Snowflake",
+        "BigQuery"
+      ]
+    }
   },
   {
     "id": "pam-privileged-access-specialist",
@@ -54662,32 +56269,22 @@ export const MASTER_CAREER_ROLES = [
       "High-stress incident resolution",
       "Diplomatic policy enforcement"
     ],
-    "tools": {
-      "languages": [
-        "PowerShell",
-        "Python",
-        "Bash"
-      ],
-      "frameworks": [
-        "NIST SP 800-207 (Zero Trust)",
-        "MITRE ATT&CK Privileged Access Matrix"
-      ],
-      "tools": [
-        "CyberArk Privileged Access Manager",
-        "BeyondTrust Endpoint Privilege Management",
-        "HashiCorp Vault Enterprise",
-        "Teleport",
-        "Delinea Secret Server"
-      ],
-      "cloudPlatforms": [
-        "AWS IAM Identity Center",
-        "Microsoft Entra ID Privileged Identity Management (PIM)"
-      ],
-      "databases": [
-        "Active Directory LDAP",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "PowerShell",
+      "Python",
+      "Bash",
+      "NIST SP 800-207 (Zero Trust)",
+      "MITRE ATT&CK Privileged Access Matrix",
+      "CyberArk Privileged Access Manager",
+      "BeyondTrust Endpoint Privilege Management",
+      "HashiCorp Vault Enterprise",
+      "Teleport",
+      "Delinea Secret Server",
+      "AWS IAM Identity Center",
+      "Microsoft Entra ID Privileged Identity Management (PIM)",
+      "Active Directory LDAP",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Very High",
       "avgSalaryLPA": 24,
@@ -54820,7 +56417,33 @@ export const MASTER_CAREER_ROLES = [
       "Unvaulted domain admin passwords stored in text files",
       "Unmonitored administrative backdoor access across production servers",
       "Former employees retaining persistent access to critical infrastructure"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "PowerShell",
+        "Python",
+        "Bash"
+      ],
+      "frameworks": [
+        "NIST SP 800-207 (Zero Trust)",
+        "MITRE ATT&CK Privileged Access Matrix"
+      ],
+      "tools": [
+        "CyberArk Privileged Access Manager",
+        "BeyondTrust Endpoint Privilege Management",
+        "HashiCorp Vault Enterprise",
+        "Teleport",
+        "Delinea Secret Server"
+      ],
+      "cloudPlatforms": [
+        "AWS IAM Identity Center",
+        "Microsoft Entra ID Privileged Identity Management (PIM)"
+      ],
+      "databases": [
+        "Active Directory LDAP",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "customer-identity-ciam-engineer",
@@ -54885,37 +56508,27 @@ export const MASTER_CAREER_ROLES = [
       "Cross-functional engineering communication",
       "Fraud prevention mindset"
     ],
-    "tools": {
-      "languages": [
-        "TypeScript",
-        "JavaScript",
-        "Go",
-        "Python"
-      ],
-      "frameworks": [
-        "NextAuth.js",
-        "Passport.js",
-        "Spring Security"
-      ],
-      "tools": [
-        "Auth0 by Okta",
-        "AWS Cognito",
-        "Microsoft Entra External ID",
-        "Firebase Authentication",
-        "Stytch",
-        "Ping Identity"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "Google Cloud Platform",
-        "Cloudflare Workers"
-      ],
-      "databases": [
-        "Redis",
-        "DynamoDB",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "TypeScript",
+      "JavaScript",
+      "Go",
+      "Python",
+      "NextAuth.js",
+      "Passport.js",
+      "Spring Security",
+      "Auth0 by Okta",
+      "AWS Cognito",
+      "Microsoft Entra External ID",
+      "Firebase Authentication",
+      "Stytch",
+      "Ping Identity",
+      "AWS",
+      "Google Cloud Platform",
+      "Cloudflare Workers",
+      "Redis",
+      "DynamoDB",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 23,
@@ -55048,7 +56661,38 @@ export const MASTER_CAREER_ROLES = [
       "Customer drop-off during checkout caused by forgotten passwords",
       "Massive automated credential-stuffing attacks overloading databases",
       "Insecure storage of customer password hashes"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "TypeScript",
+        "JavaScript",
+        "Go",
+        "Python"
+      ],
+      "frameworks": [
+        "NextAuth.js",
+        "Passport.js",
+        "Spring Security"
+      ],
+      "tools": [
+        "Auth0 by Okta",
+        "AWS Cognito",
+        "Microsoft Entra External ID",
+        "Firebase Authentication",
+        "Stytch",
+        "Ping Identity"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "Google Cloud Platform",
+        "Cloudflare Workers"
+      ],
+      "databases": [
+        "Redis",
+        "DynamoDB",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "kubernetes-container-security-specialist",
@@ -55110,37 +56754,27 @@ export const MASTER_CAREER_ROLES = [
       "High-speed incident triage",
       "Analytical problem solving"
     ],
-    "tools": {
-      "languages": [
-        "Go",
-        "Rego (OPA)",
-        "Python",
-        "Bash",
-        "C (eBPF)"
-      ],
-      "frameworks": [
-        "CIS Kubernetes Benchmark",
-        "MITRE ATT&CK for Containers"
-      ],
-      "tools": [
-        "Falco",
-        "Kyverno",
-        "Trivy",
-        "Aqua Security",
-        "Sysdig Secure",
-        "Prisma Cloud",
-        "Cosign (Sigstore)"
-      ],
-      "cloudPlatforms": [
-        "AWS EKS",
-        "GCP GKE",
-        "Azure AKS"
-      ],
-      "databases": [
-        "etcd",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "Go",
+      "Rego (OPA)",
+      "Python",
+      "Bash",
+      "C (eBPF)",
+      "CIS Kubernetes Benchmark",
+      "MITRE ATT&CK for Containers",
+      "Falco",
+      "Kyverno",
+      "Trivy",
+      "Aqua Security",
+      "Sysdig Secure",
+      "Prisma Cloud",
+      "Cosign (Sigstore)",
+      "AWS EKS",
+      "GCP GKE",
+      "Azure AKS",
+      "etcd",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Extremely High",
       "avgSalaryLPA": 29,
@@ -55273,7 +56907,38 @@ export const MASTER_CAREER_ROLES = [
       "Privileged container escapes compromising entire host nodes",
       "Ransomware and crypto-mining malware stealthily running in containers",
       "Insecure default cluster configurations violating compliance standards"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Go",
+        "Rego (OPA)",
+        "Python",
+        "Bash",
+        "C (eBPF)"
+      ],
+      "frameworks": [
+        "CIS Kubernetes Benchmark",
+        "MITRE ATT&CK for Containers"
+      ],
+      "tools": [
+        "Falco",
+        "Kyverno",
+        "Trivy",
+        "Aqua Security",
+        "Sysdig Secure",
+        "Prisma Cloud",
+        "Cosign (Sigstore)"
+      ],
+      "cloudPlatforms": [
+        "AWS EKS",
+        "GCP GKE",
+        "Azure AKS"
+      ],
+      "databases": [
+        "etcd",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "product-security-incident-response-psirt-engineer",
@@ -55334,36 +56999,26 @@ export const MASTER_CAREER_ROLES = [
       "Precise technical communication",
       "Cross-functional consensus building"
     ],
-    "tools": {
-      "languages": [
-        "C",
-        "C++",
-        "Python",
-        "Go",
-        "Java",
-        "Rust"
-      ],
-      "frameworks": [
-        "CVSS Calculator",
-        "FIRST PSIRT Services Framework",
-        "CWE (Common Weakness Enumeration)"
-      ],
-      "tools": [
-        "HackerOne",
-        "Bugcrowd",
-        "Jira Security",
-        "Ghidra",
-        "Wireshark",
-        "Burp Suite Pro"
-      ],
-      "cloudPlatforms": [
-        "AWS",
-        "GitHub Enterprise"
-      ],
-      "databases": [
-        "National Vulnerability Database (NVD)"
-      ]
-    },
+    "tools": [
+      "C",
+      "C++",
+      "Python",
+      "Go",
+      "Java",
+      "Rust",
+      "CVSS Calculator",
+      "FIRST PSIRT Services Framework",
+      "CWE (Common Weakness Enumeration)",
+      "HackerOne",
+      "Bugcrowd",
+      "Jira Security",
+      "Ghidra",
+      "Wireshark",
+      "Burp Suite Pro",
+      "AWS",
+      "GitHub Enterprise",
+      "National Vulnerability Database (NVD)"
+    ],
     "stats": {
       "demand": "High & Crucial",
       "avgSalaryLPA": 27,
@@ -55496,7 +57151,37 @@ export const MASTER_CAREER_ROLES = [
       "Uncoordinated public disclosures causing zero-day crises",
       "Disputed vulnerability severities delaying patch urgency",
       "Inadequate customer advisories failing compliance standards"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "C",
+        "C++",
+        "Python",
+        "Go",
+        "Java",
+        "Rust"
+      ],
+      "frameworks": [
+        "CVSS Calculator",
+        "FIRST PSIRT Services Framework",
+        "CWE (Common Weakness Enumeration)"
+      ],
+      "tools": [
+        "HackerOne",
+        "Bugcrowd",
+        "Jira Security",
+        "Ghidra",
+        "Wireshark",
+        "Burp Suite Pro"
+      ],
+      "cloudPlatforms": [
+        "AWS",
+        "GitHub Enterprise"
+      ],
+      "databases": [
+        "National Vulnerability Database (NVD)"
+      ]
+    }
   },
   {
     "id": "inclusive-design-specialist",
@@ -55557,32 +57242,23 @@ export const MASTER_CAREER_ROLES = [
       "Advocacy without alienation",
       "Facilitation skills"
     ],
-    "tools": {
-      "languages": [
-        "HTML5",
-        "CSS3"
-      ],
-      "frameworks": [
-        "WCAG 2.2",
-        "Section 508",
-        "Microsoft Inclusive Design Toolkit",
-        "EN 301 549"
-      ],
-      "tools": [
-        "Figma",
-        "Stark",
-        "Color Oracle",
-        "NVDA",
-        "VoiceOver",
-        "JAWS",
-        "Miro"
-      ],
-      "cloudPlatforms": [
-        "UserTesting.com",
-        "Fable (Assistive Tech Research Platform)"
-      ],
-      "databases": []
-    },
+    "tools": [
+      "HTML5",
+      "CSS3",
+      "WCAG 2.2",
+      "Section 508",
+      "Microsoft Inclusive Design Toolkit",
+      "EN 301 549",
+      "Figma",
+      "Stark",
+      "Color Oracle",
+      "NVDA",
+      "VoiceOver",
+      "JAWS",
+      "Miro",
+      "UserTesting.com",
+      "Fable (Assistive Tech Research Platform)"
+    ],
     "stats": {
       "demand": "High & Rising",
       "avgSalaryLPA": 19,
@@ -55715,7 +57391,33 @@ export const MASTER_CAREER_ROLES = [
       "Products inaccessible to millions of disabled users",
       "Expensive legal lawsuits under the Americans with Disabilities Act (ADA)",
       "Cluttered, confusing interfaces alienating older or neurodivergent customers"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "HTML5",
+        "CSS3"
+      ],
+      "frameworks": [
+        "WCAG 2.2",
+        "Section 508",
+        "Microsoft Inclusive Design Toolkit",
+        "EN 301 549"
+      ],
+      "tools": [
+        "Figma",
+        "Stark",
+        "Color Oracle",
+        "NVDA",
+        "VoiceOver",
+        "JAWS",
+        "Miro"
+      ],
+      "cloudPlatforms": [
+        "UserTesting.com",
+        "Fable (Assistive Tech Research Platform)"
+      ],
+      "databases": []
+    }
   },
   {
     "id": "hyperautomation-solutions-architect",
@@ -55779,36 +57481,26 @@ export const MASTER_CAREER_ROLES = [
       "Change management leadership",
       "Inter-departmental alignment"
     ],
-    "tools": {
-      "languages": [
-        "C#",
-        "Python",
-        "VB.NET",
-        "SQL"
-      ],
-      "frameworks": [
-        "UiPath REFramework",
-        "BPMN 2.0",
-        "LangChain"
-      ],
-      "tools": [
-        "UiPath Orchestrator",
-        "Automation Anywhere 360",
-        "Celonis Process Mining",
-        "ABBYY FlexiCapture",
-        "Microsoft Power Automate"
-      ],
-      "cloudPlatforms": [
-        "Azure AI Document Intelligence",
-        "AWS Textract",
-        "GCP Document AI"
-      ],
-      "databases": [
-        "SQL Server",
-        "Oracle Database",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "C#",
+      "Python",
+      "VB.NET",
+      "SQL",
+      "UiPath REFramework",
+      "BPMN 2.0",
+      "LangChain",
+      "UiPath Orchestrator",
+      "Automation Anywhere 360",
+      "Celonis Process Mining",
+      "ABBYY FlexiCapture",
+      "Microsoft Power Automate",
+      "Azure AI Document Intelligence",
+      "AWS Textract",
+      "GCP Document AI",
+      "SQL Server",
+      "Oracle Database",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Very High",
       "avgSalaryLPA": 28,
@@ -55941,7 +57633,37 @@ export const MASTER_CAREER_ROLES = [
       "Millions of employee hours wasted on manual data entry across legacy green-screen systems",
       "High error rates in invoice processing and loan approvals",
       "Slow multi-day transaction turnaround times"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "C#",
+        "Python",
+        "VB.NET",
+        "SQL"
+      ],
+      "frameworks": [
+        "UiPath REFramework",
+        "BPMN 2.0",
+        "LangChain"
+      ],
+      "tools": [
+        "UiPath Orchestrator",
+        "Automation Anywhere 360",
+        "Celonis Process Mining",
+        "ABBYY FlexiCapture",
+        "Microsoft Power Automate"
+      ],
+      "cloudPlatforms": [
+        "Azure AI Document Intelligence",
+        "AWS Textract",
+        "GCP Document AI"
+      ],
+      "databases": [
+        "SQL Server",
+        "Oracle Database",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "computational-biologist-data-scientist",
@@ -56005,40 +57727,30 @@ export const MASTER_CAREER_ROLES = [
       "Interdisciplinary communication with wet-lab biologists",
       "Ethical responsibility in genetics"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "R",
-        "Bash",
-        "C++"
-      ],
-      "frameworks": [
-        "Bioconductor",
-        "Scanpy",
-        "Seurat",
-        "PyTorch-Geometric",
-        "DESeq2"
-      ],
-      "tools": [
-        "GATK (Broad Institute)",
-        "BWA / Bowtie2",
-        "IGV (Integrative Genomics Viewer)",
-        "Slurm Workload Manager",
-        "JupyterLab"
-      ],
-      "cloudPlatforms": [
-        "AWS HealthOmics",
-        "Google Cloud Life Sciences",
-        "DNAnexus"
-      ],
-      "databases": [
-        "NCBI GenBank",
-        "Ensembl",
-        "ClinVar",
-        "TCGA (The Cancer Genome Atlas)",
-        "UCSC Genome Browser"
-      ]
-    },
+    "tools": [
+      "Python",
+      "R",
+      "Bash",
+      "C++",
+      "Bioconductor",
+      "Scanpy",
+      "Seurat",
+      "PyTorch-Geometric",
+      "DESeq2",
+      "GATK (Broad Institute)",
+      "BWA / Bowtie2",
+      "IGV (Integrative Genomics Viewer)",
+      "Slurm Workload Manager",
+      "JupyterLab",
+      "AWS HealthOmics",
+      "Google Cloud Life Sciences",
+      "DNAnexus",
+      "NCBI GenBank",
+      "Ensembl",
+      "ClinVar",
+      "TCGA (The Cancer Genome Atlas)",
+      "UCSC Genome Browser"
+    ],
     "stats": {
       "demand": "High & Specialized",
       "avgSalaryLPA": 26,
@@ -56171,7 +57883,41 @@ export const MASTER_CAREER_ROLES = [
       "Pinpointing genetic mutations that cause rare childhood disorders",
       "Discovering why cancer tumors develop resistance to chemotherapy",
       "Designing personalized mRNA vaccines and immunotherapies"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "R",
+        "Bash",
+        "C++"
+      ],
+      "frameworks": [
+        "Bioconductor",
+        "Scanpy",
+        "Seurat",
+        "PyTorch-Geometric",
+        "DESeq2"
+      ],
+      "tools": [
+        "GATK (Broad Institute)",
+        "BWA / Bowtie2",
+        "IGV (Integrative Genomics Viewer)",
+        "Slurm Workload Manager",
+        "JupyterLab"
+      ],
+      "cloudPlatforms": [
+        "AWS HealthOmics",
+        "Google Cloud Life Sciences",
+        "DNAnexus"
+      ],
+      "databases": [
+        "NCBI GenBank",
+        "Ensembl",
+        "ClinVar",
+        "TCGA (The Cancer Genome Atlas)",
+        "UCSC Genome Browser"
+      ]
+    }
   },
   {
     "id": "clinical-genomics-software-engineer",
@@ -56235,37 +57981,27 @@ export const MASTER_CAREER_ROLES = [
       "Patient-outcome dedication",
       "Software verification rigor"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "Go",
-        "Bash",
-        "Nextflow"
-      ],
-      "frameworks": [
-        "Nextflow",
-        "WDL (Workflow Description Language)",
-        "Broad Institute GATK",
-        "HAPI FHIR"
-      ],
-      "tools": [
-        "Docker",
-        "AWS HealthOmics",
-        "Illumina Connected Analytics",
-        "Jira Compliant SDLC",
-        "GitHub Enterprise"
-      ],
-      "cloudPlatforms": [
-        "AWS HealthOmics",
-        "Google Cloud Healthcare API",
-        "Azure Health Data Services"
-      ],
-      "databases": [
-        "PostgreSQL",
-        "ClinVar",
-        "COSMIC"
-      ]
-    },
+    "tools": [
+      "Python",
+      "Go",
+      "Bash",
+      "Nextflow",
+      "Nextflow",
+      "WDL (Workflow Description Language)",
+      "Broad Institute GATK",
+      "HAPI FHIR",
+      "Docker",
+      "AWS HealthOmics",
+      "Illumina Connected Analytics",
+      "Jira Compliant SDLC",
+      "GitHub Enterprise",
+      "AWS HealthOmics",
+      "Google Cloud Healthcare API",
+      "Azure Health Data Services",
+      "PostgreSQL",
+      "ClinVar",
+      "COSMIC"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 27,
@@ -56398,7 +58134,38 @@ export const MASTER_CAREER_ROLES = [
       "Pipeline execution bugs yielding incorrect cancer mutation diagnoses",
       "Unencrypted genetic patient records violating patient privacy laws",
       "Slow multi-day computing turnaround times delaying critical surgeries"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "Go",
+        "Bash",
+        "Nextflow"
+      ],
+      "frameworks": [
+        "Nextflow",
+        "WDL (Workflow Description Language)",
+        "Broad Institute GATK",
+        "HAPI FHIR"
+      ],
+      "tools": [
+        "Docker",
+        "AWS HealthOmics",
+        "Illumina Connected Analytics",
+        "Jira Compliant SDLC",
+        "GitHub Enterprise"
+      ],
+      "cloudPlatforms": [
+        "AWS HealthOmics",
+        "Google Cloud Healthcare API",
+        "Azure Health Data Services"
+      ],
+      "databases": [
+        "PostgreSQL",
+        "ClinVar",
+        "COSMIC"
+      ]
+    }
   },
   {
     "id": "robotics-motion-planning-controls-engineer",
@@ -56461,34 +58228,24 @@ export const MASTER_CAREER_ROLES = [
       "Systematic simulation testing",
       "Calm debugging under hardware deadlines"
     ],
-    "tools": {
-      "languages": [
-        "C++",
-        "Python",
-        "MATLAB/Simulink"
-      ],
-      "frameworks": [
-        "ROS 2",
-        "CasADi",
-        "OSQP",
-        "Autoware",
-        "Apex.AI"
-      ],
-      "tools": [
-        "CARLA Simulator",
-        "Gazebo",
-        "Foxglove Studio",
-        "Vector CANoe",
-        "Docker"
-      ],
-      "cloudPlatforms": [
-        "AWS RoboMaker",
-        "Azure Autonomous Vehicle Simulation"
-      ],
-      "databases": [
-        "MCAP / ROSbag"
-      ]
-    },
+    "tools": [
+      "C++",
+      "Python",
+      "MATLAB/Simulink",
+      "ROS 2",
+      "CasADi",
+      "OSQP",
+      "Autoware",
+      "Apex.AI",
+      "CARLA Simulator",
+      "Gazebo",
+      "Foxglove Studio",
+      "Vector CANoe",
+      "Docker",
+      "AWS RoboMaker",
+      "Azure Autonomous Vehicle Simulation",
+      "MCAP / ROSbag"
+    ],
     "stats": {
       "demand": "Very High & Elite",
       "avgSalaryLPA": 32,
@@ -56621,7 +58378,35 @@ export const MASTER_CAREER_ROLES = [
       "Unsafe vehicle jerky maneuvers during sudden lane changes",
       "Failure to safely navigate complex unstructured traffic intersections",
       "Vehicle control instability during high-speed rain or slick road conditions"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "C++",
+        "Python",
+        "MATLAB/Simulink"
+      ],
+      "frameworks": [
+        "ROS 2",
+        "CasADi",
+        "OSQP",
+        "Autoware",
+        "Apex.AI"
+      ],
+      "tools": [
+        "CARLA Simulator",
+        "Gazebo",
+        "Foxglove Studio",
+        "Vector CANoe",
+        "Docker"
+      ],
+      "cloudPlatforms": [
+        "AWS RoboMaker",
+        "Azure Autonomous Vehicle Simulation"
+      ],
+      "databases": [
+        "MCAP / ROSbag"
+      ]
+    }
   },
   {
     "id": "multi-agent-orchestration-engineer",
@@ -56685,36 +58470,26 @@ export const MASTER_CAREER_ROLES = [
       "Disciplined safety awareness",
       "Creativity in agent delegation"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "TypeScript"
-      ],
-      "frameworks": [
-        "LangGraph",
-        "CrewAI",
-        "Microsoft AutoGen",
-        "LlamaIndex Workflows",
-        "Semantic Kernel"
-      ],
-      "tools": [
-        "LangSmith",
-        "Weights & Biases Weave",
-        "Docker Sandboxes",
-        "E2B Code Interpreter",
-        "Postman"
-      ],
-      "cloudPlatforms": [
-        "AWS Bedrock",
-        "Google Cloud Vertex AI",
-        "Azure OpenAI Service"
-      ],
-      "databases": [
-        "Redis (Agent State)",
-        "Qdrant / Pinecone (Vector Memory)",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "Python",
+      "TypeScript",
+      "LangGraph",
+      "CrewAI",
+      "Microsoft AutoGen",
+      "LlamaIndex Workflows",
+      "Semantic Kernel",
+      "LangSmith",
+      "Weights & Biases Weave",
+      "Docker Sandboxes",
+      "E2B Code Interpreter",
+      "Postman",
+      "AWS Bedrock",
+      "Google Cloud Vertex AI",
+      "Azure OpenAI Service",
+      "Redis (Agent State)",
+      "Qdrant / Pinecone (Vector Memory)",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Extremely High & Explosive",
       "avgSalaryLPA": 30,
@@ -56847,7 +58622,37 @@ export const MASTER_CAREER_ROLES = [
       "AI getting stuck in infinite repeating loops",
       "LLMs hallucinating fake data during multi-step reasoning",
       "Inability of AI models to safely execute real-world code and software tools"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "TypeScript"
+      ],
+      "frameworks": [
+        "LangGraph",
+        "CrewAI",
+        "Microsoft AutoGen",
+        "LlamaIndex Workflows",
+        "Semantic Kernel"
+      ],
+      "tools": [
+        "LangSmith",
+        "Weights & Biases Weave",
+        "Docker Sandboxes",
+        "E2B Code Interpreter",
+        "Postman"
+      ],
+      "cloudPlatforms": [
+        "AWS Bedrock",
+        "Google Cloud Vertex AI",
+        "Azure OpenAI Service"
+      ],
+      "databases": [
+        "Redis (Agent State)",
+        "Qdrant / Pinecone (Vector Memory)",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "satellite-telemetry-gis-data-engineer",
@@ -56911,36 +58716,26 @@ export const MASTER_CAREER_ROLES = [
       "Data pipeline scalability mindset",
       "Cross-disciplinary collaboration"
     ],
-    "tools": {
-      "languages": [
-        "Python",
-        "SQL",
-        "C++"
-      ],
-      "frameworks": [
-        "Rasterio",
-        "GeoPandas",
-        "Xarray",
-        "TorchGeo",
-        "Apache Sedona"
-      ],
-      "tools": [
-        "QGIS",
-        "GDAL CLI",
-        "Google Earth Engine",
-        "Planet Explorer",
-        "Sentinel Hub"
-      ],
-      "cloudPlatforms": [
-        "AWS Open Data (Registry of Open Data)",
-        "Google Earth Engine",
-        "Planetary Computer (Microsoft)"
-      ],
-      "databases": [
-        "PostgreSQL / PostGIS",
-        "DuckDB (Spatial Extension)"
-      ]
-    },
+    "tools": [
+      "Python",
+      "SQL",
+      "C++",
+      "Rasterio",
+      "GeoPandas",
+      "Xarray",
+      "TorchGeo",
+      "Apache Sedona",
+      "QGIS",
+      "GDAL CLI",
+      "Google Earth Engine",
+      "Planet Explorer",
+      "Sentinel Hub",
+      "AWS Open Data (Registry of Open Data)",
+      "Google Earth Engine",
+      "Planetary Computer (Microsoft)",
+      "PostgreSQL / PostGIS",
+      "DuckDB (Spatial Extension)"
+    ],
     "stats": {
       "demand": "High",
       "avgSalaryLPA": 22,
@@ -57073,7 +58868,37 @@ export const MASTER_CAREER_ROLES = [
       "Slow, unindexed satellite imagery stalling emergency disaster relief",
       "Inability to query petabytes of geospatial imagery without downloading gigabyte files",
       "Lack of real-time monitoring for global environmental deforestation and flooding"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Python",
+        "SQL",
+        "C++"
+      ],
+      "frameworks": [
+        "Rasterio",
+        "GeoPandas",
+        "Xarray",
+        "TorchGeo",
+        "Apache Sedona"
+      ],
+      "tools": [
+        "QGIS",
+        "GDAL CLI",
+        "Google Earth Engine",
+        "Planet Explorer",
+        "Sentinel Hub"
+      ],
+      "cloudPlatforms": [
+        "AWS Open Data (Registry of Open Data)",
+        "Google Earth Engine",
+        "Planetary Computer (Microsoft)"
+      ],
+      "databases": [
+        "PostgreSQL / PostGIS",
+        "DuckDB (Spatial Extension)"
+      ]
+    }
   },
   {
     "id": "clinical-health-informatics-specialist",
@@ -57138,36 +58963,26 @@ export const MASTER_CAREER_ROLES = [
       "Patience with legacy protocols",
       "Precision in medical terminology"
     ],
-    "tools": {
-      "languages": [
-        "JavaScript",
-        "Java",
-        "Python",
-        "SQL"
-      ],
-      "frameworks": [
-        "HAPI FHIR",
-        "SMART Health IT",
-        "CDS Hooks Spec"
-      ],
-      "tools": [
-        "NextGen Connect (Mirth)",
-        "Epic App Orchard / Cosmos",
-        "Cerner Code",
-        "Postman FHIR Collections",
-        "Wireshark"
-      ],
-      "cloudPlatforms": [
-        "Azure Health Data Services",
-        "AWS HealthLake",
-        "Google Cloud Healthcare API"
-      ],
-      "databases": [
-        "Epic Chronicles / Clarity / Caboodle",
-        "SQL Server",
-        "PostgreSQL"
-      ]
-    },
+    "tools": [
+      "JavaScript",
+      "Java",
+      "Python",
+      "SQL",
+      "HAPI FHIR",
+      "SMART Health IT",
+      "CDS Hooks Spec",
+      "NextGen Connect (Mirth)",
+      "Epic App Orchard / Cosmos",
+      "Cerner Code",
+      "Postman FHIR Collections",
+      "Wireshark",
+      "Azure Health Data Services",
+      "AWS HealthLake",
+      "Google Cloud Healthcare API",
+      "Epic Chronicles / Clarity / Caboodle",
+      "SQL Server",
+      "PostgreSQL"
+    ],
     "stats": {
       "demand": "Very High",
       "avgSalaryLPA": 24,
@@ -57301,7 +59116,37 @@ export const MASTER_CAREER_ROLES = [
       "Disconnected hospital databases causing missed medication allergies",
       "Doctors burning out from tedious manual EHR data entry",
       "Patients unable to access their electronic health records across different health networks"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "JavaScript",
+        "Java",
+        "Python",
+        "SQL"
+      ],
+      "frameworks": [
+        "HAPI FHIR",
+        "SMART Health IT",
+        "CDS Hooks Spec"
+      ],
+      "tools": [
+        "NextGen Connect (Mirth)",
+        "Epic App Orchard / Cosmos",
+        "Cerner Code",
+        "Postman FHIR Collections",
+        "Wireshark"
+      ],
+      "cloudPlatforms": [
+        "Azure Health Data Services",
+        "AWS HealthLake",
+        "Google Cloud Healthcare API"
+      ],
+      "databases": [
+        "Epic Chronicles / Clarity / Caboodle",
+        "SQL Server",
+        "PostgreSQL"
+      ]
+    }
   },
   {
     "id": "spatial-computing-visionos-engineer",
@@ -57366,33 +59211,24 @@ export const MASTER_CAREER_ROLES = [
       "Creative technical problem solving",
       "Perceptual psychology curiosity"
     ],
-    "tools": {
-      "languages": [
-        "Swift",
-        "C#",
-        "C++",
-        "Metal Shading Language"
-      ],
-      "frameworks": [
-        "RealityKit",
-        "ARKit",
-        "OpenXR",
-        "SwiftUI",
-        "Unity XR Interaction Toolkit"
-      ],
-      "tools": [
-        "Xcode Reality Composer Pro",
-        "Blender",
-        "Instruments (Metal System Trace)",
-        "Unity Editor",
-        "Unreal Engine 5"
-      ],
-      "cloudPlatforms": [
-        "Apple Developer Cloud",
-        "Meta Horizon Developer Hub"
-      ],
-      "databases": []
-    },
+    "tools": [
+      "Swift",
+      "C#",
+      "C++",
+      "Metal Shading Language",
+      "RealityKit",
+      "ARKit",
+      "OpenXR",
+      "SwiftUI",
+      "Unity XR Interaction Toolkit",
+      "Xcode Reality Composer Pro",
+      "Blender",
+      "Instruments (Metal System Trace)",
+      "Unity Editor",
+      "Unreal Engine 5",
+      "Apple Developer Cloud",
+      "Meta Horizon Developer Hub"
+    ],
     "stats": {
       "demand": "High & Cutting-Edge",
       "avgSalaryLPA": 26,
@@ -57526,7 +59362,34 @@ export const MASTER_CAREER_ROLES = [
       "Clunky 2D interfaces ported poorly to 3D virtual spaces",
       "Motion sickness caused by stuttering frame rates in VR headsets",
       "High power consumption draining headset battery in under an hour"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Swift",
+        "C#",
+        "C++",
+        "Metal Shading Language"
+      ],
+      "frameworks": [
+        "RealityKit",
+        "ARKit",
+        "OpenXR",
+        "SwiftUI",
+        "Unity XR Interaction Toolkit"
+      ],
+      "tools": [
+        "Xcode Reality Composer Pro",
+        "Blender",
+        "Instruments (Metal System Trace)",
+        "Unity Editor",
+        "Unreal Engine 5"
+      ],
+      "cloudPlatforms": [
+        "Apple Developer Cloud",
+        "Meta Horizon Developer Hub"
+      ],
+      "databases": []
+    }
   },
   {
     "id": "defi-smart-contract-security-auditor",
@@ -57590,37 +59453,27 @@ export const MASTER_CAREER_ROLES = [
       "High-stakes integrity",
       "Clear written communication in vulnerability reports"
     ],
-    "tools": {
-      "languages": [
-        "Solidity",
-        "Yul",
-        "Rust",
-        "Python"
-      ],
-      "frameworks": [
-        "Foundry (Forge/Cast)",
-        "Hardhat",
-        "OpenZeppelin Contracts",
-        "Certora Prover"
-      ],
-      "tools": [
-        "Slither",
-        "Echidna",
-        "Mythril",
-        "Aderyn",
-        "Tenderly",
-        "Etherscan"
-      ],
-      "cloudPlatforms": [
-        "Ethereum Mainnet",
-        "Arbitrum / Optimism (L2s)",
-        "Polygon",
-        "Solana"
-      ],
-      "databases": [
-        "The Graph (Subgraphs)"
-      ]
-    },
+    "tools": [
+      "Solidity",
+      "Yul",
+      "Rust",
+      "Python",
+      "Foundry (Forge/Cast)",
+      "Hardhat",
+      "OpenZeppelin Contracts",
+      "Certora Prover",
+      "Slither",
+      "Echidna",
+      "Mythril",
+      "Aderyn",
+      "Tenderly",
+      "Etherscan",
+      "Ethereum Mainnet",
+      "Arbitrum / Optimism (L2s)",
+      "Polygon",
+      "Solana",
+      "The Graph (Subgraphs)"
+    ],
     "stats": {
       "demand": "Extremely High & Elite",
       "avgSalaryLPA": 35,
@@ -57753,6 +59606,37 @@ export const MASTER_CAREER_ROLES = [
       "Multi-million-dollar crypto protocol hacks draining user deposits",
       "Logical flaws in token staking and liquidation mathematical models",
       "Gas-inefficient smart contracts costing users exorbitant transaction fees"
-    ]
+    ],
+    "toolsStack": {
+      "languages": [
+        "Solidity",
+        "Yul",
+        "Rust",
+        "Python"
+      ],
+      "frameworks": [
+        "Foundry (Forge/Cast)",
+        "Hardhat",
+        "OpenZeppelin Contracts",
+        "Certora Prover"
+      ],
+      "tools": [
+        "Slither",
+        "Echidna",
+        "Mythril",
+        "Aderyn",
+        "Tenderly",
+        "Etherscan"
+      ],
+      "cloudPlatforms": [
+        "Ethereum Mainnet",
+        "Arbitrum / Optimism (L2s)",
+        "Polygon",
+        "Solana"
+      ],
+      "databases": [
+        "The Graph (Subgraphs)"
+      ]
+    }
   }
 ];
