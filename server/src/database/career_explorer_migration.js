@@ -150,6 +150,19 @@ async function runCareerExplorerMigration() {
     await ensureColumn('career_roles', 'deliverables', 'JSON');
     await ensureColumn('career_roles', 'career_readiness', 'JSON');
     await ensureColumn('career_roles', 'related_roles', 'JSON');
+    await ensureColumn('career_roles', 'alternative_titles', 'JSON');
+    await ensureColumn('career_roles', 'what_professional_does', 'TEXT');
+    await ensureColumn('career_roles', 'why_role_exists', 'TEXT');
+    await ensureColumn('career_roles', 'problems_solved', 'JSON');
+    await ensureColumn('career_roles', 'educational_qualifications', 'TEXT');
+    await ensureColumn('career_roles', 'prerequisites', 'TEXT');
+    await ensureColumn('career_roles', 'certifications', 'JSON');
+    await ensureColumn('career_roles', 'industry_applications', 'JSON');
+    await ensureColumn('career_roles', 'career_progression', 'TEXT');
+    await ensureColumn('career_roles', 'salary_insight', 'JSON');
+    await ensureColumn('career_roles', 'market_demand', 'TEXT');
+    await ensureColumn('career_roles', 'onet_code', 'VARCHAR(50)');
+    await ensureColumn('career_roles', 'verification_standard', 'VARCHAR(255)');
     await ensureColumn('career_roles', 'updated_at', 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
     // Load master domain dataset from client
@@ -218,8 +231,12 @@ async function runCareerExplorerMigration() {
           short_description, scope, responsibilities, deliverables,
           technical_skills, soft_skills, tools, stats,
           career_readiness, roadmap, projects, interview_questions,
-          top_hiring_companies, related_roles, sort_order
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          top_hiring_companies, related_roles, sort_order,
+          alternative_titles, what_professional_does, why_role_exists,
+          problems_solved, educational_qualifications, prerequisites,
+          certifications, industry_applications, career_progression,
+          salary_insight, market_demand, onet_code, verification_standard
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE
           title = VALUES(title),
           category = VALUES(category),
@@ -240,7 +257,20 @@ async function runCareerExplorerMigration() {
           interview_questions = VALUES(interview_questions),
           top_hiring_companies = VALUES(top_hiring_companies),
           related_roles = VALUES(related_roles),
-          sort_order = VALUES(sort_order)`,
+          sort_order = VALUES(sort_order),
+          alternative_titles = VALUES(alternative_titles),
+          what_professional_does = VALUES(what_professional_does),
+          why_role_exists = VALUES(why_role_exists),
+          problems_solved = VALUES(problems_solved),
+          educational_qualifications = VALUES(educational_qualifications),
+          prerequisites = VALUES(prerequisites),
+          certifications = VALUES(certifications),
+          industry_applications = VALUES(industry_applications),
+          career_progression = VALUES(career_progression),
+          salary_insight = VALUES(salary_insight),
+          market_demand = VALUES(market_demand),
+          onet_code = VALUES(onet_code),
+          verification_standard = VALUES(verification_standard)`,
         [
           r.id,
           r.title,
@@ -262,7 +292,20 @@ async function runCareerExplorerMigration() {
           JSON.stringify(r.interviewQuestions || []),
           JSON.stringify(r.topHiringCompanies || []),
           JSON.stringify(r.relatedRoles || []),
-          roleOrder++
+          roleOrder++,
+          JSON.stringify(r.alternativeTitles || []),
+          r.whatProfessionalDoes || '',
+          r.whyRoleExists || '',
+          JSON.stringify(r.problemsSolved || []),
+          r.educationalQualifications || '',
+          r.prerequisites || '',
+          JSON.stringify(r.certifications || {}),
+          JSON.stringify(r.industryApplications || []),
+          r.careerProgression || '',
+          JSON.stringify(r.salaryInsight || {}),
+          r.marketDemand || '',
+          r.onetCode || '',
+          r.verificationStandard || ''
         ]
       );
 
