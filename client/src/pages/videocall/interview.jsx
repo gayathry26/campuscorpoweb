@@ -97,9 +97,11 @@ export function InterviewRoomPage() {
   const broadcastChannelRef = useRef(null);
   const screenTrackRef = useRef(null);
 
-  // In-Call Media States
-  const [micOn, setMicOn] = useState(true);
-  const [cameraOn, setCameraOn] = useState(true);
+  // In-Call Media States & Permission Gate
+  const [mediaPermissionGranted, setMediaPermissionGranted] = useState(false);
+  const [requestingMedia, setRequestingMedia] = useState(false);
+  const [micOn, setMicOn] = useState(false);
+  const [cameraOn, setCameraOn] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [handRaised, setHandRaised] = useState(false);
   const [captionOn, setCaptionOn] = useState(false);
@@ -261,39 +263,76 @@ export function InterviewRoomPage() {
       });
   }, [activeRoomCode]);
 
-  // 6. Initialize Media Stream (Webcam and Microphone)
-  useEffect(() => {
-    let isMounted = true;
-
-    async function initMedia() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: { ideal: 1280 }, height: { ideal: 720 } },
-          audio: true
-        });
-
-        if (!isMounted) {
-          stream.getTracks().forEach((t) => t.stop());
-          return;
-        }
-
-        localStreamRef.current = stream;
-        if (localVideoRef.current) {
-          localVideoRef.current.srcObject = stream;
-        }
-        setCameraError(null);
-      } catch (err) {
-        console.warn('Webcam/mic access notice:', err);
-        if (isMounted) {
-          setCameraError(err.message || 'Media permission denied or hardware unavailable');
-        }
+  // 6. Request & Initialize Media Stream (Webcam and Microphone upon User Permission)
+  const requestMediaAccess = async () => {
+    if (localStreamRef.current) {
+      localStreamRef.current.getVideoTracks().forEach((t) => (t.enabled = true));
+      localStreamRef.current.getAudioTracks().forEach((t) => (t.enabled = true));
+      setCameraOn(true);
+      setMicOn(true);
+      setMediaPermissionGranted(true);
+      if (localVideoRef.current) {
+        localVideoRef.current.srcObject = localStreamRef.current;
       }
+      if (guestVideoRef.current) {
+        guestVideoRef.current.srcObject = localStreamRef.current;
+      }
+      return localStreamRef.current;
     }
 
-    initMedia();
+    try {
+      setRequestingMedia(true);
+      setCameraError(null);
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: true
+      });
 
+      localStreamRef.current = stream;
+      if (localVideoRef.current) {
+        localVideoRef.current.srcObject = stream;
+      }
+      if (guestVideoRef.current) {
+        guestVideoRef.current.srcObject = stream;
+      }
+
+      setMediaPermissionGranted(true);
+      setCameraOn(true);
+      setMicOn(true);
+      setCameraError(null);
+      showToast('Camera and microphone enabled successfully', 'success');
+
+      // If a peer connection already exists in call, attach newly enabled tracks
+      if (peerConnectionRef.current) {
+        const senders = peerConnectionRef.current.getSenders();
+        stream.getTracks().forEach((track) => {
+          const existingSender = senders.find((s) => s.track && s.track.kind === track.kind);
+          if (existingSender) {
+            existingSender.replaceTrack(track);
+          } else {
+            peerConnectionRef.current.addTrack(track, stream);
+          }
+        });
+      }
+
+      return stream;
+    } catch (err) {
+      console.warn('Webcam/mic access notice:', err);
+      const errMsg = err.message || 'Media permission denied or hardware unavailable';
+      setCameraError(errMsg);
+      setMediaPermissionGranted(false);
+      setCameraOn(false);
+      setMicOn(false);
+      showToast(`Permission denied or device unavailable: ${errMsg}`, 'error');
+      return null;
+    } finally {
+      setRequestingMedia(false);
+    }
+  };
+
+  // Cleanup media stream on unmount
+  useEffect(() => {
     return () => {
-      isMounted = false;
       if (localStreamRef.current) {
         localStreamRef.current.getTracks().forEach((t) => t.stop());
       }
@@ -603,42 +642,46 @@ export function InterviewRoomPage() {
   }, [inCall, activeRoomCode, isStudent, wasAdmitted, canCreate, user, userRole, iceServers]);
 
   // 8. Toggle Camera
-  const toggleCamera = () => {
-    if (localStreamRef.current) {
-      const videoTracks = localStreamRef.current.getVideoTracks();
-      const nextState = !cameraOn;
-      videoTracks.forEach((t) => {
-        t.enabled = nextState;
-      });
-      setCameraOn(nextState);
+  const toggleCamera = async () => {
+    if (!localStreamRef.current) {
+      await requestMediaAccess();
+      return;
+    }
+    const videoTracks = localStreamRef.current.getVideoTracks();
+    const nextState = !cameraOn;
+    videoTracks.forEach((t) => {
+      t.enabled = nextState;
+    });
+    setCameraOn(nextState);
 
-      if (socketRef.current) {
-        socketRef.current.emit('media-toggle', {
-          roomId: activeRoomCode,
-          type: 'video',
-          enabled: nextState
-        });
-      }
+    if (socketRef.current) {
+      socketRef.current.emit('media-toggle', {
+        roomId: activeRoomCode,
+        type: 'video',
+        enabled: nextState
+      });
     }
   };
 
   // 9. Toggle Microphone
-  const toggleMic = () => {
-    if (localStreamRef.current) {
-      const audioTracks = localStreamRef.current.getAudioTracks();
-      const nextState = !micOn;
-      audioTracks.forEach((t) => {
-        t.enabled = nextState;
-      });
-      setMicOn(nextState);
+  const toggleMic = async () => {
+    if (!localStreamRef.current) {
+      await requestMediaAccess();
+      return;
+    }
+    const audioTracks = localStreamRef.current.getAudioTracks();
+    const nextState = !micOn;
+    audioTracks.forEach((t) => {
+      t.enabled = nextState;
+    });
+    setMicOn(nextState);
 
-      if (socketRef.current) {
-        socketRef.current.emit('media-toggle', {
-          roomId: activeRoomCode,
-          type: 'mic',
-          enabled: nextState
-        });
-      }
+    if (socketRef.current) {
+      socketRef.current.emit('media-toggle', {
+        roomId: activeRoomCode,
+        type: 'mic',
+        enabled: nextState
+      });
     }
   };
 
@@ -809,6 +852,9 @@ export function InterviewRoomPage() {
       fetchScheduled();
 
       if (launchImmediately) {
+        if (!localStreamRef.current && !mediaPermissionGranted) {
+          await requestMediaAccess();
+        }
         setActiveRoomCode(created.room_code);
         setInCall(true);
         navigate(`/interview/room/${created.room_code}`);
@@ -880,9 +926,12 @@ export function InterviewRoomPage() {
   };
 
   // 21. Join by Custom Code
-  const handleJoinByCode = (code) => {
+  const handleJoinByCode = async (code) => {
     const cleanCode = (code || inputCode).trim();
     if (!cleanCode) return;
+    if (!localStreamRef.current && !mediaPermissionGranted) {
+      await requestMediaAccess();
+    }
     setActiveRoomCode(cleanCode);
     setInCall(true);
     navigate(`/interview/room/${cleanCode}`);
@@ -982,14 +1031,50 @@ export function InterviewRoomPage() {
 
           {/* Video & Hardware Preview */}
           <div className="my-5 relative rounded-2xl overflow-hidden bg-slate-950 aspect-video border border-slate-800 flex items-center justify-center">
-            <video
-              ref={guestVideoRef}
-              autoPlay
-              playsInline
-              muted
-              className={`w-full h-full object-cover transform -scale-x-100 ${!cameraOn ? 'hidden' : ''}`}
-            />
-            {!cameraOn && (
+            {!mediaPermissionGranted ? (
+              <div className="flex flex-col items-center justify-center text-center p-5 space-y-3 max-w-sm">
+                <div className="w-12 h-12 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
+                  <Video size={22} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Enable Camera & Audio</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Camera and microphone are off by default. Grant browser permission to test your hardware before joining.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => requestMediaAccess()}
+                  disabled={requestingMedia}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition-all cursor-pointer shadow-lg shadow-blue-600/30 disabled:opacity-50"
+                >
+                  {requestingMedia ? (
+                    <>
+                      <RefreshCw size={13} className="animate-spin" />
+                      <span>Requesting Access...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Shield size={13} />
+                      <span>Allow Camera & Mic</span>
+                    </>
+                  )}
+                </button>
+                {cameraError && (
+                  <p className="text-[11px] text-rose-400 font-medium px-2 py-1 rounded bg-rose-500/10 border border-rose-500/20">
+                    {cameraError}
+                  </p>
+                )}
+              </div>
+            ) : cameraOn && !cameraError ? (
+              <video
+                ref={guestVideoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover transform -scale-x-100"
+              />
+            ) : (
               <div className="flex flex-col items-center gap-2 text-slate-500">
                 <VideoOff size={36} />
                 <span className="text-xs font-semibold">Camera is Turned Off</span>
@@ -1004,7 +1089,7 @@ export function InterviewRoomPage() {
                 className={`p-3 rounded-full transition-colors cursor-pointer shadow-md ${
                   micOn ? 'bg-slate-800/90 text-white hover:bg-slate-700' : 'bg-red-500 text-white hover:bg-red-600'
                 }`}
-                title={micOn ? 'Mute Microphone' : 'Unmute Microphone'}
+                title={!mediaPermissionGranted ? 'Click to allow microphone' : micOn ? 'Mute Microphone' : 'Unmute Microphone'}
               >
                 {micOn ? <Mic size={18} /> : <MicOff size={18} />}
               </button>
@@ -1014,7 +1099,7 @@ export function InterviewRoomPage() {
                 className={`p-3 rounded-full transition-colors cursor-pointer shadow-md ${
                   cameraOn ? 'bg-slate-800/90 text-white hover:bg-slate-700' : 'bg-red-500 text-white hover:bg-red-600'
                 }`}
-                title={cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
+                title={!mediaPermissionGranted ? 'Click to allow camera' : cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
               >
                 {cameraOn ? <Video size={18} /> : <VideoOff size={18} />}
               </button>
@@ -1417,7 +1502,42 @@ export function InterviewRoomPage() {
                 </div>
 
                 <div className="relative aspect-video bg-secondary rounded-xl overflow-hidden border border-border flex items-center justify-center">
-                  {cameraOn && !cameraError ? (
+                  {!mediaPermissionGranted ? (
+                    <div className="flex flex-col items-center justify-center text-center p-5 space-y-3 max-w-sm">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs">
+                        <Video size={22} />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold text-foreground">Camera & Audio Permission</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Video and audio are off by default. Grant permission to test your camera and microphone before entering the interview.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => requestMediaAccess()}
+                        disabled={requestingMedia}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all cursor-pointer shadow-xs disabled:opacity-50"
+                      >
+                        {requestingMedia ? (
+                          <>
+                            <RefreshCw size={13} className="animate-spin" />
+                            <span>Requesting Access...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Shield size={13} />
+                            <span>Allow Camera & Mic</span>
+                          </>
+                        )}
+                      </button>
+                      {cameraError && (
+                        <p className="text-[11px] text-destructive font-medium px-2.5 py-1 rounded-md bg-destructive/10 border border-destructive/20">
+                          {cameraError}
+                        </p>
+                      )}
+                    </div>
+                  ) : cameraOn && !cameraError ? (
                     <video
                       ref={localVideoRef}
                       autoPlay
@@ -1436,14 +1556,21 @@ export function InterviewRoomPage() {
                   )}
 
                   <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                    <div
-                      className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-border ${
-                        micOn ? 'bg-background text-foreground' : 'bg-secondary text-muted-foreground'
-                      }`}
-                    >
-                      {micOn ? <Mic size={11} /> : <MicOff size={11} />}
-                      <span>{micOn ? 'Microphone Active' : 'Microphone Muted'}</span>
-                    </div>
+                    {!mediaPermissionGranted ? (
+                      <div className="px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-border bg-background/90 text-muted-foreground backdrop-blur-xs">
+                        <Shield size={11} />
+                        <span>Permission Required</span>
+                      </div>
+                    ) : (
+                      <div
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-border ${
+                          micOn ? 'bg-background text-foreground' : 'bg-secondary text-muted-foreground'
+                        }`}
+                      >
+                        {micOn ? <Mic size={11} /> : <MicOff size={11} />}
+                        <span>{micOn ? 'Microphone Active' : 'Microphone Muted'}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1454,7 +1581,7 @@ export function InterviewRoomPage() {
                     className={`p-2.5 rounded-full transition-colors cursor-pointer border border-border shadow-xs ${
                       micOn ? 'bg-primary text-primary-foreground' : 'bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground'
                     }`}
-                    title={micOn ? 'Mute Mic' : 'Unmute Mic'}
+                    title={!mediaPermissionGranted ? 'Click to allow microphone' : micOn ? 'Mute Mic' : 'Unmute Mic'}
                   >
                     {micOn ? <Mic size={16} /> : <MicOff size={16} />}
                   </button>
@@ -1464,7 +1591,7 @@ export function InterviewRoomPage() {
                     className={`p-2.5 rounded-full transition-colors cursor-pointer border border-border shadow-xs ${
                       cameraOn ? 'bg-primary text-primary-foreground' : 'bg-secondary hover:bg-neutral-200 dark:hover:bg-neutral-800 text-foreground'
                     }`}
-                    title={cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
+                    title={!mediaPermissionGranted ? 'Click to allow camera' : cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
                   >
                     {cameraOn ? <Video size={16} /> : <VideoOff size={16} />}
                   </button>
