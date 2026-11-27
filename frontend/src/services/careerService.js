@@ -70,8 +70,8 @@ export const careerService = {
       (d) =>
         d &&
         ((d.id && d.id.toLowerCase() === cleanSlug) ||
-         (d.name && d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug) ||
-         (d.name && d.name.toLowerCase() === cleanSlug))
+          (d.name && d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === cleanSlug) ||
+          (d.name && d.name.toLowerCase() === cleanSlug))
     );
 
     if (!matchedDomain) {
@@ -105,8 +105,8 @@ export const careerService = {
       const roleToolsList = Array.isArray(r.tools)
         ? r.tools
         : typeof r.tools === 'object' && r.tools !== null
-        ? Object.values(r.tools).flat().filter((t) => typeof t === 'string')
-        : [];
+          ? Object.values(r.tools).flat().filter((t) => typeof t === 'string')
+          : [];
       roleToolsList.forEach((t) => toolsSet.add(t));
     });
 
@@ -346,7 +346,7 @@ export const careerService = {
       if (res.data?.success && Array.isArray(res.data.data)) {
         return res.data.data;
       }
-    } catch (err) {}
+    } catch (err) { }
 
     try {
       const saved = JSON.parse(localStorage.getItem('campuscorp_favorite_roles') || '[]');
@@ -446,7 +446,7 @@ export const careerService = {
       if (res.data?.success && Array.isArray(res.data.data)) {
         return res.data.data;
       }
-    } catch (err) {}
+    } catch (err) { }
     return ROLE_TAGS;
   },
 

@@ -60,7 +60,7 @@ async function ensureAiDaemonRunning() {
       if (aiProcess) {
         try {
           aiProcess.kill();
-        } catch (e) {}
+        } catch (e) { }
       }
     };
     process.on('exit', cleanup);

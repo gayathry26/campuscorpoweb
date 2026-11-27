@@ -153,16 +153,16 @@ async function submitCodeSolution(req, res, next) {
     let hiddenCases = [];
 
     try {
-      sampleCases = typeof question.sample_test_cases === 'string' 
-        ? JSON.parse(question.sample_test_cases) 
+      sampleCases = typeof question.sample_test_cases === 'string'
+        ? JSON.parse(question.sample_test_cases)
         : (question.sample_test_cases || []);
-    } catch (e) {}
+    } catch (e) { }
 
     try {
-      hiddenCases = typeof question.hidden_test_cases === 'string' 
-        ? JSON.parse(question.hidden_test_cases) 
+      hiddenCases = typeof question.hidden_test_cases === 'string'
+        ? JSON.parse(question.hidden_test_cases)
         : (question.hidden_test_cases || []);
-    } catch (e) {}
+    } catch (e) { }
 
     const allTestCases = [
       ...sampleCases.map(s => ({ ...s, isSample: true })),
