@@ -418,6 +418,49 @@ async function verifyStudentSkill(req, res, next) {
   }
 }
 
+/**
+ * 16. Get normalized 3-level Skill Analyzer taxonomy (Domains -> Job Roles -> Skills)
+ * GET /api/v1/skill-analyzer/taxonomy
+ */
+async function getSkillTaxonomy(req, res, next) {
+  try {
+    const data = await skillService.getSkillTaxonomy();
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * 17. Admin: Create or update custom IT domain / job roles in taxonomy
+ * POST /api/v1/admin/skill-taxonomy/domain
+ */
+async function saveCustomTaxonomyDomain(req, res, next) {
+  try {
+    const { id, name, group, roles } = req.body;
+    if (!name) {
+      return res.status(400).json({ success: false, message: 'Domain name is required.' });
+    }
+    const saved = await skillService.saveCustomTaxonomyDomain({
+      id,
+      name,
+      group,
+      roles,
+      updatedBy: req.user?.id || null,
+    });
+    res.json({
+      success: true,
+      message: 'Domain taxonomy saved successfully.',
+      data: saved,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getSkills,
   getCategories,
@@ -434,4 +477,6 @@ module.exports = {
   createAdminSkill,
   updateRoleRequirement,
   verifyStudentSkill,
+  getSkillTaxonomy,
+  saveCustomTaxonomyDomain,
 };

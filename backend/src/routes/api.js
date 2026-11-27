@@ -275,6 +275,7 @@ router.post('/ai/interview-questions', optionalAuthenticateToken, aiCtrl.generat
 
 // 21. Skill Analyzer & Career Role Recommendations
 router.use('/skill-analyzer', requireModule('SKILL_ANALYZER'));
+router.get('/skill-analyzer/taxonomy', skillAnalyzerCtrl.getSkillTaxonomy);
 router.get('/skills', skillAnalyzerCtrl.getSkills);
 router.get('/skills/categories', skillAnalyzerCtrl.getCategories);
 router.get('/student/skills', authenticateToken, skillAnalyzerCtrl.getStudentSkills);
@@ -292,6 +293,7 @@ router.put('/admin/skill-catalogue/:id', authenticateToken, authorize(['SUPER_AD
 router.post('/admin/skill-catalogue', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), skillAnalyzerCtrl.createAdminSkill);
 router.put('/admin/role-requirements', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), skillAnalyzerCtrl.updateRoleRequirement);
 router.post('/admin/verify-skill', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER', 'FACULTY_COORDINATOR']), skillAnalyzerCtrl.verifyStudentSkill);
+router.post('/admin/skill-taxonomy/domain', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN', 'TPO_OFFICER']), skillAnalyzerCtrl.saveCustomTaxonomyDomain);
 
 // 21c. Career Explorer & Role Domain Catalog (Powered by MySQL career_roles & career_domains)
 router.use('/career', requireModule('CAREER_EXPLORER'));

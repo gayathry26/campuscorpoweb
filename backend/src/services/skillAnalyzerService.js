@@ -1,4 +1,7 @@
 const { queryCommon, queryDept } = require('../config/db');
+const { BASE_SKILLS, SKILL_DOMAINS } = require('../data/skillAnalyzerTaxonomy');
+
+const BASE_SKILLS_MAP = new Map(BASE_SKILLS.map((s) => [s.id, s]));
 
 // Technical assessment questions bank
 const ASSESSMENT_BANKS = {
@@ -349,12 +352,26 @@ async function saveStudentSkills(studentId, skillsArray) {
     if (sId && !uniqueSkillsMap.has(sId)) {
       uniqueSkillsMap.set(sId, {
         skillId: sId,
+        name: typeof s === 'object' ? s.name : null,
+        category: typeof s === 'object' ? s.category : null,
         proficiencyLevel: s.proficiencyLevel || 'INTERMEDIATE',
         evidenceType: s.evidenceType || 'NONE',
         evidenceUrl: s.evidenceUrl || null,
         isVerified: s.isVerified ? 1 : 0,
       });
     }
+  }
+
+  // Ensure every selected skill exists in skills_catalogue (supports all 62-domain taxonomy skills seamlessly)
+  for (const skill of uniqueSkillsMap.values()) {
+    const baseMeta = BASE_SKILLS_MAP.get(skill.skillId);
+    const displayName = baseMeta?.name || skill.name || skill.skillId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const displayCategory = baseMeta?.category || skill.category || 'Technical Skills';
+    await queryCommon(
+      `INSERT IGNORE INTO skills_catalogue (id, name, category, is_popular, description)
+       VALUES (?, ?, ?, 0, '')`,
+      [skill.skillId, displayName, displayCategory]
+    );
   }
 
   // Fetch existing skills to preserve verified status
@@ -1155,6 +1172,141 @@ async function submitAssessment({ studentId, topic, answers }) {
   };
 }
 
+/**
+ * Get normalized 3-level Skill Analyzer taxonomy (Domains -> Job Roles -> Skills)
+ * Merges base 62-domain taxonomy + MySQL skills_catalogue + admin custom domains
+ */
+async function ensureCustomTaxonomyTable() {
+  await queryCommon(`
+    CREATE TABLE IF NOT EXISTS skill_taxonomy_custom (
+      id VARCHAR(120) PRIMARY KEY,
+      name VARCHAR(200) NOT NULL,
+      domain_group VARCHAR(120) NOT NULL DEFAULT 'Specialized & Emerging Tech',
+      roles_json LONGTEXT NOT NULL,
+      updated_by INT NULL,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )
+  `);
+}
+
+async function getSkillTaxonomy() {
+  // 1. Merge BASE_SKILLS with DB skills_catalogue (deduplicated by id)
+  const dbSkills = await queryCommon('SELECT * FROM skills_catalogue ORDER BY name ASC');
+  const mergedSkillsMap = new Map();
+
+  for (const base of BASE_SKILLS) {
+    mergedSkillsMap.set(base.id, {
+      id: base.id,
+      name: base.name,
+      category: base.category,
+      aliases: base.aliases || [],
+      isPopular: false,
+      description: '',
+    });
+  }
+
+  for (const row of dbSkills) {
+    const existing = mergedSkillsMap.get(row.id);
+    if (existing) {
+      existing.name = row.name || existing.name;
+      existing.category = row.category || existing.category;
+      existing.isPopular = Boolean(row.is_popular);
+      existing.description = row.description || '';
+    } else {
+      mergedSkillsMap.set(row.id, {
+        id: row.id,
+        name: row.name,
+        category: row.category || 'Technical Skills',
+        aliases: [],
+        isPopular: Boolean(row.is_popular),
+        description: row.description || '',
+      });
+    }
+  }
+
+  // 2. Merge SKILL_DOMAINS with any admin-added custom domains
+  const domainsMap = new Map(SKILL_DOMAINS.map((d) => [d.id, d]));
+  try {
+    await ensureCustomTaxonomyTable();
+    const customRows = await queryCommon('SELECT id, name, domain_group, roles_json FROM skill_taxonomy_custom ORDER BY name ASC');
+    for (const row of customRows) {
+      let parsedRoles = [];
+      try {
+        parsedRoles = JSON.parse(row.roles_json || '[]');
+      } catch {
+        parsedRoles = [];
+      }
+      domainsMap.set(row.id, {
+        id: row.id,
+        name: row.name,
+        group: row.domain_group || 'Specialized & Emerging Tech',
+        roles: Array.isArray(parsedRoles) ? parsedRoles : [],
+        isCustom: true,
+      });
+    }
+  } catch (err) {
+    console.warn('[SkillAnalyzer] Custom taxonomy table skipped:', err.message);
+  }
+
+  const domains = Array.from(domainsMap.values());
+  const skills = Array.from(mergedSkillsMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+  const groups = Array.from(new Set(domains.map((d) => d.group))).sort();
+  const totalRoles = domains.reduce((sum, d) => sum + (d.roles?.length || 0), 0);
+
+  return {
+    domains,
+    skills,
+    groups,
+    stats: {
+      totalDomains: domains.length,
+      totalRoles,
+      totalSkills: skills.length,
+    },
+  };
+}
+
+/**
+ * Admin: Create or update a custom domain with its job roles & mapped skills
+ */
+async function saveCustomTaxonomyDomain({ id, name, group, roles, updatedBy }) {
+  await ensureCustomTaxonomyTable();
+  const cleanId = (id || name || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+  if (!cleanId || !name) {
+    throw new Error('Domain name is required.');
+  }
+
+  const normalizedRoles = Array.isArray(roles)
+    ? roles.map((r) => ({
+        id: (r.id || r.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+        title: r.title,
+        required: Array.isArray(r.required) ? r.required : [],
+        related: Array.isArray(r.related) ? r.related : [],
+      })).filter((r) => r.id && r.title)
+    : [];
+
+  await queryCommon(
+    `INSERT INTO skill_taxonomy_custom (id, name, domain_group, roles_json, updated_by)
+     VALUES (?, ?, ?, ?, ?)
+     ON DUPLICATE KEY UPDATE
+       name = VALUES(name),
+       domain_group = VALUES(domain_group),
+       roles_json = VALUES(roles_json),
+       updated_by = VALUES(updated_by)`,
+    [cleanId, name.trim(), (group || 'Specialized & Emerging Tech').trim(), JSON.stringify(normalizedRoles), updatedBy || null]
+  );
+
+  return {
+    id: cleanId,
+    name: name.trim(),
+    group: (group || 'Specialized & Emerging Tech').trim(),
+    roles: normalizedRoles,
+  };
+}
+
 module.exports = {
   getSkillsCatalogue,
   getSkillCategories,
@@ -1167,4 +1319,6 @@ module.exports = {
   getAssessmentQuestions,
   submitAssessment,
   calculateRoleMatches,
+  getSkillTaxonomy,
+  saveCustomTaxonomyDomain,
 };
