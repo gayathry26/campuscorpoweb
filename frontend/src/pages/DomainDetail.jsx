@@ -427,7 +427,7 @@ export function DomainDetail() {
         <aside aria-label="Comparison Tray" className="fixed bottom-6 right-6 sm:right-8 z-40 animate-in slide-in-from-bottom-3 duration-200">
           <div className="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 rounded-full px-4 py-2.5 shadow-xl border border-neutral-700/60 dark:border-neutral-200 flex items-center gap-3 text-xs font-semibold backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">
+              <span className="w-5 h-5 rounded-full bg-[#8B2942] text-white flex items-center justify-center text-[10px] font-black shrink-0">
                 {comparedRoleIds.length}
               </span>
               <span>
@@ -440,7 +440,7 @@ export function DomainDetail() {
             <button
               type="button"
               onClick={handleGoToCompare}
-              className="inline-flex items-center gap-1 font-bold text-xs text-purple-300 dark:text-purple-700 hover:underline cursor-pointer"
+              className="inline-flex items-center gap-1 font-bold text-xs text-[#F2B8C7] hover:underline cursor-pointer"
             >
               <span>Compare</span>
               <ArrowRight className="w-3.5 h-3.5" />

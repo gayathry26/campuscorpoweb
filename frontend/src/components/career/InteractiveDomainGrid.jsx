@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import {
   Layout,
   Server,
@@ -100,10 +99,10 @@ export function InteractiveDomainGrid({
   domains = [],
   allRoles = [],
   searchQuery = '',
+  selectedFamily = 'All Families',
+  sortBy = 'alphabetical-asc',
   onClearSearch,
-  totalRolesCount = 0,
 }) {
-  // Map sample role names for search matching
   const sampleRolesMap = useMemo(() => {
     const map = {};
     allRoles.forEach((role) => {
@@ -122,11 +121,13 @@ export function InteractiveDomainGrid({
     return map;
   }, [allRoles]);
 
-  // Search-driven Filtering
   const filteredDomains = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
 
     let list = domains.filter((d) => {
+      if (selectedFamily && selectedFamily !== 'All Families') {
+        if ((d.family || '').toLowerCase() !== selectedFamily.toLowerCase()) return false;
+      }
       if (!q) return true;
       const nameMatch = d.name.toLowerCase().includes(q);
       const descMatch = (d.shortDescription || d.description || '').toLowerCase().includes(q);
@@ -138,100 +139,84 @@ export function InteractiveDomainGrid({
       return nameMatch || descMatch || overviewMatch || techMatch || sampleMatch;
     });
 
-    // Default clean alphabetical sorting
-    return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  }, [domains, searchQuery, sampleRolesMap]);
+    return [...list].sort((a, b) => {
+      if (sortBy === 'alphabetical-desc') return b.name.localeCompare(a.name);
+      if (sortBy === 'roles-desc') return (b.roleCount || 0) - (a.roleCount || 0);
+      return a.name.localeCompare(b.name);
+    });
+  }, [domains, searchQuery, selectedFamily, sortBy, sampleRolesMap]);
 
   return (
-    <div className="space-y-6">
-      {/* ================= RESULTS HEADER ================= */}
-      <div className="flex items-center justify-between px-1">
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-neutral-100">
-            Available Domains
-          </h2>
-          <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-            ({filteredDomains.length} {filteredDomains.length === 1 ? 'domain' : 'domains'})
+          <h2 className="text-sm font-semibold text-foreground">Career Domains</h2>
+          <span className="text-xs font-medium text-muted-foreground">
+            ({filteredDomains.length} available)
           </span>
         </div>
         {searchQuery.trim().length > 0 && (
-          <span className="text-sm text-purple-600 dark:text-purple-400 font-medium">
-            Filtered by search
-          </span>
+          <span className="text-xs text-[#8B2942] font-medium">Filtered results</span>
         )}
       </div>
 
-      {/* ================= SPACIOUS MINIMAL DOMAIN CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Compact Uniform 3-Column Card Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredDomains.map((domain) => {
           const Icon = DOMAIN_ICONS[domain.name] || Layers;
           const domainUrl = `/career-explorer/domains/${domain.id}`;
 
           return (
-            <motion.div
+            <Link
               key={domain.id || domain.name}
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.16, ease: 'easeOut' }}
-              className="h-full"
+              to={domainUrl}
+              className="group bg-card text-card-foreground rounded-xl border border-border hover:border-[#8B2942]/45 p-4 flex flex-col justify-between gap-3.5 transition-all shadow-2xs hover:shadow-xs"
             >
-              <Link
-                to={domainUrl}
-                className="group h-full bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200/90 dark:border-neutral-800 hover:border-purple-500/40 dark:hover:border-purple-500/40 p-6 flex flex-col justify-between space-y-5 transition-all shadow-xs hover:shadow-md cursor-pointer select-none"
-              >
-                {/* Top Section: Icon & Role Count Badge */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400 border border-purple-100 dark:border-purple-900/40 flex items-center justify-center shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-200">
-                    <Icon className="w-6 h-6 transition-transform duration-200 group-hover:scale-105" />
-                  </div>
-
-                  <span className="px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200/80 dark:border-neutral-700/80 shrink-0">
-                    {domain.roleCount} {domain.roleCount === 1 ? 'Role' : 'Roles'}
-                  </span>
+              <div className="flex items-start justify-between gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] group-hover:bg-[#8B2942] group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+                  <Icon className="w-5 h-5 stroke-[1.8]" />
                 </div>
 
-                {/* Middle Section: Domain Name & Short Description */}
-                <div className="space-y-2 flex-1">
-                  <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-neutral-100 tracking-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors leading-snug">
-                    {domain.name}
-                  </h3>
-                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
-                    {domain.shortDescription || domain.description || 'Specialized IT career discipline with structured skills and industry roles.'}
-                  </p>
-                </div>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#F7F6F7] dark:bg-[#262126] text-muted-foreground border border-border shrink-0">
+                  {domain.roleCount || 0} {domain.roleCount === 1 ? 'Role' : 'Roles'} • 12 Modules
+                </span>
+              </div>
 
-                {/* Bottom Action: Clean "Explore Domain →" */}
-                <div className="pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-sm font-semibold text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300">
-                  <span>Explore Domain</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                </div>
-              </Link>
-            </motion.div>
+              <div className="space-y-1 flex-1">
+                <h3 className="text-sm sm:text-base font-semibold text-foreground group-hover:text-[#8B2942] dark:group-hover:text-[#F2B8C7] transition-colors leading-snug">
+                  {domain.name}
+                </h3>
+                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                  {domain.shortDescription || domain.description || 'Specialized IT career discipline with structured skills and industry roles.'}
+                </p>
+              </div>
+
+              <div className="pt-2.5 border-t border-border flex items-center justify-between text-xs font-semibold text-[#8B2942] dark:text-[#F2B8C7]">
+                <span>Explore Domain</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </div>
+            </Link>
           );
         })}
       </div>
 
-      {/* ================= EMPTY STATE ================= */}
       {filteredDomains.length === 0 && (
-        <div className="p-12 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 space-y-3.5 my-6">
-          <div className="w-12 h-12 rounded-2xl bg-neutral-100 dark:bg-neutral-800 text-neutral-400 flex items-center justify-center mx-auto">
-            <Search className="w-6 h-6" />
-          </div>
+        <div className="p-10 text-center rounded-xl border border-dashed border-border bg-card space-y-3">
+          <Search className="w-8 h-8 text-muted-foreground mx-auto opacity-60" />
           <div className="space-y-1">
-            <h4 className="text-base font-bold text-neutral-900 dark:text-neutral-100">
-              No career domains matched your search
-            </h4>
-            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
-              Try adjusting your keywords (e.g. Frontend, Cloud, AI, Security).
+            <h4 className="text-sm font-bold text-foreground">No career domains matched your search</h4>
+            <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+              Try adjusting your keywords or clearing category filters.
             </p>
           </div>
-          {onClearSearch && searchQuery && (
+          {onClearSearch && (
             <button
               type="button"
               onClick={onClearSearch}
-              className="px-4 py-2 text-xs font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-xl hover:opacity-90 transition-all cursor-pointer shadow-xs inline-flex items-center gap-1.5"
+              className="px-3.5 py-1.5 text-xs font-semibold bg-[#8B2942] text-white rounded-lg hover:bg-[#702038] transition-colors cursor-pointer inline-flex items-center gap-1.5"
             >
               <X className="w-3.5 h-3.5" />
-              <span>Clear Search</span>
+              <span>Reset Filters</span>
             </button>
           )}
         </div>

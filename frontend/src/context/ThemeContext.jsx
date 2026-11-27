@@ -1,19 +1,19 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import apiClient from '../api/client';
 
-export const LIGHT_CHART_COLORS = ['#171717', '#525252', '#737373', '#a1a1a1', '#d4d4d4'];
-export const DARK_CHART_COLORS = ['#fafafa', '#d4d4d4', '#a1a1a1', '#737373', '#525252'];
+export const LIGHT_CHART_COLORS = ['#8B2942', '#702038', '#B5546C', '#26966B', '#E5A13B'];
+export const DARK_CHART_COLORS = ['#C25270', '#8B2942', '#D9859B', '#34B383', '#E5A13B'];
 
 const getThemeTokens = (isDark) => ({
-  primary: isDark ? '#fafafa' : '#171717',
-  primaryHover: isDark ? '#e5e5e5' : '#262626',
-  primaryLight: isDark ? '#262626' : '#f5f5f5',
-  primaryText: isDark ? '#fafafa' : '#0a0a0a',
-  primaryBorder: isDark ? 'rgba(255,255,255,0.10)' : '#e5e5e5',
-  accent: isDark ? '#a1a1a1' : '#737373',
-  gradientFrom: '#171717',
-  gradientTo: '#262626',
-  glow: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)',
+  primary: isDark ? '#C25270' : '#8B2942',
+  primaryHover: isDark ? '#D46582' : '#702038',
+  primaryLight: isDark ? '#312128' : '#F8EDF0',
+  primaryText: isDark ? '#F2B8C7' : '#8B2942',
+  primaryBorder: isDark ? 'rgba(194, 82, 112, 0.3)' : '#EAE6E8',
+  accent: isDark ? '#A69FA8' : '#858087',
+  gradientFrom: '#8B2942',
+  gradientTo: '#702038',
+  glow: isDark ? 'rgba(194, 82, 112, 0.14)' : 'rgba(139, 41, 66, 0.10)',
 });
 
 const ThemeContext = createContext(null);
@@ -85,15 +85,15 @@ export function ThemeProvider({ children }) {
     }
 
     root.removeAttribute('data-theme');
-    root.style.setProperty('--theme-primary', isDark ? '#fafafa' : '#171717');
-    root.style.setProperty('--theme-primary-hover', isDark ? '#e5e5e5' : '#262626');
-    root.style.setProperty('--theme-primary-light', isDark ? '#262626' : '#f5f5f5');
-    root.style.setProperty('--theme-primary-text', isDark ? '#fafafa' : '#0a0a0a');
-    root.style.setProperty('--theme-primary-border', isDark ? 'rgba(255,255,255,0.10)' : '#e5e5e5');
-    root.style.setProperty('--theme-gradient-from', '#171717');
-    root.style.setProperty('--theme-gradient-to', '#262626');
-    root.style.setProperty('--theme-accent', isDark ? '#a1a1a1' : '#737373');
-    root.style.setProperty('--theme-glow', isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)');
+    root.style.setProperty('--theme-primary', isDark ? '#C25270' : '#8B2942');
+    root.style.setProperty('--theme-primary-hover', isDark ? '#D46582' : '#702038');
+    root.style.setProperty('--theme-primary-light', isDark ? '#312128' : '#F8EDF0');
+    root.style.setProperty('--theme-primary-text', isDark ? '#F2B8C7' : '#8B2942');
+    root.style.setProperty('--theme-primary-border', isDark ? 'rgba(194, 82, 112, 0.3)' : '#EAE6E8');
+    root.style.setProperty('--theme-gradient-from', '#8B2942');
+    root.style.setProperty('--theme-gradient-to', '#702038');
+    root.style.setProperty('--theme-accent', isDark ? '#A69FA8' : '#858087');
+    root.style.setProperty('--theme-glow', isDark ? 'rgba(194, 82, 112, 0.14)' : 'rgba(139, 41, 66, 0.10)');
   }, [isDark]);
 
   // Fetch and Sync Preferences from MySQL Backend

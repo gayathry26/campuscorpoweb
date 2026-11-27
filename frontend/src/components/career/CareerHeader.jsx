@@ -1,17 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  GitCompare,
-  Search,
-  X,
-  Layers,
-} from 'lucide-react';
+import { GitCompare, Search, X } from 'lucide-react';
 
 export function CareerHeader({
   searchQuery,
   onSearchChange,
   comparedRoleIds = [],
   stats = {},
+  selectedFamily = 'All Families',
+  onFamilyChange,
+  families = [],
+  sortBy = 'alphabetical-asc',
+  onSortChange,
 }) {
   const navigate = useNavigate();
 
@@ -24,65 +24,89 @@ export function CareerHeader({
   };
 
   return (
-    <header className="space-y-4 pt-1">
-      {/* Top Row: Title, Subtitle, and Quick Actions */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="space-y-1.5 max-w-2xl">
+    <header className="space-y-4">
+      {/* Top Row: Compact Title, Subtitle & Compare Action */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
-              Explore IT Career Domains
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+              Career Intelligence
             </h1>
-            <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#F8EDF0] text-[#8B2942] dark:bg-[#312128] dark:text-[#F2B8C7] border border-[#8B2942]/20">
               {stats?.totalDomains || 38} Domains
             </span>
           </div>
-          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Discover technology specializations, explore career pathways, and benchmark required industry skills.
+          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+            Explore specialized IT domains, industry roles, salary benchmarks, and skill roadmaps.
           </p>
         </div>
 
-        {/* Quick Actions: Compare & My Fit */}
-        <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
-          <button
-            type="button"
-            onClick={handleOpenCompare}
-            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-xs ${
-              comparedRoleIds.length > 0
-                ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-purple-500/20'
-                : 'bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/60'
-            }`}
-            title="Open side-by-side career comparison matrix"
-          >
-            <GitCompare className="w-4 h-4" />
-            <span>Compare</span>
-            {comparedRoleIds.length > 0 && (
-              <span className="ml-0.5 px-1.5 py-0.5 rounded-full text-xs font-bold bg-white text-purple-700 dark:bg-purple-950 dark:text-purple-200">
-                {comparedRoleIds.length}
-              </span>
-            )}
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleOpenCompare}
+          className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer shrink-0 ${
+            comparedRoleIds.length > 0
+              ? 'bg-[#8B2942] text-white hover:bg-[#702038]'
+              : 'bg-card text-foreground border border-border hover:border-[#8B2942]/40'
+          }`}
+        >
+          <GitCompare className="w-4 h-4" />
+          <span>Compare Roles</span>
+          {comparedRoleIds.length > 0 && (
+            <span className="px-1.5 py-0.5 rounded-full text-[11px] font-bold bg-white text-[#8B2942]">
+              {comparedRoleIds.length}
+            </span>
+          )}
+        </button>
       </div>
 
-      {/* Prominent Clean Search Bar */}
-      <div className="relative w-full">
-        <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search by domain, career role, technology, or skill (e.g. React, Python, Cloud, Security)..."
-          className="w-full h-11 pl-10 pr-10 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 text-sm sm:text-base transition-all shadow-xs"
-        />
-        {searchQuery && (
-          <button
-            type="button"
-            onClick={() => onSearchChange('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 p-1 cursor-pointer transition-colors"
-            title="Clear search"
+      {/* Reference Screenshot 3 Style: Single Clean White Filter Bar */}
+      <div className="bg-card border border-border rounded-xl p-3 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center gap-2.5">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search domains by name, role, or technology..."
+            className="w-full h-9 pl-9 pr-8 rounded-lg bg-[#F7F6F7] dark:bg-[#262126] text-xs sm:text-sm text-foreground placeholder:text-muted-foreground border border-border focus:outline-none focus:border-[#8B2942] focus:bg-card transition-all"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => onSearchChange('')}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        {onFamilyChange && families.length > 0 && (
+          <select
+            value={selectedFamily}
+            onChange={(e) => onFamilyChange(e.target.value)}
+            className="h-9 px-3 rounded-lg bg-card text-xs font-medium text-foreground border border-border focus:outline-none focus:border-[#8B2942] cursor-pointer"
           >
-            <X className="w-4 h-4" />
-          </button>
+            <option value="All Families">All Categories</option>
+            {families.map((fam) => (
+              <option key={fam} value={fam}>
+                {fam}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {onSortChange && (
+          <select
+            value={sortBy}
+            onChange={(e) => onSortChange(e.target.value)}
+            className="h-9 px-3 rounded-lg bg-card text-xs font-medium text-foreground border border-border focus:outline-none focus:border-[#8B2942] cursor-pointer"
+          >
+            <option value="alphabetical-asc">Sort by Name (A–Z)</option>
+            <option value="alphabetical-desc">Sort by Name (Z–A)</option>
+            <option value="roles-desc">Most Career Roles</option>
+          </select>
         )}
       </div>
     </header>

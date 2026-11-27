@@ -1,49 +1,48 @@
 import React from 'react';
 
 /**
- * Universal Badge Component for Categories, Statuses, and Career Domains
- * - Consistent accessible contrast in both light and dark mode
- * - Clean micro-pill aesthetic with subtle borders
+ * Universal Badge Component — CampusCorpo Burgundy & Warm Neutral Palette
  */
-export function Badge({ children, variant = 'default', size = 'md', className = '' }) {
+export function Badge({ children, variant = 'default', size = 'sm', className = '' }) {
   const variantStyles = {
-    default: 'bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 border-border font-medium',
-    primary: 'bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#0a0a0a] border-transparent font-semibold shadow-2xs',
-    secondary: 'bg-secondary text-secondary-foreground border-border font-medium',
+    default: 'bg-[#F2EFF1] text-[#29252A] dark:bg-[#262126] dark:text-[#F7F6F7] border-[#EAE6E8] dark:border-white/10 font-medium',
+    primary: 'bg-[#8B2942] text-white border-transparent font-semibold',
+    burgundy: 'bg-[#F8EDF0] text-[#8B2942] dark:bg-[#312128] dark:text-[#F2B8C7] border-[#E5C8D0] dark:border-[#8B2942]/40 font-semibold',
+    secondary: 'bg-[#F8EDF0] text-[#702038] dark:bg-[#2B2226] dark:text-[#F2D0D9] border-[#EAE6E8] dark:border-white/10 font-medium',
     outline: 'bg-transparent text-muted-foreground border-border font-medium',
-    success: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 font-semibold',
-    warning: 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30 font-semibold',
-    danger: 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30 font-semibold',
-    error: 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30 font-semibold',
-    info: 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/30 font-semibold',
-    cyan: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/30 font-semibold',
-    purple: 'bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/30 font-semibold',
-    coding: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/30 font-semibold',
-    'non-coding': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 font-semibold',
-    creative: 'bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/30 font-semibold',
-    emerging: 'bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/30 font-semibold',
-    management: 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30 font-semibold',
-    hybrid: 'bg-teal-500/10 text-teal-700 dark:text-teal-300 border-teal-500/30 font-semibold',
+    success: 'bg-[#26966B]/10 text-[#26966B] dark:text-[#34B383] border-[#26966B]/25 font-semibold',
+    warning: 'bg-[#E5A13B]/12 text-[#B87A1E] dark:text-[#E5A13B] border-[#E5A13B]/30 font-semibold',
+    danger: 'bg-[#B42318]/10 text-[#B42318] dark:text-[#F07178] border-[#B42318]/25 font-semibold',
+    error: 'bg-[#B42318]/10 text-[#B42318] dark:text-[#F07178] border-[#B42318]/25 font-semibold',
+    info: 'bg-[#F8EDF0] text-[#8B2942] dark:bg-[#312128] dark:text-[#F2B8C7] border-[#E5C8D0] dark:border-[#8B2942]/40 font-semibold',
+    cyan: 'bg-[#26966B]/10 text-[#26966B] border-[#26966B]/25 font-semibold',
+    purple: 'bg-[#F8EDF0] text-[#8B2942] dark:bg-[#312128] dark:text-[#F2B8C7] border-[#E5C8D0] font-semibold',
+    coding: 'bg-[#F8EDF0] text-[#8B2942] border-[#E5C8D0] font-semibold',
+    'non-coding': 'bg-[#26966B]/10 text-[#26966B] border-[#26966B]/25 font-semibold',
+    creative: 'bg-[#F8EDF0] text-[#702038] border-[#E5C8D0] font-semibold',
+    emerging: 'bg-[#F8EDF0] text-[#8B2942] border-[#E5C8D0] font-semibold',
+    management: 'bg-[#E5A13B]/12 text-[#B87A1E] border-[#E5A13B]/30 font-semibold',
+    hybrid: 'bg-[#26966B]/10 text-[#26966B] border-[#26966B]/25 font-semibold',
   };
 
   const sizeStyles = {
     sm: 'text-xs px-2.5 py-0.5 leading-tight',
-    md: 'text-xs sm:text-sm px-3 py-0.5 leading-tight',
-    lg: 'text-sm px-3.5 py-1 leading-tight',
+    md: 'text-xs px-2.5 py-1 leading-tight',
+    lg: 'text-sm px-3 py-1 leading-tight',
   };
 
   return (
     <span
       className={`inline-flex items-center font-medium rounded-full border transition-colors ${
         variantStyles[variant] || variantStyles.default
-      } ${sizeStyles[size] || sizeStyles.md} ${className}`}
+      } ${sizeStyles[size] || sizeStyles.sm} ${className}`}
     >
       {children}
     </span>
   );
 }
 
-export function CategoryBadge({ category, children, size = 'md', className = '' }) {
+export function CategoryBadge({ category, children, size = 'sm', className = '' }) {
   const norm = (category || '').toLowerCase().replace(/\s+/g, '-');
   return (
     <Badge variant={norm} size={size} className={className}>
@@ -56,25 +55,33 @@ export function StatusBadge({ status, className = '' }) {
   const map = {
     ACTIVE: { variant: 'success', label: 'Active' },
     PLACED: { variant: 'success', label: 'Placed' },
+    SELECTED: { variant: 'success', label: 'Selected' },
     ACCEPTED: { variant: 'success', label: 'Accepted' },
-    OFFERED: { variant: 'info', label: 'Offered' },
-    SHORTLISTED: { variant: 'info', label: 'Shortlisted' },
+    OFFERED: { variant: 'burgundy', label: 'Offered' },
+    SHORTLISTED: { variant: 'burgundy', label: 'Shortlisted' },
+    INTERVIEW: { variant: 'warning', label: 'Interview' },
     IN_PROCESS: { variant: 'warning', label: 'In Process' },
     APPLIED: { variant: 'default', label: 'Applied' },
     REGISTERED: { variant: 'default', label: 'Registered' },
     REJECTED: { variant: 'danger', label: 'Rejected' },
-    SUPER_DREAM: { variant: 'purple', label: 'Super Dream' },
-    DREAM: { variant: 'info', label: 'Dream' },
+    SUPER_DREAM: { variant: 'primary', label: 'Super Dream' },
+    DREAM: { variant: 'burgundy', label: 'Dream' },
     REGULAR: { variant: 'default', label: 'Regular' },
     UPCOMING: { variant: 'warning', label: 'Upcoming' },
     COMPLETED: { variant: 'success', label: 'Completed' },
     VERIFIED: { variant: 'success', label: 'Verified' },
+    CONFIRMED: { variant: 'success', label: 'Confirmed' },
     PENDING: { variant: 'warning', label: 'Pending' },
   };
 
-  const item = map[status] || { variant: 'default', label: status || 'Pending' };
+  const key = typeof status === 'string' ? status.toUpperCase().replace(/\s+/g, '_') : '';
+  const item = map[key] || { variant: 'default', label: status || 'Pending' };
 
-  return <Badge variant={item.variant} className={className}>{item.label}</Badge>;
+  return (
+    <Badge variant={item.variant} className={className}>
+      {item.label}
+    </Badge>
+  );
 }
 
 export default Badge;

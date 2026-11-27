@@ -1,282 +1,249 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 import { usePermissions } from '../context/PermissionContext';
 import { useUI } from '../context/UIContext';
-import { drawerLeftVariants, accordionVariants } from '../utils/motion';
+import { drawerLeftVariants } from '../utils/motion';
 import {
   LayoutDashboard,
   Compass,
-  GitCompare,
-  GitBranch,
-  Layers,
-  Cpu,
-  ChevronDown,
-  Users,
-  Building2,
+  BookOpen,
+  GraduationCap,
   Briefcase,
+  Code2,
+  Video,
+  Users,
+  BarChart3,
+  Settings,
+  LogOut,
+  ChevronRight,
+  ChevronDown,
+  PanelLeftOpen,
+  PanelLeftClose,
+  X,
+  Building2,
   CalendarDays,
   FileCheck2,
-  Code2,
+  Award,
   Terminal,
   CalendarCheck,
-  Video,
-  GraduationCap,
-  Sparkles,
-  Award,
-  BookOpen,
-  PieChart,
+  FileSearch,
+  GitCompare,
+  Layers,
+  GitBranch,
+  MapPin,
+  FileText,
   DollarSign,
-  HeartHandshake,
   AlertCircle,
   Database,
-  Settings,
-  FileText,
-  ShieldAlert,
-  FileSearch,
-  MapPin,
-  X,
+  PieChart,
+  HeartHandshake,
 } from 'lucide-react';
 
 export function Sidebar() {
-  const { user, isModuleEnabled } = useAuth();
+  const { user, isModuleEnabled, logout } = useAuth();
   const { canAccessPage } = usePermissions();
-  const { mobileSidebarOpen, closeMobileSidebar } = useUI();
+  const { mobileSidebarOpen, closeMobileSidebar, sidebarExpanded, toggleSidebarExpanded } = useUI();
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
+
+  const [hoveredGroup, setHoveredGroup] = useState(null);
+  const [expandedGroups, setExpandedGroups] = useState({});
+  const hoverTimeoutRef = useRef(null);
+
   const role = user?.roleName;
   const isSuperAdmin = role === 'SUPER_ADMIN' || role === 'ADMIN';
 
-  // Active route helpers
-  const isCareerExplorerActive =
-    location.pathname.startsWith('/domains') ||
-    location.pathname.startsWith('/compare') ||
-    location.pathname.startsWith('/skill-analyzer') ||
-    location.pathname.startsWith('/github-scanner') ||
-    location.pathname.startsWith('/role-analyzer') ||
-    location.pathname.startsWith('/career-explorer');
+  const pathname = location.pathname;
 
-  const isLmsActive = location.pathname.startsWith('/lms');
-
-  const isRecruitmentActive =
-    location.pathname.startsWith('/companies') ||
-    location.pathname.startsWith('/jobs') ||
-    location.pathname.startsWith('/drives') ||
-    location.pathname.startsWith('/applications') ||
-    location.pathname.startsWith('/my-applications') ||
-    location.pathname.startsWith('/offers');
-
-  const isAssessmentsActive =
-    location.pathname.startsWith('/assessment') ||
-    location.pathname.startsWith('/compiler') ||
-    location.pathname.startsWith('/sandbox') ||
-    location.pathname.startsWith('/exam') ||
-    location.pathname.startsWith('/interviews') ||
-    location.pathname.startsWith('/videocall') ||
-    location.pathname.startsWith('/interview/room') ||
-    location.pathname.startsWith('/resume-analyzer');
-
-  const isStudentsActive =
-    location.pathname.startsWith('/students') ||
-    location.pathname.startsWith('/profile') ||
-    location.pathname.startsWith('/training') ||
-    location.pathname.startsWith('/internships');
-
-  const isGovernanceActive =
-    location.pathname.startsWith('/policies') ||
-    location.pathname.startsWith('/reports') ||
-    location.pathname.startsWith('/finance') ||
-    location.pathname.startsWith('/grievances');
-
-  const isAdminActive =
-    location.pathname.startsWith('/admin') ||
-    location.pathname.startsWith('/settings');
-
-  // Accordion open/collapsed states - auto-expand if route is inside section
-  const [lmsOpen, setLmsOpen] = useState(isLmsActive);
-  const [careerExplorerOpen, setCareerExplorerOpen] = useState(isCareerExplorerActive);
-  const [recruitmentOpen, setRecruitmentOpen] = useState(isRecruitmentActive);
-  const [assessmentsOpen, setAssessmentsOpen] = useState(isAssessmentsActive);
-  const [studentsOpen, setStudentsOpen] = useState(isStudentsActive);
-  const [governanceOpen, setGovernanceOpen] = useState(isGovernanceActive);
-  const [adminOpen, setAdminOpen] = useState(isAdminActive);
-
-  // Auto-expand active section on navigation
-  useEffect(() => {
-    if (isLmsActive) setLmsOpen(true);
-    if (isCareerExplorerActive) setCareerExplorerOpen(true);
-    if (isRecruitmentActive) setRecruitmentOpen(true);
-    if (isAssessmentsActive) setAssessmentsOpen(true);
-    if (isStudentsActive) setStudentsOpen(true);
-    if (isGovernanceActive) setGovernanceOpen(true);
-    if (isAdminActive) setAdminOpen(true);
-  }, [
-    isLmsActive,
-    isCareerExplorerActive,
-    isRecruitmentActive,
-    isAssessmentsActive,
-    isStudentsActive,
-    isGovernanceActive,
-    isAdminActive,
-  ]);
-
-  // Section items definitions
+  // Build role- & entitlement-aware navigation groups
   const studentLmsItems = [
     { to: '/lms/my-learning', label: 'My Learning', icon: GraduationCap },
     { to: '/lms/materials', label: 'Course Materials', icon: BookOpen },
-    { to: '/lms/quizzes', label: 'Quizzes & Assessments', icon: Award },
-    { to: '/lms/assignments', label: 'Assignments & Projects', icon: FileCheck2 },
+    { to: '/lms/quizzes', label: 'Quizzes & Tests', icon: Award },
+    { to: '/lms/assignments', label: 'Assignments', icon: FileCheck2 },
     { to: '/lms/learning-paths', label: 'Learning Paths', icon: Layers },
     { to: '/lms/progress', label: 'My Progress', icon: PieChart },
-    { to: '/lms/live-classes', label: 'Live Classes & Calendar', icon: CalendarDays },
-    { to: '/lms/discussions', label: 'Discussions & Doubts', icon: HeartHandshake },
-    { to: '/lms/notes', label: 'My Notes & Bookmarks', icon: FileText },
-    { to: '/lms/certificates', label: 'Certificates & Achievements', icon: Award },
-    { to: '/lms/notifications', label: 'LMS Notifications', icon: AlertCircle },
-    { to: '/lms/portfolio', label: 'My Projects & Portfolio', icon: Code2 },
-    { to: '/lms/support', label: 'Help & Support', icon: AlertCircle },
+    { to: '/lms/live-classes', label: 'Live Classes', icon: CalendarDays },
+    { to: '/lms/discussions', label: 'Discussions', icon: HeartHandshake },
+    { to: '/lms/certificates', label: 'Certificates', icon: Award },
   ];
 
   const facultyLmsItems = [
-    { to: '/lms/faculty-dashboard', label: 'LMS Dashboard', icon: LayoutDashboard },
-    { to: '/lms/manage-courses', label: 'My Courses', icon: BookOpen },
-    { to: '/lms/manage-materials', label: 'Course Material Management', icon: FileText },
+    { to: '/lms/faculty-dashboard', label: 'LMS Overview', icon: LayoutDashboard },
+    { to: '/lms/manage-courses', label: 'Course Management', icon: BookOpen },
+    { to: '/lms/manage-materials', label: 'Study Materials', icon: FileText },
     { to: '/lms/manage-quizzes', label: 'Quiz Builder', icon: Award },
-    { to: '/lms/manage-assignments', label: 'Assignment Management', icon: FileCheck2 },
+    { to: '/lms/manage-assignments', label: 'Assignments', icon: FileCheck2 },
     { to: '/lms/student-progress', label: 'Student Progress', icon: Users },
-    { to: '/lms/manage-learning-paths', label: 'Learning Paths', icon: Layers },
-    { to: '/lms/manage-live-classes', label: 'Live Classes & Calendar', icon: CalendarDays },
-    { to: '/lms/manage-discussions', label: 'Discussions & Doubts', icon: HeartHandshake },
-    { to: '/lms/manage-certificates', label: 'Certificates & Achievements', icon: Award },
-    { to: '/lms/manage-announcements', label: 'Announcements', icon: AlertCircle },
-    { to: '/lms/reports', label: 'LMS Reports & Analytics', icon: PieChart },
+    { to: '/lms/reports', label: 'Learning Reports', icon: PieChart },
   ];
 
-  const careerExplorerItems = [
-    { to: '/domains', label: 'IT Career Domains', icon: Compass },
-    { to: '/career-explorer/knowledge-hub', label: 'Domain Knowledge Hub', icon: BookOpen },
-    { to: '/career-explorer/companies', label: 'IT Companies by Location', icon: MapPin, moduleKey: 'COMPANY_LOCATIONS' },
-    { to: '/compare', label: 'Compare Career Roles', icon: GitCompare },
-    { to: '/skill-analyzer', label: 'Industry Skill Analyzer', icon: Layers, moduleKey: 'SKILL_ANALYZER' },
-    { to: '/github-scanner', label: 'GitHub Repo Scanner', icon: GitBranch },
-    { to: '/role-analyzer', label: 'Role Requirement Engine', icon: Cpu },
-  ].filter((item) => !item.moduleKey || isModuleEnabled(item.moduleKey));
-
-  // Structure navigation sections
-  const sections = [
-    // 1. LMS Portal
+  const rawGroups = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: LayoutDashboard,
+      primaryTo: role === 'STUDENT' ? '/dashboard' : '/',
+      isActive: pathname === '/' || pathname === '/dashboard' || pathname === '/portal',
+      canAccess: canAccessPage(role, '/') || role === 'STUDENT',
+      items: [],
+    },
+    {
+      id: 'career',
+      moduleKey: 'CAREER_EXPLORER',
+      label: 'Career Intelligence',
+      icon: Compass,
+      primaryTo: '/domains',
+      isActive:
+        pathname.startsWith('/domains') ||
+        pathname.startsWith('/compare') ||
+        pathname.startsWith('/skill-analyzer') ||
+        pathname.startsWith('/github-scanner') ||
+        pathname.startsWith('/role-analyzer') ||
+        (pathname.startsWith('/career-explorer') && !pathname.startsWith('/career-explorer/knowledge-hub')),
+      canAccess: isModuleEnabled('CAREER_EXPLORER'),
+      items: [
+        { to: '/domains', label: 'IT Career Domains', icon: Compass },
+        { to: '/compare', label: 'Compare Career Roles', icon: GitCompare },
+        { to: '/skill-analyzer', label: 'Skill Analyzer', icon: Layers, moduleKey: 'SKILL_ANALYZER' },
+        { to: '/github-scanner', label: 'GitHub Repo Scanner', icon: GitBranch },
+        { to: '/career-explorer/companies', label: 'IT Companies by Location', icon: MapPin, moduleKey: 'COMPANY_LOCATIONS' },
+      ].filter((item) => (!item.moduleKey || isModuleEnabled(item.moduleKey)) && canAccessPage(role, item.to)),
+    },
+    {
+      id: 'knowledge',
+      moduleKey: 'CAREER_EXPLORER',
+      label: 'Knowledge Hub',
+      icon: BookOpen,
+      primaryTo: '/career-explorer/knowledge-hub',
+      isActive: pathname.startsWith('/career-explorer/knowledge-hub') || pathname.startsWith('/knowledge-hub'),
+      canAccess: isModuleEnabled('CAREER_EXPLORER') && canAccessPage(role, '/domains'),
+      items: [],
+    },
     {
       id: 'lms',
       moduleKey: 'LMS',
-      label: 'LMS Portal',
+      label: 'Learning (LMS)',
       icon: GraduationCap,
-      isOpen: lmsOpen,
-      toggle: () => setLmsOpen(!lmsOpen),
-      isActive: isLmsActive,
+      primaryTo: role === 'STUDENT' ? '/lms/my-learning' : '/lms/faculty-dashboard',
+      isActive: pathname.startsWith('/lms'),
       canAccess:
         isModuleEnabled('LMS') &&
         (canAccessPage(role, '/lms') ||
-        canAccessPage(role, '/lms/my-learning') ||
-        canAccessPage(role, '/lms/faculty-dashboard')),
-      items: isModuleEnabled('LMS') ? (role === 'STUDENT' ? studentLmsItems : facultyLmsItems).filter((item) =>
-        canAccessPage(role, item.to)
-      ) : [],
+          canAccessPage(role, '/lms/my-learning') ||
+          canAccessPage(role, '/lms/faculty-dashboard')),
+      items: isModuleEnabled('LMS')
+        ? (role === 'STUDENT' ? studentLmsItems : facultyLmsItems).filter((item) => canAccessPage(role, item.to))
+        : [],
     },
-    // 2. Career Explorer
     {
-      id: 'career-explorer',
-      moduleKey: 'CAREER_EXPLORER',
-      label: 'Career Explorer',
-      icon: Compass,
-      isOpen: careerExplorerOpen,
-      toggle: () => setCareerExplorerOpen(!careerExplorerOpen),
-      isActive: isCareerExplorerActive,
-      badge: 'New',
-      canAccess:
-        isModuleEnabled('CAREER_EXPLORER') &&
-        (canAccessPage(role, '/domains') ||
-        canAccessPage(role, '/compare') ||
-        canAccessPage(role, '/skill-analyzer') ||
-        canAccessPage(role, '/career-explorer/companies')),
-      items: isModuleEnabled('CAREER_EXPLORER') ? careerExplorerItems.filter((item) => canAccessPage(role, item.to)) : [],
-    },
-    // 3. Recruitment & Placement Drives
-    {
-      id: 'recruitment',
+      id: 'placements',
       moduleKey: 'RECRUITMENT',
-      label: 'Recruitment & Drives',
+      label: 'Placements',
       icon: Briefcase,
-      isOpen: recruitmentOpen,
-      toggle: () => setRecruitmentOpen(!recruitmentOpen),
-      isActive: isRecruitmentActive,
+      primaryTo: '/jobs',
+      isActive:
+        pathname.startsWith('/companies') ||
+        pathname.startsWith('/jobs') ||
+        pathname.startsWith('/drives') ||
+        pathname.startsWith('/applications') ||
+        pathname.startsWith('/my-applications') ||
+        pathname.startsWith('/offers'),
       canAccess: isModuleEnabled('RECRUITMENT'),
-      items: isModuleEnabled('RECRUITMENT') ? [
-        { to: '/companies', label: 'Placement Companies', icon: Building2 },
-        { to: '/jobs', label: 'Jobs & Openings', icon: Briefcase },
-        { to: '/drives', label: 'Placement Drives', icon: CalendarDays },
-        { to: '/applications', label: role === 'STUDENT' ? 'My Applications' : 'Applications Pipeline', icon: FileCheck2 },
-        { to: '/offers', label: 'Offers & Joining', icon: Award },
-      ].filter((item) => canAccessPage(role, item.to)) : [],
+      items: isModuleEnabled('RECRUITMENT')
+        ? [
+            { to: '/jobs', label: 'Job Opportunities', icon: Briefcase },
+            { to: '/drives', label: 'Placement Drives', icon: CalendarDays },
+            { to: '/companies', label: 'Industry Partners', icon: Building2 },
+            { to: '/applications', label: role === 'STUDENT' ? 'My Applications' : 'Applications', icon: FileCheck2 },
+            { to: '/offers', label: 'Offers & Joining', icon: Award },
+          ].filter((item) => canAccessPage(role, item.to))
+        : [],
     },
-    // 4. Assessments & Interviews
     {
       id: 'assessments',
       moduleKey: 'ASSESSMENTS',
-      label: 'Assessments & Prep',
+      label: 'Assessment Center',
       icon: Code2,
-      isOpen: assessmentsOpen,
-      toggle: () => setAssessmentsOpen(!assessmentsOpen),
-      isActive: isAssessmentsActive,
+      primaryTo: '/assessment',
+      isActive:
+        pathname.startsWith('/assessment') ||
+        pathname.startsWith('/compiler') ||
+        pathname.startsWith('/sandbox') ||
+        pathname.startsWith('/exam') ||
+        pathname.startsWith('/resume-analyzer'),
       canAccess: isModuleEnabled('ASSESSMENTS'),
-      items: isModuleEnabled('ASSESSMENTS') ? [
-        { to: '/assessment', label: 'Programming Assessment', icon: Code2 },
-        { to: '/compiler', label: 'Compiler Execution Sandbox', icon: Terminal },
-        { to: '/interviews', label: 'Interview Slots', icon: CalendarCheck, moduleKey: 'INTERVIEWS' },
-        { to: '/videocall/interview', label: 'Mock Video Interview', icon: Video, moduleKey: 'INTERVIEWS' },
-        { to: '/resume-analyzer', label: 'Resume Analyzer', icon: FileSearch, moduleKey: 'RESUME_AI' },
-      ].filter((item) => (!item.moduleKey || isModuleEnabled(item.moduleKey)) && canAccessPage(role, item.to)) : [],
+      items: isModuleEnabled('ASSESSMENTS')
+        ? [
+            { to: '/assessment', label: 'Coding Assessments', icon: Code2 },
+            { to: '/compiler', label: 'Online Compiler', icon: Terminal },
+            { to: '/resume-analyzer', label: 'AI Resume Analyzer', icon: FileSearch, moduleKey: 'RESUME_AI' },
+          ].filter((item) => (!item.moduleKey || isModuleEnabled(item.moduleKey)) && canAccessPage(role, item.to))
+        : [],
     },
-    // 5. Students & Career Development
+    {
+      id: 'interviews',
+      moduleKey: 'ASSESSMENTS',
+      label: 'Interview Studio',
+      icon: Video,
+      primaryTo: '/videocall/interview',
+      isActive:
+        pathname.startsWith('/interviews') ||
+        pathname.startsWith('/videocall') ||
+        pathname.startsWith('/interview/room'),
+      canAccess: isModuleEnabled('ASSESSMENTS') && isModuleEnabled('INTERVIEWS'),
+      items: [
+        { to: '/videocall/interview', label: 'Live Video Interview', icon: Video },
+        { to: '/interviews', label: 'Interview Schedule', icon: CalendarCheck },
+      ].filter((item) => canAccessPage(role, item.to)),
+    },
     {
       id: 'students',
-      label: 'Students & Training',
+      label: 'Student Intelligence',
       icon: Users,
-      isOpen: studentsOpen,
-      toggle: () => setStudentsOpen(!studentsOpen),
-      isActive: isStudentsActive,
+      primaryTo: role === 'STUDENT' ? '/profile' : '/students',
+      isActive:
+        pathname.startsWith('/students') ||
+        pathname.startsWith('/profile') ||
+        pathname.startsWith('/training') ||
+        pathname.startsWith('/internships'),
+      canAccess: true,
       items: [
-        { to: '/students', label: 'Students Roster', icon: Users },
-        { to: '/profile', label: 'My Student Profile', icon: Users },
-        { to: '/training', label: 'Training & Attendance', icon: BookOpen },
+        { to: '/profile', label: 'My Profile', icon: Users },
+        { to: '/students', label: 'Student Roster', icon: Users },
+        { to: '/training', label: 'Training & Readiness', icon: BookOpen },
         { to: '/internships', label: 'Internships & PPO', icon: GraduationCap },
       ].filter((item) => canAccessPage(role, item.to)),
     },
-    // 6. Institutional Governance & Reports
     {
       id: 'governance',
       moduleKey: 'GOVERNANCE',
-      label: 'Governance & Reports',
-      icon: FileText,
-      isOpen: governanceOpen,
-      toggle: () => setGovernanceOpen(!governanceOpen),
-      isActive: isGovernanceActive,
+      label: 'Institutional Reports',
+      icon: BarChart3,
+      primaryTo: '/reports',
+      isActive:
+        pathname.startsWith('/policies') ||
+        pathname.startsWith('/reports') ||
+        pathname.startsWith('/finance') ||
+        pathname.startsWith('/grievances'),
       canAccess: isModuleEnabled('GOVERNANCE'),
-      items: isModuleEnabled('GOVERNANCE') ? [
-        { to: '/policies', label: 'Placement Policies', icon: FileText },
-        { to: '/reports', label: 'NIRF / NAAC Reports', icon: PieChart },
-        { to: '/finance', label: 'Budget & Finance', icon: DollarSign },
-        { to: '/grievances', label: 'Grievance Desk', icon: AlertCircle },
-      ].filter((item) => canAccessPage(role, item.to)) : [],
+      items: isModuleEnabled('GOVERNANCE')
+        ? [
+            { to: '/reports', label: 'NIRF / NAAC Analytics', icon: PieChart },
+            { to: '/policies', label: 'Placement Policies', icon: FileText },
+            { to: '/finance', label: 'Budget & Finance', icon: DollarSign },
+            { to: '/grievances', label: 'Grievance Desk', icon: AlertCircle },
+          ].filter((item) => canAccessPage(role, item.to))
+        : [],
     },
-    // 7. System Administration
     {
       id: 'admin',
-      label: 'Admin & Settings',
+      label: 'Administration',
       icon: Settings,
-      isOpen: adminOpen,
-      toggle: () => setAdminOpen(!adminOpen),
-      isActive: isAdminActive,
+      primaryTo: '/settings',
+      isActive: pathname.startsWith('/admin') || pathname.startsWith('/settings'),
       canAccess: isSuperAdmin || canAccessPage(role, '/admin') || canAccessPage(role, '/settings'),
       items: [
         { to: '/admin', label: 'Admin Management', icon: Database },
@@ -286,220 +253,311 @@ export function Sidebar() {
     },
   ];
 
-  const visibleSections = sections.filter(
-    (sec) => (!sec.moduleKey || isModuleEnabled(sec.moduleKey)) && (sec.canAccess !== false) && sec.items.length > 0
+  const visibleGroups = rawGroups.filter(
+    (g) => g.canAccess && (g.items.length > 0 || g.id === 'dashboard' || g.id === 'knowledge')
   );
 
-  const renderNavList = () => (
-    <>
-      {/* Scrollable Navigation Sections */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
-        {/* User Role Badge Pill */}
-        <div className="px-3 py-2.5 rounded-xl bg-neutral-200/80 dark:bg-neutral-800/80 border border-border text-foreground">
-          <div className="flex items-center gap-2">
-            <span className="p-1 rounded-md bg-foreground text-background">
-              <ShieldAlert className="w-3.5 h-3.5" />
-            </span>
-            <div className="overflow-hidden">
-              <p className="text-xs font-bold uppercase tracking-wider truncate">
-                {role?.replace('_', ' ') || 'Guest'}
-              </p>
-              <p className="text-xs text-muted-foreground truncate">
-                {isSuperAdmin ? 'Master Placement Control' : user?.departmentCode ? `${user.departmentCode} Department` : 'Authorized User'}
-              </p>
-            </div>
-          </div>
-        </div>
+  // Auto-open active group in expanded mode
+  useEffect(() => {
+    const active = visibleGroups.find((g) => g.isActive);
+    if (active) {
+      setExpandedGroups((prev) => ({ ...prev, [active.id]: true }));
+    }
+  }, [pathname]);
 
-        {/* Section Header */}
-        <div className="px-3 flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider">
-          <span>CampusCorp Modules</span>
-          <span className="text-xs font-semibold bg-secondary px-1.5 py-0.5 rounded-md text-foreground">
-            {visibleSections.reduce((acc, s) => acc + s.items.length, 1)} Modules
-          </span>
-        </div>
+  const handleMouseEnterGroup = (groupId) => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    setHoveredGroup(groupId);
+  };
 
-        {/* Navigation Accordion List */}
-        <nav className="space-y-1.5">
-          {/* Main Dashboard Link */}
-          {canAccessPage(role, '/') && (
-            <NavLink
-              to="/"
-              end
-              onClick={closeMobileSidebar}
-              className={({ isActive }) =>
-                `group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all duration-200 ease-out hover:translate-x-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
-                  isActive
-                    ? 'translate-x-1 text-foreground font-bold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-foreground before:rounded-r-full'
-                    : 'text-muted-foreground hover:text-foreground font-medium'
-                }`
-              }
+  const handleMouseLeaveGroup = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredGroup(null);
+    }, 140);
+  };
+
+  const toggleGroupAccordion = (groupId) => {
+    setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
+
+  // Collapsed 68px Icon-Only Rail (Reference UI Inspired)
+  const renderCollapsedRail = () => (
+    <aside
+      aria-label="Primary Navigation"
+      className="hidden lg:flex flex-col items-center w-[68px] shrink-0 bg-sidebar border-r border-sidebar-border sticky top-0 h-screen py-3 z-40 select-none"
+    >
+      {/* Top Brand Logo */}
+      <Link
+        to={role === 'STUDENT' ? '/dashboard' : '/'}
+        title="CampusCorpo"
+        className="w-10 h-10 rounded-xl bg-white dark:bg-[#262126] border border-border p-1 flex items-center justify-center shadow-2xs hover:border-[#8B2942]/40 transition-colors mb-5 shrink-0"
+      >
+        <img src="/logo-light.jpeg" alt="CampusCorpo" className="w-full h-full object-contain dark:hidden" />
+        <img src="/logo-dark.jpeg" alt="CampusCorpo" className="w-full h-full object-contain hidden dark:block" />
+      </Link>
+
+      {/* Navigation Icons */}
+      <nav className="flex-1 flex flex-col items-center gap-1.5 w-full px-2 overflow-visible">
+        {visibleGroups.map((group) => {
+          const Icon = group.icon;
+          const isHovered = hoveredGroup === group.id;
+          const targetRoute = group.items.length > 0 ? group.items[0].to : group.primaryTo;
+
+          return (
+            <div
+              key={group.id}
+              className="relative w-full flex justify-center"
+              onMouseEnter={() => handleMouseEnterGroup(group.id)}
+              onMouseLeave={handleMouseLeaveGroup}
             >
-              {({ isActive }) => (
-                <>
-                  <LayoutDashboard
-                    className={`w-4 h-4 shrink-0 transition-colors ${
-                      isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
-                    }`}
-                  />
-                  <span className="flex-1 truncate">Placement Dashboard</span>
-                </>
-              )}
-            </NavLink>
-          )}
+              <Link
+                to={targetRoute}
+                aria-label={group.label}
+                className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 ${
+                  group.isActive
+                    ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] shadow-2xs ring-1 ring-[#8B2942]/20'
+                    : 'text-[#858087] hover:text-[#29252A] dark:hover:text-white hover:bg-[#F7F6F7] dark:hover:bg-white/5'
+                }`}
+              >
+                <Icon className="w-5 h-5 stroke-[1.8]" />
+              </Link>
 
-          {/* Grouped Accordion Sections */}
-          {visibleSections.map((sec) => {
-            const SectionIcon = sec.icon;
-            return (
-              <div key={sec.id} className="space-y-0.5">
-                <motion.button
-                  type="button"
-                  onClick={sec.toggle}
-                  aria-expanded={sec.isOpen}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:translate-x-0.5 text-foreground hover:text-foreground cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
-                >
-                  <div className="flex items-center gap-2.5 truncate">
-                    <SectionIcon
-                      className={`w-4 h-4 shrink-0 transition-colors ${
-                        sec.isActive ? 'text-foreground' : 'text-muted-foreground'
-                      }`}
-                    />
-                    <span className="truncate">{sec.label}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    {sec.badge && (
-                      <span className="px-1.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-secondary text-muted-foreground">
-                        {sec.badge}
-                      </span>
-                    )}
-                    <ChevronDown
-                      className={`w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ${
-                        sec.isOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </div>
-                </motion.button>
-
-                <AnimatePresence initial={false}>
-                  {sec.isOpen && sec.items && sec.items.length > 0 && (
-                    <motion.div
-                      initial={shouldReduceMotion ? { opacity: 0 } : accordionVariants.initial}
-                      animate={shouldReduceMotion ? { opacity: 1 } : accordionVariants.animate}
-                      exit={shouldReduceMotion ? { opacity: 0 } : accordionVariants.exit}
-                      className="pl-3.5 space-y-0.5 pt-0.5 border-l-2 border-border/70 ml-3.5 my-0.5"
-                    >
-                      {sec.items.map((sub) => {
-                        const SubIcon = sub.icon;
-                        return (
-                          <NavLink
-                            key={sub.to}
-                            to={sub.to}
-                            onClick={closeMobileSidebar}
-                            className={({ isActive }) =>
-                              `group relative flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 ease-out hover:translate-x-1 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden ${
-                                isActive
-                                  ? 'translate-x-1 text-foreground font-bold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-1 before:bg-foreground before:rounded-r-full'
-                                  : 'text-muted-foreground hover:text-foreground font-medium'
-                              }`
-                            }
-                          >
-                            {({ isActive }) => (
-                              <>
-                                <SubIcon
-                                  className={`w-4 h-4 shrink-0 transition-colors ${
+              {/* Hover Tooltip / Flyout Submenu */}
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.div
+                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -4 }}
+                    animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+                    exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -4 }}
+                    transition={{ duration: 0.12 }}
+                    onMouseEnter={() => handleMouseEnterGroup(group.id)}
+                    onMouseLeave={handleMouseLeaveGroup}
+                    className="absolute left-[58px] top-0 z-50 pl-2"
+                  >
+                    {group.items.length > 0 ? (
+                      <div className="w-56 bg-popover text-popover-foreground rounded-xl border border-border shadow-lg py-2 px-1.5">
+                        <div className="px-2.5 py-1.5 mb-1 border-b border-border">
+                          <p className="text-xs font-bold text-foreground">{group.label}</p>
+                        </div>
+                        <div className="space-y-0.5">
+                          {group.items.map((item) => {
+                            const SubIcon = item.icon;
+                            return (
+                              <NavLink
+                                key={item.to}
+                                to={item.to}
+                                onClick={() => setHoveredGroup(null)}
+                                className={({ isActive }) =>
+                                  `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${
                                     isActive
-                                      ? 'text-foreground'
-                                      : 'text-muted-foreground group-hover:text-foreground'
-                                  }`}
-                                />
-                                <span className="flex-1 truncate">{sub.label}</span>
-                              </>
-                            )}
-                          </NavLink>
-                        );
-                      })}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </nav>
+                                      ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
+                                      : 'text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
+                                  }`
+                                }
+                              >
+                                <SubIcon className="w-3.5 h-3.5 shrink-0 stroke-[1.8]" />
+                                <span className="truncate">{item.label}</span>
+                              </NavLink>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="px-3 py-2 rounded-lg bg-[#29252A] text-white text-xs font-semibold whitespace-nowrap shadow-md">
+                        {group.label}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </nav>
+
+      {/* Bottom Controls: Expand Sidebar + Sign Out */}
+      <div className="pt-3 border-t border-sidebar-border flex flex-col items-center gap-1.5 w-full px-2 shrink-0">
+        <button
+          type="button"
+          onClick={toggleSidebarExpanded}
+          title="Expand Sidebar"
+          aria-label="Expand Sidebar"
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-[#858087] hover:text-[#29252A] dark:hover:text-white hover:bg-[#F7F6F7] dark:hover:bg-white/5 transition-colors cursor-pointer"
+        >
+          <PanelLeftOpen className="w-4 h-4 stroke-[1.8]" />
+        </button>
+        <button
+          type="button"
+          onClick={logout}
+          title="Sign Out"
+          aria-label="Sign Out"
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-[#858087] hover:text-[#8B2942] hover:bg-[#F8EDF0] dark:hover:bg-[#312128] transition-colors cursor-pointer"
+        >
+          <LogOut className="w-4 h-4 stroke-[1.8]" />
+        </button>
+      </div>
+    </aside>
+  );
+
+  // Expanded 248px Sidebar (and Mobile Drawer Content)
+  const renderExpandedContent = (isMobile = false) => (
+    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground">
+      {/* Header with Logo & Collapse Toggle */}
+      <div className="h-14 px-4 border-b border-sidebar-border flex items-center justify-between gap-2 shrink-0">
+        <Link
+          to={role === 'STUDENT' ? '/dashboard' : '/'}
+          onClick={isMobile ? closeMobileSidebar : undefined}
+          className="flex items-center gap-2.5 min-w-0"
+        >
+          <div className="w-8 h-8 rounded-lg bg-white dark:bg-[#262126] border border-border p-1 flex items-center justify-center shrink-0">
+            <img src="/logo-light.jpeg" alt="CampusCorpo" className="w-full h-full object-contain dark:hidden" />
+            <img src="/logo-dark.jpeg" alt="CampusCorpo" className="w-full h-full object-contain hidden dark:block" />
+          </div>
+          <span className="font-bold text-sm tracking-tight text-foreground truncate">
+            CampusCorpo
+          </span>
+        </Link>
+
+        {isMobile ? (
+          <button
+            type="button"
+            onClick={closeMobileSidebar}
+            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={toggleSidebarExpanded}
+            title="Collapse to Icon Rail"
+            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer"
+          >
+            <PanelLeftClose className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
-      {/* Footer Info Pill */}
-      <div className="p-3 m-3 shrink-0 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 border border-sidebar-border">
-        <div className="flex items-center gap-2 text-sidebar-foreground text-xs font-semibold mb-1">
-          <span className="w-2 h-2 rounded-full bg-foreground" />
-          <span>CampusCorp Multi-DB Active</span>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          {isSuperAdmin
-            ? 'Root access active. Managing institutional permissions & clusters.'
-            : 'Role-based access active with dynamic page governance.'}
-        </p>
+      {/* Navigation List */}
+      <nav className="flex-1 overflow-y-auto px-2.5 py-3 space-y-1">
+        {visibleGroups.map((group) => {
+          const Icon = group.icon;
+          const hasChildren = group.items.length > 0;
+          const isOpen = !!expandedGroups[group.id];
+
+          if (!hasChildren) {
+            return (
+              <NavLink
+                key={group.id}
+                to={group.primaryTo}
+                end={group.primaryTo === '/'}
+                onClick={isMobile ? closeMobileSidebar : undefined}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                    isActive || group.isActive
+                      ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
+                      : 'text-[#858087] hover:text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
+                  }`
+                }
+              >
+                <Icon className="w-4 h-4 shrink-0 stroke-[1.8]" />
+                <span className="truncate">{group.label}</span>
+              </NavLink>
+            );
+          }
+
+          return (
+            <div key={group.id} className="space-y-0.5">
+              <button
+                type="button"
+                onClick={() => toggleGroupAccordion(group.id)}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+                  group.isActive
+                    ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
+                    : 'text-[#858087] hover:text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
+                }`}
+              >
+                <Icon className="w-4 h-4 shrink-0 stroke-[1.8]" />
+                <span className="flex-1 text-left truncate">{group.label}</span>
+                {isOpen ? (
+                  <ChevronDown className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                ) : (
+                  <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                )}
+              </button>
+
+              {isOpen && (
+                <div className="pl-5 pr-1 py-1 space-y-0.5">
+                  {group.items.map((item) => {
+                    const SubIcon = item.icon;
+                    return (
+                      <NavLink
+                        key={item.to}
+                        to={item.to}
+                        onClick={isMobile ? closeMobileSidebar : undefined}
+                        className={({ isActive }) =>
+                          `flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs transition-colors ${
+                            isActive
+                              ? 'text-[#8B2942] dark:text-[#F2B8C7] bg-[#F8EDF0]/70 dark:bg-[#312128]/70 font-semibold'
+                              : 'text-muted-foreground hover:text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5 font-medium'
+                          }`
+                        }
+                      >
+                        <SubIcon className="w-3.5 h-3.5 shrink-0 stroke-[1.8]" />
+                        <span className="truncate">{item.label}</span>
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+
+      {/* Footer Sign Out */}
+      <div className="p-2.5 border-t border-sidebar-border shrink-0">
+        <button
+          type="button"
+          onClick={logout}
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-muted-foreground hover:text-[#8B2942] hover:bg-[#F8EDF0] dark:hover:bg-[#312128] transition-colors cursor-pointer"
+        >
+          <LogOut className="w-4 h-4 stroke-[1.8]" />
+          <span>Sign Out</span>
+        </button>
       </div>
-    </>
+    </div>
   );
 
   return (
     <>
-      {/* 1. Desktop Persistent Sticky Sidebar (lg and above) */}
-      <aside className="hidden lg:flex w-64 shrink-0 bg-sidebar text-sidebar-foreground sticky top-16 h-[calc(100vh-4rem)] flex-col justify-between border-r border-sidebar-border transition-colors z-30">
-        {renderNavList()}
-      </aside>
+      {/* Desktop Sidebar: 68px Icon Rail by default, expandable to 248px */}
+      {sidebarExpanded ? (
+        <aside className="hidden lg:block w-[248px] shrink-0 border-r border-sidebar-border sticky top-0 h-screen z-40">
+          {renderExpandedContent(false)}
+        </aside>
+      ) : (
+        renderCollapsedRail()
+      )}
 
-      {/* 2. Mobile Responsive Slide-Over Drawer (< lg) */}
+      {/* Mobile Slide-Over Drawer */}
       <AnimatePresence>
         {mobileSidebarOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 flex">
-            {/* Backdrop overlay */}
+          <div className="fixed inset-0 z-50 lg:hidden flex">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
               onClick={closeMobileSidebar}
-              aria-hidden="true"
+              className="fixed inset-0 bg-black/40 backdrop-blur-[2px]"
             />
-
-            {/* Drawer Panel */}
             <motion.aside
-              role="dialog"
-              aria-modal="true"
-              aria-label="Navigation Sidebar"
               initial={shouldReduceMotion ? { opacity: 0 } : drawerLeftVariants.initial}
               animate={shouldReduceMotion ? { opacity: 1 } : drawerLeftVariants.animate}
               exit={shouldReduceMotion ? { opacity: 0 } : drawerLeftVariants.exit}
-              className="relative z-50 w-72 max-w-[85vw] bg-sidebar text-sidebar-foreground shadow-2xl flex flex-col justify-between border-r border-sidebar-border h-full"
+              className="relative w-64 max-w-[82vw] h-full shadow-2xl z-10"
             >
-              {/* Drawer Header */}
-              <div className="p-4 border-b border-sidebar-border flex items-center justify-between shrink-0 bg-card/60">
-                <Link to="/" onClick={closeMobileSidebar} className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-card p-1 border border-border shadow-xs flex items-center justify-center shrink-0">
-                    <img src="/logo-light.jpeg" alt="Logo" className="w-full h-full object-contain dark:hidden" />
-                    <img src="/logo-dark.jpeg" alt="Logo" className="w-full h-full object-contain hidden dark:block" />
-                  </div>
-                  <span className="font-extrabold text-foreground text-base tracking-wider">
-                    CampusCorp
-                  </span>
-                </Link>
-                <motion.button
-                  type="button"
-                  onClick={closeMobileSidebar}
-                  aria-label="Close navigation sidebar"
-                  whileTap={{ scale: 0.92 }}
-                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary cursor-pointer transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </motion.button>
-              </div>
-
-              {/* Nav list */}
-              {renderNavList()}
+              {renderExpandedContent(true)}
             </motion.aside>
           </div>
         )}

@@ -84,12 +84,11 @@ function Layout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-200">
-      <Navbar />
-      <div className="flex flex-1 items-start">
-        <Sidebar />
-        <main className="flex-1 p-3.5 sm:p-5 lg:p-7 max-w-[1600px] mx-auto w-full min-w-0">
-          <Breadcrumbs />
+    <div className="min-h-screen bg-background text-foreground flex font-sans transition-colors duration-200">
+      <Sidebar />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Navbar />
+        <main className="flex-1 p-4 sm:p-6 max-w-[1440px] mx-auto w-full min-w-0">
           <PageMotion locationKey={location.pathname}>
             {children}
           </PageMotion>
@@ -220,7 +219,7 @@ function PortalRoute() {
   }
   return (
     <Layout>
-      {user.roleName === 'STUDENT' ? <Profile /> : <Dashboard />}
+      <Dashboard />
     </Layout>
   );
 }

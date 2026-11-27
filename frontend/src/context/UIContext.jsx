@@ -5,6 +5,13 @@ const UIContext = createContext(null);
 
 export function UIProvider({ children }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(() => {
+    try {
+      return localStorage.getItem('campuscorp_sidebar_expanded') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const location = useLocation();
 
   // Close mobile sidebar whenever location changes
@@ -46,6 +53,16 @@ export function UIProvider({ children }) {
     setMobileSidebarOpen(true);
   }, []);
 
+  const toggleSidebarExpanded = useCallback(() => {
+    setSidebarExpanded((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('campuscorp_sidebar_expanded', String(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
   return (
     <UIContext.Provider
       value={{
@@ -53,6 +70,9 @@ export function UIProvider({ children }) {
         toggleMobileSidebar,
         closeMobileSidebar,
         openMobileSidebar,
+        sidebarExpanded,
+        setSidebarExpanded,
+        toggleSidebarExpanded,
       }}
     >
       {children}
@@ -68,6 +88,9 @@ export function useUI() {
       toggleMobileSidebar: () => {},
       closeMobileSidebar: () => {},
       openMobileSidebar: () => {},
+      sidebarExpanded: false,
+      setSidebarExpanded: () => {},
+      toggleSidebarExpanded: () => {},
     };
   }
   return context;

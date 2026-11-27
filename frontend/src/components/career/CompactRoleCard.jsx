@@ -60,21 +60,21 @@ export function CompactRoleCard({
       transition={{ duration: 0.16, ease: 'easeOut' }}
       className="h-full"
     >
-      <div className="h-full bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200/90 dark:border-neutral-800 hover:border-purple-500/40 dark:hover:border-purple-500/40 p-6 flex flex-col justify-between space-y-4 shadow-xs hover:shadow-md transition-all duration-200">
+      <div className="h-full bg-card rounded-xl border border-border hover:border-[#8B2942]/45 p-5 flex flex-col justify-between space-y-4 shadow-2xs hover:shadow-xs transition-all duration-200">
         {/* Top Header: Title, Salary, and Compare Toggle */}
         <div className="space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-1.5 flex-1 min-w-0">
               <Link
                 to={`/domains/${resolvedDomainSlug}/${id}`}
-                className="text-lg font-bold text-neutral-900 dark:text-neutral-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors block leading-snug line-clamp-2"
+                className="text-base font-bold text-foreground hover:text-[#8B2942] dark:hover:text-[#F2B8C7] transition-colors block leading-snug line-clamp-2"
                 title={title}
               >
                 {title}
               </Link>
 
               {salaryText && (
-                <div className="inline-flex items-center text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-md border border-emerald-200/80 dark:border-emerald-800/60">
+                <div className="inline-flex items-center text-xs font-semibold text-[#26966B] bg-[#26966B]/10 px-2.5 py-0.5 rounded-md border border-[#26966B]/25">
                   <span>{salaryText}</span>
                 </div>
               )}
@@ -88,8 +88,8 @@ export function CompactRoleCard({
                 disabled={!isCompared && !canAddCompare}
                 className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
                   isCompared
-                    ? 'bg-purple-600 text-white border-purple-600'
-                    : 'bg-neutral-50 dark:bg-neutral-800 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 border-neutral-200 dark:border-neutral-700'
+                    ? 'bg-[#8B2942] text-white border-[#8B2942]'
+                    : 'bg-[#F7F6F7] dark:bg-[#262126] text-muted-foreground hover:text-[#8B2942] border-border'
                 }`}
                 title={isCompared ? 'Remove from comparison' : 'Add to comparison'}
                 aria-label="Toggle comparison"
@@ -124,13 +124,13 @@ export function CompactRoleCard({
         </div>
 
         {/* Primary Action: View Details */}
-        <div className="pt-3 border-t border-neutral-100 dark:border-neutral-800/80">
+        <div className="pt-3 border-t border-border">
           <Link
             to={`/domains/${resolvedDomainSlug}/${id}`}
-            className="w-full inline-flex items-center justify-center gap-1.5 h-10 px-3.5 rounded-xl text-sm font-semibold bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 transition-colors cursor-pointer shadow-xs"
+            className="w-full inline-flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-lg text-xs font-semibold bg-[#8B2942] hover:bg-[#702038] text-white transition-colors cursor-pointer"
           >
-            <span>View Details</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>View Role Details</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
