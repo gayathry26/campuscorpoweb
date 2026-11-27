@@ -217,7 +217,7 @@ export function ApplicantReviewModal({
                 type="text"
                 value={venueOrLink}
                 onChange={(e) => setVenueOrLink(e.target.value)}
-                placeholder="e.g. Placement Block Lab 2 or WebRTC Room #104"
+                placeholder="e.g. Placement Block Lab 2 or Virtual Room #104"
                 className="w-full p-2 border border-border bg-background text-foreground rounded-lg text-xs"
               />
             </div>

@@ -86,9 +86,9 @@ export function Interviews() {
           </div>
           <div>
             <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-              <span>WebRTC & Socket.io Live Interview Meet System Active</span>
+              <span>Live Virtual Interview Meet System Active</span>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary text-foreground border border-border">
-                P2P Ready
+                Live Ready
               </span>
             </h3>
             <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">

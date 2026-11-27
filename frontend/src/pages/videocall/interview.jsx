@@ -126,7 +126,7 @@ export function InterviewRoomPage() {
       id: 'welcome-1',
       senderName: 'CampusCorp Meet System',
       senderRole: 'SYSTEM',
-      text: 'Encrypted technical interview session initialized via WebRTC peer connection.',
+      text: 'Encrypted technical interview session initialized.',
       time: 'Just now'
     }
   ]);
@@ -1020,7 +1020,7 @@ export function InterviewRoomPage() {
             <div>
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-1">
                 <Shield size={12} />
-                <span>Encrypted WebRTC Session</span>
+                <span>Encrypted Interview Session</span>
               </div>
               <h2 className="text-xl font-bold text-white tracking-tight">Join Virtual Technical Interview</h2>
               <p className="text-xs text-slate-400">
@@ -1177,7 +1177,7 @@ export function InterviewRoomPage() {
             </button>
 
             <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-800">
-              <span>Low-latency WebRTC P2P mesh</span>
+              <span>Low-latency HD video & audio</span>
               <Link to="/login" className="text-blue-400 hover:underline">
                 CampusCorp Login
               </Link>
@@ -1232,7 +1232,7 @@ export function InterviewRoomPage() {
                   Virtual Technical Interview Console
                 </h1>
                 <span className="text-xs text-muted-foreground font-medium">
-                  WebRTC P2P Signaling Architecture
+                  Live Virtual Interview Studio
                 </span>
               </div>
             </div>
@@ -1249,7 +1249,7 @@ export function InterviewRoomPage() {
 
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-secondary px-2.5 py-1 rounded-lg border border-border">
               <Shield size={13} className="text-foreground" />
-              <span className="font-mono text-xs">STUN Active</span>
+              <span className="text-xs font-medium">Connection Ready</span>
             </div>
           </div>
         </header>
@@ -1271,7 +1271,7 @@ export function InterviewRoomPage() {
                     Schedule New Interview Session
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Configure technical interview specifications, select candidates, and generate encrypted WebRTC room links.
+                    Configure technical interview specifications, select candidates, and generate encrypted interview room links.
                   </p>
                 </div>
 
@@ -1555,13 +1555,8 @@ export function InterviewRoomPage() {
                     </div>
                   )}
 
-                  <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                    {!mediaPermissionGranted ? (
-                      <div className="px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-border bg-background/90 text-muted-foreground backdrop-blur-xs">
-                        <Shield size={11} />
-                        <span>Permission Required</span>
-                      </div>
-                    ) : (
+                  {mediaPermissionGranted && (
+                    <div className="absolute bottom-3 left-3 flex items-center gap-2">
                       <div
                         className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-border ${
                           micOn ? 'bg-background text-foreground' : 'bg-secondary text-muted-foreground'
@@ -1570,8 +1565,8 @@ export function InterviewRoomPage() {
                         {micOn ? <Mic size={11} /> : <MicOff size={11} />}
                         <span>{micOn ? 'Microphone Active' : 'Microphone Muted'}</span>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-center gap-3 pt-1">
@@ -2416,7 +2411,7 @@ export function InterviewRoomPage() {
 
           <button
             type="button"
-            onClick={() => showToast('End-to-end WebRTC DTLS/SRTP encryption is active.', 'info')}
+            onClick={() => showToast('End-to-end encrypted interview session is active.', 'info')}
             className="w-10 h-10 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
             title="Security Architecture"
           >

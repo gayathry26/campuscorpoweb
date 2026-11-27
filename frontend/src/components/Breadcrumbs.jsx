@@ -18,7 +18,7 @@ const ROUTE_LABELS = {
   'exam': 'CodeSprint Assessment Sandbox',
   'interviews': 'Interview Slots',
   'videocall': 'Video Call Meets',
-  'resume-analyzer': 'Resume Analyzer (Mistral 7B)',
+  'resume-analyzer': 'AI Resume Analyzer',
   'students': 'Students Roster',
   'profile': 'My Student Profile',
   'training': 'Training & Attendance',

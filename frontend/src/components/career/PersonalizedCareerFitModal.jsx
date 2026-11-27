@@ -151,7 +151,7 @@ export default function PersonalizedCareerFitModal({ role, isOpen, onClose }) {
                             {fitData.resumeAnalysis.jobMatchScore || fitData.resumeAnalysis.overallScore}%
                           </span>
                           <span className="text-xs sm:text-sm text-indigo-600 font-medium">
-                            (Mistral 7B Evaluated)
+                            (AI Evaluated)
                           </span>
                         </div>
                         <p className="text-xs text-slate-400 mt-1">
@@ -318,7 +318,7 @@ export default function PersonalizedCareerFitModal({ role, isOpen, onClose }) {
                 Analyze your resume to see your career fit
               </h4>
               <p className="text-sm text-slate-500 max-w-sm mx-auto mt-1 mb-5">
-                Our Mistral 7B AI engine will evaluate your current resume against this role's specific technical proficiencies.
+                Our AI career engine will evaluate your current resume against this role's specific technical proficiencies.
               </p>
               <Link
                 to="/resume-analyzer"

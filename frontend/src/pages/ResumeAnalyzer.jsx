@@ -162,7 +162,7 @@ export function ResumeAnalyzer() {
       setAnalysisStage('Extracting & validating document text...');
 
       const stageTimer1 = setTimeout(() => {
-        setAnalysisStage('Executing local Mistral 7B Instruct inference...');
+        setAnalysisStage('Analyzing resume against role benchmarks...');
       }, 1500);
 
       const stageTimer2 = setTimeout(() => {
@@ -225,14 +225,14 @@ export function ResumeAnalyzer() {
             <div>
               <div className="flex items-center gap-2.5">
                 <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                  Mistral 7B Resume Analyzer
+                  AI Resume Analyzer
                 </h1>
                 <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
-                  Local AI Inference
+                  AI Powered
                 </span>
               </div>
               <p className="text-sm text-muted-foreground mt-0.5">
-                Targeted ATS parsing, semantic skill verification, and metric-driven feedback powered by local Mistral 7B Instruct v0.1.
+                Targeted ATS parsing, semantic skill verification, and metric-driven feedback powered by CampusCorpo AI.
               </p>
             </div>
           </div>
@@ -244,7 +244,7 @@ export function ResumeAnalyzer() {
               <span className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Engine Status</span>
               <div className="flex items-center gap-1.5 font-semibold text-foreground">
                 <span className={`w-2 h-2 rounded-full ${aiHealth?.model_loaded ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
-                <span>{aiHealth?.model_loaded ? 'Mistral 7B Resident (Ready)' : 'AI Service Initializing...'}</span>
+                <span>{aiHealth?.model_loaded ? 'AI Engine Ready' : 'AI Service Initializing...'}</span>
               </div>
             </div>
           </div>
@@ -480,7 +480,7 @@ export function ResumeAnalyzer() {
                 {analyzing ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Analyzing with Mistral 7B...</span>
+                    <span>Analyzing Resume...</span>
                   </>
                 ) : (
                   <>
@@ -496,7 +496,7 @@ export function ResumeAnalyzer() {
                     <div className="bg-primary h-full rounded-full animate-pulse w-3/4" />
                   </div>
                   <p className="text-xs font-medium text-muted-foreground animate-pulse">
-                    {analysisStage || 'Processing with local Mistral 7B AI...'}
+                    {analysisStage || 'Processing resume with CampusCorpo AI...'}
                   </p>
                 </div>
               )}
@@ -518,7 +518,7 @@ export function ResumeAnalyzer() {
                         {activeAnalysis.roleTitle}
                       </h2>
                       <p className="text-sm text-muted-foreground">
-                        File: {activeAnalysis.originalFilename} • Evaluated via Mistral 7B Instruct v0.1
+                        File: {activeAnalysis.originalFilename} • Evaluated via CampusCorpo AI
                       </p>
                     </div>
 
@@ -721,7 +721,7 @@ export function ResumeAnalyzer() {
                   Ready to Evaluate Your Resume
                 </h3>
                 <p className="text-sm text-muted-foreground max-w-sm mb-6 leading-relaxed">
-                  Select your desired job role, upload your resume, and let Mistral 7B analyze your ATS compatibility and technical positioning.
+                  Select your desired job role, upload your resume, and let our AI engine analyze your ATS compatibility and technical positioning.
                 </p>
                 <div className="grid grid-cols-3 gap-3 max-w-md w-full text-center text-sm">
                   <div className="p-3 rounded-xl bg-muted/40 border border-border">

@@ -72,7 +72,7 @@ const QUICK_SEARCH_LINKS = [
   { label: 'Job Opportunities & Openings', to: '/jobs', category: 'Placements', icon: Briefcase },
   { label: 'Placement Drives', to: '/drives', category: 'Placements', icon: Briefcase },
   { label: 'Coding Assessments', to: '/assessment', category: 'Assessment Center', icon: Code2 },
-  { label: 'AI Resume Analyzer (Mistral 7B)', to: '/resume-analyzer', category: 'Assessment Center', icon: Code2 },
+  { label: 'AI Resume Analyzer', to: '/resume-analyzer', category: 'Assessment Center', icon: Code2 },
   { label: 'Live Video Interview Studio', to: '/videocall/interview', category: 'Interviews', icon: Video },
   { label: 'NIRF / NAAC Institutional Reports', to: '/reports', category: 'Governance', icon: Building2 },
   { label: 'System Settings & Preferences', to: '/settings', category: 'Account', icon: Settings },

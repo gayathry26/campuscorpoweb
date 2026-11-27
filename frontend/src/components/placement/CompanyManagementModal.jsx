@@ -1103,7 +1103,7 @@ export function CompanyManagementModal({
                               type="text"
                               value={roundForm.venue_or_link}
                               onChange={(e) => setRoundForm({ ...roundForm, venue_or_link: e.target.value })}
-                              placeholder="e.g. Auditorium or WebRTC Link"
+                              placeholder="e.g. Auditorium or Virtual Meeting Link"
                               className="w-full p-2 border border-border bg-background text-foreground rounded-lg text-xs"
                             />
                           </div>

@@ -122,7 +122,7 @@ export function Dashboard() {
           { title: 'Job Opportunities', description: 'Active campus openings & roles', to: '/jobs', icon: Briefcase },
           { title: 'Placement Drives', description: 'Upcoming institutional drives', to: '/drives', icon: CalendarDays },
           { title: 'Coding Assessments', description: 'Timed tests & online compiler', to: '/assessment', icon: Code2 },
-          { title: 'Interview Studio', description: 'Live WebRTC mock interviews', to: '/videocall/interview', icon: Video },
+          { title: 'Interview Studio', description: 'Live virtual mock interviews', to: '/videocall/interview', icon: Video },
         ].filter((i) => canAccessPage(role, i.to)),
       },
     ].filter((g) => g.show && g.items.length > 0);
@@ -374,7 +374,7 @@ export function Dashboard() {
                 </div>
                 <div className="p-2.5 rounded-lg bg-[#F7F6F7] dark:bg-[#262126] border border-border">
                   <p className="text-xs font-semibold text-foreground">AI Resume Evaluation</p>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">Scan your resume with Mistral 7B.</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Scan your resume with AI Resume Analyzer.</p>
                 </div>
               </div>
             </div>
@@ -547,7 +547,7 @@ export function Dashboard() {
                   <p className="text-xs text-muted-foreground mt-0.5">Placement percentage across departments</p>
                 </div>
                 <span className="text-[11px] font-semibold text-[#8B2942] bg-[#F8EDF0] dark:bg-[#312128] px-2.5 py-1 rounded-md">
-                  Live Multi-DB
+                  Live Analytics
                 </span>
               </div>
               <div className="h-60">
