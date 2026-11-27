@@ -281,6 +281,11 @@ export const lmsService = {
     return res.data?.data || [];
   },
 
+  async addPortfolio(data) {
+    const res = await apiClient.post('/lms/portfolio', data);
+    return res.data;
+  },
+
   async getSupportTickets() {
     const res = await apiClient.get('/lms/support');
     return res.data?.data || [];

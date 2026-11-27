@@ -56,7 +56,7 @@ export function LmsPortal() {
     { key: 'notes', label: 'Notes & Bookmarks', icon: Bookmark },
     { key: 'certificates', label: 'Certificates', icon: Award },
     { key: 'notifications', label: 'LMS Alerts', icon: Bell },
-    { key: 'portfolio', label: 'My Projects', icon: FolderGit2 },
+    { key: 'portfolio', label: 'Projects & Portfolio', icon: FolderGit2 },
     { key: 'support', label: 'Help & Tickets', icon: HelpCircle },
   ];
 

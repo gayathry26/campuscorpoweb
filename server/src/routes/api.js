@@ -424,6 +424,7 @@ router.get('/lms/reports', authenticateToken, authorize(['SUPER_ADMIN', 'ADMIN',
 // Notifications, Portfolio & Support
 router.get('/lms/notifications', authenticateToken, lmsCtrl.getNotifications);
 router.get('/lms/portfolio', authenticateToken, lmsCtrl.getPortfolio);
+router.post('/lms/portfolio', authenticateToken, lmsCtrl.addPortfolioProject);
 router.get('/lms/support', authenticateToken, lmsCtrl.getSupportTickets);
 router.post('/lms/support', authenticateToken, lmsCtrl.createSupportTicket);
 router.get('/lms/announcements', authenticateToken, lmsCtrl.getAnnouncements);

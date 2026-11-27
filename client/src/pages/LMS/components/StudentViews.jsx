@@ -30,6 +30,13 @@ import {
   Cpu,
   Layers,
   Trash2,
+  Search,
+  Filter,
+  ShieldCheck,
+  Eye,
+  X,
+  Globe,
+  Tag,
 } from 'lucide-react';
 import lmsService from '../../../services/lmsService';
 import { useToast } from '../../../context/ToastContext';
@@ -60,6 +67,21 @@ export function StudentViews({ activeSection, onSelectSection }) {
   const [certificates, setCertificates] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [portfolio, setPortfolio] = useState([]);
+  const [portfolioSearch, setPortfolioSearch] = useState('');
+  const [portfolioCategory, setPortfolioCategory] = useState('ALL');
+  const [portfolioStatus, setPortfolioStatus] = useState('ALL');
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+  const [addingProject, setAddingProject] = useState(false);
+  const [newProject, setNewProject] = useState({
+    title: '',
+    category: 'Full Stack & Microservices',
+    description: '',
+    technologies: '',
+    github_url: '',
+    live_demo_url: '',
+    course_title: '',
+  });
   const [tickets, setTickets] = useState([]);
   const [newTicket, setNewTicket] = useState({ subject: '', category: 'COURSE_ACCESS', description: '', priority: 'MEDIUM' });
   const [announcements, setAnnouncements] = useState([]);
@@ -1409,66 +1431,625 @@ export function StudentViews({ activeSection, onSelectSection }) {
   );
 
   // 12. Portfolio Projects View
-  const renderPortfolio = () => (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-bold text-foreground">Capstone Projects & Verified Portfolio</h2>
-        <p className="text-xs text-muted-foreground">
-          Showcase projects built throughout your coursework with direct links for hiring recruiters.
-        </p>
-      </div>
+  const handleAddProject = async (e) => {
+    e.preventDefault();
+    if (!newProject.title.trim()) {
+      showToast('Project title is required', 'error');
+      return;
+    }
+    try {
+      setAddingProject(true);
+      const techArray = typeof newProject.technologies === 'string'
+        ? newProject.technologies.split(',').map((s) => s.trim()).filter(Boolean)
+        : newProject.technologies;
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {portfolio.map((proj) => (
-          <div key={proj.id} className="bg-card rounded-2xl border border-border p-6 shadow-xs space-y-4">
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-primary">{proj.course_title}</span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                  Faculty Approved
-                </span>
+      await lmsService.addPortfolio({
+        title: newProject.title.trim(),
+        category: newProject.category || 'Full Stack & Microservices',
+        description: newProject.description.trim(),
+        technologies: techArray,
+        github_url: newProject.github_url.trim(),
+        live_demo_url: newProject.live_demo_url.trim(),
+        course_title: newProject.course_title.trim() || 'Independent Capstone',
+      });
+
+      showToast('Project added to portfolio successfully', 'success');
+      setShowAddProjectModal(false);
+      setNewProject({
+        title: '',
+        category: 'Full Stack & Microservices',
+        description: '',
+        technologies: '',
+        github_url: '',
+        live_demo_url: '',
+        course_title: '',
+      });
+      const updated = await lmsService.getPortfolio();
+      setPortfolio(updated);
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to add project', 'error');
+    } finally {
+      setAddingProject(false);
+    }
+  };
+
+  const renderPortfolio = () => {
+    // 4 Summary Metrics per Section 8
+    const totalProjects = portfolio.length;
+    const facultyApprovedCount = portfolio.filter(
+      (p) => p.status === 'APPROVED' || p.faculty_approved === 1 || p.faculty_approved === true
+    ).length;
+    const inProgressCount = portfolio.filter((p) => p.status === 'IN_PROGRESS').length;
+    const verifiedCount = portfolio.filter(
+      (p) => p.status === 'VERIFIED' || p.is_featured === 1 || p.is_featured === true
+    ).length;
+
+    // Unique categories from items
+    const availableCategories = [
+      'ALL',
+      ...Array.from(new Set(portfolio.map((p) => p.category).filter(Boolean))),
+    ];
+
+    // Filtered list
+    const filteredProjects = portfolio.filter((proj) => {
+      const q = portfolioSearch.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        proj.title?.toLowerCase().includes(q) ||
+        proj.description?.toLowerCase().includes(q) ||
+        proj.category?.toLowerCase().includes(q) ||
+        proj.course_title?.toLowerCase().includes(q) ||
+        (Array.isArray(proj.technologies) &&
+          proj.technologies.some((t) => t.toLowerCase().includes(q)));
+
+      const matchesCat =
+        portfolioCategory === 'ALL' || proj.category === portfolioCategory;
+
+      const matchesStat =
+        portfolioStatus === 'ALL' ||
+        (portfolioStatus === 'APPROVED' &&
+          (proj.status === 'APPROVED' || proj.faculty_approved)) ||
+        (portfolioStatus === 'VERIFIED' &&
+          (proj.status === 'VERIFIED' || proj.is_featured)) ||
+        (portfolioStatus === 'IN_PROGRESS' && proj.status === 'IN_PROGRESS');
+
+      return matchesSearch && matchesCat && matchesStat;
+    });
+
+    return (
+      <div className="space-y-6">
+        {/* Page Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
+          <div>
+            <h2 className="text-2xl sm:text-[26px] font-semibold tracking-tight text-foreground">
+              Projects & Portfolio
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Showcase your academic projects and verified achievements.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setShowAddProjectModal(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-foreground text-background hover:opacity-90 shadow-2xs transition-all cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Project</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Portfolio Summary Cards (4 stats) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-card rounded-2xl border border-border p-5 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Total Projects</span>
+              <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                <FolderGit2 className="w-4 h-4" />
               </div>
-              <h3 className="text-base font-bold text-foreground">{proj.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{proj.description}</p>
             </div>
-
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {(proj.technologies || []).map((t, i) => (
-                <span key={i} className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-secondary text-foreground">
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            <div className="pt-2 flex items-center gap-3">
-              {proj.github_url && (
-                <a
-                  href={proj.github_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-border bg-card hover:bg-secondary text-foreground"
-                >
-                  <FolderGit2 className="w-3.5 h-3.5" />
-                  <span>GitHub Repository</span>
-                </a>
-              )}
-              {proj.live_demo_url && (
-                <a
-                  href={proj.live_demo_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-primary text-primary-foreground hover:opacity-90"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Live Demo</span>
-                </a>
-              )}
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                {totalProjects}
+              </div>
+              <p className="text-[12px] text-muted-foreground">Repository & capstone records</p>
             </div>
           </div>
-        ))}
+
+          <div className="bg-card rounded-2xl border border-border p-5 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Faculty Approved</span>
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                {facultyApprovedCount}
+              </div>
+              <p className="text-[12px] text-muted-foreground">Peer-reviewed by department</p>
+            </div>
+          </div>
+
+          <div className="bg-card rounded-2xl border border-border p-5 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">In Progress</span>
+              <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <Clock className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                {inProgressCount}
+              </div>
+              <p className="text-[12px] text-muted-foreground">Under active development</p>
+            </div>
+          </div>
+
+          <div className="bg-card rounded-2xl border border-border p-5 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Verified Projects</span>
+              <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                {verifiedCount}
+              </div>
+              <p className="text-[12px] text-muted-foreground">Verified credentials badge</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Filter and Search Bar */}
+        <div className="bg-card rounded-2xl border border-border p-3.5 sm:p-4 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search by title, technology, or keywords..."
+              value={portfolioSearch}
+              onChange={(e) => setPortfolioSearch(e.target.value)}
+              className="w-full pl-9 pr-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background"
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Filter className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Category:</span>
+            </div>
+            <select
+              value={portfolioCategory}
+              onChange={(e) => setPortfolioCategory(e.target.value)}
+              className="px-3 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            >
+              <option value="ALL">All Categories</option>
+              {availableCategories
+                .filter((c) => c !== 'ALL')
+                .map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+            </select>
+
+            <select
+              value={portfolioStatus}
+              onChange={(e) => setPortfolioStatus(e.target.value)}
+              className="px-3 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            >
+              <option value="ALL">All Statuses</option>
+              <option value="APPROVED">Faculty Approved</option>
+              <option value="VERIFIED">Verified Only</option>
+              <option value="IN_PROGRESS">In Progress</option>
+            </select>
+
+            {(portfolioSearch || portfolioCategory !== 'ALL' || portfolioStatus !== 'ALL') && (
+              <button
+                type="button"
+                onClick={() => {
+                  setPortfolioSearch('');
+                  setPortfolioCategory('ALL');
+                  setPortfolioStatus('ALL');
+                }}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted border border-border transition-colors cursor-pointer"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Project Listing Grid */}
+        {filteredProjects.length === 0 ? (
+          <div className="bg-card rounded-2xl border border-dashed border-border p-12 text-center space-y-3">
+            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
+              <FolderGit2 className="w-6 h-6" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-sm font-semibold text-foreground">No projects found</h3>
+              <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+                {portfolioSearch || portfolioCategory !== 'ALL' || portfolioStatus !== 'ALL'
+                  ? 'No projects match your current filters. Try resetting search criteria or add a new project.'
+                  : 'You have not added any projects to your portfolio yet. Add your first capstone or independent repository.'}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAddProjectModal(true)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-foreground text-background hover:opacity-90 transition-all cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add First Project</span>
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredProjects.map((proj) => {
+              const isVerified = proj.status === 'VERIFIED' || proj.is_featured;
+              const isApproved = !isVerified && (proj.status === 'APPROVED' || proj.faculty_approved);
+
+              return (
+                <div
+                  key={proj.id}
+                  className="bg-card rounded-2xl border border-border p-5 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between group"
+                >
+                  <div className="space-y-3">
+                    {/* Top Row: Category & Status */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-medium text-muted-foreground bg-muted/60 px-2.5 py-1 rounded-md border border-border/50 truncate max-w-[170px]">
+                        {proj.category || proj.course_title || 'Capstone Project'}
+                      </span>
+                      {isVerified ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
+                          <ShieldCheck className="w-3 h-3" />
+                          <span>Verified</span>
+                        </span>
+                      ) : isApproved ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
+                          <CheckCircle2 className="w-3 h-3" />
+                          <span>Faculty Approved</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
+                          <Clock className="w-3 h-3" />
+                          <span>In Progress</span>
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <div>
+                      <h3 className="text-base font-semibold text-foreground tracking-tight leading-snug group-hover:text-primary transition-colors line-clamp-1">
+                        {proj.title}
+                      </h3>
+                      {proj.course_title && (
+                        <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
+                          {proj.course_title}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                      {proj.description}
+                    </p>
+
+                    {/* Technology Stack Tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {(proj.technologies || []).slice(0, 4).map((tech, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-muted/80 text-muted-foreground border border-border/40"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {(proj.technologies || []).length > 4 && (
+                        <span className="px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-muted/40 text-muted-foreground">
+                          +{proj.technologies.length - 4}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Actions Row */}
+                  <div className="pt-4 mt-4 border-t border-border flex items-center justify-between gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProject(proj)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground transition-colors cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>View Details</span>
+                    </button>
+
+                    <div className="flex items-center gap-1.5">
+                      {proj.github_url && (
+                        <a
+                          href={proj.github_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="GitHub Repository"
+                          className="p-1.5 rounded-lg border border-border bg-card hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          <FolderGit2 className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                      {proj.live_demo_url && (
+                        <a
+                          href={proj.live_demo_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Live Demo"
+                          className="p-1.5 rounded-lg border border-primary/20 bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* View Details Modal */}
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+            <div className="bg-card w-full max-w-xl rounded-2xl border border-border shadow-xl p-6 space-y-5 animate-in fade-in-0 zoom-in-95 duration-150">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-medium text-muted-foreground bg-muted/60 px-2.5 py-0.5 rounded-md border border-border/50">
+                      {selectedProject.category || 'Capstone Project'}
+                    </span>
+                    {selectedProject.status === 'VERIFIED' || selectedProject.is_featured ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                        <ShieldCheck className="w-3 h-3" />
+                        <span>Verified Project</span>
+                      </span>
+                    ) : selectedProject.status === 'APPROVED' || selectedProject.faculty_approved ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>Faculty Approved</span>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        <Clock className="w-3 h-3" />
+                        <span>In Progress</span>
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground tracking-tight pt-1">
+                    {selectedProject.title}
+                  </h3>
+                  {selectedProject.course_title && (
+                    <p className="text-xs text-muted-foreground">
+                      Associated Course: {selectedProject.course_title}
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedProject(null)}
+                  className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Project Overview
+                </h4>
+                <p className="text-xs text-foreground leading-relaxed whitespace-pre-line bg-muted/30 p-3.5 rounded-xl border border-border/60">
+                  {selectedProject.description}
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Technology Stack
+                </h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {(selectedProject.technologies || []).map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 rounded-lg text-xs font-medium bg-secondary text-secondary-foreground border border-border"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  {selectedProject.github_url && (
+                    <a
+                      href={selectedProject.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border border-border bg-card hover:bg-muted text-foreground transition-colors w-full sm:w-auto"
+                    >
+                      <FolderGit2 className="w-4 h-4" />
+                      <span>GitHub Repository</span>
+                    </a>
+                  )}
+                  {selectedProject.live_demo_url && (
+                    <a
+                      href={selectedProject.live_demo_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-primary text-primary-foreground hover:opacity-95 transition-opacity w-full sm:w-auto"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>Live Demo</span>
+                    </a>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedProject(null)}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground transition-colors cursor-pointer w-full sm:w-auto"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add Project Modal */}
+        {showAddProjectModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+            <div className="bg-card w-full max-w-xl rounded-2xl border border-border shadow-xl p-6 space-y-5 animate-in fade-in-0 zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground tracking-tight">
+                    Add Project to Portfolio
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Enter your repository and project details for academic review and recruiter discovery.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAddProjectModal(false)}
+                  className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddProject} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground">Project Title *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Distributed Task Scheduler & Event Stream"
+                    value={newProject.title}
+                    onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
+                    className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-foreground">Category</label>
+                    <select
+                      value={newProject.category}
+                      onChange={(e) => setNewProject({ ...newProject, category: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                    >
+                      <option value="Full Stack & Microservices">Full Stack & Microservices</option>
+                      <option value="Artificial Intelligence & NLP">Artificial Intelligence & NLP</option>
+                      <option value="Systems & Distributed Computing">Systems & Distributed Computing</option>
+                      <option value="Enterprise Security & Governance">Enterprise Security & Governance</option>
+                      <option value="IoT & Power Systems">IoT & Power Systems</option>
+                      <option value="Embedded Systems & Robotics">Embedded Systems & Robotics</option>
+                      <option value="Renewable Energy Analytics">Renewable Energy Analytics</option>
+                      <option value="Mobile Application">Mobile Application</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-foreground">Associated Course (Optional)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. CS-401 Capstone Studio"
+                      value={newProject.course_title}
+                      onChange={(e) => setNewProject({ ...newProject, course_title: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground">Technologies Used (Comma-separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. React, Node.js, PostgreSQL, Docker, Redis"
+                    value={newProject.technologies}
+                    onChange={(e) => setNewProject({ ...newProject, technologies: e.target.value })}
+                    className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-foreground">GitHub Repository URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://github.com/username/project"
+                      value={newProject.github_url}
+                      onChange={(e) => setNewProject({ ...newProject, github_url: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-foreground">Live Demo URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://demo.project.app"
+                      value={newProject.live_demo_url}
+                      onChange={(e) => setNewProject({ ...newProject, live_demo_url: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground">Project Description</label>
+                  <textarea
+                    rows={3}
+                    placeholder="Briefly describe the problem solved, architecture design, and results..."
+                    value={newProject.description}
+                    onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+                    className="w-full px-3.5 py-2 rounded-xl text-xs bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:bg-background resize-none"
+                  />
+                </div>
+
+                <div className="pt-3 border-t border-border flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddProjectModal(false)}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={addingProject}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-foreground text-background hover:opacity-90 disabled:opacity-50 transition-all cursor-pointer"
+                  >
+                    {addingProject ? (
+                      <>
+                        <Clock className="w-3.5 h-3.5 animate-spin" />
+                        <span>Saving...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Save Project</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   // 13. Help & Support View
   const renderSupport = () => (

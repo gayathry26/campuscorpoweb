@@ -2593,12 +2593,59 @@ async function getPortfolio(req, res, next) {
 
     const formatted = projects.map(p => ({
       ...p,
+      category: p.category || (p.course_title ? `${p.course_title}` : 'Academic Capstone Project'),
+      status: p.status || (p.faculty_approved ? 'APPROVED' : 'IN_PROGRESS'),
       technologies: typeof p.technologies === 'string' ? JSON.parse(p.technologies) : (p.technologies || []),
     }));
 
     res.json({
       success: true,
       data: formatted,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * POST /api/v1/lms/portfolio
+ * Add a new student portfolio capstone project
+ */
+async function addPortfolioProject(req, res, next) {
+  try {
+    const { studentId } = await resolveStudentContext(req);
+    const { title, category, description, technologies, github_url, live_demo_url, course_id } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ success: false, message: 'Project title is required.' });
+    }
+
+    const techArray = Array.isArray(technologies)
+      ? technologies
+      : typeof technologies === 'string'
+      ? technologies.split(',').map(t => t.trim()).filter(Boolean)
+      : [];
+
+    const result = await queryCommon(
+      `INSERT INTO lms_student_portfolio_projects 
+       (student_id, course_id, title, category, description, technologies, github_url, live_demo_url, is_featured, faculty_approved, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 'IN_PROGRESS')`,
+      [
+        studentId,
+        course_id || null,
+        title.trim(),
+        category ? category.trim() : 'Software Engineering',
+        description ? description.trim() : '',
+        JSON.stringify(techArray),
+        github_url ? github_url.trim() : null,
+        live_demo_url ? live_demo_url.trim() : null,
+      ]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: 'Project created and added to your portfolio.',
+      projectId: result.insertId,
     });
   } catch (err) {
     next(err);
@@ -3251,6 +3298,7 @@ module.exports = {
   issueCertificate,
   getNotifications,
   getPortfolio,
+  addPortfolioProject,
   getSupportTickets,
   createSupportTicket,
   getAnnouncements,

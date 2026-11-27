@@ -103,7 +103,7 @@ function Layout({ children }) {
       <Navbar />
       <div className="flex flex-1 items-start">
         <Sidebar />
-        <main className="flex-1 p-3.5 sm:p-5 lg:p-7 max-w-7xl mx-auto w-full min-w-0">
+        <main className="flex-1 p-3.5 sm:p-5 lg:p-7 max-w-[1600px] mx-auto w-full min-w-0">
           <Breadcrumbs />
           <PageMotion locationKey={location.pathname}>
             {children}
