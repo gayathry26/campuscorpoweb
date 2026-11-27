@@ -104,7 +104,7 @@ export function CompactDomainHeader({
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#8B2942] text-white hover:bg-[#702038] transition-colors shadow-2xs"
             >
               <BookOpen className="w-3.5 h-3.5" />
-              <span>12-Module Knowledge Notes & PDF</span>
+              <span>12-Module Knowledge Hub</span>
             </Link>
 
             {onToggleDetails && (

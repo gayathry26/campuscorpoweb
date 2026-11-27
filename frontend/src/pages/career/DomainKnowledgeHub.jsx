@@ -122,14 +122,6 @@ export function DomainKnowledgeHub() {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={handleDownloadHandbook}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#8B2942] hover:bg-[#702038] text-white transition-colors cursor-pointer"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Handbook PDF</span>
-          </button>
           <Link
             to="/domains"
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-card hover:bg-[#F8EDF0] text-foreground border border-border transition-colors"
@@ -290,17 +282,7 @@ export function DomainKnowledgeHub() {
                   </div>
                 </div>
 
-                <div className="pt-2.5 border-t border-border flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={(e) => handleDownloadDomainPdf(domain, e)}
-                    title="Download Domain Notes PDF"
-                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-[#8B2942] transition-colors cursor-pointer"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>PDF</span>
-                  </button>
-
+                <div className="pt-2.5 border-t border-border flex items-center justify-end">
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#8B2942] dark:text-[#F2B8C7]">
                     <span>{domain.completedModules > 0 ? 'Continue Learning' : 'Start Learning'}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

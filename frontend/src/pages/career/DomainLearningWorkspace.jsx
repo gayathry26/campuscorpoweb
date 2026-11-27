@@ -248,7 +248,6 @@ export function DomainLearningWorkspace() {
     { id: 'certifications', label: 'Certifications', icon: Award },
     { id: 'trends', label: 'Industry Trends & AI', icon: TrendingUp },
     { id: 'salary', label: 'Salary & Demand', icon: DollarSign },
-    { id: 'pdf', label: 'Download Academic PDF', icon: Printer, action: handleExportPdf },
   ];
 
   return (
@@ -266,15 +265,6 @@ export function DomainLearningWorkspace() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleExportPdf}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 border border-neutral-200 dark:border-neutral-800 transition-colors shadow-2xs cursor-pointer"
-          >
-            <Printer className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-            <span>Printable Academic PDF</span>
-          </button>
-
           <Link
             to="/career-explorer/knowledge-hub"
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
@@ -1467,48 +1457,6 @@ export function DomainLearningWorkspace() {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* TAB 14: ACADEMIC NOTES & PRINTABLE PDF */}
-        {activeTab === 'pdf' && (
-          <div className="bg-white dark:bg-neutral-900 rounded-3xl p-8 border border-neutral-200 dark:border-neutral-800 shadow-xs text-center space-y-6 max-w-2xl mx-auto">
-            <div className="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-300 flex items-center justify-center mx-auto shadow-xs">
-              <Printer className="w-8 h-8" />
-            </div>
-
-            <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">
-                Download Academic Curriculum & Notes
-              </h2>
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Export the complete university-grade curriculum covering all 12 modules, 9 practical projects, and 90 interview questions for {domain.name}.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-neutral-50 dark:bg-neutral-800 text-left text-xs text-neutral-600 dark:text-neutral-400 space-y-2">
-              <div className="flex justify-between">
-                <span>Document Format:</span>
-                <span className="font-semibold text-neutral-900 dark:text-white">Print-Optimized Academic PDF</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Content Scope:</span>
-                <span className="font-semibold text-neutral-900 dark:text-white">Full 14-Section Consolidated Textbook</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Modules & Labs:</span>
-                <span className="font-semibold text-neutral-900 dark:text-white">12 Modules + 9 Capstones + 90 Q&As</span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleExportPdf}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-all shadow-md cursor-pointer"
-            >
-              <Download className="w-4 h-4" />
-              <span>Launch Print / Save as PDF Dialog</span>
-            </button>
           </div>
         )}
       </div>

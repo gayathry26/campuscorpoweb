@@ -281,13 +281,12 @@ export function Dashboard() {
                     <Link
                       key={c.id}
                       to={`/career-explorer/domains/${c.id}`}
-                      className={`p-3.5 rounded-xl bg-[#F7F6F7]/70 dark:bg-[#262126] border border-border border-t-2 hover:shadow-xs transition-all flex flex-col justify-between gap-2 ${
-                        idx === 0
-                          ? 'border-t-[#8B2942]'
-                          : idx === 1
+                      className={`p-3.5 rounded-xl bg-[#F7F6F7]/70 dark:bg-[#262126] border border-border border-t-2 hover:shadow-xs transition-all flex flex-col justify-between gap-2 ${idx === 0
+                        ? 'border-t-[#8B2942]'
+                        : idx === 1
                           ? 'border-t-[#26966B]'
                           : 'border-t-[#E5A13B]'
-                      }`}
+                        }`}
                     >
                       <div>
                         <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7]">
