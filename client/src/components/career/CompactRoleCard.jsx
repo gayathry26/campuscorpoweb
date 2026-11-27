@@ -42,7 +42,12 @@ export function CompactRoleCard({
       : null);
 
   // Exactly 3 to 4 core skills
-  const displaySkills = technicalSkills.slice(0, 4);
+  const safeSkills = Array.isArray(technicalSkills)
+    ? technicalSkills
+    : typeof technicalSkills === 'object' && technicalSkills !== null
+    ? Object.values(technicalSkills).flat().filter((s) => typeof s === 'string')
+    : [];
+  const displaySkills = safeSkills.slice(0, 4);
 
   return (
     <motion.div

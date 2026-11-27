@@ -53556,42 +53556,32 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Optimizes developer workflows, internal tooling, CLI interfaces, and API documentation portals to maximize engineering velocity.",
     "scope": "Owns internal and external developer friction reduction, SDK usability, self-service developer documentation, and engineering happiness.",
-    "responsibilities": {
-      "entry": [
-        "Document API endpoints with OpenAPI/Swagger and author quick-start guides.",
-        "Review bug reports on developer portals and test sample code snippets."
-      ],
-      "intermediate": [
-        "Build CLI tools, linters, and starter kits to streamline developer onboarding.",
-        "Measure time-to-first-hello-world (TTFHW) and optimize SDK developer ergonomics."
-      ],
-      "senior": [
-        "Architect self-service developer portals, automated sandbox mock environments, and end-to-end DX observability pipelines."
-      ]
-    },
+    "responsibilities": [
+      "Document API endpoints with OpenAPI/Swagger and author quick-start guides.",
+      "Review bug reports on developer portals and test sample code snippets.",
+      "Build CLI tools, linters, and starter kits to streamline developer onboarding.",
+      "Measure time-to-first-hello-world (TTFHW) and optimize SDK developer ergonomics.",
+      "Architect self-service developer portals, automated sandbox mock environments, and end-to-end DX observability pipelines."
+    ],
     "deliverables": [
       "Custom CLI developer tools",
       "Interactive API sandboxes & playgrounds",
       "Developer experience friction audit reports",
       "Automated code generator plugins"
     ],
-    "technicalSkills": {
-      "core": [
-        "TypeScript",
-        "Go",
-        "CLI Design",
-        "OpenAPI/AsyncAPI",
-        "Developer Portals",
-        "CI/CD Automation"
-      ],
-      "secondary": [
-        "Rust",
-        "Docker",
-        "Next.js",
-        "Telemetry",
-        "User Research"
-      ]
-    },
+    "technicalSkills": [
+      "TypeScript",
+      "Go",
+      "CLI Design",
+      "OpenAPI/AsyncAPI",
+      "Developer Portals",
+      "CI/CD Automation",
+      "Rust",
+      "Docker",
+      "Next.js",
+      "Telemetry",
+      "User Research"
+    ],
     "softSkills": [
       "Empathy for developers",
       "Technical writing clarity",
@@ -53631,11 +53621,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Deep empathy for coding ergonomics and hands-on full-stack or systems development experience"
     },
-    "roadmap": {
-      "beginner": "Master standard CLI frameworks (Cobra/Oclif), REST/GraphQL specifications, and OpenAPI toolchains.",
-      "intermediate": "Implement Backstage.io internal developer portals, automated SDK generation, and telemetry metrics (TTFHW, PR velocity).",
-      "advanced": "Lead enterprise-wide developer productivity transformations and open-source developer ecosystem community engagement."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master standard CLI frameworks (Cobra/Oclif), REST/GraphQL specifications, and OpenAPI toolchains."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement Backstage.io internal developer portals, automated SDK generation, and telemetry metrics (TTFHW, PR velocity)."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Lead enterprise-wide developer productivity transformations and open-source developer ecosystem community engagement."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "CLI Code Generator",
@@ -53688,11 +53699,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech / B.E. / M.Sc in Computer Science or Software Engineering",
     "prerequisites": "Strong background in full-stack programming, API design conventions, and technical communication.",
-    "certifications": {
-      "beginner": "Postman API Fundamentals Student Expert",
-      "intermediate": "GitHub Actions Certified / Linux Foundation Developer Ergonomics",
-      "advanced": "AWS Certified Solutions Architect"
-    },
+    "certifications": [
+      {
+        "name": "Postman API Fundamentals Student Expert",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "GitHub Actions Certified / Linux Foundation Developer Ergonomics",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Solutions Architect",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Cloud Services",
       "Developer Tooling SaaS",
@@ -53783,6 +53803,46 @@ export const MASTER_CAREER_ROLES = [
         "PostgreSQL",
         "Redis"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "TypeScript",
+        "Go",
+        "CLI Design",
+        "OpenAPI/AsyncAPI",
+        "Developer Portals",
+        "CI/CD Automation"
+      ],
+      "secondary": [
+        "Rust",
+        "Docker",
+        "Next.js",
+        "Telemetry",
+        "User Research"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Document API endpoints with OpenAPI/Swagger and author quick-start guides.",
+        "Review bug reports on developer portals and test sample code snippets."
+      ],
+      "intermediate": [
+        "Build CLI tools, linters, and starter kits to streamline developer onboarding.",
+        "Measure time-to-first-hello-world (TTFHW) and optimize SDK developer ergonomics."
+      ],
+      "senior": [
+        "Architect self-service developer portals, automated sandbox mock environments, and end-to-end DX observability pipelines."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master standard CLI frameworks (Cobra/Oclif), REST/GraphQL specifications, and OpenAPI toolchains.",
+      "intermediate": "Implement Backstage.io internal developer portals, automated SDK generation, and telemetry metrics (TTFHW, PR velocity).",
+      "advanced": "Lead enterprise-wide developer productivity transformations and open-source developer ecosystem community engagement."
+    },
+    "certificationsByLevel": {
+      "beginner": "Postman API Fundamentals Student Expert",
+      "intermediate": "GitHub Actions Certified / Linux Foundation Developer Ergonomics",
+      "advanced": "AWS Certified Solutions Architect"
     }
   },
   {
@@ -53804,41 +53864,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Establishes enterprise-wide API design standards, lifecycle governance, versioning policies, and gateway architectures across hundreds of microservices.",
     "scope": "Governs API contracts, security standards, rate-limiting policies, backward compatibility, and developer portal taxonomies.",
-    "responsibilities": {
-      "entry": [
-        "Validate OpenAPI specs against Spectral linting rules.",
-        "Catalog published endpoints in enterprise API registries."
-      ],
-      "intermediate": [
-        "Formulate API design style guides, OAuth2 token exchange standards, and breaking-change deprecation schedules.",
-        "Configure enterprise API Gateways (Kong, Apigee, Envoy)."
-      ],
-      "senior": [
-        "Lead the enterprise API Steering Committee, design federated GraphQL / gRPC / REST multi-protocol governance, and establish corporate API monetization models."
-      ]
-    },
+    "responsibilities": [
+      "Validate OpenAPI specs against Spectral linting rules.",
+      "Catalog published endpoints in enterprise API registries.",
+      "Formulate API design style guides, OAuth2 token exchange standards, and breaking-change deprecation schedules.",
+      "Configure enterprise API Gateways (Kong, Apigee, Envoy).",
+      "Lead the enterprise API Steering Committee, design federated GraphQL / gRPC / REST multi-protocol governance, and establish corporate API monetization models."
+    ],
     "deliverables": [
       "Enterprise API Style Guides & Linting Rules",
       "API Lifecycle Governance Playbooks",
       "API Gateway Federation Topology",
       "Contract-First Review Workflows"
     ],
-    "technicalSkills": {
-      "core": [
-        "OpenAPI 3.1",
-        "API Gateway Architecture (Apigee/Kong)",
-        "Spectral Linting",
-        "OAuth2/mTLS",
-        "GraphQL Federation",
-        "gRPC"
-      ],
-      "secondary": [
-        "Kafka",
-        "Service Mesh (Istio)",
-        "JSON Schema",
-        "Microservices Architecture"
-      ]
-    },
+    "technicalSkills": [
+      "OpenAPI 3.1",
+      "API Gateway Architecture (Apigee/Kong)",
+      "Spectral Linting",
+      "OAuth2/mTLS",
+      "GraphQL Federation",
+      "gRPC",
+      "Kafka",
+      "Service Mesh (Istio)",
+      "JSON Schema",
+      "Microservices Architecture"
+    ],
     "softSkills": [
       "Stakeholder alignment",
       "Governance leadership",
@@ -53874,11 +53924,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 24,
       "keyPrerequisite": "Prior enterprise software engineering and microservices integration experience"
     },
-    "roadmap": {
-      "beginner": "Master HTTP/2, RESTful resource design, HTTP status codes, and OpenAPI specification linting.",
-      "intermediate": "Design multi-tenant API gateway traffic policies, OAuth2 scopes, rate limiting, and contract testing (Pact).",
-      "advanced": "Direct enterprise-scale API economy transformations, legacy SOAP/RPC modernization, and zero-trust API security perimeters."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master HTTP/2, RESTful resource design, HTTP status codes, and OpenAPI specification linting."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Design multi-tenant API gateway traffic policies, OAuth2 scopes, rate limiting, and contract testing (Pact)."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Direct enterprise-scale API economy transformations, legacy SOAP/RPC modernization, and zero-trust API security perimeters."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated API Style Linter",
@@ -53931,11 +54002,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/MCA in Computer Science or related engineering discipline",
     "prerequisites": "Extensive hands-on background in distributed systems and microservice communications.",
-    "certifications": {
-      "beginner": "Postman Enterprise Certified Professional",
-      "intermediate": "Google Cloud Apigee Certified Engineer / Kong Certified Gateway Expert",
-      "advanced": "TOGAF 9/10 Enterprise Architect Certification"
-    },
+    "certifications": [
+      {
+        "name": "Postman Enterprise Certified Professional",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Google Cloud Apigee Certified Engineer / Kong Certified Gateway Expert",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "TOGAF 9/10 Enterprise Architect Certification",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Banking & Open Banking",
       "Insurance",
@@ -54023,6 +54103,45 @@ export const MASTER_CAREER_ROLES = [
         "Redis",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "OpenAPI 3.1",
+        "API Gateway Architecture (Apigee/Kong)",
+        "Spectral Linting",
+        "OAuth2/mTLS",
+        "GraphQL Federation",
+        "gRPC"
+      ],
+      "secondary": [
+        "Kafka",
+        "Service Mesh (Istio)",
+        "JSON Schema",
+        "Microservices Architecture"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Validate OpenAPI specs against Spectral linting rules.",
+        "Catalog published endpoints in enterprise API registries."
+      ],
+      "intermediate": [
+        "Formulate API design style guides, OAuth2 token exchange standards, and breaking-change deprecation schedules.",
+        "Configure enterprise API Gateways (Kong, Apigee, Envoy)."
+      ],
+      "senior": [
+        "Lead the enterprise API Steering Committee, design federated GraphQL / gRPC / REST multi-protocol governance, and establish corporate API monetization models."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master HTTP/2, RESTful resource design, HTTP status codes, and OpenAPI specification linting.",
+      "intermediate": "Design multi-tenant API gateway traffic policies, OAuth2 scopes, rate limiting, and contract testing (Pact).",
+      "advanced": "Direct enterprise-scale API economy transformations, legacy SOAP/RPC modernization, and zero-trust API security perimeters."
+    },
+    "certificationsByLevel": {
+      "beginner": "Postman Enterprise Certified Professional",
+      "intermediate": "Google Cloud Apigee Certified Engineer / Kong Certified Gateway Expert",
+      "advanced": "TOGAF 9/10 Enterprise Architect Certification"
     }
   },
   {
@@ -54044,40 +54163,30 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Coordinates, schedules, and oversees end-to-end software deployments, risk mitigation gates, change approval boards, and rollback protocols.",
     "scope": "Bridges software engineering teams, QA signoffs, compliance audits, and production site reliability operations.",
-    "responsibilities": {
-      "entry": [
-        "Track release candidates across environments and maintain deployment checklists.",
-        "Validate pre-release smoke tests and stage test data."
-      ],
-      "intermediate": [
-        "Automate progressive rollouts using canary, blue/green, and feature flag releases.",
-        "Facilitate CAB (Change Advisory Board) reviews and blast radius assessments."
-      ],
-      "senior": [
-        "Architect zero-downtime global rollout strategies, define automated rollback telemetry triggers, and ensure SOX/SOC2 release audit compliance."
-      ]
-    },
+    "responsibilities": [
+      "Track release candidates across environments and maintain deployment checklists.",
+      "Validate pre-release smoke tests and stage test data.",
+      "Automate progressive rollouts using canary, blue/green, and feature flag releases.",
+      "Facilitate CAB (Change Advisory Board) reviews and blast radius assessments.",
+      "Architect zero-downtime global rollout strategies, define automated rollback telemetry triggers, and ensure SOX/SOC2 release audit compliance."
+    ],
     "deliverables": [
       "Production Release Runbooks",
       "Automated Canary Deployment Pipelines",
       "Change Management Risk Assessment Matrix",
       "Release Retrospective Reports"
     ],
-    "technicalSkills": {
-      "core": [
-        "Argo Rollouts",
-        "Spinnaker",
-        "LaunchDarkly (Feature Flags)",
-        "Jira/ServiceNow Release Workflows",
-        "Git Branching & SemVer"
-      ],
-      "secondary": [
-        "Kubernetes",
-        "Prometheus Alerting",
-        "Docker",
-        "Bash/Python Scripting"
-      ]
-    },
+    "technicalSkills": [
+      "Argo Rollouts",
+      "Spinnaker",
+      "LaunchDarkly (Feature Flags)",
+      "Jira/ServiceNow Release Workflows",
+      "Git Branching & SemVer",
+      "Kubernetes",
+      "Prometheus Alerting",
+      "Docker",
+      "Bash/Python Scripting"
+    ],
     "softSkills": [
       "Crisis communication",
       "High-stakes decision making",
@@ -54113,11 +54222,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Deep understanding of software development life cycle (SDLC) and deployment risk management"
     },
-    "roadmap": {
-      "beginner": "Understand Git branching strategies (GitFlow/Trunk-based), Semantic Versioning (SemVer), and CI build triggers.",
-      "intermediate": "Implement progressive delivery patterns (canaries, traffic shadowing), feature flag flags, and automated health checks.",
-      "advanced": "Oversee continuous deployment at hyper-scale with multi-region failovers, automated audit evidence generation, and incident retrospectives."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand Git branching strategies (GitFlow/Trunk-based), Semantic Versioning (SemVer), and CI build triggers."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement progressive delivery patterns (canaries, traffic shadowing), feature flag flags, and automated health checks."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Oversee continuous deployment at hyper-scale with multi-region failovers, automated audit evidence generation, and incident retrospectives."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated Release Notes & Tagging Pipeline",
@@ -54170,11 +54300,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/MCA/MBA in Technology Management",
     "prerequisites": "Experience in agile delivery pipelines, DevOps practices, and release governance.",
-    "certifications": {
-      "beginner": "ITIL 4 Foundation",
-      "intermediate": "Certified SAFe Release Train Engineer (RTE) / Argo Project Certification",
-      "advanced": "AWS Certified DevOps Engineer Professional"
-    },
+    "certifications": [
+      {
+        "name": "ITIL 4 Foundation",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Certified SAFe Release Train Engineer (RTE) / Argo Project Certification",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified DevOps Engineer Professional",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Financial Services",
       "E-Commerce",
@@ -54262,6 +54401,44 @@ export const MASTER_CAREER_ROLES = [
       "databases": [
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Argo Rollouts",
+        "Spinnaker",
+        "LaunchDarkly (Feature Flags)",
+        "Jira/ServiceNow Release Workflows",
+        "Git Branching & SemVer"
+      ],
+      "secondary": [
+        "Kubernetes",
+        "Prometheus Alerting",
+        "Docker",
+        "Bash/Python Scripting"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Track release candidates across environments and maintain deployment checklists.",
+        "Validate pre-release smoke tests and stage test data."
+      ],
+      "intermediate": [
+        "Automate progressive rollouts using canary, blue/green, and feature flag releases.",
+        "Facilitate CAB (Change Advisory Board) reviews and blast radius assessments."
+      ],
+      "senior": [
+        "Architect zero-downtime global rollout strategies, define automated rollback telemetry triggers, and ensure SOX/SOC2 release audit compliance."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand Git branching strategies (GitFlow/Trunk-based), Semantic Versioning (SemVer), and CI build triggers.",
+      "intermediate": "Implement progressive delivery patterns (canaries, traffic shadowing), feature flag flags, and automated health checks.",
+      "advanced": "Oversee continuous deployment at hyper-scale with multi-region failovers, automated audit evidence generation, and incident retrospectives."
+    },
+    "certificationsByLevel": {
+      "beginner": "ITIL 4 Foundation",
+      "intermediate": "Certified SAFe Release Train Engineer (RTE) / Argo Project Certification",
+      "advanced": "AWS Certified DevOps Engineer Professional"
     }
   },
   {
@@ -54283,40 +54460,30 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Architects and scales deterministic monorepo build systems, distributed compilation clusters, remote caching, and artifact management infrastructure.",
     "scope": "Optimizes build times from hours to minutes across massive multi-language monorepos with hermetic toolchains.",
-    "responsibilities": {
-      "entry": [
-        "Maintain Dockerized build worker images and clean dependency caches.",
-        "Triage broken builds in continuous integration workers."
-      ],
-      "intermediate": [
-        "Migrate legacy build scripts (Make/Maven) to Bazel or Gradle with remote execution and remote caching.",
-        "Tune compiler and linker flags for optimized C++/Rust/Go binaries."
-      ],
-      "senior": [
-        "Design multi-thousand-node distributed remote execution build farms (BuildBuddy, EngFlow), reducing P95 build times by 80%."
-      ]
-    },
+    "responsibilities": [
+      "Maintain Dockerized build worker images and clean dependency caches.",
+      "Triage broken builds in continuous integration workers.",
+      "Migrate legacy build scripts (Make/Maven) to Bazel or Gradle with remote execution and remote caching.",
+      "Tune compiler and linker flags for optimized C++/Rust/Go binaries.",
+      "Design multi-thousand-node distributed remote execution build farms (BuildBuddy, EngFlow), reducing P95 build times by 80%."
+    ],
     "deliverables": [
       "Distributed Remote Build Farm Cluster",
       "Hermetic Monorepo Build Configurations",
       "Build Acceleration & Cache Hit Dashboard",
       "Binary Artifact Distribution Topology"
     ],
-    "technicalSkills": {
-      "core": [
-        "Bazel / Starlark",
-        "Remote Build Execution (RBE)",
-        "Compiler Toolchains (LLVM/GCC)",
-        "Caching Architecture",
-        "Artifact Repositories (Nexus/Artifactory)"
-      ],
-      "secondary": [
-        "Linux Kernel Tuning",
-        "Container Internals",
-        "Rust/C++/Go",
-        "Distributed File Systems"
-      ]
-    },
+    "technicalSkills": [
+      "Bazel / Starlark",
+      "Remote Build Execution (RBE)",
+      "Compiler Toolchains (LLVM/GCC)",
+      "Caching Architecture",
+      "Artifact Repositories (Nexus/Artifactory)",
+      "Linux Kernel Tuning",
+      "Container Internals",
+      "Rust/C++/Go",
+      "Distributed File Systems"
+    ],
     "softSkills": [
       "Methodical debugging",
       "Systems optimization intuition",
@@ -54356,11 +54523,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Deep understanding of compilers, linkers, file systems, and distributed caching"
     },
-    "roadmap": {
-      "beginner": "Understand compilation units, intermediate object files, dynamic vs static linking, and basic CI runners.",
-      "intermediate": "Implement hermetic, reproducible builds with Bazel or Nix, configure remote caching, and set up Artifactory retention policies.",
-      "advanced": "Scale global multi-tenant Remote Build Execution (RBE) worker clusters handling hundreds of builds concurrently with sub-second cache queries."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand compilation units, intermediate object files, dynamic vs static linking, and basic CI runners."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement hermetic, reproducible builds with Bazel or Nix, configure remote caching, and set up Artifactory retention policies."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Scale global multi-tenant Remote Build Execution (RBE) worker clusters handling hundreds of builds concurrently with sub-second cache queries."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Hermetic Containerized Build Environment",
@@ -54413,11 +54601,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech / M.Tech in Computer Science or Systems Software",
     "prerequisites": "Strong proficiency in Linux internals, build scripting, and distributed systems.",
-    "certifications": {
-      "beginner": "Linux Professional Institute LPIC-1",
-      "intermediate": "Kubernetes Administrator (CKA) / Bazel Community Training",
-      "advanced": "AWS Certified Solutions Architect Professional"
-    },
+    "certifications": [
+      {
+        "name": "Linux Professional Institute LPIC-1",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Kubernetes Administrator (CKA) / Bazel Community Training",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Solutions Architect Professional",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Autonomous Vehicles",
       "High-Frequency Trading",
@@ -54509,6 +54706,44 @@ export const MASTER_CAREER_ROLES = [
         "Redis",
         "MinIO/S3 (Remote Cache Storage)"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Bazel / Starlark",
+        "Remote Build Execution (RBE)",
+        "Compiler Toolchains (LLVM/GCC)",
+        "Caching Architecture",
+        "Artifact Repositories (Nexus/Artifactory)"
+      ],
+      "secondary": [
+        "Linux Kernel Tuning",
+        "Container Internals",
+        "Rust/C++/Go",
+        "Distributed File Systems"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Maintain Dockerized build worker images and clean dependency caches.",
+        "Triage broken builds in continuous integration workers."
+      ],
+      "intermediate": [
+        "Migrate legacy build scripts (Make/Maven) to Bazel or Gradle with remote execution and remote caching.",
+        "Tune compiler and linker flags for optimized C++/Rust/Go binaries."
+      ],
+      "senior": [
+        "Design multi-thousand-node distributed remote execution build farms (BuildBuddy, EngFlow), reducing P95 build times by 80%."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand compilation units, intermediate object files, dynamic vs static linking, and basic CI runners.",
+      "intermediate": "Implement hermetic, reproducible builds with Bazel or Nix, configure remote caching, and set up Artifactory retention policies.",
+      "advanced": "Scale global multi-tenant Remote Build Execution (RBE) worker clusters handling hundreds of builds concurrently with sub-second cache queries."
+    },
+    "certificationsByLevel": {
+      "beginner": "Linux Professional Institute LPIC-1",
+      "intermediate": "Kubernetes Administrator (CKA) / Bazel Community Training",
+      "advanced": "AWS Certified Solutions Architect Professional"
     }
   },
   {
@@ -54531,41 +54766,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Engineers automated mechanisms for privacy compliance, pseudonymization, right-to-be-forgotten cascades, and sensitive data discovery across enterprise data lakes.",
     "scope": "Ensures compliance with global privacy regulations (GDPR, CCPA/CPRA, DPDP) at the database and data pipeline level.",
-    "responsibilities": {
-      "entry": [
-        "Inspect data catalogs for untagged PII columns.",
-        "Validate data retention and archival deletion jobs."
-      ],
-      "intermediate": [
-        "Build automated PII tokenization, dynamic data masking, and automated consent management pipelines.",
-        "Implement data deletion cascades across warehouses and analytical stores."
-      ],
-      "senior": [
-        "Architect enterprise-wide zero-knowledge data enclaves, homomorphic encryption/differential privacy solutions, and automated audit proofs."
-      ]
-    },
+    "responsibilities": [
+      "Inspect data catalogs for untagged PII columns.",
+      "Validate data retention and archival deletion jobs.",
+      "Build automated PII tokenization, dynamic data masking, and automated consent management pipelines.",
+      "Implement data deletion cascades across warehouses and analytical stores.",
+      "Architect enterprise-wide zero-knowledge data enclaves, homomorphic encryption/differential privacy solutions, and automated audit proofs."
+    ],
     "deliverables": [
       "Automated PII Discovery & Tagging System",
       "Right-to-be-Forgotten Deletion Engine",
       "Dynamic Data Masking Policies",
       "Regulatory Data Lineage Audit Traces"
     ],
-    "technicalSkills": {
-      "core": [
-        "Data Tokenization",
-        "PII Classification",
-        "SQL & Python",
-        "Data Lineage (OpenLineage/Amundsen)",
-        "Dynamic Masking (Immuta/Privacera)",
-        "GDPR/DPDP Architecture"
-      ],
-      "secondary": [
-        "Differential Privacy",
-        "AWS KMS / HashiCorp Vault",
-        "Snowflake Row-Level Security",
-        "Kafka Streaming Filters"
-      ]
-    },
+    "technicalSkills": [
+      "Data Tokenization",
+      "PII Classification",
+      "SQL & Python",
+      "Data Lineage (OpenLineage/Amundsen)",
+      "Dynamic Masking (Immuta/Privacera)",
+      "GDPR/DPDP Architecture",
+      "Differential Privacy",
+      "AWS KMS / HashiCorp Vault",
+      "Snowflake Row-Level Security",
+      "Kafka Streaming Filters"
+    ],
     "softSkills": [
       "Legal-to-technical translation",
       "Audit diplomacy",
@@ -54605,11 +54830,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Understanding of database internals, cryptography basics, and global privacy mandates"
     },
-    "roadmap": {
-      "beginner": "Understand data protection principles, PII categorization, hashing/encryption algorithms, and basic SQL data access policies.",
-      "intermediate": "Implement automated PII scanning with regex/NLP models, role-based column masking, and subject access request (DSAR) workflows.",
-      "advanced": "Design privacy-preserving analytics systems using differential privacy, multi-party computation, and confidential computing data enclaves."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand data protection principles, PII categorization, hashing/encryption algorithms, and basic SQL data access policies."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement automated PII scanning with regex/NLP models, role-based column masking, and subject access request (DSAR) workflows."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Design privacy-preserving analytics systems using differential privacy, multi-party computation, and confidential computing data enclaves."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated PII Scanner for S3 Data Lake",
@@ -54662,11 +54908,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/M.S. in Computer Science, Information Security or Data Science",
     "prerequisites": "Solid foundations in backend data pipelines, relational and non-relational storage, and basic infosec principles.",
-    "certifications": {
-      "beginner": "IAPP Certified Information Privacy Technologist (CIPT)",
-      "intermediate": "AWS Certified Data Analytics / Snowflake SnowPro Core",
-      "advanced": "CISSP or CDPSE (Certified Data Privacy Solutions Engineer)"
-    },
+    "certifications": [
+      {
+        "name": "IAPP Certified Information Privacy Technologist (CIPT)",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "AWS Certified Data Analytics / Snowflake SnowPro Core",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "CISSP or CDPSE (Certified Data Privacy Solutions Engineer)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Healthcare & Genomics",
       "Banking & FinTech",
@@ -54758,6 +55013,45 @@ export const MASTER_CAREER_ROLES = [
         "PostgreSQL",
         "Databricks Unity Catalog"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Data Tokenization",
+        "PII Classification",
+        "SQL & Python",
+        "Data Lineage (OpenLineage/Amundsen)",
+        "Dynamic Masking (Immuta/Privacera)",
+        "GDPR/DPDP Architecture"
+      ],
+      "secondary": [
+        "Differential Privacy",
+        "AWS KMS / HashiCorp Vault",
+        "Snowflake Row-Level Security",
+        "Kafka Streaming Filters"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Inspect data catalogs for untagged PII columns.",
+        "Validate data retention and archival deletion jobs."
+      ],
+      "intermediate": [
+        "Build automated PII tokenization, dynamic data masking, and automated consent management pipelines.",
+        "Implement data deletion cascades across warehouses and analytical stores."
+      ],
+      "senior": [
+        "Architect enterprise-wide zero-knowledge data enclaves, homomorphic encryption/differential privacy solutions, and automated audit proofs."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand data protection principles, PII categorization, hashing/encryption algorithms, and basic SQL data access policies.",
+      "intermediate": "Implement automated PII scanning with regex/NLP models, role-based column masking, and subject access request (DSAR) workflows.",
+      "advanced": "Design privacy-preserving analytics systems using differential privacy, multi-party computation, and confidential computing data enclaves."
+    },
+    "certificationsByLevel": {
+      "beginner": "IAPP Certified Information Privacy Technologist (CIPT)",
+      "intermediate": "AWS Certified Data Analytics / Snowflake SnowPro Core",
+      "advanced": "CISSP or CDPSE (Certified Data Privacy Solutions Engineer)"
     }
   },
   {
@@ -54780,42 +55074,32 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Designs formal enterprise domain ontologies, taxonomies, and RDF/OWL knowledge schemas that enable machine-reasoning and disambiguation across enterprise data.",
     "scope": "Bridges deep domain subject matter, conceptual logic models, knowledge graphs, and AI neurosymbolic reasoning systems.",
-    "responsibilities": {
-      "entry": [
-        "Author and curate RDF triples and validate schema compliance using SHACL.",
-        "Map relational table entities into standardized ontology concepts."
-      ],
-      "intermediate": [
-        "Develop domain ontologies using Protégé, OWL 2, and RDF Schema.",
-        "Execute SPARQL queries across federated graph endpoints and benchmark reasoning performance."
-      ],
-      "senior": [
-        "Architect enterprise-scale neurosymbolic AI architectures combining large language models with deterministic knowledge graphs for hallucination-free reasoning."
-      ]
-    },
+    "responsibilities": [
+      "Author and curate RDF triples and validate schema compliance using SHACL.",
+      "Map relational table entities into standardized ontology concepts.",
+      "Develop domain ontologies using Protégé, OWL 2, and RDF Schema.",
+      "Execute SPARQL queries across federated graph endpoints and benchmark reasoning performance.",
+      "Architect enterprise-scale neurosymbolic AI architectures combining large language models with deterministic knowledge graphs for hallucination-free reasoning."
+    ],
     "deliverables": [
       "Enterprise Domain Ontology Schemas (OWL/RDFS)",
       "SHACL Validation Shape Constraints",
       "SPARQL Federated Knowledge Endpoints",
       "LLM-Graph Retrieval Grounding Pipelines"
     ],
-    "technicalSkills": {
-      "core": [
-        "OWL 2",
-        "RDF/RDFS",
-        "SPARQL",
-        "SHACL/ShEx",
-        "Protégé",
-        "Neurosymbolic AI",
-        "Knowledge Graph Schema Design"
-      ],
-      "secondary": [
-        "Python (rdflib)",
-        "Neo4j Cypher",
-        "Vector Embeddings",
-        "Logic & Inference Engines"
-      ]
-    },
+    "technicalSkills": [
+      "OWL 2",
+      "RDF/RDFS",
+      "SPARQL",
+      "SHACL/ShEx",
+      "Protégé",
+      "Neurosymbolic AI",
+      "Knowledge Graph Schema Design",
+      "Python (rdflib)",
+      "Neo4j Cypher",
+      "Vector Embeddings",
+      "Logic & Inference Engines"
+    ],
     "softSkills": [
       "Abstract conceptual thinking",
       "Interdisciplinary communication",
@@ -54854,11 +55138,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 24,
       "keyPrerequisite": "Deep grounding in formal mathematical logic, set theory, and semantic web standards"
     },
-    "roadmap": {
-      "beginner": "Master semantic web primitives: URIs, RDF triples, Turtle serialization, and SPARQL queries.",
-      "intermediate": "Model complex domain ontologies in OWL 2 using Protégé, define class hierarchies, properties, and SHACL validation constraints.",
-      "advanced": "Integrate semantic knowledge graphs with generative AI pipelines (GraphRAG) and automated knowledge graph completion algorithms."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master semantic web primitives: URIs, RDF triples, Turtle serialization, and SPARQL queries."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Model complex domain ontologies in OWL 2 using Protégé, define class hierarchies, properties, and SHACL validation constraints."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Integrate semantic knowledge graphs with generative AI pipelines (GraphRAG) and automated knowledge graph completion algorithms."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Biomedical Terminology RDF Triple Store",
@@ -54911,11 +55216,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "M.Sc / Ph.D in Computer Science, Linguistics, Cognitive Science, or Information Management",
     "prerequisites": "Strong background in mathematical logic, ontology modeling, and semantic web protocols.",
-    "certifications": {
-      "beginner": "W3C Semantic Web Standards Foundations",
-      "intermediate": "GraphDB Certified Knowledge Engineer / Stardog Professional",
-      "advanced": "Neo4j Certified Professional / AWS Certified Machine Learning"
-    },
+    "certifications": [
+      {
+        "name": "W3C Semantic Web Standards Foundations",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "GraphDB Certified Knowledge Engineer / Stardog Professional",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "Neo4j Certified Professional / AWS Certified Machine Learning",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Pharma & Drug Discovery",
       "Defense & Intelligence",
@@ -55006,6 +55320,46 @@ export const MASTER_CAREER_ROLES = [
         "Ontotext GraphDB",
         "Neo4j"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "OWL 2",
+        "RDF/RDFS",
+        "SPARQL",
+        "SHACL/ShEx",
+        "Protégé",
+        "Neurosymbolic AI",
+        "Knowledge Graph Schema Design"
+      ],
+      "secondary": [
+        "Python (rdflib)",
+        "Neo4j Cypher",
+        "Vector Embeddings",
+        "Logic & Inference Engines"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Author and curate RDF triples and validate schema compliance using SHACL.",
+        "Map relational table entities into standardized ontology concepts."
+      ],
+      "intermediate": [
+        "Develop domain ontologies using Protégé, OWL 2, and RDF Schema.",
+        "Execute SPARQL queries across federated graph endpoints and benchmark reasoning performance."
+      ],
+      "senior": [
+        "Architect enterprise-scale neurosymbolic AI architectures combining large language models with deterministic knowledge graphs for hallucination-free reasoning."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master semantic web primitives: URIs, RDF triples, Turtle serialization, and SPARQL queries.",
+      "intermediate": "Model complex domain ontologies in OWL 2 using Protégé, define class hierarchies, properties, and SHACL validation constraints.",
+      "advanced": "Integrate semantic knowledge graphs with generative AI pipelines (GraphRAG) and automated knowledge graph completion algorithms."
+    },
+    "certificationsByLevel": {
+      "beginner": "W3C Semantic Web Standards Foundations",
+      "intermediate": "GraphDB Certified Knowledge Engineer / Stardog Professional",
+      "advanced": "Neo4j Certified Professional / AWS Certified Machine Learning"
     }
   },
   {
@@ -55028,39 +55382,29 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": true,
     "shortDescription": "Creates, standardizes, and maintains controlled vocabularies, business glossaries, and hierarchical taxonomies to power search, discovery, and analytics.",
     "scope": "Defines business glossary definitions, metadata tag schemas, and content categorization hierarchies across the organization.",
-    "responsibilities": {
-      "entry": [
-        "Curate and review metadata tags applied to enterprise content and datasets.",
-        "Audit data catalogs for synonym discrepancies and missing definitions."
-      ],
-      "intermediate": [
-        "Develop controlled vocabularies and thesauri adhering to ANSI/NISO Z39.19 and SKOS standards.",
-        "Configure faceted search categories for enterprise intranets and portals."
-      ],
-      "senior": [
-        "Design corporate-wide metadata governance frameworks and integrate automated NLP-assisted auto-tagging workflows."
-      ]
-    },
+    "responsibilities": [
+      "Curate and review metadata tags applied to enterprise content and datasets.",
+      "Audit data catalogs for synonym discrepancies and missing definitions.",
+      "Develop controlled vocabularies and thesauri adhering to ANSI/NISO Z39.19 and SKOS standards.",
+      "Configure faceted search categories for enterprise intranets and portals.",
+      "Design corporate-wide metadata governance frameworks and integrate automated NLP-assisted auto-tagging workflows."
+    ],
     "deliverables": [
       "Controlled Business Vocabularies & Thesauri",
       "SKOS Metadata Classification Schemas",
       "Faceted Search Filter Hierarchy",
       "Enterprise Data Catalog Taxonomy"
     ],
-    "technicalSkills": {
-      "core": [
-        "SKOS (Simple Knowledge Organization System)",
-        "Metadata Standards (Dublin Core)",
-        "Data Catalogs (Alation/Collibra)",
-        "XML/JSON-LD",
-        "Basic Python/SQL"
-      ],
-      "secondary": [
-        "NLP Text Classification",
-        "Ontology Primitives",
-        "Elasticsearch / OpenSearch Mapping"
-      ]
-    },
+    "technicalSkills": [
+      "SKOS (Simple Knowledge Organization System)",
+      "Metadata Standards (Dublin Core)",
+      "Data Catalogs (Alation/Collibra)",
+      "XML/JSON-LD",
+      "Basic Python/SQL",
+      "NLP Text Classification",
+      "Ontology Primitives",
+      "Elasticsearch / OpenSearch Mapping"
+    ],
     "softSkills": [
       "Linguistic precision",
       "Categorical organization",
@@ -55096,11 +55440,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 12,
       "keyPrerequisite": "Strong enthusiasm for organizing information, vocabulary precision, and content discoverability"
     },
-    "roadmap": {
-      "beginner": "Learn hierarchical vs associative relationships (broader, narrower, related terms) and Dublin Core metadata elements.",
-      "intermediate": "Build standard SKOS thesauri using PoolParty or Synaptica, configure faceted search indexes, and link metadata to data catalogs.",
-      "advanced": "Direct enterprise taxonomy council governance, harmonize acquisitions into unified glossaries, and deploy ML models for auto-tagging."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Learn hierarchical vs associative relationships (broader, narrower, related terms) and Dublin Core metadata elements."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Build standard SKOS thesauri using PoolParty or Synaptica, configure faceted search indexes, and link metadata to data catalogs."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Direct enterprise taxonomy council governance, harmonize acquisitions into unified glossaries, and deploy ML models for auto-tagging."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "E-Commerce Faceted Category Taxonomy",
@@ -55154,11 +55519,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.A./B.Sc/MLIS/M.Sc in Information Science, Library Science, or Computer Science",
     "prerequisites": "Foundational knowledge of information structuring, language analysis, and database concepts.",
-    "certifications": {
-      "beginner": "Alation Certified Data Citizen / Collibra Certified Community Member",
-      "intermediate": "PoolParty Semantic Specialist",
-      "advanced": "DAMA Certified Data Management Professional (CDMP)"
-    },
+    "certifications": [
+      {
+        "name": "Alation Certified Data Citizen / Collibra Certified Community Member",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "PoolParty Semantic Specialist",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "DAMA Certified Data Management Professional (CDMP)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Media & Publishing",
       "E-Commerce",
@@ -55246,6 +55620,43 @@ export const MASTER_CAREER_ROLES = [
         "Elasticsearch",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "SKOS (Simple Knowledge Organization System)",
+        "Metadata Standards (Dublin Core)",
+        "Data Catalogs (Alation/Collibra)",
+        "XML/JSON-LD",
+        "Basic Python/SQL"
+      ],
+      "secondary": [
+        "NLP Text Classification",
+        "Ontology Primitives",
+        "Elasticsearch / OpenSearch Mapping"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Curate and review metadata tags applied to enterprise content and datasets.",
+        "Audit data catalogs for synonym discrepancies and missing definitions."
+      ],
+      "intermediate": [
+        "Develop controlled vocabularies and thesauri adhering to ANSI/NISO Z39.19 and SKOS standards.",
+        "Configure faceted search categories for enterprise intranets and portals."
+      ],
+      "senior": [
+        "Design corporate-wide metadata governance frameworks and integrate automated NLP-assisted auto-tagging workflows."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Learn hierarchical vs associative relationships (broader, narrower, related terms) and Dublin Core metadata elements.",
+      "intermediate": "Build standard SKOS thesauri using PoolParty or Synaptica, configure faceted search indexes, and link metadata to data catalogs.",
+      "advanced": "Direct enterprise taxonomy council governance, harmonize acquisitions into unified glossaries, and deploy ML models for auto-tagging."
+    },
+    "certificationsByLevel": {
+      "beginner": "Alation Certified Data Citizen / Collibra Certified Community Member",
+      "intermediate": "PoolParty Semantic Specialist",
+      "advanced": "DAMA Certified Data Management Professional (CDMP)"
     }
   },
   {
@@ -55268,40 +55679,30 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Applies rigorous product management principles to internal developer platforms, treating internal software engineers as customers to eliminate friction and maximize velocity.",
     "scope": "Drives the roadmap, user research, feature prioritization, and adoption of developer portals, self-service infrastructure, and CI/CD pipelines.",
-    "responsibilities": {
-      "entry": [
-        "Conduct developer sentiment interviews and map internal developer onboarding journeys.",
-        "Track adoption metrics for internal APIs and CLI tools."
-      ],
-      "intermediate": [
-        "Prioritize the platform backlog balancing developer feature requests with infrastructure reliability debt.",
-        "Define KPIs such as Lead Time for Changes, MTTR, and Developer Satisfaction (DevSat)."
-      ],
-      "senior": [
-        "Formulate multi-year internal platform vision, justify platform ROI to executive leadership, and foster an engineering culture of self-service enablement."
-      ]
-    },
+    "responsibilities": [
+      "Conduct developer sentiment interviews and map internal developer onboarding journeys.",
+      "Track adoption metrics for internal APIs and CLI tools.",
+      "Prioritize the platform backlog balancing developer feature requests with infrastructure reliability debt.",
+      "Define KPIs such as Lead Time for Changes, MTTR, and Developer Satisfaction (DevSat).",
+      "Formulate multi-year internal platform vision, justify platform ROI to executive leadership, and foster an engineering culture of self-service enablement."
+    ],
     "deliverables": [
       "Internal Platform Product Roadmap",
       "Developer Journey Friction Maps",
       "Developer NPS / DevSat Quarterly Reports",
       "Self-Service Feature Specification PRDs"
     ],
-    "technicalSkills": {
-      "core": [
-        "Platform Engineering Paradigms",
-        "DORA & SPACE Metrics Frameworks",
-        "Kubernetes & Cloud Concepts",
-        "User Research Methodologies",
-        "Agile Product Backlog Management"
-      ],
-      "secondary": [
-        "Backstage.io",
-        "CI/CD Automation",
-        "SQL Analytics",
-        "API Design Basics"
-      ]
-    },
+    "technicalSkills": [
+      "Platform Engineering Paradigms",
+      "DORA & SPACE Metrics Frameworks",
+      "Kubernetes & Cloud Concepts",
+      "User Research Methodologies",
+      "Agile Product Backlog Management",
+      "Backstage.io",
+      "CI/CD Automation",
+      "SQL Analytics",
+      "API Design Basics"
+    ],
     "softSkills": [
       "Empathy for engineers",
       "Executive communication",
@@ -55336,11 +55737,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 24,
       "keyPrerequisite": "Prior software engineering experience combined with user-centric product management capability"
     },
-    "roadmap": {
-      "beginner": "Understand software delivery lifecycle bottlenecks, DORA metrics, and product discovery principles.",
-      "intermediate": "Conduct developer usability studies, define golden paths, author comprehensive PRDs, and manage platform sprints.",
-      "advanced": "Scale internal platform adoption across thousands of developers, institute platform evangelism programs, and demonstrate multi-million-dollar developer productivity ROI."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand software delivery lifecycle bottlenecks, DORA metrics, and product discovery principles."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Conduct developer usability studies, define golden paths, author comprehensive PRDs, and manage platform sprints."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Scale internal platform adoption across thousands of developers, institute platform evangelism programs, and demonstrate multi-million-dollar developer productivity ROI."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Developer Onboarding Friction Study",
@@ -55393,11 +55815,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech/B.E. in CS or IT, followed by MBA or equivalent product experience",
     "prerequisites": "Background as a software engineer or DevOps practitioner transitioning into product leadership.",
-    "certifications": {
-      "beginner": "Certified Scrum Product Owner (CSPO)",
-      "intermediate": "Pragmatic Institute Certified Product Manager / DORA Metrics Practitioner",
-      "advanced": "AWS Certified Cloud Practitioner or CKA"
-    },
+    "certifications": [
+      {
+        "name": "Certified Scrum Product Owner (CSPO)",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Pragmatic Institute Certified Product Manager / DORA Metrics Practitioner",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Cloud Practitioner or CKA",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "High-Growth Tech Startups",
       "FinTech & Neobanks",
@@ -55483,6 +55914,44 @@ export const MASTER_CAREER_ROLES = [
       "databases": [
         "Snowflake (Internal Analytics)"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Platform Engineering Paradigms",
+        "DORA & SPACE Metrics Frameworks",
+        "Kubernetes & Cloud Concepts",
+        "User Research Methodologies",
+        "Agile Product Backlog Management"
+      ],
+      "secondary": [
+        "Backstage.io",
+        "CI/CD Automation",
+        "SQL Analytics",
+        "API Design Basics"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Conduct developer sentiment interviews and map internal developer onboarding journeys.",
+        "Track adoption metrics for internal APIs and CLI tools."
+      ],
+      "intermediate": [
+        "Prioritize the platform backlog balancing developer feature requests with infrastructure reliability debt.",
+        "Define KPIs such as Lead Time for Changes, MTTR, and Developer Satisfaction (DevSat)."
+      ],
+      "senior": [
+        "Formulate multi-year internal platform vision, justify platform ROI to executive leadership, and foster an engineering culture of self-service enablement."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand software delivery lifecycle bottlenecks, DORA metrics, and product discovery principles.",
+      "intermediate": "Conduct developer usability studies, define golden paths, author comprehensive PRDs, and manage platform sprints.",
+      "advanced": "Scale internal platform adoption across thousands of developers, institute platform evangelism programs, and demonstrate multi-million-dollar developer productivity ROI."
+    },
+    "certificationsByLevel": {
+      "beginner": "Certified Scrum Product Owner (CSPO)",
+      "intermediate": "Pragmatic Institute Certified Product Manager / DORA Metrics Practitioner",
+      "advanced": "AWS Certified Cloud Practitioner or CKA"
     }
   },
   {
@@ -55505,41 +55974,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Builds programmable, declarative infrastructure automation modules, cloud orchestrators, and bare-metal bootstrapping pipelines at high scale.",
     "scope": "Transforms raw cloud and on-premise compute, network, and storage fabrics into self-healing, API-driven software components.",
-    "responsibilities": {
-      "entry": [
-        "Write reusable Terraform and OpenTofu modules with unit testing in Terratest.",
-        "Maintain automated OS image creation pipelines using Packer."
-      ],
-      "intermediate": [
-        "Implement Kubernetes-native infrastructure control planes using Crossplane and custom operators.",
-        "Automate bare-metal provisioning using PXE, iPXE, and Canonical MAAS."
-      ],
-      "senior": [
-        "Architect multi-region, self-healing cloud automation topologies supporting dynamic workload failovers with zero human intervention."
-      ]
-    },
+    "responsibilities": [
+      "Write reusable Terraform and OpenTofu modules with unit testing in Terratest.",
+      "Maintain automated OS image creation pipelines using Packer.",
+      "Implement Kubernetes-native infrastructure control planes using Crossplane and custom operators.",
+      "Automate bare-metal provisioning using PXE, iPXE, and Canonical MAAS.",
+      "Architect multi-region, self-healing cloud automation topologies supporting dynamic workload failovers with zero human intervention."
+    ],
     "deliverables": [
       "Modular Terraform/OpenTofu Enterprise Registry",
       "Crossplane Custom Resource Definitions (CRDs)",
       "Automated Packer Golden Image Pipeline",
       "Zero-Touch Server Bootstrapping Architecture"
     ],
-    "technicalSkills": {
-      "core": [
-        "Terraform / OpenTofu",
-        "Crossplane",
-        "Kubernetes Operators",
-        "Ansible / Puppet",
-        "Packer",
-        "Go / Python"
-      ],
-      "secondary": [
-        "BGP / SDN Networking",
-        "Linux Kernel Configuration",
-        "Bare-Metal Provisioning",
-        "Vault Secret Automation"
-      ]
-    },
+    "technicalSkills": [
+      "Terraform / OpenTofu",
+      "Crossplane",
+      "Kubernetes Operators",
+      "Ansible / Puppet",
+      "Packer",
+      "Go / Python",
+      "BGP / SDN Networking",
+      "Linux Kernel Configuration",
+      "Bare-Metal Provisioning",
+      "Vault Secret Automation"
+    ],
     "softSkills": [
       "Systematic automation discipline",
       "Failure-mode paranoia",
@@ -55578,11 +56037,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Deep proficiency in Linux systems, networking protocols, and declarative configuration tools"
     },
-    "roadmap": {
-      "beginner": "Master Linux system administration, bash scripting, and basic Terraform provisioning on AWS/GCP.",
-      "intermediate": "Author tested, versioned Terraform modules, configure automated PR reviews with Atlantis, and build golden AMI images with Packer.",
-      "advanced": "Deploy Crossplane to build a Kubernetes-based universal control plane replacing legacy IaC scripts with continuous drift reconciliation."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master Linux system administration, bash scripting, and basic Terraform provisioning on AWS/GCP."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Author tested, versioned Terraform modules, configure automated PR reviews with Atlantis, and build golden AMI images with Packer."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Deploy Crossplane to build a Kubernetes-based universal control plane replacing legacy IaC scripts with continuous drift reconciliation."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated Golden OS Image Factory",
@@ -55635,11 +56115,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech in Computer Science, Information Technology, or Electronics",
     "prerequisites": "Strong grounding in Linux systems administration, networking (TCP/IP, DNS), and scripting.",
-    "certifications": {
-      "beginner": "HashiCorp Certified: Terraform Associate",
-      "intermediate": "Red Hat Certified Specialist in Ansible Automation / CKA",
-      "advanced": "AWS Certified Solutions Architect Professional"
-    },
+    "certifications": [
+      {
+        "name": "HashiCorp Certified: Terraform Associate",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Red Hat Certified Specialist in Ansible Automation / CKA",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Solutions Architect Professional",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Telecommunications & 5G",
       "Financial Infrastructure",
@@ -55730,6 +56219,45 @@ export const MASTER_CAREER_ROLES = [
         "Consul",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Terraform / OpenTofu",
+        "Crossplane",
+        "Kubernetes Operators",
+        "Ansible / Puppet",
+        "Packer",
+        "Go / Python"
+      ],
+      "secondary": [
+        "BGP / SDN Networking",
+        "Linux Kernel Configuration",
+        "Bare-Metal Provisioning",
+        "Vault Secret Automation"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Write reusable Terraform and OpenTofu modules with unit testing in Terratest.",
+        "Maintain automated OS image creation pipelines using Packer."
+      ],
+      "intermediate": [
+        "Implement Kubernetes-native infrastructure control planes using Crossplane and custom operators.",
+        "Automate bare-metal provisioning using PXE, iPXE, and Canonical MAAS."
+      ],
+      "senior": [
+        "Architect multi-region, self-healing cloud automation topologies supporting dynamic workload failovers with zero human intervention."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master Linux system administration, bash scripting, and basic Terraform provisioning on AWS/GCP.",
+      "intermediate": "Author tested, versioned Terraform modules, configure automated PR reviews with Atlantis, and build golden AMI images with Packer.",
+      "advanced": "Deploy Crossplane to build a Kubernetes-based universal control plane replacing legacy IaC scripts with continuous drift reconciliation."
+    },
+    "certificationsByLevel": {
+      "beginner": "HashiCorp Certified: Terraform Associate",
+      "intermediate": "Red Hat Certified Specialist in Ansible Automation / CKA",
+      "advanced": "AWS Certified Solutions Architect Professional"
     }
   },
   {
@@ -55752,39 +56280,29 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Measures, optimizes, and minimizes the embodied carbon footprint, electricity consumption, and environmental impact of enterprise computing workloads.",
     "scope": "Aligns enterprise cloud architectures with corporate ESG decarbonization goals, energy-aware workload scheduling, and sustainable hardware lifecycles.",
-    "responsibilities": {
-      "entry": [
-        "Collect cloud emissions data using Cloud Carbon Footprint open-source tools.",
-        "Identify idle compute instances and oversized virtual machines."
-      ],
-      "intermediate": [
-        "Model workload power usage effectiveness (PUE) and carbon intensity across cloud regions.",
-        "Schedule batch jobs to run in regions and hours with high renewable energy availability."
-      ],
-      "senior": [
-        "Formulate corporate Sustainable IT policies, architect carbon-aware Kubernetes schedulers, and certify data center hardware for circular economy recycling."
-      ]
-    },
+    "responsibilities": [
+      "Collect cloud emissions data using Cloud Carbon Footprint open-source tools.",
+      "Identify idle compute instances and oversized virtual machines.",
+      "Model workload power usage effectiveness (PUE) and carbon intensity across cloud regions.",
+      "Schedule batch jobs to run in regions and hours with high renewable energy availability.",
+      "Formulate corporate Sustainable IT policies, architect carbon-aware Kubernetes schedulers, and certify data center hardware for circular economy recycling."
+    ],
     "deliverables": [
       "Corporate IT Carbon Footprint Audit Report",
       "Carbon-Aware Workload Scheduling Controller",
       "Green Cloud Optimization Playbook",
       "Scope 1, 2 & 3 IT Emissions Reduction Model"
     ],
-    "technicalSkills": {
-      "core": [
-        "Carbon Accounting (GHG Protocol Scope 1-3)",
-        "Cloud Carbon Footprint Tooling",
-        "Kubernetes Carbon-Aware Scheduling",
-        "ARM vs x86 Power Profiling",
-        "Cloud FinOps Alignment"
-      ],
-      "secondary": [
-        "Data Center Cooling Metrics (PUE/WUE)",
-        "Python Data Modeling",
-        "Grafana Carbon Dashboards"
-      ]
-    },
+    "technicalSkills": [
+      "Carbon Accounting (GHG Protocol Scope 1-3)",
+      "Cloud Carbon Footprint Tooling",
+      "Kubernetes Carbon-Aware Scheduling",
+      "ARM vs x86 Power Profiling",
+      "Cloud FinOps Alignment",
+      "Data Center Cooling Metrics (PUE/WUE)",
+      "Python Data Modeling",
+      "Grafana Carbon Dashboards"
+    ],
     "softSkills": [
       "Environmental advocacy",
       "Executive influence",
@@ -55820,11 +56338,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Solid background in cloud architecture combined with greenhouse gas accounting and energy optimization principles"
     },
-    "roadmap": {
-      "beginner": "Understand Greenhouse Gas Protocol scopes, cloud provider carbon calculation methodologies, and server utilization efficiency.",
-      "intermediate": "Deploy Kepler on Kubernetes to measure per-pod power consumption, model carbon intensity with electricity maps, and migrate workloads to low-carbon regions.",
-      "advanced": "Author enterprise-wide sustainable engineering standards, implement dynamic carbon-aware autoscaling, and integrate ESG telemetry into executive reporting."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand Greenhouse Gas Protocol scopes, cloud provider carbon calculation methodologies, and server utilization efficiency."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Deploy Kepler on Kubernetes to measure per-pod power consumption, model carbon intensity with electricity maps, and migrate workloads to low-carbon regions."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Author enterprise-wide sustainable engineering standards, implement dynamic carbon-aware autoscaling, and integrate ESG telemetry into executive reporting."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Enterprise Cloud Carbon Footprint Baseline",
@@ -55877,11 +56416,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech/M.S. in Computer Science, Electrical Engineering, or Environmental Systems",
     "prerequisites": "Familiarity with cloud computing infrastructure, metrics observability, and basic sustainability metrics.",
-    "certifications": {
-      "beginner": "Green Software Foundation: Green Software Practitioner",
-      "intermediate": "FinOps Certified Practitioner (FOCP) / AWS Certified Solutions Architect",
-      "advanced": "LEED Green Associate or Certified Energy Manager (CEM)"
-    },
+    "certifications": [
+      {
+        "name": "Green Software Foundation: Green Software Practitioner",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "FinOps Certified Practitioner (FOCP) / AWS Certified Solutions Architect",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "LEED Green Associate or Certified Energy Manager (CEM)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Cloud Service Providers",
       "European Enterprise Corporations",
@@ -55969,6 +56517,43 @@ export const MASTER_CAREER_ROLES = [
         "PostgreSQL",
         "TimescaleDB"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Carbon Accounting (GHG Protocol Scope 1-3)",
+        "Cloud Carbon Footprint Tooling",
+        "Kubernetes Carbon-Aware Scheduling",
+        "ARM vs x86 Power Profiling",
+        "Cloud FinOps Alignment"
+      ],
+      "secondary": [
+        "Data Center Cooling Metrics (PUE/WUE)",
+        "Python Data Modeling",
+        "Grafana Carbon Dashboards"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Collect cloud emissions data using Cloud Carbon Footprint open-source tools.",
+        "Identify idle compute instances and oversized virtual machines."
+      ],
+      "intermediate": [
+        "Model workload power usage effectiveness (PUE) and carbon intensity across cloud regions.",
+        "Schedule batch jobs to run in regions and hours with high renewable energy availability."
+      ],
+      "senior": [
+        "Formulate corporate Sustainable IT policies, architect carbon-aware Kubernetes schedulers, and certify data center hardware for circular economy recycling."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand Greenhouse Gas Protocol scopes, cloud provider carbon calculation methodologies, and server utilization efficiency.",
+      "intermediate": "Deploy Kepler on Kubernetes to measure per-pod power consumption, model carbon intensity with electricity maps, and migrate workloads to low-carbon regions.",
+      "advanced": "Author enterprise-wide sustainable engineering standards, implement dynamic carbon-aware autoscaling, and integrate ESG telemetry into executive reporting."
+    },
+    "certificationsByLevel": {
+      "beginner": "Green Software Foundation: Green Software Practitioner",
+      "intermediate": "FinOps Certified Practitioner (FOCP) / AWS Certified Solutions Architect",
+      "advanced": "LEED Green Associate or Certified Energy Manager (CEM)"
     }
   },
   {
@@ -55991,39 +56576,29 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Manages enterprise multi-million-dollar cloud commitments, EDP agreements, Reserved Instance portfolios, and engineering unit economic models.",
     "scope": "Directs the commercial relationship with cloud vendors, aligns engineering spend with revenue margins, and enforces budget allocation governance.",
-    "responsibilities": {
-      "entry": [
-        "Review monthly cloud bills and detect unusual billing spikes.",
-        "Map cloud resources to cost centers and application tag schemas."
-      ],
-      "intermediate": [
-        "Optimize Reserved Instances (RI) and Savings Plans coverage across AWS/Azure to achieve >80% commitment rates.",
-        "Build unit economics models measuring cloud cost per daily active user (DAU) or API transaction."
-      ],
-      "senior": [
-        "Lead high-stakes enterprise discount program (EDP / MAC) contract negotiations with hyperscalers, driving millions in annual savings."
-      ]
-    },
+    "responsibilities": [
+      "Review monthly cloud bills and detect unusual billing spikes.",
+      "Map cloud resources to cost centers and application tag schemas.",
+      "Optimize Reserved Instances (RI) and Savings Plans coverage across AWS/Azure to achieve >80% commitment rates.",
+      "Build unit economics models measuring cloud cost per daily active user (DAU) or API transaction.",
+      "Lead high-stakes enterprise discount program (EDP / MAC) contract negotiations with hyperscalers, driving millions in annual savings."
+    ],
     "deliverables": [
       "Cloud Commitment Portfolio Strategy (RIs/Savings Plans)",
       "Enterprise Hyperscaler Contract Negotiation Dossier",
       "Engineering Unit Economics Dashboard",
       "Chargeback & Showback Allocation Engine"
     ],
-    "technicalSkills": {
-      "core": [
-        "FinOps Framework",
-        "AWS/Azure/GCP Pricing Models",
-        "Reserved Instances & Savings Plans Hedging",
-        "SQL & BI Analytics",
-        "Unit Cost Modeling"
-      ],
-      "secondary": [
-        "Kubernetes Cost Allocation (Kubecost)",
-        "Python Scripting",
-        "Contract Law Basics"
-      ]
-    },
+    "technicalSkills": [
+      "FinOps Framework",
+      "AWS/Azure/GCP Pricing Models",
+      "Reserved Instances & Savings Plans Hedging",
+      "SQL & BI Analytics",
+      "Unit Cost Modeling",
+      "Kubernetes Cost Allocation (Kubecost)",
+      "Python Scripting",
+      "Contract Law Basics"
+    ],
     "softSkills": [
       "Commercial negotiation",
       "Executive financial storytelling",
@@ -56058,11 +56633,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Prior experience in cloud engineering finance, vendor management, or technology strategy"
     },
-    "roadmap": {
-      "beginner": "Master cloud pricing structures: on-demand vs spot vs committed use discounts across AWS, Azure, and GCP.",
-      "intermediate": "Implement automated commitment portfolio balancing tools, design tagging governance, and deploy Kubecost for container cost attribution.",
-      "advanced": "Lead multi-cloud enterprise contract negotiations, advise CFO/CTO on tech unit economics, and instill FinOps culture across 50+ engineering squads."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master cloud pricing structures: on-demand vs spot vs committed use discounts across AWS, Azure, and GCP."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement automated commitment portfolio balancing tools, design tagging governance, and deploy Kubecost for container cost attribution."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Lead multi-cloud enterprise contract negotiations, advise CFO/CTO on tech unit economics, and instill FinOps culture across 50+ engineering squads."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated Idle Cloud Resource Reaper",
@@ -56115,11 +56711,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech + MBA or B.Com/B.Sc in Economics / Technology Finance",
     "prerequisites": "Strong financial analysis skills, understanding of modern cloud infrastructure, and negotiation acumen.",
-    "certifications": {
-      "beginner": "FinOps Certified Practitioner (FOCP)",
-      "intermediate": "FinOps Certified Professional (FOCP) / AWS Certified Cloud Practitioner",
-      "advanced": "AWS Certified Solutions Architect Associate"
-    },
+    "certifications": [
+      {
+        "name": "FinOps Certified Practitioner (FOCP)",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "FinOps Certified Professional (FOCP) / AWS Certified Cloud Practitioner",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Solutions Architect Associate",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "FinTech",
       "SaaS Giants",
@@ -56206,6 +56811,43 @@ export const MASTER_CAREER_ROLES = [
         "Snowflake",
         "BigQuery"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "FinOps Framework",
+        "AWS/Azure/GCP Pricing Models",
+        "Reserved Instances & Savings Plans Hedging",
+        "SQL & BI Analytics",
+        "Unit Cost Modeling"
+      ],
+      "secondary": [
+        "Kubernetes Cost Allocation (Kubecost)",
+        "Python Scripting",
+        "Contract Law Basics"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Review monthly cloud bills and detect unusual billing spikes.",
+        "Map cloud resources to cost centers and application tag schemas."
+      ],
+      "intermediate": [
+        "Optimize Reserved Instances (RI) and Savings Plans coverage across AWS/Azure to achieve >80% commitment rates.",
+        "Build unit economics models measuring cloud cost per daily active user (DAU) or API transaction."
+      ],
+      "senior": [
+        "Lead high-stakes enterprise discount program (EDP / MAC) contract negotiations with hyperscalers, driving millions in annual savings."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master cloud pricing structures: on-demand vs spot vs committed use discounts across AWS, Azure, and GCP.",
+      "intermediate": "Implement automated commitment portfolio balancing tools, design tagging governance, and deploy Kubecost for container cost attribution.",
+      "advanced": "Lead multi-cloud enterprise contract negotiations, advise CFO/CTO on tech unit economics, and instill FinOps culture across 50+ engineering squads."
+    },
+    "certificationsByLevel": {
+      "beginner": "FinOps Certified Practitioner (FOCP)",
+      "intermediate": "FinOps Certified Professional (FOCP) / AWS Certified Cloud Practitioner",
+      "advanced": "AWS Certified Solutions Architect Associate"
     }
   },
   {
@@ -56228,41 +56870,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Engineers, deploys, and manages secure vaults, credential rotation, session isolation, and Just-In-Time (JIT) access for high-privilege administrative accounts.",
     "scope": "Secures domain admin credentials, root cloud keys, service account tokens, and administrative terminal access against credential theft.",
-    "responsibilities": {
-      "entry": [
-        "Onboard enterprise administrative accounts into PAM vaults.",
-        "Verify periodic credential rotation and password checkout logs."
-      ],
-      "intermediate": [
-        "Configure CyberArk or HashiCorp Vault integrations with Windows Active Directory, Linux servers, and cloud IAM.",
-        "Implement real-time privileged session recording and keystroke anomaly alerting."
-      ],
-      "senior": [
-        "Architect zero-standing-privilege (ZSP) environments with ephemeral, Just-In-Time access tokens replacing permanent administrative accounts."
-      ]
-    },
+    "responsibilities": [
+      "Onboard enterprise administrative accounts into PAM vaults.",
+      "Verify periodic credential rotation and password checkout logs.",
+      "Configure CyberArk or HashiCorp Vault integrations with Windows Active Directory, Linux servers, and cloud IAM.",
+      "Implement real-time privileged session recording and keystroke anomaly alerting.",
+      "Architect zero-standing-privilege (ZSP) environments with ephemeral, Just-In-Time access tokens replacing permanent administrative accounts."
+    ],
     "deliverables": [
       "Enterprise Privileged Access Architecture",
       "Automated Credential Rotation Engine",
       "Session Recording & Audit Vault",
       "Just-In-Time (JIT) Ephemeral Access Framework"
     ],
-    "technicalSkills": {
-      "core": [
-        "Privileged Access Management (CyberArk/BeyondTrust)",
-        "HashiCorp Vault",
-        "Active Directory / Entra ID",
-        "Kerberos & SAML",
-        "SSH Bastion Architecture",
-        "Session Recording"
-      ],
-      "secondary": [
-        "PowerShell / Python Scripting",
-        "Cloud IAM (AWS/Azure)",
-        "SIEM Integration",
-        "MFA Protocols (FIDO2)"
-      ]
-    },
+    "technicalSkills": [
+      "Privileged Access Management (CyberArk/BeyondTrust)",
+      "HashiCorp Vault",
+      "Active Directory / Entra ID",
+      "Kerberos & SAML",
+      "SSH Bastion Architecture",
+      "Session Recording",
+      "PowerShell / Python Scripting",
+      "Cloud IAM (AWS/Azure)",
+      "SIEM Integration",
+      "MFA Protocols (FIDO2)"
+    ],
     "softSkills": [
       "Uncompromising security discipline",
       "Compliance audit preparedness",
@@ -56296,11 +56928,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Deep understanding of enterprise authentication protocols, Active Directory domain architecture, and credential attacks"
     },
-    "roadmap": {
-      "beginner": "Understand administrative security threats, pass-the-hash attacks, Kerberos authentication, and basic password vaulting.",
-      "intermediate": "Deploy CyberArk Enterprise Password Vault (EPV) and Central Policy Manager (CPM), set up SSH proxying, and automate service account credential cycling.",
-      "advanced": "Eliminate all persistent administrative passwords enterprise-wide using ephemeral certificates, Teleport, and Entra ID PIM Just-In-Time elevations."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand administrative security threats, pass-the-hash attacks, Kerberos authentication, and basic password vaulting."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Deploy CyberArk Enterprise Password Vault (EPV) and Central Policy Manager (CPM), set up SSH proxying, and automate service account credential cycling."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Eliminate all persistent administrative passwords enterprise-wide using ephemeral certificates, Teleport, and Entra ID PIM Just-In-Time elevations."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "HashiCorp Vault Dynamic Database Credentials",
@@ -56353,11 +57006,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/B.Sc in Computer Science, Cyber Security, or Information Systems",
     "prerequisites": "Strong background in enterprise system administration, identity directories, and network security.",
-    "certifications": {
-      "beginner": "CompTIA Security+ / CyberArk Certified Defender",
-      "intermediate": "CyberArk Certified Sentry / HashiCorp Certified Vault Associate",
-      "advanced": "CyberArk Certified Delivery Engineer (CDE) / CISSP"
-    },
+    "certifications": [
+      {
+        "name": "CompTIA Security+ / CyberArk Certified Defender",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "CyberArk Certified Sentry / HashiCorp Certified Vault Associate",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "CyberArk Certified Delivery Engineer (CDE) / CISSP",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Defense & National Security",
       "Commercial Banking",
@@ -56443,6 +57105,45 @@ export const MASTER_CAREER_ROLES = [
         "Active Directory LDAP",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Privileged Access Management (CyberArk/BeyondTrust)",
+        "HashiCorp Vault",
+        "Active Directory / Entra ID",
+        "Kerberos & SAML",
+        "SSH Bastion Architecture",
+        "Session Recording"
+      ],
+      "secondary": [
+        "PowerShell / Python Scripting",
+        "Cloud IAM (AWS/Azure)",
+        "SIEM Integration",
+        "MFA Protocols (FIDO2)"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Onboard enterprise administrative accounts into PAM vaults.",
+        "Verify periodic credential rotation and password checkout logs."
+      ],
+      "intermediate": [
+        "Configure CyberArk or HashiCorp Vault integrations with Windows Active Directory, Linux servers, and cloud IAM.",
+        "Implement real-time privileged session recording and keystroke anomaly alerting."
+      ],
+      "senior": [
+        "Architect zero-standing-privilege (ZSP) environments with ephemeral, Just-In-Time access tokens replacing permanent administrative accounts."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand administrative security threats, pass-the-hash attacks, Kerberos authentication, and basic password vaulting.",
+      "intermediate": "Deploy CyberArk Enterprise Password Vault (EPV) and Central Policy Manager (CPM), set up SSH proxying, and automate service account credential cycling.",
+      "advanced": "Eliminate all persistent administrative passwords enterprise-wide using ephemeral certificates, Teleport, and Entra ID PIM Just-In-Time elevations."
+    },
+    "certificationsByLevel": {
+      "beginner": "CompTIA Security+ / CyberArk Certified Defender",
+      "intermediate": "CyberArk Certified Sentry / HashiCorp Certified Vault Associate",
+      "advanced": "CyberArk Certified Delivery Engineer (CDE) / CISSP"
     }
   },
   {
@@ -56467,41 +57168,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Architects seamless, secure customer login experiences, multi-factor authentication, social login federation, and passwordless authentication for millions of consumer users.",
     "scope": "Bridges frontend consumer digital experience with high-scale authentication security, bot detection, fraud prevention, and privacy consent.",
-    "responsibilities": {
-      "entry": [
-        "Implement OAuth 2.0 / OpenID Connect authorization flows in web and mobile applications.",
-        "Configure social login providers (Google, Apple) and email verification workflows."
-      ],
-      "intermediate": [
-        "Deploy passwordless authentication using WebAuthn/FIDO2 Passkeys and biometric authentication.",
-        "Build risk-based adaptive authentication triggering step-up MFA based on IP reputation and device fingerprinting."
-      ],
-      "senior": [
-        "Architect globally distributed CIAM platforms serving 50M+ active users, handling peak login surges (e.g., Black Friday) with sub-100ms latency."
-      ]
-    },
+    "responsibilities": [
+      "Implement OAuth 2.0 / OpenID Connect authorization flows in web and mobile applications.",
+      "Configure social login providers (Google, Apple) and email verification workflows.",
+      "Deploy passwordless authentication using WebAuthn/FIDO2 Passkeys and biometric authentication.",
+      "Build risk-based adaptive authentication triggering step-up MFA based on IP reputation and device fingerprinting.",
+      "Architect globally distributed CIAM platforms serving 50M+ active users, handling peak login surges (e.g., Black Friday) with sub-100ms latency."
+    ],
     "deliverables": [
       "Passwordless Passkeys Authentication Architecture",
       "OAuth2 / OIDC Token Verification Microservices",
       "Adaptive Risk-Based Step-Up MFA Workflows",
       "Customer Privacy Consent & Self-Service Portal"
     ],
-    "technicalSkills": {
-      "core": [
-        "OAuth 2.0 / OpenID Connect (OIDC)",
-        "WebAuthn / FIDO2 Passkeys",
-        "SAML 2.0",
-        "JWT & Cryptographic Signatures",
-        "CIAM Platforms (Auth0/Okta/Cognito)",
-        "Adaptive MFA"
-      ],
-      "secondary": [
-        "Node.js / Go",
-        "Device Fingerprinting",
-        "Bot Mitigation (Cloudflare Turnstile)",
-        "Redis Session Management"
-      ]
-    },
+    "technicalSkills": [
+      "OAuth 2.0 / OpenID Connect (OIDC)",
+      "WebAuthn / FIDO2 Passkeys",
+      "SAML 2.0",
+      "JWT & Cryptographic Signatures",
+      "CIAM Platforms (Auth0/Okta/Cognito)",
+      "Adaptive MFA",
+      "Node.js / Go",
+      "Device Fingerprinting",
+      "Bot Mitigation (Cloudflare Turnstile)",
+      "Redis Session Management"
+    ],
     "softSkills": [
       "User experience empathy",
       "Security vs friction balance",
@@ -56540,11 +57231,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 16,
       "keyPrerequisite": "Prior full-stack or backend web development experience with deep interest in web security and identity protocols"
     },
-    "roadmap": {
-      "beginner": "Understand stateful sessions vs stateless JWT tokens, authorization grant types (Authorization Code + PKCE), and HTTPS security.",
-      "intermediate": "Implement passwordless WebAuthn/Passkey registration and authentication, configure enterprise OIDC federation, and integrate bot protection.",
-      "advanced": "Engineer custom token exchange microservices, cross-domain single sign-on (SSO), and real-time behavioral fraud detection algorithms."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand stateful sessions vs stateless JWT tokens, authorization grant types (Authorization Code + PKCE), and HTTPS security."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement passwordless WebAuthn/Passkey registration and authentication, configure enterprise OIDC federation, and integrate bot protection."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Engineer custom token exchange microservices, cross-domain single sign-on (SSO), and real-time behavioral fraud detection algorithms."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "OAuth2 Social Login & JWT Gateway",
@@ -56597,11 +57309,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech / B.E. in Computer Science or Software Engineering",
     "prerequisites": "Strong background in web development, REST APIs, and client-server security protocols.",
-    "certifications": {
-      "beginner": "Auth0 Certified Developer",
-      "intermediate": "Okta Certified Professional / Okta Certified Developer",
-      "advanced": "CISSP or AWS Certified Security Specialty"
-    },
+    "certifications": [
+      {
+        "name": "Auth0 Certified Developer",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Okta Certified Professional / Okta Certified Developer",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "CISSP or AWS Certified Security Specialty",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "E-Commerce & Retail",
       "Consumer FinTech",
@@ -56692,6 +57413,45 @@ export const MASTER_CAREER_ROLES = [
         "DynamoDB",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "OAuth 2.0 / OpenID Connect (OIDC)",
+        "WebAuthn / FIDO2 Passkeys",
+        "SAML 2.0",
+        "JWT & Cryptographic Signatures",
+        "CIAM Platforms (Auth0/Okta/Cognito)",
+        "Adaptive MFA"
+      ],
+      "secondary": [
+        "Node.js / Go",
+        "Device Fingerprinting",
+        "Bot Mitigation (Cloudflare Turnstile)",
+        "Redis Session Management"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Implement OAuth 2.0 / OpenID Connect authorization flows in web and mobile applications.",
+        "Configure social login providers (Google, Apple) and email verification workflows."
+      ],
+      "intermediate": [
+        "Deploy passwordless authentication using WebAuthn/FIDO2 Passkeys and biometric authentication.",
+        "Build risk-based adaptive authentication triggering step-up MFA based on IP reputation and device fingerprinting."
+      ],
+      "senior": [
+        "Architect globally distributed CIAM platforms serving 50M+ active users, handling peak login surges (e.g., Black Friday) with sub-100ms latency."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand stateful sessions vs stateless JWT tokens, authorization grant types (Authorization Code + PKCE), and HTTPS security.",
+      "intermediate": "Implement passwordless WebAuthn/Passkey registration and authentication, configure enterprise OIDC federation, and integrate bot protection.",
+      "advanced": "Engineer custom token exchange microservices, cross-domain single sign-on (SSO), and real-time behavioral fraud detection algorithms."
+    },
+    "certificationsByLevel": {
+      "beginner": "Auth0 Certified Developer",
+      "intermediate": "Okta Certified Professional / Okta Certified Developer",
+      "advanced": "CISSP or AWS Certified Security Specialty"
     }
   },
   {
@@ -56714,40 +57474,30 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Hardens Kubernetes clusters, authors eBPF runtime security detection rules, enforces admission control policies, and secures microservices against container escapes.",
     "scope": "Protects the containerized operating environment from cluster compromise, supply chain tampering, and kernel-level container breakout attacks.",
-    "responsibilities": {
-      "entry": [
-        "Audit Dockerfiles for root execution and scan base images for known vulnerabilities using Trivy.",
-        "Enforce Kubernetes ResourceQuotas and NetworkPolicies."
-      ],
-      "intermediate": [
-        "Deploy and tune Falco runtime security monitoring using eBPF probes.",
-        "Write admission control policies with Kyverno or OPA/Gatekeeper to block non-compliant pods."
-      ],
-      "senior": [
-        "Design multi-tenant cluster isolation topologies, implement zero-trust service meshes with mTLS, and conduct advanced container breakout penetration tests."
-      ]
-    },
+    "responsibilities": [
+      "Audit Dockerfiles for root execution and scan base images for known vulnerabilities using Trivy.",
+      "Enforce Kubernetes ResourceQuotas and NetworkPolicies.",
+      "Deploy and tune Falco runtime security monitoring using eBPF probes.",
+      "Write admission control policies with Kyverno or OPA/Gatekeeper to block non-compliant pods.",
+      "Design multi-tenant cluster isolation topologies, implement zero-trust service meshes with mTLS, and conduct advanced container breakout penetration tests."
+    ],
     "deliverables": [
       "Hardened Kubernetes Cluster Baseline (CIS Benchmarked)",
       "OPA/Kyverno Admission Control Policy Suite",
       "Falco eBPF Runtime Threat Detection Playbooks",
       "Container Escape Threat Matrix & Audit Report"
     ],
-    "technicalSkills": {
-      "core": [
-        "Kubernetes Hardening (CKS)",
-        "eBPF Threat Detection (Falco/Tetragon)",
-        "Admission Controllers (OPA Gatekeeper/Kyverno)",
-        "Container Runtimes (containerd/CRI-O)",
-        "Service Mesh mTLS (Istio/Linkerd)"
-      ],
-      "secondary": [
-        "Linux Kernel Namespaces & cgroups",
-        "Seccomp & AppArmor Profiles",
-        "Go / C Programming",
-        "Cosign Binary Attestation"
-      ]
-    },
+    "technicalSkills": [
+      "Kubernetes Hardening (CKS)",
+      "eBPF Threat Detection (Falco/Tetragon)",
+      "Admission Controllers (OPA Gatekeeper/Kyverno)",
+      "Container Runtimes (containerd/CRI-O)",
+      "Service Mesh mTLS (Istio/Linkerd)",
+      "Linux Kernel Namespaces & cgroups",
+      "Seccomp & AppArmor Profiles",
+      "Go / C Programming",
+      "Cosign Binary Attestation"
+    ],
     "softSkills": [
       "Methodical threat modeling",
       "Security advocacy for DevOps teams",
@@ -56786,11 +57536,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Prior deep experience in Kubernetes administration and Linux kernel security primitives"
     },
-    "roadmap": {
-      "beginner": "Master Docker containerization internals, cgroups, namespaces, seccomp profiles, and basic Kubernetes architecture.",
-      "intermediate": "Implement CKS security controls, author Kyverno admission policies, configure Calico NetworkPolicies, and automate Trivy CI image scanning.",
-      "advanced": "Engineer custom eBPF runtime monitoring probes, architect multi-cluster confidential computing enclaves, and automate cryptographic image signing with Sigstore."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master Docker containerization internals, cgroups, namespaces, seccomp profiles, and basic Kubernetes architecture."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement CKS security controls, author Kyverno admission policies, configure Calico NetworkPolicies, and automate Trivy CI image scanning."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Engineer custom eBPF runtime monitoring probes, architect multi-cluster confidential computing enclaves, and automate cryptographic image signing with Sigstore."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Distroless Hardened Container Image Pipeline",
@@ -56843,11 +57614,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech / M.Tech in Computer Science, Information Security, or Computer Engineering",
     "prerequisites": "Strong background in Linux internals, Kubernetes operations, and offensive/defensive cybersecurity.",
-    "certifications": {
-      "beginner": "Certified Kubernetes Administrator (CKA)",
-      "intermediate": "Certified Kubernetes Security Specialist (CKS)",
-      "advanced": "AWS Certified Security Specialty / CISSP"
-    },
+    "certifications": [
+      {
+        "name": "Certified Kubernetes Administrator (CKA)",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Certified Kubernetes Security Specialist (CKS)",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Security Specialty / CISSP",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Financial Services",
       "Defense & Aerospace",
@@ -56938,6 +57718,44 @@ export const MASTER_CAREER_ROLES = [
         "etcd",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Kubernetes Hardening (CKS)",
+        "eBPF Threat Detection (Falco/Tetragon)",
+        "Admission Controllers (OPA Gatekeeper/Kyverno)",
+        "Container Runtimes (containerd/CRI-O)",
+        "Service Mesh mTLS (Istio/Linkerd)"
+      ],
+      "secondary": [
+        "Linux Kernel Namespaces & cgroups",
+        "Seccomp & AppArmor Profiles",
+        "Go / C Programming",
+        "Cosign Binary Attestation"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Audit Dockerfiles for root execution and scan base images for known vulnerabilities using Trivy.",
+        "Enforce Kubernetes ResourceQuotas and NetworkPolicies."
+      ],
+      "intermediate": [
+        "Deploy and tune Falco runtime security monitoring using eBPF probes.",
+        "Write admission control policies with Kyverno or OPA/Gatekeeper to block non-compliant pods."
+      ],
+      "senior": [
+        "Design multi-tenant cluster isolation topologies, implement zero-trust service meshes with mTLS, and conduct advanced container breakout penetration tests."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master Docker containerization internals, cgroups, namespaces, seccomp profiles, and basic Kubernetes architecture.",
+      "intermediate": "Implement CKS security controls, author Kyverno admission policies, configure Calico NetworkPolicies, and automate Trivy CI image scanning.",
+      "advanced": "Engineer custom eBPF runtime monitoring probes, architect multi-cluster confidential computing enclaves, and automate cryptographic image signing with Sigstore."
+    },
+    "certificationsByLevel": {
+      "beginner": "Certified Kubernetes Administrator (CKA)",
+      "intermediate": "Certified Kubernetes Security Specialist (CKS)",
+      "advanced": "AWS Certified Security Specialty / CISSP"
     }
   },
   {
@@ -56960,39 +57778,29 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Triages, coordinates, and resolves zero-day vulnerabilities discovered in commercial hardware, firmware, and software products before malicious exploitation.",
     "scope": "Manages the external vulnerability disclosure lifecycle, coordinates engineering fixes, authors security advisories, and assigns official CVEs.",
-    "responsibilities": {
-      "entry": [
-        "Validate externally submitted vulnerability bug bounty reports for reproducible proof-of-concept (PoC).",
-        "Calculate standardized CVSS v3.1/v4 scores for reported bugs."
-      ],
-      "intermediate": [
-        "Coordinate remediation timelines with internal core engineering and QA squads.",
-        "Draft public security advisories and collaborate with the CVE Program (MITRE/CISA) as a CNA."
-      ],
-      "senior": [
-        "Lead crisis response for active zero-day software supply chain compromises, orchestrating out-of-band customer patch deployments worldwide."
-      ]
-    },
+    "responsibilities": [
+      "Validate externally submitted vulnerability bug bounty reports for reproducible proof-of-concept (PoC).",
+      "Calculate standardized CVSS v3.1/v4 scores for reported bugs.",
+      "Coordinate remediation timelines with internal core engineering and QA squads.",
+      "Draft public security advisories and collaborate with the CVE Program (MITRE/CISA) as a CNA.",
+      "Lead crisis response for active zero-day software supply chain compromises, orchestrating out-of-band customer patch deployments worldwide."
+    ],
     "deliverables": [
       "Official Product Security Bulletins & Advisories",
       "Reproducible Vulnerability PoC Validation Harness",
       "CVSS Scoring & Exploitability Analysis",
       "Emergency Out-of-Band Patch Deployment Playbook"
     ],
-    "technicalSkills": {
-      "core": [
-        "Vulnerability Root-Cause Analysis",
-        "CVSS v3.1 / v4 Scoring",
-        "CVE Authoring & CNA Procedures",
-        "C/C++/Java/Go Code Auditing",
-        "Exploit Triage & Fuzzing"
-      ],
-      "secondary": [
-        "Git Patch Cherry-Picking",
-        "Bug Bounty Triage (HackerOne/Bugcrowd)",
-        "Technical Writing for Advisories"
-      ]
-    },
+    "technicalSkills": [
+      "Vulnerability Root-Cause Analysis",
+      "CVSS v3.1 / v4 Scoring",
+      "CVE Authoring & CNA Procedures",
+      "C/C++/Java/Go Code Auditing",
+      "Exploit Triage & Fuzzing",
+      "Git Patch Cherry-Picking",
+      "Bug Bounty Triage (HackerOne/Bugcrowd)",
+      "Technical Writing for Advisories"
+    ],
     "softSkills": [
       "Diplomatic crisis management",
       "Patience with external security researchers",
@@ -57030,11 +57838,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Prior experience in vulnerability analysis, software development, and technical incident response"
     },
-    "roadmap": {
-      "beginner": "Understand common vulnerability classes (CWE Top 25), memory safety issues, and CVSS vector metrics.",
-      "intermediate": "Review complex security bug submissions, verify proof-of-concept exploits, and author standardized security bulletins.",
-      "advanced": "Direct an official CVE Numbering Authority (CNA), formulate responsible disclosure policies, and manage global supply chain crisis responses."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand common vulnerability classes (CWE Top 25), memory safety issues, and CVSS vector metrics."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Review complex security bug submissions, verify proof-of-concept exploits, and author standardized security bulletins."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Direct an official CVE Numbering Authority (CNA), formulate responsible disclosure policies, and manage global supply chain crisis responses."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated CVSS Vector Calculator & Alert Bot",
@@ -57087,11 +57916,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/M.S. in Computer Science, Cyber Security, or Systems Engineering",
     "prerequisites": "Strong technical background in software debugging, vulnerability mechanics, and technical incident management.",
-    "certifications": {
-      "beginner": "CompTIA CySA+ / Security+",
-      "intermediate": "OffSec Certified Professional (OSCP) / GIAC Certified Incident Handler (GCIH)",
-      "advanced": "CISSP or GIAC Security Expert (GSE)"
-    },
+    "certifications": [
+      {
+        "name": "CompTIA CySA+ / Security+",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "OffSec Certified Professional (OSCP) / GIAC Certified Incident Handler (GCIH)",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "CISSP or GIAC Security Expert (GSE)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Networking Hardware & Routers",
       "Operating System Vendors",
@@ -57181,6 +58019,43 @@ export const MASTER_CAREER_ROLES = [
       "databases": [
         "National Vulnerability Database (NVD)"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Vulnerability Root-Cause Analysis",
+        "CVSS v3.1 / v4 Scoring",
+        "CVE Authoring & CNA Procedures",
+        "C/C++/Java/Go Code Auditing",
+        "Exploit Triage & Fuzzing"
+      ],
+      "secondary": [
+        "Git Patch Cherry-Picking",
+        "Bug Bounty Triage (HackerOne/Bugcrowd)",
+        "Technical Writing for Advisories"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Validate externally submitted vulnerability bug bounty reports for reproducible proof-of-concept (PoC).",
+        "Calculate standardized CVSS v3.1/v4 scores for reported bugs."
+      ],
+      "intermediate": [
+        "Coordinate remediation timelines with internal core engineering and QA squads.",
+        "Draft public security advisories and collaborate with the CVE Program (MITRE/CISA) as a CNA."
+      ],
+      "senior": [
+        "Lead crisis response for active zero-day software supply chain compromises, orchestrating out-of-band customer patch deployments worldwide."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand common vulnerability classes (CWE Top 25), memory safety issues, and CVSS vector metrics.",
+      "intermediate": "Review complex security bug submissions, verify proof-of-concept exploits, and author standardized security bulletins.",
+      "advanced": "Direct an official CVE Numbering Authority (CNA), formulate responsible disclosure policies, and manage global supply chain crisis responses."
+    },
+    "certificationsByLevel": {
+      "beginner": "CompTIA CySA+ / Security+",
+      "intermediate": "OffSec Certified Professional (OSCP) / GIAC Certified Incident Handler (GCIH)",
+      "advanced": "CISSP or GIAC Security Expert (GSE)"
     }
   },
   {
@@ -57203,39 +58078,29 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": true,
     "shortDescription": "Conducts assistive technology user research and champions inclusive design methodologies to ensure products delight users of all physical, sensory, and cognitive abilities.",
     "scope": "Embeds accessibility upstream into the earliest discovery and ideation stages, avoiding retrofitting accessibility as an afterthought.",
-    "responsibilities": {
-      "entry": [
-        "Audit Figma design mockups for color contrast, touch target sizes, and focus states.",
-        "Participate in moderated usability testing sessions with assistive technology users."
-      ],
-      "intermediate": [
-        "Create personas, empathy maps, and journey flows reflecting users with motor, cognitive, auditory, and visual impairments.",
-        "Formulate inclusive design heuristics and train product design squads."
-      ],
-      "senior": [
-        "Establish corporate inclusive design principles, lead global assistive research initiatives, and ensure ADA/Section 508 legal compliance."
-      ]
-    },
+    "responsibilities": [
+      "Audit Figma design mockups for color contrast, touch target sizes, and focus states.",
+      "Participate in moderated usability testing sessions with assistive technology users.",
+      "Create personas, empathy maps, and journey flows reflecting users with motor, cognitive, auditory, and visual impairments.",
+      "Formulate inclusive design heuristics and train product design squads.",
+      "Establish corporate inclusive design principles, lead global assistive research initiatives, and ensure ADA/Section 508 legal compliance."
+    ],
     "deliverables": [
       "Inclusive User Persona & Journey Toolkit",
       "Assistive Technology Usability Study Findings",
       "Design System Accessibility Annotation Guides",
       "Cognitive Accessibility Heuristic Playbook"
     ],
-    "technicalSkills": {
-      "core": [
-        "Inclusive Design Frameworks (Microsoft Inclusive Design)",
-        "WCAG 2.2 AA/AAA Guidelines",
-        "User Research with PwD (People with Disabilities)",
-        "Assistive Tech Testing (Screen Readers/Switch Devices)",
-        "Figma Annotation"
-      ],
-      "secondary": [
-        "Semantic HTML & ARIA",
-        "Color Contrast Science (APCA)",
-        "Basic Frontend Prototyping"
-      ]
-    },
+    "technicalSkills": [
+      "Inclusive Design Frameworks (Microsoft Inclusive Design)",
+      "WCAG 2.2 AA/AAA Guidelines",
+      "User Research with PwD (People with Disabilities)",
+      "Assistive Tech Testing (Screen Readers/Switch Devices)",
+      "Figma Annotation",
+      "Semantic HTML & ARIA",
+      "Color Contrast Science (APCA)",
+      "Basic Frontend Prototyping"
+    ],
     "softSkills": [
       "Deep empathy",
       "Active listening",
@@ -57270,11 +58135,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 14,
       "keyPrerequisite": "Passion for universal accessibility, human empathy, and digital product design"
     },
-    "roadmap": {
-      "beginner": "Understand the social model of disability, universal design principles, and basic WCAG color/typography requirements.",
-      "intermediate": "Conduct co-design workshops with people with disabilities, audit complex interactive Figma components, and annotate accessibility specs.",
-      "advanced": "Pioneer multi-sensory multimodal interaction designs (voice + haptic + visual) and influence global digital inclusion legislation."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand the social model of disability, universal design principles, and basic WCAG color/typography requirements."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Conduct co-design workshops with people with disabilities, audit complex interactive Figma components, and annotate accessibility specs."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Pioneer multi-sensory multimodal interaction designs (voice + haptic + visual) and influence global digital inclusion legislation."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Design System Color & Contrast Audit (APCA)",
@@ -57327,11 +58213,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Des / M.Des in Interaction Design, Human-Computer Interaction, or Psychology",
     "prerequisites": "Strong foundation in UI/UX design, user research methods, and empathy for diverse human capabilities.",
-    "certifications": {
-      "beginner": "IAAP Certified Professional in Accessibility Core Competencies (CPACC)",
-      "intermediate": "Web Accessibility Specialist (WAS)",
-      "advanced": "Certified Accessibility Professional in Web Technologies (CPWA)"
-    },
+    "certifications": [
+      {
+        "name": "IAAP Certified Professional in Accessibility Core Competencies (CPACC)",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Web Accessibility Specialist (WAS)",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "Certified Accessibility Professional in Web Technologies (CPWA)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Public Sector & Government Services",
       "Education Technology",
@@ -57417,6 +58312,43 @@ export const MASTER_CAREER_ROLES = [
         "Fable (Assistive Tech Research Platform)"
       ],
       "databases": []
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Inclusive Design Frameworks (Microsoft Inclusive Design)",
+        "WCAG 2.2 AA/AAA Guidelines",
+        "User Research with PwD (People with Disabilities)",
+        "Assistive Tech Testing (Screen Readers/Switch Devices)",
+        "Figma Annotation"
+      ],
+      "secondary": [
+        "Semantic HTML & ARIA",
+        "Color Contrast Science (APCA)",
+        "Basic Frontend Prototyping"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Audit Figma design mockups for color contrast, touch target sizes, and focus states.",
+        "Participate in moderated usability testing sessions with assistive technology users."
+      ],
+      "intermediate": [
+        "Create personas, empathy maps, and journey flows reflecting users with motor, cognitive, auditory, and visual impairments.",
+        "Formulate inclusive design heuristics and train product design squads."
+      ],
+      "senior": [
+        "Establish corporate inclusive design principles, lead global assistive research initiatives, and ensure ADA/Section 508 legal compliance."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand the social model of disability, universal design principles, and basic WCAG color/typography requirements.",
+      "intermediate": "Conduct co-design workshops with people with disabilities, audit complex interactive Figma components, and annotate accessibility specs.",
+      "advanced": "Pioneer multi-sensory multimodal interaction designs (voice + haptic + visual) and influence global digital inclusion legislation."
+    },
+    "certificationsByLevel": {
+      "beginner": "IAAP Certified Professional in Accessibility Core Competencies (CPACC)",
+      "intermediate": "Web Accessibility Specialist (WAS)",
+      "advanced": "Certified Accessibility Professional in Web Technologies (CPWA)"
     }
   },
   {
@@ -57440,41 +58372,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Combines Robotic Process Automation (RPA), Intelligent Document Processing (IDP), Process Mining, and Generative AI into end-to-end enterprise hyperautomation solutions.",
     "scope": "Transforms complex, multi-system manual business workflows into fully automated, cognitive straight-through-processing (STP) pipelines.",
-    "responsibilities": {
-      "entry": [
-        "Analyze business processes and document Keystroke-Level Model (KLM) task flows.",
-        "Build basic attended software robots using UiPath or Automation Anywhere."
-      ],
-      "intermediate": [
-        "Integrate OCR/IDP models to extract data from unstructured invoices, receipts, and legal contracts.",
-        "Deploy Celonis or UiPath Process Mining to detect corporate process bottlenecks and ROI opportunities."
-      ],
-      "senior": [
-        "Architect enterprise-scale cognitive hyperautomation ecosystems combining LLM agentic reasoning with deterministic RPA bots handling millions of annual transactions."
-      ]
-    },
+    "responsibilities": [
+      "Analyze business processes and document Keystroke-Level Model (KLM) task flows.",
+      "Build basic attended software robots using UiPath or Automation Anywhere.",
+      "Integrate OCR/IDP models to extract data from unstructured invoices, receipts, and legal contracts.",
+      "Deploy Celonis or UiPath Process Mining to detect corporate process bottlenecks and ROI opportunities.",
+      "Architect enterprise-scale cognitive hyperautomation ecosystems combining LLM agentic reasoning with deterministic RPA bots handling millions of annual transactions."
+    ],
     "deliverables": [
       "Enterprise Hyperautomation Blueprint & Architecture",
       "Process Mining Bottleneck & ROI Analysis Report",
       "Intelligent Document Processing (IDP) Pipeline",
       "Automated Straight-Through-Processing Bot Cluster"
     ],
-    "technicalSkills": {
-      "core": [
-        "Hyperautomation Architecture",
-        "UiPath / Automation Anywhere Enterprise",
-        "Intelligent Document Processing (IDP/OCR)",
-        "Process Mining (Celonis/UiPath)",
-        "Generative AI Integration",
-        "REST/SOAP API Integration"
-      ],
-      "secondary": [
-        "Python / C# / VB.NET",
-        "SQL Database Tuning",
-        "BPMN 2.0 Process Modeling",
-        "CyberArk Bot Credential Security"
-      ]
-    },
+    "technicalSkills": [
+      "Hyperautomation Architecture",
+      "UiPath / Automation Anywhere Enterprise",
+      "Intelligent Document Processing (IDP/OCR)",
+      "Process Mining (Celonis/UiPath)",
+      "Generative AI Integration",
+      "REST/SOAP API Integration",
+      "Python / C# / VB.NET",
+      "SQL Database Tuning",
+      "BPMN 2.0 Process Modeling",
+      "CyberArk Bot Credential Security"
+    ],
     "softSkills": [
       "Business process consulting",
       "Executive ROI storytelling",
@@ -57512,11 +58434,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Prior enterprise software delivery, business process re-engineering, and RPA implementation experience"
     },
-    "roadmap": {
-      "beginner": "Master standard RPA tools (UiPath Studio), flowchart logic, desktop UI selectors, and transactional error handling.",
-      "intermediate": "Implement Intelligent Document Processing (Azure AI Document Intelligence / ABBYY), configure unattended bot farms, and analyze process logs with Celonis.",
-      "advanced": "Design autonomous AI-orchestrated hyperautomation platforms with human-in-the-loop exception queues and multi-million-dollar labor savings."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master standard RPA tools (UiPath Studio), flowchart logic, desktop UI selectors, and transactional error handling."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement Intelligent Document Processing (Azure AI Document Intelligence / ABBYY), configure unattended bot farms, and analyze process logs with Celonis."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Design autonomous AI-orchestrated hyperautomation platforms with human-in-the-loop exception queues and multi-million-dollar labor savings."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated Invoice Processing Bot with REFramework",
@@ -57569,11 +58512,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/MCA in Computer Science, IT, or Industrial Systems Engineering",
     "prerequisites": "Strong background in enterprise software architecture, scripting, and business workflow analysis.",
-    "certifications": {
-      "beginner": "UiPath Certified Professional Automation Developer Associate",
-      "intermediate": "UiPath Certified Professional Automation Solution Architect",
-      "advanced": "Celonis Certified Implementation Professional / Microsoft Certified Power Platform Solution Architect"
-    },
+    "certifications": [
+      {
+        "name": "UiPath Certified Professional Automation Developer Associate",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "UiPath Certified Professional Automation Solution Architect",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "Celonis Certified Implementation Professional / Microsoft Certified Power Platform Solution Architect",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Banking, Financial Services & Insurance (BFSI)",
       "Healthcare Claims Processing",
@@ -57663,6 +58615,45 @@ export const MASTER_CAREER_ROLES = [
         "Oracle Database",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Hyperautomation Architecture",
+        "UiPath / Automation Anywhere Enterprise",
+        "Intelligent Document Processing (IDP/OCR)",
+        "Process Mining (Celonis/UiPath)",
+        "Generative AI Integration",
+        "REST/SOAP API Integration"
+      ],
+      "secondary": [
+        "Python / C# / VB.NET",
+        "SQL Database Tuning",
+        "BPMN 2.0 Process Modeling",
+        "CyberArk Bot Credential Security"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Analyze business processes and document Keystroke-Level Model (KLM) task flows.",
+        "Build basic attended software robots using UiPath or Automation Anywhere."
+      ],
+      "intermediate": [
+        "Integrate OCR/IDP models to extract data from unstructured invoices, receipts, and legal contracts.",
+        "Deploy Celonis or UiPath Process Mining to detect corporate process bottlenecks and ROI opportunities."
+      ],
+      "senior": [
+        "Architect enterprise-scale cognitive hyperautomation ecosystems combining LLM agentic reasoning with deterministic RPA bots handling millions of annual transactions."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master standard RPA tools (UiPath Studio), flowchart logic, desktop UI selectors, and transactional error handling.",
+      "intermediate": "Implement Intelligent Document Processing (Azure AI Document Intelligence / ABBYY), configure unattended bot farms, and analyze process logs with Celonis.",
+      "advanced": "Design autonomous AI-orchestrated hyperautomation platforms with human-in-the-loop exception queues and multi-million-dollar labor savings."
+    },
+    "certificationsByLevel": {
+      "beginner": "UiPath Certified Professional Automation Developer Associate",
+      "intermediate": "UiPath Certified Professional Automation Solution Architect",
+      "advanced": "Celonis Certified Implementation Professional / Microsoft Certified Power Platform Solution Architect"
     }
   },
   {
@@ -57686,41 +58677,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Applies statistical modeling, machine learning, and high-performance computing algorithms to multi-omics sequencing datasets to decipher disease mechanisms.",
     "scope": "Bridges molecular biology, statistical genetics, clinical trial data, and deep learning algorithms for biological discovery.",
-    "responsibilities": {
-      "entry": [
-        "Perform quality control and alignment on raw Next-Generation Sequencing (NGS) FASTQ files.",
-        "Execute RNA-seq differential expression analysis using DESeq2."
-      ],
-      "intermediate": [
-        "Model single-cell RNA sequencing (scRNA-seq) cellular trajectories and cluster cell types using Seurat and Scanpy.",
-        "Develop machine learning classifiers predicting patient drug response based on multi-omic biomarkers."
-      ],
-      "senior": [
-        "Architect high-throughput cloud genomic analysis pipelines, integrate AlphaFold protein structure predictions, and publish novel therapeutic targets."
-      ]
-    },
+    "responsibilities": [
+      "Perform quality control and alignment on raw Next-Generation Sequencing (NGS) FASTQ files.",
+      "Execute RNA-seq differential expression analysis using DESeq2.",
+      "Model single-cell RNA sequencing (scRNA-seq) cellular trajectories and cluster cell types using Seurat and Scanpy.",
+      "Develop machine learning classifiers predicting patient drug response based on multi-omic biomarkers.",
+      "Architect high-throughput cloud genomic analysis pipelines, integrate AlphaFold protein structure predictions, and publish novel therapeutic targets."
+    ],
     "deliverables": [
       "Single-Cell Transcriptomic Cellular Atlases",
       "Predictive Genomic Biomarker Classification Models",
       "Multi-Omic Integration Analytical Pipeline",
       "Target Discovery Statistical Validation Reports"
     ],
-    "technicalSkills": {
-      "core": [
-        "Statistical Genetics",
-        "Next-Generation Sequencing (NGS)",
-        "Python (BioPython/Scanpy)",
-        "R (Bioconductor/DESeq2/Seurat)",
-        "High-Performance Computing (Slurm/HPC)",
-        "Variant Calling (GATK)"
-      ],
-      "secondary": [
-        "Deep Learning (PyTorch for Biology)",
-        "AlphaFold/ESMFold",
-        "Nextflow / Snakemake",
-        "AWS Omics"
-      ]
-    },
+    "technicalSkills": [
+      "Statistical Genetics",
+      "Next-Generation Sequencing (NGS)",
+      "Python (BioPython/Scanpy)",
+      "R (Bioconductor/DESeq2/Seurat)",
+      "High-Performance Computing (Slurm/HPC)",
+      "Variant Calling (GATK)",
+      "Deep Learning (PyTorch for Biology)",
+      "AlphaFold/ESMFold",
+      "Nextflow / Snakemake",
+      "AWS Omics"
+    ],
     "softSkills": [
       "Scientific curiosity",
       "Statistical rigor",
@@ -57762,11 +58743,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 24,
       "keyPrerequisite": "Deep foundation in genetics, molecular biology, and rigorous statistical data science"
     },
-    "roadmap": {
-      "beginner": "Master biological sequence representations (FASTA, FASTQ, BAM, VCF), basic alignment algorithms (Smith-Waterman), and R/Bioconductor.",
-      "intermediate": "Implement differential gene expression, single-cell RNA-seq clustering, variant annotation with VEP, and containerized Nextflow workflows.",
-      "advanced": "Train graph neural networks on protein-protein interaction networks, model spatial transcriptomics datasets, and identify oncology drug targets."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master biological sequence representations (FASTA, FASTQ, BAM, VCF), basic alignment algorithms (Smith-Waterman), and R/Bioconductor."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement differential gene expression, single-cell RNA-seq clustering, variant annotation with VEP, and containerized Nextflow workflows."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Train graph neural networks on protein-protein interaction networks, model spatial transcriptomics datasets, and identify oncology drug targets."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated RNA-Seq Differential Expression Pipeline",
@@ -57819,11 +58821,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "M.Sc / Ph.D in Bioinformatics, Computational Biology, Biostatistics, or Computer Science",
     "prerequisites": "Strong training in molecular biology, statistics, algorithms, and scientific programming.",
-    "certifications": {
-      "beginner": "ISCB (International Society for Computational Biology) Student Member",
-      "intermediate": "AWS Certified Machine Learning / Broad Institute GATK Specialist",
-      "advanced": "DeepLearning.AI AI for Medicine Specialization"
-    },
+    "certifications": [
+      {
+        "name": "ISCB (International Society for Computational Biology) Student Member",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "AWS Certified Machine Learning / Broad Institute GATK Specialist",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "DeepLearning.AI AI for Medicine Specialization",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Oncology & Precision Medicine",
       "Pharmaceutical Drug Discovery",
@@ -57917,6 +58928,45 @@ export const MASTER_CAREER_ROLES = [
         "TCGA (The Cancer Genome Atlas)",
         "UCSC Genome Browser"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Statistical Genetics",
+        "Next-Generation Sequencing (NGS)",
+        "Python (BioPython/Scanpy)",
+        "R (Bioconductor/DESeq2/Seurat)",
+        "High-Performance Computing (Slurm/HPC)",
+        "Variant Calling (GATK)"
+      ],
+      "secondary": [
+        "Deep Learning (PyTorch for Biology)",
+        "AlphaFold/ESMFold",
+        "Nextflow / Snakemake",
+        "AWS Omics"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Perform quality control and alignment on raw Next-Generation Sequencing (NGS) FASTQ files.",
+        "Execute RNA-seq differential expression analysis using DESeq2."
+      ],
+      "intermediate": [
+        "Model single-cell RNA sequencing (scRNA-seq) cellular trajectories and cluster cell types using Seurat and Scanpy.",
+        "Develop machine learning classifiers predicting patient drug response based on multi-omic biomarkers."
+      ],
+      "senior": [
+        "Architect high-throughput cloud genomic analysis pipelines, integrate AlphaFold protein structure predictions, and publish novel therapeutic targets."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master biological sequence representations (FASTA, FASTQ, BAM, VCF), basic alignment algorithms (Smith-Waterman), and R/Bioconductor.",
+      "intermediate": "Implement differential gene expression, single-cell RNA-seq clustering, variant annotation with VEP, and containerized Nextflow workflows.",
+      "advanced": "Train graph neural networks on protein-protein interaction networks, model spatial transcriptomics datasets, and identify oncology drug targets."
+    },
+    "certificationsByLevel": {
+      "beginner": "ISCB (International Society for Computational Biology) Student Member",
+      "intermediate": "AWS Certified Machine Learning / Broad Institute GATK Specialist",
+      "advanced": "DeepLearning.AI AI for Medicine Specialization"
     }
   },
   {
@@ -57940,41 +58990,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Builds validated, HIPAA/CAP/CLIA-compliant cloud software systems that process patient DNA sequencing data for diagnostic medical reports.",
     "scope": "Ensures absolute reproducibility, auditability, security, and low latency for genomic diagnostic software used in hospitals and diagnostic labs.",
-    "responsibilities": {
-      "entry": [
-        "Automate unit tests for clinical variant annotation parsers.",
-        "Monitor cloud batch processing runs for failed patient sequence samples."
-      ],
-      "intermediate": [
-        "Build containerized Nextflow/WDL clinical pipelines implementing GATK Best Practices for Germline and Somatic variant detection.",
-        "Integrate genomic diagnostic findings with electronic health record (EHR) systems using FHIR and HL7 protocols."
-      ],
-      "senior": [
-        "Architect secure, FDA/CLIA-validated clinical software platforms ensuring 99.99% pipeline reproducibility with cryptographic audit trails."
-      ]
-    },
+    "responsibilities": [
+      "Automate unit tests for clinical variant annotation parsers.",
+      "Monitor cloud batch processing runs for failed patient sequence samples.",
+      "Build containerized Nextflow/WDL clinical pipelines implementing GATK Best Practices for Germline and Somatic variant detection.",
+      "Integrate genomic diagnostic findings with electronic health record (EHR) systems using FHIR and HL7 protocols.",
+      "Architect secure, FDA/CLIA-validated clinical software platforms ensuring 99.99% pipeline reproducibility with cryptographic audit trails."
+    ],
     "deliverables": [
       "CLIA/CAP-Validated Clinical Genomic Pipeline",
       "FHIR/HL7 EHR Diagnostic Integration Gateway",
       "Automated Clinical Variant Interpretation Engine",
       "Genomic Data Security & HIPAA Compliance Architecture"
     ],
-    "technicalSkills": {
-      "core": [
-        "Nextflow / Snakemake",
-        "GATK Best Practices",
-        "Clinical Genomics Standards (ACMG Guidelines)",
-        "HL7 / FHIR Standards",
-        "Docker / Kubernetes in Healthcare",
-        "HIPAA Compliance"
-      ],
-      "secondary": [
-        "Python / Go",
-        "AWS HealthOmics / Batch",
-        "PostgreSQL",
-        "Cryptographic Data Lineage"
-      ]
-    },
+    "technicalSkills": [
+      "Nextflow / Snakemake",
+      "GATK Best Practices",
+      "Clinical Genomics Standards (ACMG Guidelines)",
+      "HL7 / FHIR Standards",
+      "Docker / Kubernetes in Healthcare",
+      "HIPAA Compliance",
+      "Python / Go",
+      "AWS HealthOmics / Batch",
+      "PostgreSQL",
+      "Cryptographic Data Lineage"
+    ],
     "softSkills": [
       "High-stakes clinical precision",
       "Regulatory mindset",
@@ -58013,11 +59053,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Prior software engineering experience combined with clinical data standards and genomic workflows"
     },
-    "roadmap": {
-      "beginner": "Understand variant calling file formats (VCF), clinical sequencing quality metrics, and healthcare privacy laws (HIPAA).",
-      "intermediate": "Implement GATK germline pipelines in Nextflow, configure deterministic container environments, and format clinical outputs per ACMG guidelines.",
-      "advanced": "Lead FDA 510(k) software-as-a-medical-device (SaMD) validations, integrate automated variant classification with hospital Epic/Cerner EHRs, and scale multi-petabyte genomic data lakes."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand variant calling file formats (VCF), clinical sequencing quality metrics, and healthcare privacy laws (HIPAA)."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement GATK germline pipelines in Nextflow, configure deterministic container environments, and format clinical outputs per ACMG guidelines."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Lead FDA 510(k) software-as-a-medical-device (SaMD) validations, integrate automated variant classification with hospital Epic/Cerner EHRs, and scale multi-petabyte genomic data lakes."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "ACMG Variant Classification Parser",
@@ -58070,11 +59131,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/M.S. in Computer Science, Biomedical Engineering, or Bioinformatics",
     "prerequisites": "Solid background in software engineering, distributed computing, and biological data processing.",
-    "certifications": {
-      "beginner": "HIPAA Security Certification / Nextflow Certified Specialist",
-      "intermediate": "AWS Certified Solutions Architect Associate / HL7 FHIR Fundamentals",
-      "advanced": "Certified Software Quality Engineer (CSQE) or CKA"
-    },
+    "certifications": [
+      {
+        "name": "HIPAA Security Certification / Nextflow Certified Specialist",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "AWS Certified Solutions Architect Associate / HL7 FHIR Fundamentals",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "Certified Software Quality Engineer (CSQE) or CKA",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Clinical Diagnostic Laboratories",
       "Cancer Hospitals",
@@ -58165,6 +59235,45 @@ export const MASTER_CAREER_ROLES = [
         "ClinVar",
         "COSMIC"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Nextflow / Snakemake",
+        "GATK Best Practices",
+        "Clinical Genomics Standards (ACMG Guidelines)",
+        "HL7 / FHIR Standards",
+        "Docker / Kubernetes in Healthcare",
+        "HIPAA Compliance"
+      ],
+      "secondary": [
+        "Python / Go",
+        "AWS HealthOmics / Batch",
+        "PostgreSQL",
+        "Cryptographic Data Lineage"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Automate unit tests for clinical variant annotation parsers.",
+        "Monitor cloud batch processing runs for failed patient sequence samples."
+      ],
+      "intermediate": [
+        "Build containerized Nextflow/WDL clinical pipelines implementing GATK Best Practices for Germline and Somatic variant detection.",
+        "Integrate genomic diagnostic findings with electronic health record (EHR) systems using FHIR and HL7 protocols."
+      ],
+      "senior": [
+        "Architect secure, FDA/CLIA-validated clinical software platforms ensuring 99.99% pipeline reproducibility with cryptographic audit trails."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand variant calling file formats (VCF), clinical sequencing quality metrics, and healthcare privacy laws (HIPAA).",
+      "intermediate": "Implement GATK germline pipelines in Nextflow, configure deterministic container environments, and format clinical outputs per ACMG guidelines.",
+      "advanced": "Lead FDA 510(k) software-as-a-medical-device (SaMD) validations, integrate automated variant classification with hospital Epic/Cerner EHRs, and scale multi-petabyte genomic data lakes."
+    },
+    "certificationsByLevel": {
+      "beginner": "HIPAA Security Certification / Nextflow Certified Specialist",
+      "intermediate": "AWS Certified Solutions Architect Associate / HL7 FHIR Fundamentals",
+      "advanced": "Certified Software Quality Engineer (CSQE) or CKA"
     }
   },
   {
@@ -58187,41 +59296,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Designs real-time trajectory optimization, collision avoidance, and Model Predictive Control (MPC) algorithms that steer and maneuver autonomous vehicles and drones safely.",
     "scope": "Converts environment perception maps into smooth, physically viable, collision-free vehicle trajectory paths at 50Hz update rates.",
-    "responsibilities": {
-      "entry": [
-        "Implement path-finding algorithms (A*, Dijkstra, Hybrid A*) on 2D grid maps.",
-        "Validate kinematics vehicle models in simulation environments (CARLA, Gazebo)."
-      ],
-      "intermediate": [
-        "Develop continuous trajectory optimization and Model Predictive Control (MPC) algorithms for dynamic obstacle avoidance.",
-        "Tune lateral and longitudinal vehicle controllers (PID, LQR, MPC) on hardware-in-the-loop (HIL) test rigs."
-      ],
-      "senior": [
-        "Architect real-time decision-making state machines and safe behavior planning under high-speed highway merging and dense urban pedestrian conditions."
-      ]
-    },
+    "responsibilities": [
+      "Implement path-finding algorithms (A*, Dijkstra, Hybrid A*) on 2D grid maps.",
+      "Validate kinematics vehicle models in simulation environments (CARLA, Gazebo).",
+      "Develop continuous trajectory optimization and Model Predictive Control (MPC) algorithms for dynamic obstacle avoidance.",
+      "Tune lateral and longitudinal vehicle controllers (PID, LQR, MPC) on hardware-in-the-loop (HIL) test rigs.",
+      "Architect real-time decision-making state machines and safe behavior planning under high-speed highway merging and dense urban pedestrian conditions."
+    ],
     "deliverables": [
       "Real-Time Trajectory Optimization Controller",
       "Dynamic Obstacle Collision Avoidance Planner",
       "Model Predictive Control (MPC) Actuation Engine",
       "HIL Simulation Validation Test Matrix"
     ],
-    "technicalSkills": {
-      "core": [
-        "C++ (Modern C++17/20)",
-        "Modern ROS 2",
-        "Model Predictive Control (MPC)",
-        "Trajectory Generation (Polynomial/Splines)",
-        "Path Planning (A*, RRT*, Lattice Planners)",
-        "Vehicle Dynamics & Kinematics"
-      ],
-      "secondary": [
-        "Python (Prototyping)",
-        "Convex Optimization (OSQP, CasADi)",
-        "CARLA Simulator",
-        "CAN Bus Actuation Protocols"
-      ]
-    },
+    "technicalSkills": [
+      "C++ (Modern C++17/20)",
+      "Modern ROS 2",
+      "Model Predictive Control (MPC)",
+      "Trajectory Generation (Polynomial/Splines)",
+      "Path Planning (A*, RRT*, Lattice Planners)",
+      "Vehicle Dynamics & Kinematics",
+      "Python (Prototyping)",
+      "Convex Optimization (OSQP, CasADi)",
+      "CARLA Simulator",
+      "CAN Bus Actuation Protocols"
+    ],
     "softSkills": [
       "Safety-first engineering mentality",
       "Mathematical intuition",
@@ -58257,11 +59356,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 24,
       "keyPrerequisite": "Deep mathematical foundations in multivariable calculus, linear algebra, classical/modern control theory, and high-performance C++"
     },
-    "roadmap": {
-      "beginner": "Understand rigid-body kinematics, bicycle vehicle models, A* graph search, and basic PID feedback control in ROS 2.",
-      "intermediate": "Implement Hybrid A* path planning, quintic polynomial spline generation, and CasADi-based non-linear Model Predictive Control.",
-      "advanced": "Engineer game-theoretic multi-agent urban intersection behavior planners, stochastic trajectory prediction models, and ISO 26262 ASIL-D safety verifications."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand rigid-body kinematics, bicycle vehicle models, A* graph search, and basic PID feedback control in ROS 2."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement Hybrid A* path planning, quintic polynomial spline generation, and CasADi-based non-linear Model Predictive Control."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Engineer game-theoretic multi-agent urban intersection behavior planners, stochastic trajectory prediction models, and ISO 26262 ASIL-D safety verifications."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Differential Drive Path Follower in ROS 2",
@@ -58314,11 +59434,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech/M.Tech/Ph.D in Robotics, Mechanical/Aerospace Engineering, or Computer Science",
     "prerequisites": "Mastery of C++, control systems (MPC/LQR), optimization mathematics, and robotics kinematics.",
-    "certifications": {
-      "beginner": "Coursera / University of Toronto: Self-Driving Cars Specialization",
-      "intermediate": "ROS 2 Developer Certification (Apex.AI / Open Robotics)",
-      "advanced": "ISO 26262 Functional Safety Certified Engineer (Automotive)"
-    },
+    "certifications": [
+      {
+        "name": "Coursera / University of Toronto: Self-Driving Cars Specialization",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "ROS 2 Developer Certification (Apex.AI / Open Robotics)",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "ISO 26262 Functional Safety Certified Engineer (Automotive)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Autonomous Robotaxis",
       "Autonomous Freight Trucking",
@@ -58406,6 +59535,45 @@ export const MASTER_CAREER_ROLES = [
       "databases": [
         "MCAP / ROSbag"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "C++ (Modern C++17/20)",
+        "Modern ROS 2",
+        "Model Predictive Control (MPC)",
+        "Trajectory Generation (Polynomial/Splines)",
+        "Path Planning (A*, RRT*, Lattice Planners)",
+        "Vehicle Dynamics & Kinematics"
+      ],
+      "secondary": [
+        "Python (Prototyping)",
+        "Convex Optimization (OSQP, CasADi)",
+        "CARLA Simulator",
+        "CAN Bus Actuation Protocols"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Implement path-finding algorithms (A*, Dijkstra, Hybrid A*) on 2D grid maps.",
+        "Validate kinematics vehicle models in simulation environments (CARLA, Gazebo)."
+      ],
+      "intermediate": [
+        "Develop continuous trajectory optimization and Model Predictive Control (MPC) algorithms for dynamic obstacle avoidance.",
+        "Tune lateral and longitudinal vehicle controllers (PID, LQR, MPC) on hardware-in-the-loop (HIL) test rigs."
+      ],
+      "senior": [
+        "Architect real-time decision-making state machines and safe behavior planning under high-speed highway merging and dense urban pedestrian conditions."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand rigid-body kinematics, bicycle vehicle models, A* graph search, and basic PID feedback control in ROS 2.",
+      "intermediate": "Implement Hybrid A* path planning, quintic polynomial spline generation, and CasADi-based non-linear Model Predictive Control.",
+      "advanced": "Engineer game-theoretic multi-agent urban intersection behavior planners, stochastic trajectory prediction models, and ISO 26262 ASIL-D safety verifications."
+    },
+    "certificationsByLevel": {
+      "beginner": "Coursera / University of Toronto: Self-Driving Cars Specialization",
+      "intermediate": "ROS 2 Developer Certification (Apex.AI / Open Robotics)",
+      "advanced": "ISO 26262 Functional Safety Certified Engineer (Automotive)"
     }
   },
   {
@@ -58429,41 +59597,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Architects distributed networks of specialized autonomous AI agents that communicate, negotiate, plan, and execute multi-step corporate workflows collaboratively.",
     "scope": "Designs multi-agent architectures, consensus mechanisms, memory partitioning, tool routing, and loop termination safeguards.",
-    "responsibilities": {
-      "entry": [
-        "Implement tool-calling functions and structured JSON outputs for single AI agents.",
-        "Monitor agent execution traces and token usage in LangSmith."
-      ],
-      "intermediate": [
-        "Build cyclic graph agent orchestrations using LangGraph and CrewAI with shared memory and task delegation.",
-        "Implement automated reflection, self-critique, and error-recovery loops to prevent agent hallucinations."
-      ],
-      "senior": [
-        "Architect resilient multi-agent swarm platforms with Byzantine fault tolerance, human-in-the-loop oversight gates, and enterprise security sandboxes."
-      ]
-    },
+    "responsibilities": [
+      "Implement tool-calling functions and structured JSON outputs for single AI agents.",
+      "Monitor agent execution traces and token usage in LangSmith.",
+      "Build cyclic graph agent orchestrations using LangGraph and CrewAI with shared memory and task delegation.",
+      "Implement automated reflection, self-critique, and error-recovery loops to prevent agent hallucinations.",
+      "Architect resilient multi-agent swarm platforms with Byzantine fault tolerance, human-in-the-loop oversight gates, and enterprise security sandboxes."
+    ],
     "deliverables": [
       "Multi-Agent Collaborative Workflow Graph",
       "Agent Tool Calling & Sandboxed Execution Gateway",
       "Stateful Memory & Context Propagation Engine",
       "Loop Termination & Cost Guardrail Controller"
     ],
-    "technicalSkills": {
-      "core": [
-        "LangGraph / CrewAI / AutoGen",
-        "Multi-Agent Communication Protocols",
-        "Function Calling & Tool Routing",
-        "Stateful Graph Orchestration",
-        "Prompt Engineering & Few-Shot Reasoning",
-        "Vector Memory & Retrieval"
-      ],
-      "secondary": [
-        "Python (AsyncIO)",
-        "FastAPI",
-        "Docker Sandboxing (gVisor/Wasm)",
-        "Observability (LangSmith/Arize)"
-      ]
-    },
+    "technicalSkills": [
+      "LangGraph / CrewAI / AutoGen",
+      "Multi-Agent Communication Protocols",
+      "Function Calling & Tool Routing",
+      "Stateful Graph Orchestration",
+      "Prompt Engineering & Few-Shot Reasoning",
+      "Vector Memory & Retrieval",
+      "Python (AsyncIO)",
+      "FastAPI",
+      "Docker Sandboxing (gVisor/Wasm)",
+      "Observability (LangSmith/Arize)"
+    ],
     "softSkills": [
       "Systems thinking",
       "Architectural foresight",
@@ -58501,11 +59659,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Strong background in Python asynchronous programming, distributed systems, and generative AI APIs"
     },
-    "roadmap": {
-      "beginner": "Master prompt engineering, structured JSON outputs, function calling, and basic linear chains (LangChain).",
-      "intermediate": "Implement cyclical multi-agent workflows using LangGraph, configure hierarchical supervisor-worker architectures, and integrate sandboxed tool execution.",
-      "advanced": "Engineer autonomous multi-agent software engineering swarms, dynamic tool synthesizers, and enterprise safety guardrails with verifiable formal specifications."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master prompt engineering, structured JSON outputs, function calling, and basic linear chains (LangChain)."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Implement cyclical multi-agent workflows using LangGraph, configure hierarchical supervisor-worker architectures, and integrate sandboxed tool execution."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Engineer autonomous multi-agent software engineering swarms, dynamic tool synthesizers, and enterprise safety guardrails with verifiable formal specifications."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Autonomous Research & Summary Agent",
@@ -58558,11 +59737,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Tech / B.E. / M.Sc in Computer Science, AI, or Software Engineering",
     "prerequisites": "Strong proficiency in Python, distributed graph architectures, and stateful agent frameworks.",
-    "certifications": {
-      "beginner": "DeepLearning.AI: Multi AI Agent Systems with crewAI",
-      "intermediate": "LangChain Certified Agentic Developer",
-      "advanced": "AWS Certified Machine Learning Specialty or Google Cloud Professional ML Engineer"
-    },
+    "certifications": [
+      {
+        "name": "DeepLearning.AI: Multi AI Agent Systems with crewAI",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "LangChain Certified Agentic Developer",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "AWS Certified Machine Learning Specialty or Google Cloud Professional ML Engineer",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Autonomous Financial Trading",
       "Legal Contract Due Diligence",
@@ -58652,6 +59840,45 @@ export const MASTER_CAREER_ROLES = [
         "Qdrant / Pinecone (Vector Memory)",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "LangGraph / CrewAI / AutoGen",
+        "Multi-Agent Communication Protocols",
+        "Function Calling & Tool Routing",
+        "Stateful Graph Orchestration",
+        "Prompt Engineering & Few-Shot Reasoning",
+        "Vector Memory & Retrieval"
+      ],
+      "secondary": [
+        "Python (AsyncIO)",
+        "FastAPI",
+        "Docker Sandboxing (gVisor/Wasm)",
+        "Observability (LangSmith/Arize)"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Implement tool-calling functions and structured JSON outputs for single AI agents.",
+        "Monitor agent execution traces and token usage in LangSmith."
+      ],
+      "intermediate": [
+        "Build cyclic graph agent orchestrations using LangGraph and CrewAI with shared memory and task delegation.",
+        "Implement automated reflection, self-critique, and error-recovery loops to prevent agent hallucinations."
+      ],
+      "senior": [
+        "Architect resilient multi-agent swarm platforms with Byzantine fault tolerance, human-in-the-loop oversight gates, and enterprise security sandboxes."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master prompt engineering, structured JSON outputs, function calling, and basic linear chains (LangChain).",
+      "intermediate": "Implement cyclical multi-agent workflows using LangGraph, configure hierarchical supervisor-worker architectures, and integrate sandboxed tool execution.",
+      "advanced": "Engineer autonomous multi-agent software engineering swarms, dynamic tool synthesizers, and enterprise safety guardrails with verifiable formal specifications."
+    },
+    "certificationsByLevel": {
+      "beginner": "DeepLearning.AI: Multi AI Agent Systems with crewAI",
+      "intermediate": "LangChain Certified Agentic Developer",
+      "advanced": "AWS Certified Machine Learning Specialty or Google Cloud Professional ML Engineer"
     }
   },
   {
@@ -58675,41 +59902,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Engineers cloud-native pipelines that ingest, process, and analyze petabytes of satellite imagery, LiDAR point clouds, and geospatial radar telemetry.",
     "scope": "Transforms raw satellite downlink sensor streams into actionable analytical rasters, SpatioTemporal Asset Catalogs (STAC), and environmental models.",
-    "responsibilities": {
-      "entry": [
-        "Pre-process multispectral satellite imagery (Sentinel-2, Landsat) for cloud cover masking and atmospheric correction.",
-        "Author automated GeoPandas scripts for spatial joins and coordinate transformations."
-      ],
-      "intermediate": [
-        "Build automated raster processing pipelines using GDAL, Rasterio, and Cloud-Optimized GeoTIFFs (COG).",
-        "Index petabytes of imagery into SpatioTemporal Asset Catalogs (STAC) on AWS/GCP."
-      ],
-      "senior": [
-        "Architect deep learning segmentation pipelines on petabyte-scale satellite constellations for automated deforestation, wildfire, and urban growth monitoring."
-      ]
-    },
+    "responsibilities": [
+      "Pre-process multispectral satellite imagery (Sentinel-2, Landsat) for cloud cover masking and atmospheric correction.",
+      "Author automated GeoPandas scripts for spatial joins and coordinate transformations.",
+      "Build automated raster processing pipelines using GDAL, Rasterio, and Cloud-Optimized GeoTIFFs (COG).",
+      "Index petabytes of imagery into SpatioTemporal Asset Catalogs (STAC) on AWS/GCP.",
+      "Architect deep learning segmentation pipelines on petabyte-scale satellite constellations for automated deforestation, wildfire, and urban growth monitoring."
+    ],
     "deliverables": [
       "Cloud-Optimized GeoTIFF (COG) Image Processing Pipeline",
       "SpatioTemporal Asset Catalog (STAC) Service",
       "Computer Vision Satellite Change Detection Model",
       "Geospatial Telemetry Processing Architecture"
     ],
-    "technicalSkills": {
-      "core": [
-        "GDAL / OGR",
-        "Rasterio & GeoPandas",
-        "Cloud-Optimized GeoTIFF (COG)",
-        "STAC (SpatioTemporal Asset Catalog)",
-        "Remote Sensing Multispectral Indices (NDVI, NDWI)",
-        "PostGIS"
-      ],
-      "secondary": [
-        "PyTorch (Satellite Computer Vision)",
-        "Apache Sedona (Distributed Spatial Analytics)",
-        "Google Earth Engine",
-        "SAR (Synthetic Aperture Radar) Processing"
-      ]
-    },
+    "technicalSkills": [
+      "GDAL / OGR",
+      "Rasterio & GeoPandas",
+      "Cloud-Optimized GeoTIFF (COG)",
+      "STAC (SpatioTemporal Asset Catalog)",
+      "Remote Sensing Multispectral Indices (NDVI, NDWI)",
+      "PostGIS",
+      "PyTorch (Satellite Computer Vision)",
+      "Apache Sedona (Distributed Spatial Analytics)",
+      "Google Earth Engine",
+      "SAR (Synthetic Aperture Radar) Processing"
+    ],
     "softSkills": [
       "Scientific spatial curiosity",
       "Multi-band spectral visualization intuition",
@@ -58747,11 +59964,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Strong background in Python scientific computing, coordinate reference systems (CRS), and raster data structures"
     },
-    "roadmap": {
-      "beginner": "Understand coordinate systems (EPSG codes, WGS84 vs UTM), raster vs vector data, and basic QGIS visualization.",
-      "intermediate": "Build automated Python pipelines using Rasterio to calculate multispectral vegetation indices (NDVI) and format data as Cloud-Optimized GeoTIFFs.",
-      "advanced": "Scale distributed geospatial pipelines using Apache Sedona on cloud Spark clusters, integrating real-time Synthetic Aperture Radar (SAR) flood inundation mapping."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand coordinate systems (EPSG codes, WGS84 vs UTM), raster vs vector data, and basic QGIS visualization."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Build automated Python pipelines using Rasterio to calculate multispectral vegetation indices (NDVI) and format data as Cloud-Optimized GeoTIFFs."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Scale distributed geospatial pipelines using Apache Sedona on cloud Spark clusters, integrating real-time Synthetic Aperture Radar (SAR) flood inundation mapping."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Automated Wildfire Burn Scar Mapper",
@@ -58804,11 +60042,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech/M.Sc in Geoinformatics, Remote Sensing, Computer Science, or Physical Geography",
     "prerequisites": "Strong Python programming skills, understanding of cartographic projections, and experience with spatial libraries.",
-    "certifications": {
-      "beginner": "Esri Technical Certification: ArcGIS Desktop Associate",
-      "intermediate": "Google Cloud Certified Professional Data Engineer (with Earth Engine Experience)",
-      "advanced": "GISP (Certified Geographic Information Systems Professional)"
-    },
+    "certifications": [
+      {
+        "name": "Esri Technical Certification: ArcGIS Desktop Associate",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Google Cloud Certified Professional Data Engineer (with Earth Engine Experience)",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "GISP (Certified Geographic Information Systems Professional)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Agriculture & Precision Farming",
       "Climate & Environmental Monitoring",
@@ -58898,6 +60145,45 @@ export const MASTER_CAREER_ROLES = [
         "PostgreSQL / PostGIS",
         "DuckDB (Spatial Extension)"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "GDAL / OGR",
+        "Rasterio & GeoPandas",
+        "Cloud-Optimized GeoTIFF (COG)",
+        "STAC (SpatioTemporal Asset Catalog)",
+        "Remote Sensing Multispectral Indices (NDVI, NDWI)",
+        "PostGIS"
+      ],
+      "secondary": [
+        "PyTorch (Satellite Computer Vision)",
+        "Apache Sedona (Distributed Spatial Analytics)",
+        "Google Earth Engine",
+        "SAR (Synthetic Aperture Radar) Processing"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Pre-process multispectral satellite imagery (Sentinel-2, Landsat) for cloud cover masking and atmospheric correction.",
+        "Author automated GeoPandas scripts for spatial joins and coordinate transformations."
+      ],
+      "intermediate": [
+        "Build automated raster processing pipelines using GDAL, Rasterio, and Cloud-Optimized GeoTIFFs (COG).",
+        "Index petabytes of imagery into SpatioTemporal Asset Catalogs (STAC) on AWS/GCP."
+      ],
+      "senior": [
+        "Architect deep learning segmentation pipelines on petabyte-scale satellite constellations for automated deforestation, wildfire, and urban growth monitoring."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand coordinate systems (EPSG codes, WGS84 vs UTM), raster vs vector data, and basic QGIS visualization.",
+      "intermediate": "Build automated Python pipelines using Rasterio to calculate multispectral vegetation indices (NDVI) and format data as Cloud-Optimized GeoTIFFs.",
+      "advanced": "Scale distributed geospatial pipelines using Apache Sedona on cloud Spark clusters, integrating real-time Synthetic Aperture Radar (SAR) flood inundation mapping."
+    },
+    "certificationsByLevel": {
+      "beginner": "Esri Technical Certification: ArcGIS Desktop Associate",
+      "intermediate": "Google Cloud Certified Professional Data Engineer (with Earth Engine Experience)",
+      "advanced": "GISP (Certified Geographic Information Systems Professional)"
     }
   },
   {
@@ -58922,41 +60208,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Bridges hospital clinical workflows and electronic health record (EHR) systems, building interoperable SMART-on-FHIR clinical decision support integrations.",
     "scope": "Ensures clinical data flows seamlessly and securely between Epic/Cerner hospital databases, clinician tablet apps, and diagnostic medical equipment.",
-    "responsibilities": {
-      "entry": [
-        "Configure EHR user templates and clinical order sets in hospital test environments.",
-        "Validate HL7 v2 ADT (Admission, Discharge, Transfer) message feeds."
-      ],
-      "intermediate": [
-        "Develop SMART on FHIR web applications that launch securely within clinician EHR workflow screens.",
-        "Implement clinical decision support (CDS Hooks) alerting doctors to dangerous drug-drug interactions."
-      ],
-      "senior": [
-        "Architect enterprise healthcare interoperability exchanges (HIE), ensuring full compliance with ONC 21st Century Cures Act data sharing mandates."
-      ]
-    },
+    "responsibilities": [
+      "Configure EHR user templates and clinical order sets in hospital test environments.",
+      "Validate HL7 v2 ADT (Admission, Discharge, Transfer) message feeds.",
+      "Develop SMART on FHIR web applications that launch securely within clinician EHR workflow screens.",
+      "Implement clinical decision support (CDS Hooks) alerting doctors to dangerous drug-drug interactions.",
+      "Architect enterprise healthcare interoperability exchanges (HIE), ensuring full compliance with ONC 21st Century Cures Act data sharing mandates."
+    ],
     "deliverables": [
       "SMART-on-FHIR Clinical Workflow App",
       "HL7 / FHIR Enterprise Interface Integration Gateway",
       "Clinical Decision Support (CDS) Rules Engine",
       "HIPAA Healthcare Data Privacy Audit Trace"
     ],
-    "technicalSkills": {
-      "core": [
-        "HL7 v2 & v3",
-        "HL7 FHIR (Fast Healthcare Interoperability Resources)",
-        "SMART on FHIR App Integration",
-        "Clinical Terminologies (SNOMED-CT, LOINC, RxNorm, ICD-10)",
-        "HIPAA & HITECH Security",
-        "CDS Hooks"
-      ],
-      "secondary": [
-        "JavaScript / React",
-        "Java / Python",
-        "Mirth Connect (NextGen Connect Integration Engine)",
-        "SQL Server"
-      ]
-    },
+    "technicalSkills": [
+      "HL7 v2 & v3",
+      "HL7 FHIR (Fast Healthcare Interoperability Resources)",
+      "SMART on FHIR App Integration",
+      "Clinical Terminologies (SNOMED-CT, LOINC, RxNorm, ICD-10)",
+      "HIPAA & HITECH Security",
+      "CDS Hooks",
+      "JavaScript / React",
+      "Java / Python",
+      "Mirth Connect (NextGen Connect Integration Engine)",
+      "SQL Server"
+    ],
     "softSkills": [
       "Clinical empathy",
       "Deep respect for hospital workflow pressures",
@@ -58994,11 +60270,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Familiarity with medical terminology, hospital clinical operations, and health data interoperability standards"
     },
-    "roadmap": {
-      "beginner": "Understand medical coding standards (ICD-10, LOINC, SNOMED CT) and inspect traditional pipe-delimited HL7 v2 messages.",
-      "intermediate": "Build RESTful FHIR client applications querying Patient, Observation, and Condition resources, and deploy SMART on FHIR apps.",
-      "advanced": "Architect real-time CDS Hooks alerting engines within hospital Epic systems and direct regional health information exchange (HIE) integrations."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand medical coding standards (ICD-10, LOINC, SNOMED CT) and inspect traditional pipe-delimited HL7 v2 messages."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Build RESTful FHIR client applications querying Patient, Observation, and Condition resources, and deploy SMART on FHIR apps."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Architect real-time CDS Hooks alerting engines within hospital Epic systems and direct regional health information exchange (HIE) integrations."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "HL7 v2 to FHIR Converter Utility",
@@ -59052,11 +60349,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.Sc/M.Sc in Health Informatics, Computer Science, or B.Tech in Biomedical Engineering",
     "prerequisites": "Strong background in healthcare data exchange protocols, clinical workflows, and database querying.",
-    "certifications": {
-      "beginner": "HL7 FHIR Fundamentals Certificate",
-      "intermediate": "Epic Certified Clarity/Caboodle Analyst / Epic Bridges Interface Specialist",
-      "advanced": "CPHIMS (Certified Professional in Healthcare Information and Management Systems)"
-    },
+    "certifications": [
+      {
+        "name": "HL7 FHIR Fundamentals Certificate",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Epic Certified Clarity/Caboodle Analyst / Epic Bridges Interface Specialist",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "CPHIMS (Certified Professional in Healthcare Information and Management Systems)",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Hospitals & Healthcare Systems",
       "HealthTech SaaS Startups",
@@ -59146,6 +60452,45 @@ export const MASTER_CAREER_ROLES = [
         "SQL Server",
         "PostgreSQL"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "HL7 v2 & v3",
+        "HL7 FHIR (Fast Healthcare Interoperability Resources)",
+        "SMART on FHIR App Integration",
+        "Clinical Terminologies (SNOMED-CT, LOINC, RxNorm, ICD-10)",
+        "HIPAA & HITECH Security",
+        "CDS Hooks"
+      ],
+      "secondary": [
+        "JavaScript / React",
+        "Java / Python",
+        "Mirth Connect (NextGen Connect Integration Engine)",
+        "SQL Server"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Configure EHR user templates and clinical order sets in hospital test environments.",
+        "Validate HL7 v2 ADT (Admission, Discharge, Transfer) message feeds."
+      ],
+      "intermediate": [
+        "Develop SMART on FHIR web applications that launch securely within clinician EHR workflow screens.",
+        "Implement clinical decision support (CDS Hooks) alerting doctors to dangerous drug-drug interactions."
+      ],
+      "senior": [
+        "Architect enterprise healthcare interoperability exchanges (HIE), ensuring full compliance with ONC 21st Century Cures Act data sharing mandates."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand medical coding standards (ICD-10, LOINC, SNOMED CT) and inspect traditional pipe-delimited HL7 v2 messages.",
+      "intermediate": "Build RESTful FHIR client applications querying Patient, Observation, and Condition resources, and deploy SMART on FHIR apps.",
+      "advanced": "Architect real-time CDS Hooks alerting engines within hospital Epic systems and direct regional health information exchange (HIE) integrations."
+    },
+    "certificationsByLevel": {
+      "beginner": "HL7 FHIR Fundamentals Certificate",
+      "intermediate": "Epic Certified Clarity/Caboodle Analyst / Epic Bridges Interface Specialist",
+      "advanced": "CPHIMS (Certified Professional in Healthcare Information and Management Systems)"
     }
   },
   {
@@ -59170,41 +60515,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Builds immersive, interactive spatial computing experiences, 3D user interfaces, and augmented reality applications for visionOS, Meta Quest, and OpenXR platforms.",
     "scope": "Architects real-time 3D spatial volumes, eye-and-hand interaction gestures, spatial audio soundscapes, and photorealistic digital twins.",
-    "responsibilities": {
-      "entry": [
-        "Implement basic 3D spatial UI panels using SwiftUI and RealityKit.",
-        "Create interactive 3D assets in USDZ format with physics colliders."
-      ],
-      "intermediate": [
-        "Develop custom hand-tracking gesture recognition and eye-gaze targeting algorithms.",
-        "Optimize real-time render loops and shader performance to maintain 90+ FPS stereoscopic displays without motion sickness."
-      ],
-      "senior": [
-        "Architect multi-user collaborative spatial computing workspaces with spatial audio and real-time remote physics synchronization."
-      ]
-    },
+    "responsibilities": [
+      "Implement basic 3D spatial UI panels using SwiftUI and RealityKit.",
+      "Create interactive 3D assets in USDZ format with physics colliders.",
+      "Develop custom hand-tracking gesture recognition and eye-gaze targeting algorithms.",
+      "Optimize real-time render loops and shader performance to maintain 90+ FPS stereoscopic displays without motion sickness.",
+      "Architect multi-user collaborative spatial computing workspaces with spatial audio and real-time remote physics synchronization."
+    ],
     "deliverables": [
       "VisionOS Native Spatial Application",
       "Stereoscopic 3D Spatial Interface System",
       "OpenXR Cross-Platform Interaction Framework",
       "Real-Time Spatial Performance Profiling Dossier"
     ],
-    "technicalSkills": {
-      "core": [
-        "RealityKit & ARKit",
-        "Swift & SwiftUI for visionOS",
-        "OpenXR & Unity / Unreal Engine",
-        "USDZ / Universal Scene Description (USD)",
-        "Stereoscopic 3D Rendering & Shaders (Metal/Vulkan)",
-        "Hand Tracking & Spatial Gestures"
-      ],
-      "secondary": [
-        "Spatial Audio (Ambisonics)",
-        "C# / C++",
-        "3D Geometry Optimization",
-        "Shader Graph"
-      ]
-    },
+    "technicalSkills": [
+      "RealityKit & ARKit",
+      "Swift & SwiftUI for visionOS",
+      "OpenXR & Unity / Unreal Engine",
+      "USDZ / Universal Scene Description (USD)",
+      "Stereoscopic 3D Rendering & Shaders (Metal/Vulkan)",
+      "Hand Tracking & Spatial Gestures",
+      "Spatial Audio (Ambisonics)",
+      "C# / C++",
+      "3D Geometry Optimization",
+      "Shader Graph"
+    ],
     "softSkills": [
       "3D spatial design intuition",
       "Attention to human ergonomic comfort",
@@ -59240,11 +60575,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 18,
       "keyPrerequisite": "Prior 3D graphics, iOS/Swift, or game engine development experience"
     },
-    "roadmap": {
-      "beginner": "Understand 3D coordinate transformations, quaternion rotations, meshes, and basic RealityKit entity-component systems (ECS).",
-      "intermediate": "Build native visionOS apps using SwiftUI and Reality Composer Pro, implement hand-gesture recognizers, and optimize Metal shaders for 90Hz refresh.",
-      "advanced": "Architect enterprise-grade collaborative spatial computing digital twins with multi-user spatial audio, real-time shared state, and low-latency cloud rendering."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Understand 3D coordinate transformations, quaternion rotations, meshes, and basic RealityKit entity-component systems (ECS)."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Build native visionOS apps using SwiftUI and Reality Composer Pro, implement hand-gesture recognizers, and optimize Metal shaders for 90Hz refresh."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Architect enterprise-grade collaborative spatial computing digital twins with multi-user spatial audio, real-time shared state, and low-latency cloud rendering."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Interactive 3D Solar System in RealityKit",
@@ -59298,11 +60654,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech in Computer Science, Game Design, or Software Engineering",
     "prerequisites": "Strong foundation in 3D mathematics (linear algebra, vectors, matrices), modern Swift or C#, and interactive graphics.",
-    "certifications": {
-      "beginner": "Unity Certified Associate: Programmer",
-      "intermediate": "Apple Certified: App Development with Swift / Unity Certified Professional: VR Developer",
-      "advanced": "Khronos OpenXR Developer Training"
-    },
+    "certifications": [
+      {
+        "name": "Unity Certified Associate: Programmer",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Apple Certified: App Development with Swift / Unity Certified Professional: VR Developer",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "Khronos OpenXR Developer Training",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Surgical Training & Healthcare",
       "Architectural Real Estate Visualization",
@@ -59389,6 +60754,45 @@ export const MASTER_CAREER_ROLES = [
         "Meta Horizon Developer Hub"
       ],
       "databases": []
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "RealityKit & ARKit",
+        "Swift & SwiftUI for visionOS",
+        "OpenXR & Unity / Unreal Engine",
+        "USDZ / Universal Scene Description (USD)",
+        "Stereoscopic 3D Rendering & Shaders (Metal/Vulkan)",
+        "Hand Tracking & Spatial Gestures"
+      ],
+      "secondary": [
+        "Spatial Audio (Ambisonics)",
+        "C# / C++",
+        "3D Geometry Optimization",
+        "Shader Graph"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Implement basic 3D spatial UI panels using SwiftUI and RealityKit.",
+        "Create interactive 3D assets in USDZ format with physics colliders."
+      ],
+      "intermediate": [
+        "Develop custom hand-tracking gesture recognition and eye-gaze targeting algorithms.",
+        "Optimize real-time render loops and shader performance to maintain 90+ FPS stereoscopic displays without motion sickness."
+      ],
+      "senior": [
+        "Architect multi-user collaborative spatial computing workspaces with spatial audio and real-time remote physics synchronization."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Understand 3D coordinate transformations, quaternion rotations, meshes, and basic RealityKit entity-component systems (ECS).",
+      "intermediate": "Build native visionOS apps using SwiftUI and Reality Composer Pro, implement hand-gesture recognizers, and optimize Metal shaders for 90Hz refresh.",
+      "advanced": "Architect enterprise-grade collaborative spatial computing digital twins with multi-user spatial audio, real-time shared state, and low-latency cloud rendering."
+    },
+    "certificationsByLevel": {
+      "beginner": "Unity Certified Associate: Programmer",
+      "intermediate": "Apple Certified: App Development with Swift / Unity Certified Professional: VR Developer",
+      "advanced": "Khronos OpenXR Developer Training"
     }
   },
   {
@@ -59412,41 +60816,31 @@ export const MASTER_CAREER_ROLES = [
     "isBeginnerFriendly": false,
     "shortDescription": "Conducts deep adversarial code reviews, formal verification, fuzz testing, and mathematical modeling of EVM smart contracts to prevent multi-million-dollar exploits.",
     "scope": "Audits decentralized finance (DeFi) protocols, cross-chain bridges, tokenomics vaults, and decentralized autonomous organizations (DAOs).",
-    "responsibilities": {
-      "entry": [
-        "Run automated static analysis scanners (Slither, Mythril, Aderyn) on Solidity repositories.",
-        "Document common vulnerabilities like reentrancy, integer overflow, and improper access controls."
-      ],
-      "intermediate": [
-        "Develop comprehensive property-based invariant and fuzz testing suites using Foundry and Echidna.",
-        "Conduct manual line-by-line adversarial code audits evaluating flash loan economic attack vectors."
-      ],
-      "senior": [
-        "Formulate formal mathematical specifications using Certora Prover, verify mathematical invariants, and publish public audit reports protecting hundreds of millions in TVL."
-      ]
-    },
+    "responsibilities": [
+      "Run automated static analysis scanners (Slither, Mythril, Aderyn) on Solidity repositories.",
+      "Document common vulnerabilities like reentrancy, integer overflow, and improper access controls.",
+      "Develop comprehensive property-based invariant and fuzz testing suites using Foundry and Echidna.",
+      "Conduct manual line-by-line adversarial code audits evaluating flash loan economic attack vectors.",
+      "Formulate formal mathematical specifications using Certora Prover, verify mathematical invariants, and publish public audit reports protecting hundreds of millions in TVL."
+    ],
     "deliverables": [
       "Formal Smart Contract Audit Security Report",
       "Foundry Property-Based Invariant Fuzz Test Suite",
       "Certora Formal Verification Mathematical Proof",
       "Flash-Loan Economic Exploit Simulation PoC"
     ],
-    "technicalSkills": {
-      "core": [
-        "Solidity & EVM Internals",
-        "EVM Opcodes & Gas Optimization",
-        "Foundry (Fuzz & Invariant Testing)",
-        "Static Analysis (Slither/Aderyn)",
-        "DeFi Mechanics (AMM, Lending, Staking)",
-        "Reentrancy & Flash-Loan Attack Vectors"
-      ],
-      "secondary": [
-        "Rust (Solana/Near)",
-        "Certora Prover (Formal Verification)",
-        "Yul / Assembly",
-        "Python (Web3.py)"
-      ]
-    },
+    "technicalSkills": [
+      "Solidity & EVM Internals",
+      "EVM Opcodes & Gas Optimization",
+      "Foundry (Fuzz & Invariant Testing)",
+      "Static Analysis (Slither/Aderyn)",
+      "DeFi Mechanics (AMM, Lending, Staking)",
+      "Reentrancy & Flash-Loan Attack Vectors",
+      "Rust (Solana/Near)",
+      "Certora Prover (Formal Verification)",
+      "Yul / Assembly",
+      "Python (Web3.py)"
+    ],
     "softSkills": [
       "Adversarial skepticism",
       "Methodical paranoia",
@@ -59485,11 +60879,32 @@ export const MASTER_CAREER_ROLES = [
       "timeToMasteryMonths": 20,
       "keyPrerequisite": "Prior experience in smart contract development combined with deep understanding of EVM bytecode and financial attack models"
     },
-    "roadmap": {
-      "beginner": "Master Solidity language quirks, EVM storage layout, standard tokens (ERC-20, ERC-721), and famous hacks (The DAO, parity wallet).",
-      "intermediate": "Master Foundry invariant fuzzing, flash loan mechanics, Automated Market Maker (Uniswap v2/v3) pricing curves, and Slither custom detectors.",
-      "advanced": "Author mathematical formal verification rules in Certora, identify complex read-only reentrancy exploits, and win top placements in competitive audit contests (Code4rena, Sherlock)."
-    },
+    "roadmap": [
+      {
+        "stage": 1,
+        "title": "Foundations & Prerequisites",
+        "duration": "Weeks 1-4",
+        "topics": [
+          "Master Solidity language quirks, EVM storage layout, standard tokens (ERC-20, ERC-721), and famous hacks (The DAO, parity wallet)."
+        ]
+      },
+      {
+        "stage": 2,
+        "title": "Systems & Practical Implementation",
+        "duration": "Weeks 5-8",
+        "topics": [
+          "Master Foundry invariant fuzzing, flash loan mechanics, Automated Market Maker (Uniswap v2/v3) pricing curves, and Slither custom detectors."
+        ]
+      },
+      {
+        "stage": 3,
+        "title": "Production Engineering & Mastery",
+        "duration": "Weeks 9-12",
+        "topics": [
+          "Author mathematical formal verification rules in Certora, identify complex read-only reentrancy exploits, and win top placements in competitive audit contests (Code4rena, Sherlock)."
+        ]
+      }
+    ],
     "projects": {
       "beginner": {
         "title": "Reproducible Reentrancy Exploit & Fix Harness",
@@ -59542,11 +60957,20 @@ export const MASTER_CAREER_ROLES = [
     ],
     "educationalQualifications": "B.E./B.Tech in Computer Science, Mathematics, or Information Security",
     "prerequisites": "Deep mastery of Solidity, Ethereum Virtual Machine mechanics, and offensive security methodologies.",
-    "certifications": {
-      "beginner": "Blockchain Council Certified Solidity Developer",
-      "intermediate": "Code4rena / Sherlock Top Ranked Competitive Auditor",
-      "advanced": "OffSec Certified Professional (OSCP) or Certora Formal Verification Specialist"
-    },
+    "certifications": [
+      {
+        "name": "Blockchain Council Certified Solidity Developer",
+        "issuer": "Foundation Body"
+      },
+      {
+        "name": "Code4rena / Sherlock Top Ranked Competitive Auditor",
+        "issuer": "Professional Association"
+      },
+      {
+        "name": "OffSec Certified Professional (OSCP) or Certora Formal Verification Specialist",
+        "issuer": "Global Standards Board"
+      }
+    ],
     "industryApplications": [
       "Decentralized Finance (DeFi)",
       "Decentralized Exchanges & Lending",
@@ -59637,6 +61061,45 @@ export const MASTER_CAREER_ROLES = [
       "databases": [
         "The Graph (Subgraphs)"
       ]
+    },
+    "technicalSkillsStructured": {
+      "core": [
+        "Solidity & EVM Internals",
+        "EVM Opcodes & Gas Optimization",
+        "Foundry (Fuzz & Invariant Testing)",
+        "Static Analysis (Slither/Aderyn)",
+        "DeFi Mechanics (AMM, Lending, Staking)",
+        "Reentrancy & Flash-Loan Attack Vectors"
+      ],
+      "secondary": [
+        "Rust (Solana/Near)",
+        "Certora Prover (Formal Verification)",
+        "Yul / Assembly",
+        "Python (Web3.py)"
+      ]
+    },
+    "responsibilitiesByLevel": {
+      "entry": [
+        "Run automated static analysis scanners (Slither, Mythril, Aderyn) on Solidity repositories.",
+        "Document common vulnerabilities like reentrancy, integer overflow, and improper access controls."
+      ],
+      "intermediate": [
+        "Develop comprehensive property-based invariant and fuzz testing suites using Foundry and Echidna.",
+        "Conduct manual line-by-line adversarial code audits evaluating flash loan economic attack vectors."
+      ],
+      "senior": [
+        "Formulate formal mathematical specifications using Certora Prover, verify mathematical invariants, and publish public audit reports protecting hundreds of millions in TVL."
+      ]
+    },
+    "roadmapByLevel": {
+      "beginner": "Master Solidity language quirks, EVM storage layout, standard tokens (ERC-20, ERC-721), and famous hacks (The DAO, parity wallet).",
+      "intermediate": "Master Foundry invariant fuzzing, flash loan mechanics, Automated Market Maker (Uniswap v2/v3) pricing curves, and Slither custom detectors.",
+      "advanced": "Author mathematical formal verification rules in Certora, identify complex read-only reentrancy exploits, and win top placements in competitive audit contests (Code4rena, Sherlock)."
+    },
+    "certificationsByLevel": {
+      "beginner": "Blockchain Council Certified Solidity Developer",
+      "intermediate": "Code4rena / Sherlock Top Ranked Competitive Auditor",
+      "advanced": "OffSec Certified Professional (OSCP) or Certora Formal Verification Specialist"
     }
   }
 ];

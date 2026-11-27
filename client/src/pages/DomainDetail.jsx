@@ -152,11 +152,22 @@ export function DomainDetail() {
         const q = searchQuery.toLowerCase().trim();
         const titleMatch = (role.title || '').toLowerCase().includes(q);
         const descMatch = (role.shortDescription || '').toLowerCase().includes(q);
-        const skillsMatch = (role.technicalSkills || []).some((s) =>
-          s.toLowerCase().includes(q)
+        const roleSkills = Array.isArray(role.technicalSkills)
+          ? role.technicalSkills
+          : typeof role.technicalSkills === 'object' && role.technicalSkills !== null
+          ? Object.values(role.technicalSkills).flat()
+          : [];
+        const roleTools = Array.isArray(role.tools)
+          ? role.tools
+          : typeof role.tools === 'object' && role.tools !== null
+          ? Object.values(role.tools).flat()
+          : [];
+
+        const skillsMatch = roleSkills.some((s) =>
+          typeof s === 'string' && s.toLowerCase().includes(q)
         );
-        const toolsMatch = (role.tools || []).some((t) =>
-          t.toLowerCase().includes(q)
+        const toolsMatch = roleTools.some((t) =>
+          typeof t === 'string' && t.toLowerCase().includes(q)
         );
         if (!titleMatch && !descMatch && !skillsMatch && !toolsMatch) return false;
       }
