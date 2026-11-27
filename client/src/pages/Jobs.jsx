@@ -412,10 +412,197 @@ export function Jobs() {
   };
 
   return (
-    <div className="w-full text-neutral-900 dark:text-neutral-100 font-sans antialiased selection:bg-emerald-600 selection:text-white">
+    <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-emerald-600 selection:text-white">
       
-      {/* MAIN TAB CONTENT AREA */}
-      <div className="w-full py-2 sm:py-4">
+      {/* ========================================================
+          1. TOP NAVIGATION BAR (Identical to Screenshots)
+      ======================================================== */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          
+          {/* Left: Brand Logo (Italic 'h' brand style from screenshot) */}
+          <div className="flex items-center gap-3">
+            <Link
+              to="/dashboard"
+              className="text-2xl font-bold italic tracking-tight text-neutral-950 font-serif hover:opacity-80 transition-opacity"
+              title="CampusCorpo Placement Operating System"
+            >
+              h
+            </Link>
+          </div>
+
+          {/* Center: Top Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-[13.5px] font-medium text-neutral-600">
+            <Link
+              to="/dashboard"
+              className="px-3.5 py-1.5 rounded-full hover:text-neutral-950 transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              to="/companies"
+              className="px-3.5 py-1.5 rounded-full hover:text-neutral-950 transition-colors"
+            >
+              Companies
+            </Link>
+            <button
+              onClick={() => setActiveTab('jobs')}
+              className={`px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                currentTab === 'jobs'
+                  ? 'border border-neutral-300 bg-white text-neutral-950 font-semibold shadow-2xs'
+                  : 'hover:text-neutral-950'
+              }`}
+            >
+              Jobs
+            </button>
+            <Link
+              to="/profile"
+              className="px-3.5 py-1.5 rounded-full hover:text-neutral-950 transition-colors"
+            >
+              Profile
+            </Link>
+            <Link
+              to="/applications"
+              className="px-3.5 py-1.5 rounded-full hover:text-neutral-950 transition-colors"
+            >
+              Tracker
+            </Link>
+            <button
+              onClick={() => setActiveTab('chat')}
+              className={`px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                currentTab === 'chat'
+                  ? 'border border-neutral-300 bg-white text-neutral-950 font-semibold shadow-2xs'
+                  : 'hover:text-neutral-950'
+              }`}
+            >
+              Chat
+            </button>
+            <button
+              onClick={() => setActiveTab('survey')}
+              className={`px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                currentTab === 'survey'
+                  ? 'border border-neutral-300 bg-white text-neutral-950 font-semibold shadow-2xs'
+                  : 'hover:text-neutral-950'
+              }`}
+            >
+              Survey
+            </button>
+            <button
+              onClick={() => setActiveTab('requests')}
+              className={`px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                currentTab === 'requests'
+                  ? 'border border-neutral-300 bg-white text-neutral-950 font-semibold shadow-2xs'
+                  : 'hover:text-neutral-950'
+              }`}
+            >
+              Requests
+            </button>
+            <button
+              onClick={() => setActiveTab('calendar')}
+              className={`px-4 py-1.5 rounded-full transition-all cursor-pointer ${
+                currentTab === 'calendar'
+                  ? 'border border-neutral-300 bg-white text-neutral-950 font-semibold shadow-2xs'
+                  : 'hover:text-neutral-950'
+              }`}
+            >
+              Calendar
+            </button>
+            <button
+              onClick={() => showToast('No pending institutional placement notices for your department.', 'info')}
+              className="px-3.5 py-1.5 rounded-full hover:text-neutral-950 transition-colors cursor-pointer"
+            >
+              Notice
+            </button>
+            <Link
+              to="/policies"
+              className="px-3.5 py-1.5 rounded-full hover:text-neutral-950 transition-colors"
+            >
+              Policy
+            </Link>
+          </nav>
+
+          {/* Right Action Controls: Grid, Moon, User Avatar */}
+          <div className="flex items-center gap-3 sm:gap-4 text-neutral-600">
+            {/* Apps Launcher Icon */}
+            <button
+              type="button"
+              onClick={() => navigate('/dashboard')}
+              className="p-1.5 rounded-lg hover:bg-neutral-100 hover:text-neutral-950 transition-colors cursor-pointer"
+              title="Institutional Console Modules"
+            >
+              <LayoutGrid className="w-5 h-5" />
+            </button>
+
+            {/* Dark Mode Toggle */}
+            <button
+              type="button"
+              onClick={toggleDarkMode}
+              className="p-1.5 rounded-lg hover:bg-neutral-100 hover:text-neutral-950 transition-colors cursor-pointer"
+              title="Toggle Theme"
+            >
+              {isDark ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
+            </button>
+
+            {/* User Profile Avatar */}
+            <div className="relative group">
+              <button
+                type="button"
+                onClick={() => navigate('/profile')}
+                className="w-8 h-8 rounded-full border border-neutral-300 bg-neutral-100 flex items-center justify-center text-neutral-700 hover:border-neutral-500 transition-colors cursor-pointer"
+                title={user?.full_name || 'My Student Profile'}
+              >
+                <User className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Scroller */}
+        <div className="lg:hidden flex items-center gap-2 overflow-x-auto px-4 py-2 border-t border-neutral-100 text-xs font-medium no-scrollbar">
+          <button
+            onClick={() => setActiveTab('jobs')}
+            className={`px-3 py-1 rounded-full whitespace-nowrap ${currentTab === 'jobs' ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700'}`}
+          >
+            Jobs
+          </button>
+          <button
+            onClick={() => setActiveTab('requests')}
+            className={`px-3 py-1 rounded-full whitespace-nowrap ${currentTab === 'requests' ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700'}`}
+          >
+            Requests
+          </button>
+          <button
+            onClick={() => setActiveTab('survey')}
+            className={`px-3 py-1 rounded-full whitespace-nowrap ${currentTab === 'survey' ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700'}`}
+          >
+            Survey
+          </button>
+          <button
+            onClick={() => setActiveTab('chat')}
+            className={`px-3 py-1 rounded-full whitespace-nowrap ${currentTab === 'chat' ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700'}`}
+          >
+            Chat
+          </button>
+          <button
+            onClick={() => setActiveTab('calendar')}
+            className={`px-3 py-1 rounded-full whitespace-nowrap ${currentTab === 'calendar' ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700'}`}
+          >
+            Calendar
+          </button>
+          <Link to="/companies" className="px-3 py-1 rounded-full bg-neutral-100 text-neutral-700 whitespace-nowrap">
+            Companies
+          </Link>
+          <Link to="/applications" className="px-3 py-1 rounded-full bg-neutral-100 text-neutral-700 whitespace-nowrap">
+            Tracker
+          </Link>
+        </div>
+      </header>
+
+
+      {/* ========================================================
+          2. MAIN TAB CONTENT AREA
+      ======================================================== */}
+      <main className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
 
         {/* ======================================================
             TAB 1: JOBS (Exact reproduction of Image 1)
@@ -1211,7 +1398,7 @@ export function Jobs() {
           </div>
         )}
 
-      </div>
+      </main>
 
 
       {/* ========================================================

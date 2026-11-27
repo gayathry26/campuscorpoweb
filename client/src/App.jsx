@@ -6,6 +6,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { PermissionProvider, usePermissions } from './context/PermissionContext';
 import { ToastProvider } from './context/ToastContext';
 import { Navbar } from './components/Navbar';
+import { Sidebar } from './components/Sidebar';
 import { UniserveLoader } from './components/UniserveLoader';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 
@@ -87,10 +88,11 @@ function Layout({ children }) {
   const location = useLocation();
   const isExam = location.pathname.startsWith('/exam');
   const isVideoCall = location.pathname.startsWith('/videocall') || location.pathname.startsWith('/interview/room');
+  const isPlacementPortal = location.pathname.startsWith('/jobs') || location.pathname.startsWith('/placement');
 
-  if (isExam || isVideoCall) {
+  if (isExam || isVideoCall || isPlacementPortal) {
     return (
-      <div className="min-h-screen bg-background text-foreground font-sans w-full p-0 m-0 overflow-hidden transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-neutral-950 text-foreground font-sans w-full p-0 m-0 overflow-x-hidden transition-colors duration-200">
         {children}
       </div>
     );
@@ -99,12 +101,15 @@ function Layout({ children }) {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-200">
       <Navbar />
-      <main className="flex-1 p-3.5 sm:p-5 lg:p-7 max-w-[1550px] mx-auto w-full min-w-0">
-        <Breadcrumbs />
-        <PageMotion locationKey={location.pathname}>
-          {children}
-        </PageMotion>
-      </main>
+      <div className="flex flex-1 items-start">
+        <Sidebar />
+        <main className="flex-1 p-3.5 sm:p-5 lg:p-7 max-w-7xl mx-auto w-full min-w-0">
+          <Breadcrumbs />
+          <PageMotion locationKey={location.pathname}>
+            {children}
+          </PageMotion>
+        </main>
+      </div>
     </div>
   );
 }

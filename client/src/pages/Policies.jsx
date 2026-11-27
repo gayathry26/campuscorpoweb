@@ -880,6 +880,11 @@ export function Policies() {
                   <option key={d.code} value={d.code}>{d.name}</option>
                 ))}
               </select>
+              <span className="text-[11px] text-muted-foreground mt-1 block">
+                {uploadForm.departmentCode === 'ALL'
+                  ? '🌐 Visible to all students across every department.'
+                  : `🎯 Visible only to ${uploadForm.departmentCode} department students.`}
+              </span>
               {user?.roleName === 'FACULTY_COORDINATOR' && (
                 <span className="text-[10px] text-muted-foreground mt-0.5 block">Locked to coordinator's department ({user?.departmentCode || 'CSE'}).</span>
               )}
@@ -1011,6 +1016,11 @@ export function Policies() {
                   <option key={d.code} value={d.code}>{d.name}</option>
                 ))}
               </select>
+              <span className="text-[11px] text-muted-foreground mt-1 block">
+                {editForm.departmentCode === 'ALL'
+                  ? '🌐 Visible to all students across every department.'
+                  : `🎯 Visible only to ${editForm.departmentCode} department students.`}
+              </span>
             </div>
           </div>
 
