@@ -6,8 +6,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { CAREER_DOMAINS, CAREER_FAMILIES } = require('../server/src/data/masterCareerDomains');
-const { MASTER_CAREER_ROLES } = require('../server/src/data/masterCareerRoles');
+const { CAREER_DOMAINS, CAREER_FAMILIES } = require('../backend/src/data/masterCareerDomains');
+const { MASTER_CAREER_ROLES } = require('../backend/src/data/masterCareerRoles');
 
 console.log(`Starting Master Knowledge Hub generation for ${CAREER_DOMAINS.length} domains...`);
 
@@ -1098,9 +1098,9 @@ CAREER_DOMAINS.forEach((domain) => {
 
 console.log(`Successfully compiled Master Knowledge Store for ${Object.keys(MASTER_DOMAIN_KNOWLEDGE_STORE).length} domains.`);
 
-// Write out to server and client data folders
-const serverOutputPath = path.join(__dirname, '../server/src/data/masterDomainKnowledgeEngine.js');
-const clientOutputPath = path.join(__dirname, '../client/src/data/masterDomainKnowledgeEngine.js');
+// Write out to backend and frontend data folders
+const serverOutputPath = path.join(__dirname, '../backend/src/data/masterDomainKnowledgeEngine.js');
+const clientOutputPath = path.join(__dirname, '../frontend/src/data/masterDomainKnowledgeEngine.js');
 
 const fileHeader = `/**
  * CampusCorp Master Domain Knowledge Engine

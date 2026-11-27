@@ -8,7 +8,7 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const mysql = require('../../server/node_modules/mysql2/promise');
+const mysql = require('../../backend/node_modules/mysql2/promise');
 
 const DUMP_DIR = path.join(__dirname, '../../backups/pre_migration');
 const MANIFEST_PATH = path.join(DUMP_DIR, 'manifest.json');

@@ -171,9 +171,9 @@ async function runCareerExplorerMigration(targetDb = null) {
     await ensureColumn('career_roles', 'verification_standard', 'VARCHAR(255)');
     await ensureColumn('career_roles', 'updated_at', 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
-    // Load master domain dataset from client
-    const domainsPath = path.join(__dirname, '../../../client/src/data/masterCareerDomains.js');
-    const rolesPath = path.join(__dirname, '../../../client/src/data/masterCareerRoles.js');
+    // Load master domain dataset from frontend
+    const domainsPath = path.join(__dirname, '../../../frontend/src/data/masterCareerDomains.js');
+    const rolesPath = path.join(__dirname, '../../../frontend/src/data/masterCareerRoles.js');
 
     const { CAREER_DOMAINS } = await import(`file://${domainsPath.replace(/\\/g, '/')}`);
     const { MASTER_CAREER_ROLES } = await import(`file://${rolesPath.replace(/\\/g, '/')}`);

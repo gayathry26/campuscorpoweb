@@ -1,4 +1,4 @@
-const mysql = require('./server/node_modules/mysql2/promise');
+const mysql = require('../../backend/node_modules/mysql2/promise');
 const fs = require('fs');
 
 async function audit() {

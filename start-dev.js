@@ -74,7 +74,7 @@ async function main() {
 
   // 2. Start Backend Server
   console.log('🔌 [BACKEND] Starting REST API server on port 5000...');
-  const serverProc = spawn('node', ['server/src/server.js'], {
+  const serverProc = spawn('node', ['backend/src/server.js'], {
     cwd: __dirname,
     stdio: 'inherit',
     shell: true
@@ -82,7 +82,7 @@ async function main() {
 
   // 3. Start Frontend Client Dev Server
   console.log('💻 [FRONTEND] Starting Vite React client on port 5173...');
-  const clientProc = spawn('npm', ['run', 'dev', '--prefix', 'client'], {
+  const clientProc = spawn('npm', ['run', 'dev', '--prefix', 'frontend'], {
     cwd: __dirname,
     stdio: 'inherit',
     shell: true

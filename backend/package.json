@@ -1,5 +1,5 @@
 {
-  "name": "placement-lms-server",
+  "name": "placement-lms-backend",
   "version": "1.0.0",
   "description": "Production REST API for College Placement Management System (LMS)",
   "main": "src/server.js",

@@ -8,8 +8,8 @@ let cachedRoles = null;
 function loadRoles() {
   if (cachedRoles) return cachedRoles;
   try {
-    // Attempt reading from client dataset if exists
-    const clientDataPath = path.resolve(__dirname, '../../../client/src/data/itRoles.js');
+    // Attempt reading from frontend dataset if exists
+    const clientDataPath = path.resolve(__dirname, '../../../frontend/src/data/itRoles.js');
     if (fs.existsSync(clientDataPath)) {
       const content = fs.readFileSync(clientDataPath, 'utf8');
       // Extract array JSON from file or use static definitions

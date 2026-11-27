@@ -40,7 +40,9 @@ app.use('/uploads', express.static(uploadDir));
 app.use('/downloads', express.static(path.join(__dirname, '../public/downloads')));
 
 // Serve compiled React frontend (Single Port Architecture: UI + API on same port)
-const clientDistPath = path.resolve(__dirname, '../../client/dist');
+const clientDistPath = fs.existsSync(path.resolve(__dirname, '../../frontend/dist'))
+  ? path.resolve(__dirname, '../../frontend/dist')
+  : path.resolve(__dirname, '../../dist');
 if (fs.existsSync(clientDistPath)) {
   app.use(express.static(clientDistPath));
 }

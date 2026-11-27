@@ -10,6 +10,7 @@ node_modules/
 **/.env.*
 !**/.env.example
 !**/.env.*.example
+backend/.env
 server/.env
 
 # Build outputs
@@ -26,6 +27,8 @@ yarn-debug.log*
 pnpm-debug.log*
 
 # Uploads & Temp
+backend/uploads/*
+!backend/uploads/.gitkeep
 server/uploads/*
 !server/uploads/.gitkeep
 temp/
@@ -39,6 +42,8 @@ scratch/
 *.pth
 *.onnx
 *.weights
+backend/src/models/*
+!backend/src/models/.gitkeep
 server/src/models/*
 !server/src/models/.gitkeep
 
