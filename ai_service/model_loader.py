@@ -26,10 +26,14 @@ class ModelManager:
         if self._initialized:
             return
         
-        self.model_path = os.getenv(
-            "MISTRAL_MODEL_PATH",
-            r"D:\INNOVO\server\src\models\mistral-7b-instruct-v0.1.Q4_K_M.gguf"
-        )
+        default_path = r"D:\INNOVO\backend\src\models\mistral-7b-instruct-v0.1.Q4_K_M.gguf"
+        fallback_path = r"D:\INNOVO\server\src\models\mistral-7b-instruct-v0.1.Q4_K_M.gguf"
+        candidate = os.getenv("MISTRAL_MODEL_PATH", default_path)
+        if not os.path.exists(candidate) and os.path.exists(default_path):
+            candidate = default_path
+        elif not os.path.exists(candidate) and os.path.exists(fallback_path):
+            candidate = fallback_path
+        self.model_path = candidate
         self.n_ctx = int(os.getenv("MISTRAL_N_CTX", "2048"))
         self.n_threads = int(os.getenv("MISTRAL_N_THREADS", str(max(2, os.cpu_count() or 4))))
         self.max_tokens = int(os.getenv("MISTRAL_MAX_TOKENS", "1024"))
