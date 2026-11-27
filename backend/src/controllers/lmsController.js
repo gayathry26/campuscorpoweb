@@ -1967,11 +1967,12 @@ async function getLiveClasses(req, res, next) {
 
     let sql = `
       SELECT lc.*, c.title as course_title, c.course_code,
-             u.first_name as instructor_first, u.last_name as instructor_last,
+             COALESCE(u.first_name, 'Department') as instructor_first,
+             COALESCE(u.last_name, 'Faculty') as instructor_last,
              (SELECT COUNT(*) FROM lms_live_attendance la WHERE la.live_class_id = lc.id) as attendance_count
       FROM lms_live_classes lc
       JOIN lms_courses c ON c.id = lc.course_id
-      JOIN users u ON u.id = lc.instructor_id
+      LEFT JOIN users u ON u.id = lc.instructor_id
       WHERE lc.status != 'CANCELLED'
     `;
     const params = [];
@@ -1979,8 +1980,12 @@ async function getLiveClasses(req, res, next) {
     const isSuperOrAdmin = userRole === 'SUPER_ADMIN' || userRole === 'ADMIN';
 
     if (userRole === 'STUDENT' && studentId) {
-      sql += ' AND lc.course_id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)';
-      params.push(studentId);
+      sql += ` AND (
+        lc.course_id IN (SELECT course_id FROM lms_course_enrollments WHERE student_id = ?)
+        OR c.department_code = ?
+        OR c.department_code = 'ALL'
+      )`;
+      params.push(studentId, deptCode || 'CSE');
     } else if (!isSuperOrAdmin) {
       const permittedIds = await getPermittedFacultyCourseIds(userId);
       if (permittedIds.length > 0) {
