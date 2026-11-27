@@ -299,31 +299,6 @@
 }
 
 /* Micro-typography normalization: eliminate microscopic text across all pages */
-
-/* Clean horizontal scrollbar for LMS header navigation */
-.lms-tab-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: #D5C5CB transparent;
-}
-.lms-tab-scroll::-webkit-scrollbar {
-  height: 5px;
-}
-.lms-tab-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.lms-tab-scroll::-webkit-scrollbar-thumb {
-  background-color: #D5C5CB;
-  border-radius: 9999px;
-}
-.lms-tab-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #8B2942;
-}
-.dark .lms-tab-scroll {
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-.dark .lms-tab-scroll::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-}
 .text-\[8px\],
 .text-\[9px\],
 .text-\[10px\],

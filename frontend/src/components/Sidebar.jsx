@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { NavLink, useLocation, Link } from 'react-router-dom';
+import { NavLink, useLocation, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 import { usePermissions } from '../context/PermissionContext';
 import { useUI } from '../context/UIContext';
-import { drawerLeftVariants } from '../utils/motion';
 import {
   LayoutDashboard,
   Compass,
@@ -18,9 +17,6 @@ import {
   Settings,
   LogOut,
   ChevronRight,
-  ChevronDown,
-  PanelLeftOpen,
-  PanelLeftClose,
   X,
   Building2,
   CalendarDays,
@@ -44,20 +40,46 @@ import {
 export function Sidebar() {
   const { user, isModuleEnabled, logout } = useAuth();
   const { canAccessPage } = usePermissions();
-  const { mobileSidebarOpen, closeMobileSidebar, sidebarExpanded, toggleSidebarExpanded } = useUI();
+  const { mobileSidebarOpen, closeMobileSidebar } = useUI();
   const location = useLocation();
+  const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
 
-  const [hoveredGroup, setHoveredGroup] = useState(null);
-  const [expandedGroups, setExpandedGroups] = useState({});
-  const hoverTimeoutRef = useRef(null);
+  // Which head section's right-side submenu panel is currently open
+  const [openGroupId, setOpenGroupId] = useState(null);
+  // Tooltip label on hover (only when no submenu is open for that item)
+  const [hoveredGroupId, setHoveredGroupId] = useState(null);
+  const sidebarRef = useRef(null);
 
   const role = user?.roleName;
   const isSuperAdmin = role === 'SUPER_ADMIN' || role === 'ADMIN';
-
   const pathname = location.pathname;
 
-  // Build role- & entitlement-aware navigation groups
+  // Close right-side panel on outside click or Escape key
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        setOpenGroupId(null);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setOpenGroupId(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Close right-side panel on route change
+  useEffect(() => {
+    setOpenGroupId(null);
+  }, [pathname]);
+
   const studentLmsItems = [
     { to: '/lms/my-learning', label: 'My Learning', icon: GraduationCap },
     { to: '/lms/materials', label: 'Course Materials', icon: BookOpen },
@@ -257,38 +279,28 @@ export function Sidebar() {
     (g) => g.canAccess && (g.items.length > 0 || g.id === 'dashboard' || g.id === 'knowledge')
   );
 
-  // Auto-open active group in expanded mode
-  useEffect(() => {
-    const active = visibleGroups.find((g) => g.isActive);
-    if (active) {
-      setExpandedGroups((prev) => ({ ...prev, [active.id]: true }));
+  const handleGroupClick = (group) => {
+    if (group.items.length === 0) {
+      setOpenGroupId(null);
+      closeMobileSidebar();
+      navigate(group.primaryTo);
+      return;
     }
-  }, [pathname]);
-
-  const handleMouseEnterGroup = (groupId) => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-    setHoveredGroup(groupId);
+    // Toggle right-side submenu panel (never drops down vertically)
+    setOpenGroupId((prev) => (prev === group.id ? null : group.id));
   };
 
-  const handleMouseLeaveGroup = () => {
-    hoverTimeoutRef.current = setTimeout(() => {
-      setHoveredGroup(null);
-    }, 140);
-  };
+  const activeOpenGroup = visibleGroups.find((g) => g.id === openGroupId) || null;
 
-  const toggleGroupAccordion = (groupId) => {
-    setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
-  };
-
-  // Collapsed 68px Icon-Only Rail (Reference UI Inspired)
-  const renderCollapsedRail = () => (
-    <aside
-      aria-label="Primary Navigation"
-      className="hidden lg:flex flex-col items-center w-[68px] shrink-0 bg-sidebar border-r border-sidebar-border sticky top-0 h-screen py-3 z-40 select-none"
-    >
+  const renderIconRail = (isMobile = false) => (
+    <div className="flex flex-col items-center w-[68px] h-full bg-sidebar border-r border-sidebar-border py-3 select-none relative z-20">
       {/* Top Brand Logo */}
       <Link
         to={role === 'STUDENT' ? '/dashboard' : '/'}
+        onClick={() => {
+          setOpenGroupId(null);
+          if (isMobile) closeMobileSidebar();
+        }}
         title="CampusCorpo"
         className="w-10 h-10 rounded-xl bg-white dark:bg-[#262126] border border-border p-1 flex items-center justify-center shadow-2xs hover:border-[#8B2942]/40 transition-colors mb-5 shrink-0"
       >
@@ -296,218 +308,38 @@ export function Sidebar() {
         <img src="/logo-dark.jpeg" alt="CampusCorpo" className="w-full h-full object-contain hidden dark:block" />
       </Link>
 
-      {/* Navigation Icons */}
-      <nav className="flex-1 flex flex-col items-center gap-1.5 w-full px-2 overflow-visible">
+      {/* Pure Icon-Only Navigation */}
+      <nav className="flex-1 flex flex-col items-center gap-1.5 w-full px-2">
         {visibleGroups.map((group) => {
           const Icon = group.icon;
-          const isHovered = hoveredGroup === group.id;
-          const targetRoute = group.items.length > 0 ? group.items[0].to : group.primaryTo;
+          const isSelected = openGroupId === group.id;
+          const isHighlighted = group.isActive || isSelected;
 
           return (
             <div
               key={group.id}
               className="relative w-full flex justify-center"
-              onMouseEnter={() => handleMouseEnterGroup(group.id)}
-              onMouseLeave={handleMouseLeaveGroup}
+              onMouseEnter={() => setHoveredGroupId(group.id)}
+              onMouseLeave={() => setHoveredGroupId(null)}
             >
-              <Link
-                to={targetRoute}
+              <button
+                type="button"
+                onClick={() => handleGroupClick(group)}
                 aria-label={group.label}
-                className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 ${
-                  group.isActive
-                    ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] shadow-2xs ring-1 ring-[#8B2942]/20'
+                aria-expanded={group.items.length > 0 ? isSelected : undefined}
+                className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 cursor-pointer ${
+                  isHighlighted
+                    ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] ring-1 ring-[#8B2942]/20 shadow-2xs'
                     : 'text-[#858087] hover:text-[#29252A] dark:hover:text-white hover:bg-[#F7F6F7] dark:hover:bg-white/5'
                 }`}
               >
                 <Icon className="w-5 h-5 stroke-[1.8]" />
-              </Link>
-
-              {/* Hover Tooltip / Flyout Submenu */}
-              <AnimatePresence>
-                {isHovered && (
-                  <motion.div
-                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -4 }}
-                    animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-                    exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -4 }}
-                    transition={{ duration: 0.12 }}
-                    onMouseEnter={() => handleMouseEnterGroup(group.id)}
-                    onMouseLeave={handleMouseLeaveGroup}
-                    className="absolute left-[58px] top-0 z-50 pl-2"
-                  >
-                    {group.items.length > 0 ? (
-                      <div className="w-56 bg-popover text-popover-foreground rounded-xl border border-border shadow-lg py-2 px-1.5">
-                        <div className="px-2.5 py-1.5 mb-1 border-b border-border">
-                          <p className="text-xs font-bold text-foreground">{group.label}</p>
-                        </div>
-                        <div className="space-y-0.5">
-                          {group.items.map((item) => {
-                            const SubIcon = item.icon;
-                            return (
-                              <NavLink
-                                key={item.to}
-                                to={item.to}
-                                onClick={() => setHoveredGroup(null)}
-                                className={({ isActive }) =>
-                                  `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${
-                                    isActive
-                                      ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
-                                      : 'text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
-                                  }`
-                                }
-                              >
-                                <SubIcon className="w-3.5 h-3.5 shrink-0 stroke-[1.8]" />
-                                <span className="truncate">{item.label}</span>
-                              </NavLink>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="px-3 py-2 rounded-lg bg-[#29252A] text-white text-xs font-semibold whitespace-nowrap shadow-md">
-                        {group.label}
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
-      </nav>
-
-      {/* Bottom Controls: Expand Sidebar + Sign Out */}
-      <div className="pt-3 border-t border-sidebar-border flex flex-col items-center gap-1.5 w-full px-2 shrink-0">
-        <button
-          type="button"
-          onClick={toggleSidebarExpanded}
-          title="Expand Sidebar"
-          aria-label="Expand Sidebar"
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-[#858087] hover:text-[#29252A] dark:hover:text-white hover:bg-[#F7F6F7] dark:hover:bg-white/5 transition-colors cursor-pointer"
-        >
-          <PanelLeftOpen className="w-4 h-4 stroke-[1.8]" />
-        </button>
-        <button
-          type="button"
-          onClick={logout}
-          title="Sign Out"
-          aria-label="Sign Out"
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-[#858087] hover:text-[#8B2942] hover:bg-[#F8EDF0] dark:hover:bg-[#312128] transition-colors cursor-pointer"
-        >
-          <LogOut className="w-4 h-4 stroke-[1.8]" />
-        </button>
-      </div>
-    </aside>
-  );
-
-  // Expanded 248px Sidebar (and Mobile Drawer Content)
-  const renderExpandedContent = (isMobile = false) => (
-    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground">
-      {/* Header with Logo & Collapse Toggle */}
-      <div className="h-14 px-4 border-b border-sidebar-border flex items-center justify-between gap-2 shrink-0">
-        <Link
-          to={role === 'STUDENT' ? '/dashboard' : '/'}
-          onClick={isMobile ? closeMobileSidebar : undefined}
-          className="flex items-center gap-2.5 min-w-0"
-        >
-          <div className="w-8 h-8 rounded-lg bg-white dark:bg-[#262126] border border-border p-1 flex items-center justify-center shrink-0">
-            <img src="/logo-light.jpeg" alt="CampusCorpo" className="w-full h-full object-contain dark:hidden" />
-            <img src="/logo-dark.jpeg" alt="CampusCorpo" className="w-full h-full object-contain hidden dark:block" />
-          </div>
-          <span className="font-bold text-sm tracking-tight text-foreground truncate">
-            CampusCorpo
-          </span>
-        </Link>
-
-        {isMobile ? (
-          <button
-            type="button"
-            onClick={closeMobileSidebar}
-            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={toggleSidebarExpanded}
-            title="Collapse to Icon Rail"
-            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer"
-          >
-            <PanelLeftClose className="w-4 h-4" />
-          </button>
-        )}
-      </div>
-
-      {/* Navigation List */}
-      <nav className="flex-1 overflow-y-auto px-2.5 py-3 space-y-1">
-        {visibleGroups.map((group) => {
-          const Icon = group.icon;
-          const hasChildren = group.items.length > 0;
-          const isOpen = !!expandedGroups[group.id];
-
-          if (!hasChildren) {
-            return (
-              <NavLink
-                key={group.id}
-                to={group.primaryTo}
-                end={group.primaryTo === '/'}
-                onClick={isMobile ? closeMobileSidebar : undefined}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
-                    isActive || group.isActive
-                      ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
-                      : 'text-[#858087] hover:text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
-                  }`
-                }
-              >
-                <Icon className="w-4 h-4 shrink-0 stroke-[1.8]" />
-                <span className="truncate">{group.label}</span>
-              </NavLink>
-            );
-          }
-
-          return (
-            <div key={group.id} className="space-y-0.5">
-              <button
-                type="button"
-                onClick={() => toggleGroupAccordion(group.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
-                  group.isActive
-                    ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
-                    : 'text-[#858087] hover:text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
-                }`}
-              >
-                <Icon className="w-4 h-4 shrink-0 stroke-[1.8]" />
-                <span className="flex-1 text-left truncate">{group.label}</span>
-                {isOpen ? (
-                  <ChevronDown className="w-3.5 h-3.5 shrink-0 opacity-70" />
-                ) : (
-                  <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" />
-                )}
               </button>
 
-              {isOpen && (
-                <div className="pl-5 pr-1 py-1 space-y-0.5">
-                  {group.items.map((item) => {
-                    const SubIcon = item.icon;
-                    return (
-                      <NavLink
-                        key={item.to}
-                        to={item.to}
-                        onClick={isMobile ? closeMobileSidebar : undefined}
-                        className={({ isActive }) =>
-                          `flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs transition-colors ${
-                            isActive
-                              ? 'text-[#8B2942] dark:text-[#F2B8C7] bg-[#F8EDF0]/70 dark:bg-[#312128]/70 font-semibold'
-                              : 'text-muted-foreground hover:text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5 font-medium'
-                          }`
-                        }
-                      >
-                        <SubIcon className="w-3.5 h-3.5 shrink-0 stroke-[1.8]" />
-                        <span className="truncate">{item.label}</span>
-                      </NavLink>
-                    );
-                  })}
+              {/* Simple Hover Tooltip (only when no right-side panel is open) */}
+              {!openGroupId && hoveredGroupId === group.id && (
+                <div className="pointer-events-none absolute left-[60px] top-1/2 -translate-y-1/2 z-50 px-2.5 py-1.5 rounded-lg bg-[#29252A] text-white text-xs font-medium whitespace-nowrap shadow-md">
+                  {group.label}
                 </div>
               )}
             </div>
@@ -515,32 +347,94 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Footer Sign Out */}
-      <div className="p-2.5 border-t border-sidebar-border shrink-0">
+      {/* Bottom Sign Out Icon */}
+      <div className="pt-3 border-t border-sidebar-border flex flex-col items-center w-full px-2 shrink-0">
         <button
           type="button"
           onClick={logout}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-muted-foreground hover:text-[#8B2942] hover:bg-[#F8EDF0] dark:hover:bg-[#312128] transition-colors cursor-pointer"
+          title="Sign Out"
+          aria-label="Sign Out"
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-[#858087] hover:text-[#8B2942] hover:bg-[#F8EDF0] dark:hover:bg-[#312128] transition-colors cursor-pointer"
         >
-          <LogOut className="w-4 h-4 stroke-[1.8]" />
-          <span>Sign Out</span>
+          <LogOut className="w-5 h-5 stroke-[1.8]" />
         </button>
       </div>
     </div>
   );
 
-  return (
-    <>
-      {/* Desktop Sidebar: 68px Icon Rail by default, expandable to 248px */}
-      {sidebarExpanded ? (
-        <aside className="hidden lg:block w-[248px] shrink-0 border-r border-sidebar-border sticky top-0 h-screen z-40">
-          {renderExpandedContent(false)}
-        </aside>
-      ) : (
-        renderCollapsedRail()
-      )}
+  // Right-Side Sub-Section Panel (Opens to the right of the icon rail on click)
+  const renderRightSideSubmenu = (isMobile = false) => (
+    <AnimatePresence>
+      {activeOpenGroup && activeOpenGroup.items.length > 0 && (
+        <motion.div
+          key={activeOpenGroup.id}
+          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -8 }}
+          animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -8 }}
+          transition={{ duration: 0.14, ease: 'easeOut' }}
+          className="fixed left-[68px] top-0 h-screen w-60 bg-card text-card-foreground border-r border-border shadow-xl z-40 flex flex-col"
+        >
+          {/* Panel Header */}
+          <div className="h-14 px-4 border-b border-border flex items-center justify-between gap-2 shrink-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-7 h-7 rounded-lg bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] flex items-center justify-center shrink-0">
+                <activeOpenGroup.icon className="w-4 h-4 stroke-[1.9]" />
+              </div>
+              <span className="text-sm font-bold text-foreground truncate">
+                {activeOpenGroup.label}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setOpenGroupId(null)}
+              aria-label="Close submenu"
+              className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
 
-      {/* Mobile Slide-Over Drawer */}
+          {/* Sub-section Links */}
+          <div className="flex-1 overflow-y-auto p-2.5 space-y-1">
+            {activeOpenGroup.items.map((item) => {
+              const SubIcon = item.icon;
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => {
+                    setOpenGroupId(null);
+                    if (isMobile) closeMobileSidebar();
+                  }}
+                  className={({ isActive }) =>
+                    `group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-[#F8EDF0] dark:bg-[#312128] text-[#8B2942] dark:text-[#F2B8C7] font-semibold'
+                        : 'text-foreground hover:bg-[#F7F6F7] dark:hover:bg-white/5'
+                    }`
+                  }
+                >
+                  <SubIcon className="w-4 h-4 shrink-0 stroke-[1.8] text-muted-foreground group-hover:text-[#8B2942]" />
+                  <span className="flex-1 truncate">{item.label}</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                </NavLink>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  return (
+    <div ref={sidebarRef} className="relative flex shrink-0">
+      {/* Desktop: Always 68px Icon-Only Rail + Right-Side Click Flyout */}
+      <aside aria-label="Primary Navigation" className="hidden lg:block sticky top-0 h-screen z-40">
+        {renderIconRail(false)}
+        {renderRightSideSubmenu(false)}
+      </aside>
+
+      {/* Mobile: Icon-Only Rail + Right-Side Submenu Drawer */}
       <AnimatePresence>
         {mobileSidebarOpen && (
           <div className="fixed inset-0 z-50 lg:hidden flex">
@@ -548,21 +442,20 @@ export function Sidebar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={closeMobileSidebar}
+              onClick={() => {
+                setOpenGroupId(null);
+                closeMobileSidebar();
+              }}
               className="fixed inset-0 bg-black/40 backdrop-blur-[2px]"
             />
-            <motion.aside
-              initial={shouldReduceMotion ? { opacity: 0 } : drawerLeftVariants.initial}
-              animate={shouldReduceMotion ? { opacity: 1 } : drawerLeftVariants.animate}
-              exit={shouldReduceMotion ? { opacity: 0 } : drawerLeftVariants.exit}
-              className="relative w-64 max-w-[82vw] h-full shadow-2xl z-10"
-            >
-              {renderExpandedContent(true)}
-            </motion.aside>
+            <div className="relative flex h-full z-10">
+              {renderIconRail(true)}
+              {renderRightSideSubmenu(true)}
+            </div>
           </div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
 
