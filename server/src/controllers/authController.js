@@ -427,6 +427,7 @@ async function quickSwitchDemoRole(req, res, next) {
     const demoAccounts = {
       SUPER_ADMIN: 'superadmin@uniserve.edu',
       STUDENT: 'student.cse1@college.edu',
+      STUDENT_EEE: 'student.eee1@college.edu',
       TPO_OFFICER: 'tpo@college.edu',
       RECRUITER: 'recruiter.google@example.com',
       FACULTY_COORDINATOR: 'hod.cse@college.edu',

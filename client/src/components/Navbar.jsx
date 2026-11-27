@@ -64,6 +64,7 @@ export function Navbar() {
     { role: 'SUPER_ADMIN', label: 'Master Super Administrator', icon: ShieldCheck },
     { role: 'TPO_OFFICER', label: 'Placement Officer / TPO Portal', icon: Award },
     { role: 'STUDENT', label: 'Student Portal (Aditya - CSE)', icon: GraduationCap },
+    { role: 'STUDENT_EEE', label: 'Student Portal (Pooja - EEE)', icon: GraduationCap },
     { role: 'FACULTY_COORDINATOR', label: 'Dept Coordinator (Prof. Suresh)', icon: BookOpen },
     { role: 'RECRUITER', label: 'Company Recruiter (Google)', icon: Building2 },
     { role: 'MANAGEMENT', label: 'Management / Principal Portal', icon: ShieldCheck },
@@ -77,6 +78,11 @@ export function Navbar() {
 
   const getPortalLabel = () => {
     if (!user) return 'CampusCorp Portal';
+    if (user.roleName === 'STUDENT') {
+      const name = user.firstName || user.first_name || 'Student';
+      const dept = user.departmentCode || user.department_code || 'CSE';
+      return `Student Portal (${name} - ${dept})`;
+    }
     const found = portals.find(p => p.role === user.roleName);
     return found ? found.label : `${user.roleName} Portal`;
   };
@@ -176,7 +182,12 @@ export function Navbar() {
                 <div className="py-1 max-h-80 overflow-y-auto">
                   {portals.map((p) => {
                     const Icon = p.icon;
-                    const isActive = user?.roleName === p.role;
+                    const isEEE = user?.departmentCode === 'EEE' || user?.department_code === 'EEE';
+                    const isActive = p.role === 'STUDENT_EEE'
+                      ? user?.roleName === 'STUDENT' && isEEE
+                      : p.role === 'STUDENT'
+                      ? user?.roleName === 'STUDENT' && !isEEE
+                      : user?.roleName === p.role;
                     return (
                       <motion.button
                         key={p.role}
