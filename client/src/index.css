@@ -412,37 +412,10 @@
   box-shadow: 0 4px 12px -2px var(--theme-glow) !important;
 }
 
-/* Dark mode surface harmonizers for internal portal only */
-:not(.website-shell) .dark .bg-white:not(.website-shell *),
+/* Dark mode surface harmonizers for internal portal */
+.dark .bg-white,
 .portal-scope.dark .bg-white {
   background-color: var(--card) !important;
-}
-
-/* Strict public website protection: guarantee pure white background & crisp contrast */
-.website-shell,
-.website-shell * {
-  --background: #ffffff;
-}
-.website-shell,
-.website-shell section.bg-white,
-.website-shell header.bg-white,
-.website-shell .bg-white {
-  background-color: #ffffff !important;
-}
-.website-shell {
-  color: #0a0a0a !important;
-}
-.website-shell .text-neutral-950,
-.website-shell .text-neutral-900 {
-  color: #0a0a0a !important;
-}
-.website-shell .text-neutral-800,
-.website-shell .text-neutral-700 {
-  color: #262626 !important;
-}
-.website-shell .text-neutral-600,
-.website-shell .text-neutral-500 {
-  color: #525252 !important;
 }
 .dark .text-slate-900,
 .dark .text-slate-800 {

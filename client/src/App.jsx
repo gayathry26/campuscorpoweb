@@ -49,21 +49,6 @@ import { DomainKnowledgeHub } from './pages/career/DomainKnowledgeHub';
 import { DomainLearningWorkspace } from './pages/career/DomainLearningWorkspace';
 import { AdminDomainKnowledgeManagement } from './pages/admin/AdminDomainKnowledgeManagement';
 
-// Public Marketing Website Pages (from STATICFRONTEND)
-import WebsiteLayout from './website/WebsiteLayout';
-import HomePage from './website/pages/HomePage';
-import PlatformPage from './website/pages/PlatformPage';
-import AboutPage from './website/pages/AboutPage';
-import ContactPage from './website/pages/ContactPage';
-import CompanyExplorerPage from './website/pages/CompanyExplorerPage';
-import CareerExplorerPage from './website/pages/CareerExplorerPage';
-import PlacementManagementPage from './website/pages/PlacementManagementPage';
-import StudentManagementPage from './website/pages/StudentManagementPage';
-import FacultyManagementPage from './website/pages/FacultyManagementPage';
-import AdministrationPage from './website/pages/AdministrationPage';
-import LmsPage from './website/pages/LmsPage';
-import ProgrammingAssessmentPage from './website/pages/ProgrammingAssessmentPage';
-import MockInterviewsPage from './website/pages/MockInterviewsPage';
 
 // Platform Super Admin (SaaS Governance) Pages
 import { PlatformLogin } from './pages/platform/PlatformLogin';
@@ -323,33 +308,20 @@ export default function App() {
                 <UIProvider>
                   <ScrollToTop />
                   <Routes>
-                    {/* Level 0: Public Marketing Website (from STATICFRONTEND) */}
-                    <Route path="/" element={<WebsiteLayout><HomePage /></WebsiteLayout>} />
-                    <Route path="/platform" element={<WebsiteLayout><PlatformPage /></WebsiteLayout>} />
-                    <Route path="/about" element={<WebsiteLayout><AboutPage /></WebsiteLayout>} />
-                    <Route path="/contact" element={<WebsiteLayout><ContactPage /></WebsiteLayout>} />
-                    <Route path="/company-explorer" element={<WebsiteLayout><CompanyExplorerPage /></WebsiteLayout>} />
-                    <Route path="/career-explorer" element={<WebsiteLayout><CareerExplorerPage /></WebsiteLayout>} />
-
-                    {/* Dedicated Public Solution & Feature Module Pages */}
-                    <Route path="/solutions/placement-management" element={<WebsiteLayout><PlacementManagementPage /></WebsiteLayout>} />
-                    <Route path="/placement-management" element={<WebsiteLayout><PlacementManagementPage /></WebsiteLayout>} />
-
-                    <Route path="/solutions/student-management" element={<WebsiteLayout><StudentManagementPage /></WebsiteLayout>} />
-                    <Route path="/student-management" element={<WebsiteLayout><StudentManagementPage /></WebsiteLayout>} />
-
-                    <Route path="/solutions/faculty-management" element={<WebsiteLayout><FacultyManagementPage /></WebsiteLayout>} />
-                    <Route path="/faculty-management" element={<WebsiteLayout><FacultyManagementPage /></WebsiteLayout>} />
-
-                    <Route path="/solutions/administration" element={<WebsiteLayout><AdministrationPage /></WebsiteLayout>} />
-
-                    <Route path="/solutions/lms" element={<WebsiteLayout><LmsPage /></WebsiteLayout>} />
-
-                    <Route path="/features/programming-assessment" element={<WebsiteLayout><ProgrammingAssessmentPage /></WebsiteLayout>} />
-                    <Route path="/programming-assessment" element={<WebsiteLayout><ProgrammingAssessmentPage /></WebsiteLayout>} />
-
-                    <Route path="/features/mock-interviews" element={<WebsiteLayout><MockInterviewsPage /></WebsiteLayout>} />
-                    <Route path="/mock-interviews" element={<WebsiteLayout><MockInterviewsPage /></WebsiteLayout>} />
+                    {/* Primary Portal Route (Authenticated -> Dashboard/Profile, Unauthenticated -> /login) */}
+                    <Route path="/" element={<PortalRoute />} />
+                    <Route path="/career-explorer" element={<Navigate to="/domains" replace />} />
+                    <Route path="/company-explorer" element={<Navigate to="/career-explorer/companies" replace />} />
+                    <Route path="/platform" element={<Navigate to="/login" replace />} />
+                    <Route path="/about" element={<Navigate to="/login" replace />} />
+                    <Route path="/contact" element={<Navigate to="/login" replace />} />
+                    <Route path="/solutions/*" element={<Navigate to="/login" replace />} />
+                    <Route path="/features/*" element={<Navigate to="/login" replace />} />
+                    <Route path="/placement-management" element={<Navigate to="/jobs" replace />} />
+                    <Route path="/student-management" element={<Navigate to="/students" replace />} />
+                    <Route path="/faculty-management" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="/programming-assessment" element={<Navigate to="/assessment" replace />} />
+                    <Route path="/mock-interviews" element={<Navigate to="/interview/room" replace />} />
 
                     {/* Level 1: Global Platform Super Admin Routes */}
                     <Route path="/platform-admin/login" element={<PlatformLogin />} />

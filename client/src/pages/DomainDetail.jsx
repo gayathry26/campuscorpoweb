@@ -44,7 +44,7 @@ export function DomainDetail() {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) return parsed.slice(0, 4);
       }
-    } catch (e) {}
+    } catch (e) { }
     return [];
   });
 
@@ -96,7 +96,7 @@ export function DomainDetail() {
   useEffect(() => {
     try {
       localStorage.setItem('campuscorp_compare_roles', JSON.stringify(comparedRoleIds));
-    } catch (e) {}
+    } catch (e) { }
   }, [comparedRoleIds]);
 
   // Auto-dismiss toast
@@ -165,13 +165,13 @@ export function DomainDetail() {
         const roleSkills = Array.isArray(role.technicalSkills)
           ? role.technicalSkills
           : typeof role.technicalSkills === 'object' && role.technicalSkills !== null
-          ? Object.values(role.technicalSkills).flat()
-          : [];
+            ? Object.values(role.technicalSkills).flat()
+            : [];
         const roleTools = Array.isArray(role.tools)
           ? role.tools
           : typeof role.tools === 'object' && role.tools !== null
-          ? Object.values(role.tools).flat()
-          : [];
+            ? Object.values(role.tools).flat()
+            : [];
 
         const skillsMatch = roleSkills.some((s) =>
           typeof s === 'string' && s.toLowerCase().includes(q)

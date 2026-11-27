@@ -46,8 +46,6 @@ server/src/models/*
 backups/**/*.sql
 backups/*.sql
 
-# External Static Import Source
-STATICFRONTEND/
 
 # OS and Editor
 .DS_Store

@@ -19,14 +19,9 @@ const getThemeTokens = (isDark) => ({
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  // Clean, palette-free theme mode: strictly Light vs Dark (defaults to light for public website)
+  // Clean, palette-free theme mode: strictly Light vs Dark
   const [isDark, setIsDark] = useState(() => {
     try {
-      if (typeof window !== 'undefined') {
-        const p = window.location.pathname.toLowerCase();
-        const isMarketing = p === '/' || p.startsWith('/platform') || p.startsWith('/about') || p.startsWith('/contact') || p.startsWith('/company-explorer') || p.startsWith('/career-explorer') || p.startsWith('/solutions') || p.startsWith('/features');
-        if (isMarketing) return false;
-      }
       const saved = localStorage.getItem('campuscorp_theme_mode');
       return saved === 'dark';
     } catch {
