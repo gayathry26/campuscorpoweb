@@ -38,7 +38,13 @@ const DEPARTMENTS = [
   { code: 'IT', name: 'Information Technology (IT)' },
 ];
 
-const ACADEMIC_YEARS = ['2026-2027', '2025-2026', '2024-2025', '2027-2028'];
+const ACADEMIC_YEARS = [
+  { code: 'ALL', name: 'Institution-Wide (All Academic Years)' },
+  { code: '2026-2027', name: 'AY 2026-2027' },
+  { code: '2025-2026', name: 'AY 2025-2026' },
+  { code: '2024-2025', name: 'AY 2024-2025' },
+  { code: '2027-2028', name: 'AY 2027-2028' },
+];
 
 function formatBytes(bytes) {
   if (!bytes || bytes === 0) return '0 B';
@@ -88,7 +94,7 @@ export function Policies() {
   const [uploadForm, setUploadForm] = useState({
     title: '',
     description: '',
-    academicYear: '2026-2027',
+    academicYear: 'ALL',
     departmentCode: 'ALL',
     effectiveDate: new Date().toISOString().slice(0, 10),
     status: 'PUBLISHED',
@@ -100,7 +106,7 @@ export function Policies() {
     id: null,
     title: '',
     description: '',
-    academicYear: '2026-2027',
+    academicYear: 'ALL',
     departmentCode: 'ALL',
     effectiveDate: '',
     status: 'PUBLISHED',
@@ -209,7 +215,7 @@ export function Policies() {
     setUploadForm({
       title: '',
       description: '',
-      academicYear: user?.academicYear || '2026-2027',
+      academicYear: 'ALL',
       departmentCode: user?.roleName === 'FACULTY_COORDINATOR' ? (user?.departmentCode || 'CSE') : 'ALL',
       effectiveDate: new Date().toISOString().slice(0, 10),
       status: 'PUBLISHED',
@@ -257,7 +263,7 @@ export function Policies() {
       id: policy.id,
       title: policy.title,
       description: policy.description || '',
-      academicYear: policy.academicYear || '2026-2027',
+      academicYear: policy.academicYear || 'ALL',
       departmentCode: policy.departmentCode || 'ALL',
       effectiveDate: policy.effectiveDate || new Date().toISOString().slice(0, 10),
       status: policy.status || 'PUBLISHED',
@@ -379,8 +385,10 @@ export function Policies() {
     if (statusFilter !== 'ALL' && p.status !== statusFilter) {
       return false;
     }
-    if (yearFilter !== 'ALL' && p.academicYear !== yearFilter) {
-      return false;
+    if (yearFilter !== 'ALL') {
+      if (p.academicYear !== yearFilter && p.academicYear !== 'ALL') {
+        return false;
+      }
     }
     return true;
   });
@@ -475,8 +483,8 @@ export function Policies() {
               className="px-2.5 py-1.5 bg-background border border-border rounded-lg text-foreground cursor-pointer focus:outline-hidden"
             >
               <option value="ALL">All Academic Years</option>
-              {ACADEMIC_YEARS.map((y) => (
-                <option key={y} value={y}>{y}</option>
+              {ACADEMIC_YEARS.filter((y) => y.code !== 'ALL').map((y) => (
+                <option key={y.code} value={y.code}>{y.name}</option>
               ))}
             </select>
 
@@ -534,16 +542,21 @@ export function Policies() {
                     <div className="flex items-center justify-between gap-2">
                       <span
                         className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
-                          isInstWide
+                          !policy.departmentCode || policy.departmentCode === 'ALL'
                             ? 'bg-secondary text-foreground border-border'
                             : 'bg-primary/10 text-primary border-primary/20'
                         }`}
                       >
-                        {isInstWide ? '🏛️ Institution-Wide Policy' : `🏢 ${policy.departmentCode} Department Policy`}
+                        {!policy.departmentCode || policy.departmentCode === 'ALL'
+                          ? '🏛️ Institution-Wide'
+                          : `🏢 ${policy.departmentCode} Department Policy`}
                       </span>
 
                       <span className="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5" /> AY {policy.academicYear}
+                        <Calendar className="w-3.5 h-3.5" />
+                        {policy.academicYear === 'ALL' || !policy.academicYear
+                          ? 'All Academic Years'
+                          : `AY ${policy.academicYear}`}
                       </span>
                     </div>
 
@@ -630,9 +643,9 @@ export function Policies() {
 
                         {/* Department / Scope */}
                         <td className="py-3.5 px-3 whitespace-nowrap">
-                          {policy.isInstitutionWide ? (
+                          {policy.isInstitutionWide || !policy.departmentCode || policy.departmentCode === 'ALL' ? (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-foreground border border-border">
-                              Institution-Wide
+                              Institution-Wide (All Depts)
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
@@ -642,8 +655,16 @@ export function Policies() {
                         </td>
 
                         {/* Academic Year */}
-                        <td className="py-3.5 px-3 font-mono text-xs text-foreground whitespace-nowrap">
-                          {policy.academicYear}
+                        <td className="py-3.5 px-3 whitespace-nowrap">
+                          {policy.academicYear === 'ALL' || !policy.academicYear ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary text-foreground border border-border">
+                              All Academic Years
+                            </span>
+                          ) : (
+                            <span className="font-mono text-xs text-foreground font-semibold">
+                              AY {policy.academicYear}
+                            </span>
+                          )}
                         </td>
 
                         {/* Effective Date */}
@@ -863,9 +884,14 @@ export function Policies() {
                 className="w-full p-2.5 bg-background border border-border rounded-lg text-foreground cursor-pointer focus:outline-hidden"
               >
                 {ACADEMIC_YEARS.map((y) => (
-                  <option key={y} value={y}>{y}</option>
+                  <option key={y.code} value={y.code}>{y.name}</option>
                 ))}
               </select>
+              <span className="text-[11px] text-muted-foreground mt-1 block">
+                {uploadForm.academicYear === 'ALL'
+                  ? '🌐 Applicable to all student batches and academic years.'
+                  : `📅 Restricted strictly to AY ${uploadForm.academicYear} students.`}
+              </span>
             </div>
 
             <div>
@@ -882,13 +908,60 @@ export function Policies() {
               </select>
               <span className="text-[11px] text-muted-foreground mt-1 block">
                 {uploadForm.departmentCode === 'ALL'
-                  ? '🌐 Visible to all students across every department.'
+                  ? '🌐 Visible to all departments (Institution-Wide).'
                   : `🎯 Visible only to ${uploadForm.departmentCode} department students.`}
               </span>
               {user?.roleName === 'FACULTY_COORDINATOR' && (
                 <span className="text-[10px] text-muted-foreground mt-0.5 block">Locked to coordinator's department ({user?.departmentCode || 'CSE'}).</span>
               )}
             </div>
+          </div>
+
+          {/* Real-Time Policy Target Audience & Student Visibility Box */}
+          <div className="rounded-xl border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3.5 space-y-2 text-xs">
+            <div className="flex items-center justify-between font-semibold text-primary">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4" />
+                Target Audience & Student Visibility Scope
+              </span>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-background border border-border text-foreground">
+                {uploadForm.departmentCode === 'ALL' ? 'All Depts' : uploadForm.departmentCode} • {uploadForm.academicYear === 'ALL' ? 'All Years' : uploadForm.academicYear}
+              </span>
+            </div>
+
+            <div className="text-foreground/90 leading-relaxed space-y-1">
+              {uploadForm.departmentCode === 'ALL' && uploadForm.academicYear === 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">🌐</span>
+                  <span><strong>Campus-Wide Policy:</strong> Visible to <strong>all students across all departments and all academic years</strong>.</span>
+                </p>
+              )}
+              {uploadForm.departmentCode === 'ALL' && uploadForm.academicYear !== 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">📅</span>
+                  <span><strong>All Departments (AY {uploadForm.academicYear} Only):</strong> Visible to students of <strong>every department</strong>, but <strong>strictly restricted to Academic Year {uploadForm.academicYear}</strong>. Other student batches will not see this.</span>
+                </p>
+              )}
+              {uploadForm.departmentCode !== 'ALL' && uploadForm.academicYear === 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">🏢</span>
+                  <span><strong>{uploadForm.departmentCode} Department (All Years):</strong> Visible <strong>only to {uploadForm.departmentCode} students</strong> across all academic years. Other departments will not see this.</span>
+                </p>
+              )}
+              {uploadForm.departmentCode !== 'ALL' && uploadForm.academicYear !== 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">🎯</span>
+                  <span><strong>Targeted Group:</strong> Visible <strong>ONLY to {uploadForm.departmentCode} department students in Academic Year {uploadForm.academicYear}</strong>. All other departments and batches are excluded.</span>
+                </p>
+              )}
+            </div>
+
+            {uploadForm.status === 'DRAFT' && (
+              <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium pt-1.5 border-t border-primary/10 flex items-center gap-1">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <span>Currently in <strong>Draft</strong> status: Hidden from all students until Published.</span>
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -999,9 +1072,14 @@ export function Policies() {
                 className="w-full p-2.5 bg-background border border-border rounded-lg text-foreground cursor-pointer focus:outline-hidden"
               >
                 {ACADEMIC_YEARS.map((y) => (
-                  <option key={y} value={y}>{y}</option>
+                  <option key={y.code} value={y.code}>{y.name}</option>
                 ))}
               </select>
+              <span className="text-[11px] text-muted-foreground mt-1 block">
+                {editForm.academicYear === 'ALL'
+                  ? '🌐 Applicable to all student batches and academic years.'
+                  : `📅 Restricted strictly to AY ${editForm.academicYear} students.`}
+              </span>
             </div>
 
             <div>
@@ -1018,10 +1096,57 @@ export function Policies() {
               </select>
               <span className="text-[11px] text-muted-foreground mt-1 block">
                 {editForm.departmentCode === 'ALL'
-                  ? '🌐 Visible to all students across every department.'
+                  ? '🌐 Visible to all departments (Institution-Wide).'
                   : `🎯 Visible only to ${editForm.departmentCode} department students.`}
               </span>
             </div>
+          </div>
+
+          {/* Real-Time Policy Target Audience & Student Visibility Box */}
+          <div className="rounded-xl border border-primary/20 bg-primary/5 dark:bg-primary/10 p-3.5 space-y-2 text-xs">
+            <div className="flex items-center justify-between font-semibold text-primary">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4" />
+                Target Audience & Student Visibility Scope
+              </span>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-background border border-border text-foreground">
+                {editForm.departmentCode === 'ALL' ? 'All Depts' : editForm.departmentCode} • {editForm.academicYear === 'ALL' ? 'All Years' : editForm.academicYear}
+              </span>
+            </div>
+
+            <div className="text-foreground/90 leading-relaxed space-y-1">
+              {editForm.departmentCode === 'ALL' && editForm.academicYear === 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">🌐</span>
+                  <span><strong>Campus-Wide Policy:</strong> Visible to <strong>all students in every department and across all academic years</strong>.</span>
+                </p>
+              )}
+              {editForm.departmentCode === 'ALL' && editForm.academicYear !== 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">📅</span>
+                  <span><strong>All Departments (AY {editForm.academicYear} Only):</strong> Visible to students of <strong>every department</strong>, but <strong>strictly restricted to Academic Year {editForm.academicYear}</strong>. Other student batches will not see this.</span>
+                </p>
+              )}
+              {editForm.departmentCode !== 'ALL' && editForm.academicYear === 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">🏢</span>
+                  <span><strong>{editForm.departmentCode} Department (All Years):</strong> Visible <strong>only to {editForm.departmentCode} students</strong> across all academic years. Other departments will not see this.</span>
+                </p>
+              )}
+              {editForm.departmentCode !== 'ALL' && editForm.academicYear !== 'ALL' && (
+                <p className="flex items-start gap-1.5">
+                  <span className="text-base leading-none">🎯</span>
+                  <span><strong>Targeted Group:</strong> Visible <strong>ONLY to {editForm.departmentCode} department students in Academic Year {editForm.academicYear}</strong>. All other departments and batches are excluded.</span>
+                </p>
+              )}
+            </div>
+
+            {editForm.status === 'DRAFT' && (
+              <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium pt-1.5 border-t border-primary/10 flex items-center gap-1">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <span>Currently in <strong>Draft</strong> status: Hidden from all students until Published.</span>
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -9,7 +9,9 @@ const VALID_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'];
  * Format a database row into a structured policy document object
  */
 function formatPolicy(row) {
-  const isInstitutionWide = !row.department_code && !row.department_id;
+  const isInstitutionWideDept = !row.department_code || row.department_code === 'ALL';
+  const isInstitutionWideYear = !row.academic_year || row.academic_year === 'ALL';
+  const isInstitutionWide = isInstitutionWideDept && isInstitutionWideYear;
   const status = row.status || (row.is_active ? 'PUBLISHED' : 'ARCHIVED');
 
   return {
@@ -21,11 +23,13 @@ function formatPolicy(row) {
     fileName: row.file_name || 'policy_document.pdf',
     fileSize: row.file_size ? Number(row.file_size) : null,
     mimeType: row.mime_type || 'application/pdf',
-    academicYear: row.academic_year || '2026-2027',
+    academicYear: row.academic_year || 'ALL',
     departmentId: row.department_id || null,
     departmentCode: row.department_code || null,
-    departmentName: row.dept_name || (row.department_code ? `${row.department_code} Department` : 'Institution-Wide (All Departments)'),
+    departmentName: row.dept_name || (row.department_code && row.department_code !== 'ALL' ? `${row.department_code} Department` : 'Institution-Wide (All Departments)'),
     isInstitutionWide,
+    isInstitutionWideDept,
+    isInstitutionWideYear,
     effectiveDate: row.effective_date ? String(row.effective_date).slice(0, 10) : null,
     status,
     isActive: Boolean(row.is_active),
@@ -43,7 +47,7 @@ function formatPolicy(row) {
     file_url: row.file_url,
     file_name: row.file_name,
     file_size: row.file_size,
-    academic_year: row.academic_year,
+    academic_year: row.academic_year || 'ALL',
     department_code: row.department_code,
     effective_date: row.effective_date ? String(row.effective_date).slice(0, 10) : null,
     created_at: row.created_at,
@@ -92,15 +96,25 @@ async function getPolicies(req, res, next) {
 
     // Role-specific visibility rules
     if (user.role_name === 'STUDENT') {
-      // Students see ONLY PUBLISHED policies applicable to their department or institution-wide
+      // Students see ONLY PUBLISHED policies applicable to their department and academic year
       sql += ` AND (p.status = 'PUBLISHED' OR (p.status IS NULL AND p.is_active = 1))`;
       
+      // Department filtering:
+      // If policy's department_code is NULL or 'ALL', it is visible to all departments.
+      // If a specific department is specified, ONLY students of that department can see it.
       const studentDept = user.department_code || 'CSE';
       sql += ` AND (p.department_code IS NULL OR p.department_code = 'ALL' OR p.department_code = ?)`;
       params.push(studentDept);
 
-      // Optionally filter by academic year if student's year or query param
-      if (academicYear) {
+      // Academic Year filtering:
+      // If policy's academic_year is NULL, empty, or 'ALL', it is visible across all student years.
+      // If a specific academic year is specified (e.g. '2026-2027'), ONLY students belonging to that year can see it.
+      const studentYear = user.academic_year || '2026-2027';
+      sql += ` AND (p.academic_year IS NULL OR p.academic_year = '' OR p.academic_year = 'ALL' OR p.academic_year = ?)`;
+      params.push(studentYear);
+
+      // Optionally filter by query param if explicitly provided
+      if (academicYear && academicYear !== 'ALL') {
         sql += ` AND p.academic_year = ?`;
         params.push(academicYear);
       }
@@ -121,8 +135,8 @@ async function getPolicies(req, res, next) {
         sql += ` AND p.status = ?`;
         params.push(status);
       }
-      if (academicYear) {
-        sql += ` AND p.academic_year = ?`;
+      if (academicYear && academicYear !== 'ALL') {
+        sql += ` AND (p.academic_year = ? OR p.academic_year = 'ALL' OR p.academic_year IS NULL)`;
         params.push(academicYear);
       }
     } else {
@@ -138,7 +152,7 @@ async function getPolicies(req, res, next) {
         sql += ` AND p.status = ?`;
         params.push(status);
       }
-      if (academicYear) {
+      if (academicYear && academicYear !== 'ALL') {
         sql += ` AND p.academic_year = ?`;
         params.push(academicYear);
       }
@@ -196,9 +210,10 @@ async function getPolicyById(req, res, next) {
     // Enforce student access rule
     if (user.role_name === 'STUDENT') {
       const isPublished = policy.status === 'PUBLISHED' || (!policy.status && policy.is_active === 1);
-      const isApplicable = !policy.department_code || policy.department_code === 'ALL' || policy.department_code === user.department_code;
+      const isApplicableDept = !policy.department_code || policy.department_code === 'ALL' || policy.department_code === user.department_code;
+      const isApplicableYear = !policy.academic_year || policy.academic_year === 'ALL' || policy.academic_year === (user.academic_year || '2026-2027');
 
-      if (!isPublished || !isApplicable) {
+      if (!isPublished || !isApplicableDept || !isApplicableYear) {
         return res.status(403).json({
           success: false,
           message: 'Access denied. You do not have permission to view this policy document.',
@@ -252,7 +267,10 @@ async function createPolicy(req, res, next) {
       });
     }
 
-    const acYear = (academicYear || academic_year || '2026-2027').trim();
+    let acYear = (academicYear || academic_year || 'ALL').trim();
+    if (acYear === 'INSTITUTION_WIDE' || !acYear) {
+      acYear = 'ALL';
+    }
     let rawDeptCode = (departmentCode || department_code || '').trim().toUpperCase();
     if (rawDeptCode === 'ALL' || rawDeptCode === 'INSTITUTION_WIDE' || !rawDeptCode) {
       rawDeptCode = null;
@@ -394,9 +412,12 @@ async function updatePolicy(req, res, next) {
 
     const newTitle = title !== undefined ? title.trim() : current.title || current.policy_name;
     const newDesc = description !== undefined ? description : current.description;
-    const newAcYear = academicYear !== undefined || academic_year !== undefined
-      ? (academicYear || academic_year || '2026-2027').trim()
+    let newAcYear = academicYear !== undefined || academic_year !== undefined
+      ? (academicYear || academic_year || 'ALL').trim()
       : current.academic_year;
+    if (newAcYear === 'INSTITUTION_WIDE' || !newAcYear) {
+      newAcYear = 'ALL';
+    }
 
     let newDeptCode = departmentCode !== undefined || department_code !== undefined
       ? (departmentCode || department_code || '').trim().toUpperCase()
@@ -686,12 +707,13 @@ async function resolvePolicyFileAccess(req, res) {
   // Permissions check
   if (user.role_name === 'STUDENT') {
     const isPublished = policy.status === 'PUBLISHED' || (!policy.status && policy.is_active === 1);
-    const isApplicable = !policy.department_code || policy.department_code === 'ALL' || policy.department_code === user.department_code;
+    const isApplicableDept = !policy.department_code || policy.department_code === 'ALL' || policy.department_code === user.department_code;
+    const isApplicableYear = !policy.academic_year || policy.academic_year === 'ALL' || policy.academic_year === (user.academic_year || '2026-2027');
 
-    if (!isPublished || !isApplicable) {
+    if (!isPublished || !isApplicableDept || !isApplicableYear) {
       res.status(403).json({
         success: false,
-        message: 'Access denied. Policy document is not published or not applicable to your department.',
+        message: 'Access denied. Policy document is not published or not applicable to your department/year.',
       });
       return null;
     }
